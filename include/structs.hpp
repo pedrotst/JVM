@@ -1,16 +1,5 @@
 #include <vector>
 
-typedef enum AccessClass {
-	ACC_PUBLIC = 0x0001,
-	ACC_FINAL = 0x0010,
-	ACC_SUPER = 0x0020,
-	ACC_INTERFACE = 0x0200,
-	ACC_ABSTRACT = 0x0400,
-	ACC_SYNTHETIC = 0x1000,
-	ACC_ANNOTATION = 0x2000,
-	ACC_ENUM = 0x4000
-} ACC_FLAGS;
-
 // Constant poll tags
 typedef enum cp_tag_e {
 	CONSTANT_Class = 7,
@@ -28,52 +17,6 @@ typedef enum cp_tag_e {
 	CONSTANT_MethodType = 16,
 	CONSTANT_InvokeDynamic = 18
 } cp_tag;
-
-typedef struct cp_info_s {
-	cp_tag tag;
-	void *ptr;
-} cp_info;
-
-typedef struct attribute_info_s {
-	uint16_t attribute_name_index;
-	uint32_t attribute_length;
-	std::vector<uint8_t> info;
-} attribute_info;
-
-typedef struct field_info_s {
-	uint16_t access_flags;
-	uint16_t name_index;
-	uint16_t descriptor_index;
-	uint16_t attributes_count;
-	std::vector<attribute_info> atributes;
-} field_info;
-
-typedef struct method_info_s {
-	uint16_t access_flags;
-	uint16_t name_index;
-	uint16_t descriptor_index;
-	uint16_t attributes_count;
-	std::vector<attribute_info> attributes;
-} method_info;
-
-typedef struct ClassFile_s {
-	uint32_t magic;
-	uint16_t minor_version;
-	uint16_t major_version;
-	uint32_t constant_pool_count;
-	std::vector<cp_info> constant_pool;
-	uint16_t access_flags;
-	uint16_t this_class;
-	uint16_t super_class;
-	uint16_t interfaces_count;
-	std::vector<uint16_t> interfaces;
-	uint16_t fields_count;
-	std::vector<field_info> fields;
-	uint16_t methods_count;
-	std::vector<method_info> methods;
-	uint16_t attributes_count;
-	std::vector<attribute_info> attributes;
-} ClassFile;
 
 // Constant pool structures
 typedef struct CONSTANT_Class_info_s {
@@ -154,3 +97,77 @@ typedef struct CONSTANT_InvokeDynamic_info_s {
 	uint16_t bootstrap_method_attr_index;
 	uint16_t name_and_type_index;
 } CONSTANT_InvokeDynamic_info;
+
+typedef union cp_info_u {
+	CONSTANT_Class_info 			constant_class;
+	CONSTANT_Fieldref_info 			constant_fieldref;
+	CONSTANT_Methodref_info 		constant_methodref;
+	CONSTANT_InterfaceMethodref_info 	constant_interfaceMethodref;
+	CONSTANT_String_info 			constant_string;
+	CONSTANT_Integer_info 			constant_integer;
+	CONSTANT_Float_info 			constant_float;
+	CONSTANT_Long_info 			constant_long;
+	CONSTANT_Double_info 			constant_double;
+	CONSTANT_NameAndType_info 		constant_nameAndType;
+	CONSTANT_Utf8_info 			constant_Utf8;
+	CONSTANT_MethodHandle_info 		constant_methodHandle;
+	CONSTANT_MethodType_info 		constant_methodType;
+	CONSTANT_InvokeDynamic_info 		constant_invokeDynamic;
+} cpInfo_u;
+
+typedef enum AccessClass {
+	ACC_PUBLIC = 0x0001,
+	ACC_FINAL = 0x0010,
+	ACC_SUPER = 0x0020,
+	ACC_INTERFACE = 0x0200,
+	ACC_ABSTRACT = 0x0400,
+	ACC_SYNTHETIC = 0x1000,
+	ACC_ANNOTATION = 0x2000,
+	ACC_ENUM = 0x4000
+} ACC_FLAGS;
+
+typedef struct cp_info_s {
+	cp_tag tag;
+	cpInfo_u cp_union;
+} cp_info;
+
+typedef struct attribute_info_s {
+	uint16_t attribute_name_index;
+	uint32_t attribute_length;
+	std::vector<uint8_t> info;
+} attribute_info;
+
+typedef struct field_info_s {
+	uint16_t access_flags;
+	uint16_t name_index;
+	uint16_t descriptor_index;
+	uint16_t attributes_count;
+	std::vector<attribute_info> atributes;
+} field_info;
+
+typedef struct method_info_s {
+	uint16_t access_flags;
+	uint16_t name_index;
+	uint16_t descriptor_index;
+	uint16_t attributes_count;
+	std::vector<attribute_info> attributes;
+} method_info;
+
+typedef struct ClassFile_s {
+	uint32_t magic;
+	uint16_t minor_version;
+	uint16_t major_version;
+	uint32_t constant_pool_count;
+	std::vector<cp_info> constant_pool;
+	uint16_t access_flags;
+	uint16_t this_class;
+	uint16_t super_class;
+	uint16_t interfaces_count;
+	std::vector<uint16_t> interfaces;
+	uint16_t fields_count;
+	std::vector<field_info> fields;
+	uint16_t methods_count;
+	std::vector<method_info> methods;
+	uint16_t attributes_count;
+	std::vector<attribute_info> attributes;
+} ClassFile;
