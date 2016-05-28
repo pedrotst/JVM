@@ -34,6 +34,7 @@ void exibeClass(ClassFile classF){
      
 
     for (n = 0; n < classF.constant_pool_count - 1; n++) {
+        int index;
         cp_info_u cinfo = classF.constant_pool[n].cp_union;
         tag = classF.constant_pool[n].tag;
         printf("#%d = ",n+1);
@@ -44,7 +45,9 @@ void exibeClass(ClassFile classF){
         switch (tag) {
             case CONSTANT_Class:
                 printf("Class\t\t");
-                printf("#%d\n", cinfo.constant_class.name_index);
+                index = cinfo.constant_class.name_index;
+                printf("#%d\t\t", index);
+                printf("// %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
                 break;
 
             case CONSTANT_Fieldref:
@@ -88,7 +91,7 @@ void exibeClass(ClassFile classF){
                 break;
 
             case CONSTANT_NameAndType:
-                printf("NameAndType\t\t");
+                printf("NameAndType\t");
                 printf("#%d.#%d\n", cinfo.constant_nameAndType.name_index, cinfo.constant_nameAndType.descriptor_index);
                 break;
 
