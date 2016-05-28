@@ -23,7 +23,7 @@ uint32_t little_to_big32(uint32_t x) {
 
 enum Errors {ErrorA=0, ErrorB, ErrorC};
 
-void javapV(ClassFile classF){
+void exibeClass(ClassFile classF){
     uint8_t tag;
     int n;
     //printf("%d\n", classF.magic);
@@ -311,7 +311,7 @@ int main(int argc, char** argv){
         }
     }
 
-    javapV(classF);
+    exibeClass(classF);
 
     fclose(arquivoJava);
     return 0;
