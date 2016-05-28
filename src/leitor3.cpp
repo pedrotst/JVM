@@ -19,12 +19,14 @@ uint32_t little_to_big32(uint32_t x) {
 }
 
 int main(int argc, char** argv){
-	int n = 0, j = 0;
+	int n = 0, m = 0, k = 0, j = 0;
 	uint8_t byte = 0, tag = 0;
 	uint16_t twoBytes = 0;
 	uint32_t fourBytes = 0;
 	ClassFile classF;
-      cp_info cp_element;
+    cp_info cp_element;
+    field_info field_element;
+    attribute_info attribute_element;
 	FILE *arquivoJava;
 
 	if( !(arquivoJava = fopen(ByteCode, "rb"))) {
@@ -57,7 +59,7 @@ int main(int argc, char** argv){
 	printf("%04x\n", classF.constant_pool_count);
 
       // Leitura da constant poll
-      for (n = 0; n < classF.constant_pool_count; n++) {
+      for (n = 0; n < classF.constant_pool_count - 1; n++) {
             fread(&tag, sizeof(uint8_t), 1, arquivoJava);
 
             // Todas as entradas da constant pool são obtidas de forma parecida,
@@ -85,12 +87,16 @@ int main(int argc, char** argv){
                         break;
 
                   case CONSTANT_Methodref:
+                        //printf("Methodref:\n");
                         cp_element.tag = CONSTANT_Methodref;
+                        //printf("tag:\n%02x\n", cp_element.tag);
 				cp_element.cp_union.constant_methodref.tag = CONSTANT_Methodref;
 				fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
 				cp_element.cp_union.constant_methodref.class_index = little_to_big16(twoBytes);
+				//printf("class index:\n%04x\n", cp_element.cp_union.constant_methodref.class_index);
 				fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
 				cp_element.cp_union.constant_methodref.name_and_type_index = little_to_big16(twoBytes);
+				//printf("name and type index:\n%04x\n", cp_element.cp_union.constant_methodref.name_and_type_index);
 				classF.constant_pool.push_back(cp_element);
 
                         break;
@@ -213,6 +219,97 @@ int main(int argc, char** argv){
                         break;
             }
       }
+
+    // Leitura do access flags
+	printf("access_flags: \n");
+	fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+	classF.access_flags = little_to_big16(twoBytes);
+    printf("%04x\n", classF.access_flags);
+
+    // Leitura de this class
+	printf("this_class: \n");
+	fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+	classF.this_class = little_to_big16(twoBytes);
+    printf("%04x\n", classF.this_class);
+
+    // Leitura de super class
+	printf("super_class: \n");
+	fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+	classF.super_class = little_to_big16(twoBytes);
+    printf("%04x\n", classF.super_class);
+
+    // Leitura de interfaces count
+	printf("interfaces_count: \n");
+	fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+	classF.interfaces_count = little_to_big16(twoBytes);
+    printf("%04x\n", classF.interfaces_count);
+
+    if(classF.interfaces_count != 0){
+        //Leitura das interfaces
+        for(n = 0; n < classF.interfaces_count; n++){
+            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+            classF.interfaces.push_back(twoBytes);
+        }
+    }
+
+    // Leitura de fields count
+	printf("fields_count: \n");
+	fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+	classF.fields_count = little_to_big16(twoBytes);
+    printf("%04x\n", classF.fields_count);
+
+    if(classF.fields_count != 0){
+        //Leitura dos fields
+        for(n = 0; n < classF.fields_count; n++){
+            printf("Field %d:\n", n + 1);
+
+            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+            field_element.access_flags = little_to_big16(twoBytes);
+            printf("access_flags:\n%04x\n", field_element.access_flags);
+
+            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+            field_element.name_index = little_to_big16(twoBytes);
+            printf("name_index:\n%04x\n", field_element.name_index);
+
+            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+            field_element.descriptor_index = little_to_big16(twoBytes);
+            printf("descriptor_index:\n%04x\n", field_element.descriptor_index);
+
+            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+            field_element.attributes_count = little_to_big16(twoBytes);
+            printf("attributes_count:\n%04x\n", field_element.attributes_count);
+
+            if(field_element.attributes_count != 0){
+                /*Tem que fazer as estruturas dos attributes que ainda faltam
+                for(m = 0, m < field_element.attributes_count; m++){
+                    printf("Field Attribute %d:\n", m + 1);
+
+                    fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+                    attribute_element.attribute_name_index = little_to_big16(twoBytes);
+                    printf("attribute_name_index:\n%04x\n", attribute_element.attribute_name_index);
+
+                    fread(&fourBytes, sizeof(uint8_t), 4, arquivoJava);
+                    attribute_element.attribute_length = little_to_big32(twoBytes);
+                    printf("attribute_length:\n%08x\n", attribute_element.attribute_length);
+
+                    if(attribute_element.attribute_length != 0){
+
+                        for(k = 0; k < attribute_element.attribute_length; k++){
+                            fread(&byte, sizeof(uint8_t), 1, arquivoJava);
+                            attribute_element.info.push_back(byte);
+                        }
+                    }
+
+
+                }*/
+            }
+            classF.fields.push_back(field_element);
+        }
+    }
+
+    fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+    classF.methods_count = little_to_big16(twoBytes);
+    printf("methods_count:\n%04x\n", classF.methods_count);
 
 	fclose(arquivoJava);
 	return 0;
