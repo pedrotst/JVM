@@ -1,5 +1,39 @@
 #include <vector>
 
+typedef enum AccessClass {
+	ACC_PUBLIC = 0x0001,
+	ACC_FINAL = 0x0010,
+	ACC_SUPER = 0x0020,
+	ACC_INTERFACE = 0x0200,
+	ACC_ABSTRACT = 0x0400,
+	ACC_SYNTHETIC = 0x1000,
+	ACC_ANNOTATION = 0x2000,
+	ACC_ENUM = 0x4000
+} ACC_FLAGS;
+
+// Constant poll tags
+typedef enum cp_tag_e {
+	CONSTANT_Class = 7,
+	CONSTANT_Fieldref = 9,
+	CONSTANT_Methodref = 10,
+	CONSTANT_InterfaceMethodref = 11,
+	CONSTANT_String = 8,
+	CONSTANT_Integer = 3,
+	CONSTANT_Float = 4,
+	CONSTANT_Long = 5,
+	CONSTANT_Double = 6,
+	CONSTANT_NameAndType = 12,
+	CONSTANT_Utf8 = 1,
+	CONSTANT_MethodHandle = 15,
+	CONSTANT_MethodType = 16,
+	CONSTANT_InvokeDynamic = 18
+} cp_tag;
+
+typedef struct cp_info_s {
+	cp_tag tag;
+	void *ptr;
+} cp_info;
+
 typedef struct attribute_info_s {
 	uint16_t attribute_name_index;
 	uint32_t attribute_length;
@@ -41,112 +75,82 @@ typedef struct ClassFile_s {
 	std::vector<attribute_info> attributes;
 } ClassFile;
 
-typedef enum AccessClass {
-	ACC_PUBLIC = 0x0001,
-	ACC_FINAL = 0x0010,
-	ACC_SUPER = 0x0020,
-	ACC_INTERFACE = 0x0200,
-	ACC_ABSTRACT = 0x0400,
-	ACC_SYNTHETIC = 0x1000,
-	ACC_ANNOTATION = 0x2000,
-	ACC_ENUM = 0x4000
-} ACC_FLAGS;
-
-// Constant poll tags
-typedef enum cpTags {
-	CONSTANT_Class = 7,
-	CONSTANT_Fieldref = 9,
-	CONSTANT_Methodref = 10,
-	CONSTANT_InterfaceMethodref = 11,
-	CONSTANT_String = 8,
-	CONSTANT_Integer = 3,
-	CONSTANT_Float = 4,
-	CONSTANT_Long = 5,
-	CONSTANT_Double = 6,
-	CONSTANT_NameAndType = 12,
-	CONSTANT_Utf8 = 1,
-	CONSTANT_MethodHandle = 15,
-	CONSTANT_MethodType = 16,
-	CONSTANT_InvokeDynamic = 18
-} CP_TAGS;
-
-
 // Constant pool structures
 typedef struct CONSTANT_Class_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t name_index;
 } CONSTANT_Class_info;
 
 typedef struct CONSTANT_Fieldref_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t class_index;
 	uint16_t name_and_type_index;
 } CONSTANT_Fieldref_info;
 
 typedef struct CONSTANT_Methodref_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t class_index;
 	uint16_t name_and_type_index;
 } CONSTANT_Methodref_info;
 
 typedef struct CONSTANT_InterfaceMethodref_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t class_index;
 	uint16_t name_and_type_index;
 } CONSTANT_InterfaceMethodref_info;
 
 typedef struct CONSTANT_String_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t string_index;
 } CONSTANT_String_info;
 
 typedef struct CONSTANT_Integer_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint32_t bytes;
 } CONSTANT_Integer_info;
 
 typedef struct CONSTANT_Float_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint32_t bytes;
 } CONSTANT_Float_info;
 
 typedef struct CONSTANT_Long_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint32_t high_bytes;
 	uint32_t low_bytes;
 } CONSTANT_Long_info;
 
 typedef struct CONSTANT_Double_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint32_t high_bytes;
 	uint32_t low_bytes;
 } CONSTANT_Double_info;
 
 typedef struct CONSTANT_NameAndType_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t name_index;
 	uint16_t descriptor_index;
 } CONSTANT_NameAndType_info;
 
 typedef struct CONSTANT_Utf8_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t length;
 	char *bytes;
 } CONSTANT_Utf8_info;
 
 typedef struct CONSTANT_MethodHandle_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint8_t reference_kind;
 	uint16_t reference_index;
 } CONSTANT_MethodHandle_info;
 
 typedef struct CONSTANT_MethodType_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t descriptor_index;
 } CONSTANT_MethodType_info;
 
 typedef struct CONSTANT_InvokeDynamic_info_s {
-	uint8_t tag;
+	cp_tag tag;
 	uint16_t bootstrap_method_attr_index;
 	uint16_t name_and_type_index;
 } CONSTANT_InvokeDynamic_info;
