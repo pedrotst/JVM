@@ -98,6 +98,18 @@ typedef struct CONSTANT_InvokeDynamic_info_s {
 	uint16_t name_and_type_index;
 } CONSTANT_InvokeDynamic_info;
 
+typedef struct CONSTANT_ConstantValue_type_s {
+    uint16_t attribute_name_index;
+    uint32_t attribute_length;
+    uint16_t constantvalue_index;
+}CONSTANT_ConstantValue_type;
+
+typedef struct CONSTANT_SourceFile_type_s {
+    uint16_t attribute_name_index;
+    uint32_t attribute_length;
+    uint16_t sourcefile_index;
+}CONSTANT_SourceFile_type;
+
 typedef union cp_info_u {
 	CONSTANT_Class_info 			constant_class;
 	CONSTANT_Fieldref_info 			constant_fieldref;
@@ -114,6 +126,11 @@ typedef union cp_info_u {
 	CONSTANT_MethodType_info 		constant_methodType;
 	CONSTANT_InvokeDynamic_info 		constant_invokeDynamic;
 } cpInfo_u;
+
+typedef union attribute_type_u {
+    CONSTANT_ConstantValue_type         constant_value;
+    CONSTANT_SourceFile_type            constant_sourcefile;
+}attributeType_u;
 
 typedef enum AccessClass {
 	ACC_PUBLIC = 0x0001,
@@ -134,7 +151,7 @@ typedef struct cp_info_s {
 typedef struct attribute_info_s {
 	uint16_t attribute_name_index;
 	uint32_t attribute_length;
-	std::vector<uint8_t> info;
+	attributeType_u attribute_union;
 } attribute_info;
 
 typedef struct field_info_s {

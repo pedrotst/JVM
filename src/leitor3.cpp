@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <cstring>
 
 #include "../include/structs.hpp"
 #define ByteCode "Puppy.class"
@@ -25,8 +26,8 @@ enum Errors {ErrorA=0, ErrorB, ErrorC};
 
 void exibeClass(ClassFile classF){
     uint8_t tag;
-    int n;
-    //printf("%d\n", classF.magic);
+    int n, i;
+    printf("Magic: %X\n", classF.magic);
     printf("Minor version: %d\n", classF.minor_version);
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
@@ -97,7 +98,7 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_Utf8:
                 printf("Utf8\t\t");
-                printf("%s\n", cinfo.constant_Utf8.bytes);
+                printf("%s\n", cinfo.constant_Utf8.bytes); //Não tem '\0' no final por isso pode dar erro!
                 break;
 
             case CONSTANT_MethodHandle:
@@ -278,11 +279,12 @@ int main(int argc, char** argv){
 				fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
 				cp_element.cp_union.constant_Utf8.length = little_to_big16(twoBytes);
 
-				cp_element.cp_union.constant_Utf8.bytes = (char*)malloc(cp_element.cp_union.constant_Utf8.length*sizeof(char));
+				cp_element.cp_union.constant_Utf8.bytes = (char*)malloc((cp_element.cp_union.constant_Utf8.length + 1)*sizeof(char));
 				for (j = 0; j < cp_element.cp_union.constant_Utf8.length; j++) {
 					fread(&byte, sizeof(uint8_t), 1, arquivoJava);
 					cp_element.cp_union.constant_Utf8.bytes[j] = byte;
 				}
+				cp_element.cp_union.constant_Utf8.bytes[cp_element.cp_union.constant_Utf8.length] = '\0';
 
                         classF.constant_pool.push_back(cp_element);
 
@@ -358,58 +360,121 @@ int main(int argc, char** argv){
 	classF.fields_count = little_to_big16(twoBytes);
     printf("%04x\n", classF.fields_count);
 
-    if(classF.fields_count != 0){
-        //Leitura dos fields
-        for(n = 0; n < classF.fields_count; n++){
-            printf("Field %d:\n", n + 1);
+    //Leitura dos fields
+    for(n = 0; n < classF.fields_count; n++){
+        printf("Field %d:\n", n + 1);
+
+        fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+        field_element.access_flags = little_to_big16(twoBytes);
+        printf("access_flags:\n%04x\n", field_element.access_flags);
+
+        fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+        field_element.name_index = little_to_big16(twoBytes);
+        printf("name_index:\n%04x\n", field_element.name_index);
+
+        fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+        field_element.descriptor_index = little_to_big16(twoBytes);
+        printf("descriptor_index:\n%04x\n", field_element.descriptor_index);
+
+        fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+        field_element.attributes_count = little_to_big16(twoBytes);
+        printf("attributes_count:\n%04x\n", field_element.attributes_count);
+
+        /*Tem que fazer as estruturas dos attributes que ainda faltam*/
+        /*for(m = 0, m < field_element.attributes_count; m++){
+            printf("Field Attribute %d:\n", m + 1);
 
             fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-            field_element.access_flags = little_to_big16(twoBytes);
-            printf("access_flags:\n%04x\n", field_element.access_flags);
+            attribute_element.attribute_name_index = little_to_big16(twoBytes);
+            printf("attribute_name_index:\n%04x\n", attribute_element.attribute_name_index);
 
-            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-            field_element.name_index = little_to_big16(twoBytes);
-            printf("name_index:\n%04x\n", field_element.name_index);
+            fread(&fourBytes, sizeof(uint8_t), 4, arquivoJava);
+            attribute_element.attribute_length = little_to_big32(twoBytes);
+            printf("attribute_length:\n%08x\n", attribute_element.attribute_length);
 
-            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-            field_element.descriptor_index = little_to_big16(twoBytes);
-            printf("descriptor_index:\n%04x\n", field_element.descriptor_index);
+            read_attribute_type(attribute_element.attribute_name_index)
+            for(k = 0; k < attribute_element.attribute_length; k++){
+                fread(&byte, sizeof(uint8_t), 1, arquivoJava);
 
-            fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-            field_element.attributes_count = little_to_big16(twoBytes);
-            printf("attributes_count:\n%04x\n", field_element.attributes_count);
-
-            if(field_element.attributes_count != 0){
-                /*Tem que fazer as estruturas dos attributes que ainda faltam
-                for(m = 0, m < field_element.attributes_count; m++){
-                    printf("Field Attribute %d:\n", m + 1);
-
-                    fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-                    attribute_element.attribute_name_index = little_to_big16(twoBytes);
-                    printf("attribute_name_index:\n%04x\n", attribute_element.attribute_name_index);
-
-                    fread(&fourBytes, sizeof(uint8_t), 4, arquivoJava);
-                    attribute_element.attribute_length = little_to_big32(twoBytes);
-                    printf("attribute_length:\n%08x\n", attribute_element.attribute_length);
-
-                    if(attribute_element.attribute_length != 0){
-
-                        for(k = 0; k < attribute_element.attribute_length; k++){
-                            fread(&byte, sizeof(uint8_t), 1, arquivoJava);
-                            attribute_element.info.push_back(byte);
-                        }
-                    }
-
-
-                }*/
             }
+        }*/
             classF.fields.push_back(field_element);
-        }
     }
 
+    // Leitura do methods count
     fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
     classF.methods_count = little_to_big16(twoBytes);
     printf("methods_count:\n%04x\n", classF.methods_count);
+
+    /*área de leitura de métodos*/
+    for(n = 0; n < 302; n++){
+        fread(&byte, sizeof(uint8_t), 1, arquivoJava);
+    }
+
+    // Leitura de attributes count
+    fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+    classF.attributes_count = little_to_big16(twoBytes);
+    printf("attributes_count:\n%04x\n", classF.attributes_count);
+
+    // Leitura de attributes
+    for(n = 0; n < classF.attributes_count; n++){
+        printf("Attribute %d:\n", n + 1);
+
+        // Leitura do attribute name index
+        fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+        attribute_element.attribute_name_index = little_to_big16(twoBytes);
+
+        // Leitura do attribute length
+        fread(&fourBytes, sizeof(uint8_t), 4, arquivoJava);
+        attribute_element.attribute_length = little_to_big32(fourBytes);
+
+        // Leitura do constant pool utilizando o attribute name index
+        cp_element = classF.constant_pool[attribute_element.attribute_name_index - 1];
+        // O elemento no índice tem que ser do tipo CONSTANT_Utf8
+        if(cp_element.tag == CONSTANT_Utf8){
+            // Se o attribute for do tipo SourceFile
+            if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "SourceFile")){
+                printf("Attribute: SourceFile\n");
+
+                attribute_element.attribute_union.constant_sourcefile.attribute_name_index = attribute_element.attribute_name_index;
+                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.constant_sourcefile.attribute_name_index);
+
+                attribute_element.attribute_union.constant_sourcefile.attribute_length = attribute_element.attribute_length;
+                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.constant_sourcefile.attribute_length);
+
+                // Leitura do sourcefile_index
+                fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+                attribute_element.attribute_union.constant_sourcefile.sourcefile_index = little_to_big16(twoBytes);
+                printf("Sourcefile_index:\n%04x\n", attribute_element.attribute_union.constant_sourcefile.sourcefile_index);
+            }
+
+            // Se o attribute for do tipo ConstantValue
+            if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "ConstantValue")){
+                printf("Attribute: ConstantValue\n");
+
+                attribute_element.attribute_union.constant_value.attribute_name_index = attribute_element.attribute_name_index;
+                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.constant_value.attribute_name_index);
+
+                attribute_element.attribute_union.constant_value.attribute_length = attribute_element.attribute_length;
+                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.constant_value.attribute_length);
+
+                // Leitura do constantvalue_index
+                fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
+                attribute_element.attribute_union.constant_value.constantvalue_index = little_to_big16(twoBytes);
+                printf("Constantvalue_index:\n%04x\n", attribute_element.attribute_union.constant_value.constantvalue_index);
+            }
+
+        }
+
+        // Se o elemento no índice não for do tipo CONSTANT_Utf8
+        else{
+            printf("Error! Attribute_name_index must point to CONSTANT_Utf8_info structure!\n");
+            exit(EXIT_FAILURE);
+        }
+
+        //Insere o attribute no vetor de attributes do class file
+        classF.attributes.push_back(attribute_element);
+    }
 
     printf("\n\n");
     exibeClass(classF);
