@@ -7,6 +7,7 @@
 #include <cstring>
 
 #include "../include/structs.hpp"
+#include "../include/attributes.hpp"
 #define ByteCode "Puppy.class"
 
 uint16_t little_to_big16(uint16_t x) {
@@ -125,9 +126,9 @@ int main(int argc, char** argv){
 	uint16_t twoBytes = 0;
 	uint32_t fourBytes = 0;
 	ClassFile classF;
-    cp_info cp_element;
-    field_info field_element;
-    attribute_info attribute_element;
+      cp_info cp_element;
+      field_info field_element;
+      attribute_info attribute_element;
 	FILE *arquivoJava;
 
 	if( !(arquivoJava = fopen(ByteCode, "rb"))) {
@@ -436,32 +437,32 @@ int main(int argc, char** argv){
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "SourceFile")){
                 printf("Attribute: SourceFile\n");
 
-                attribute_element.attribute_union.constant_sourcefile.attribute_name_index = attribute_element.attribute_name_index;
-                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.constant_sourcefile.attribute_name_index);
+                attribute_element.attribute_union.attr_SourceFile.attribute_name_index = attribute_element.attribute_name_index;
+                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.attr_SourceFile.attribute_name_index);
 
-                attribute_element.attribute_union.constant_sourcefile.attribute_length = attribute_element.attribute_length;
-                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.constant_sourcefile.attribute_length);
+                attribute_element.attribute_union.attr_SourceFile.attribute_length = attribute_element.attribute_length;
+                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.attr_SourceFile.attribute_length);
 
                 // Leitura do sourcefile_index
                 fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-                attribute_element.attribute_union.constant_sourcefile.sourcefile_index = little_to_big16(twoBytes);
-                printf("Sourcefile_index:\n%04x\n", attribute_element.attribute_union.constant_sourcefile.sourcefile_index);
+                attribute_element.attribute_union.attr_SourceFile.sourcefile_index = little_to_big16(twoBytes);
+                printf("Sourcefile_index:\n%04x\n", attribute_element.attribute_union.attr_SourceFile.sourcefile_index);
             }
 
             // Se o attribute for do tipo ConstantValue
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "ConstantValue")){
                 printf("Attribute: ConstantValue\n");
 
-                attribute_element.attribute_union.constant_value.attribute_name_index = attribute_element.attribute_name_index;
-                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.constant_value.attribute_name_index);
+                attribute_element.attribute_union.attr_ConstantValue.attribute_name_index = attribute_element.attribute_name_index;
+                printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.attr_ConstantValue.attribute_name_index);
 
-                attribute_element.attribute_union.constant_value.attribute_length = attribute_element.attribute_length;
-                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.constant_value.attribute_length);
+                attribute_element.attribute_union.attr_ConstantValue.attribute_length = attribute_element.attribute_length;
+                printf("attribute_length:\n%08x\n", attribute_element.attribute_union.attr_ConstantValue.attribute_length);
 
                 // Leitura do constantvalue_index
                 fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-                attribute_element.attribute_union.constant_value.constantvalue_index = little_to_big16(twoBytes);
-                printf("Constantvalue_index:\n%04x\n", attribute_element.attribute_union.constant_value.constantvalue_index);
+                attribute_element.attribute_union.attr_ConstantValue.constantvalue_index = little_to_big16(twoBytes);
+                printf("Constantvalue_index:\n%04x\n", attribute_element.attribute_union.attr_ConstantValue.constantvalue_index);
             }
 
         }
