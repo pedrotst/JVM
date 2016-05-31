@@ -1,18 +1,42 @@
 #include "../include/exibidor.hpp"
 #include <math.h>
+#include <map>
+#include <iostream>
+#include <iomanip>
+
 
 void exibeClass(ClassFile classF){
+    using namespace std;
     uint8_t tag;
     int n, i,j, e, s, aux;
     long l, m;
     float f;
     double d;
+
     printf("Magic: %X\n", classF.magic);
     printf("Minor version: %d\n", classF.minor_version);
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
-
-
+    cout << showbase << internal << setfill('0');
+    cout << "Access Flag:" << hex << setw(6) << classF.access_flags;
+    if((classF.access_flags & 0x0001) == 0x0001){
+        cout << "[ACC_PUBLIC]";
+    }if((classF.access_flags & 0x0010) == 0x0010){
+        cout << "[ACC_FINAL]";
+    }else if((classF.access_flags & 0x0020) == 0x0020){
+        cout << "[ACC_SUPER]";
+    }if((classF.access_flags & 0x0200) == 0x0200){
+        cout << "[ACC_INTERFACE]";
+    }else if((classF.access_flags & 0x0400) == 0x0400){
+        cout << "[ACC_ABSTRACT]";
+    }if((classF.access_flags & 0x1000) == 0x1000){
+        cout << "[ACC_SYNTHETIC]";
+    }else if((classF.access_flags & 0x2000) == 0x2000){
+        cout << "[ACC_ANNOTATION]";
+    }else if((classF.access_flags & 0x4000) == 0x4000){
+        cout << "[ACC_ENUM]";
+    }
+    cout << "\n";
 
     for (j = 0, n = 0; j < classF.constant_pool_count - 1; n++, j++) {
         int index;
