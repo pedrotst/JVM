@@ -19,6 +19,7 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 	// Leitura do constant pool utilizando o attribute name index
 	cp_element = constant_pool[attribute_element.attribute_name_index_l - 1];
 	// O elemento no índice tem que ser do tipo CONSTANT_Utf8
+	printf("Attribute da vez: %s\n", cp_element.cp_union.constant_Utf8.bytes);
 	if(cp_element.tag == CONSTANT_Utf8) {
 		// Se o attribute for do tipo SourceFile
 		if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "SourceFile")) {
@@ -95,19 +96,20 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 
             // Se o attribute for do tipo Exceptions
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "Exceptions")) {
+                    attribute_element.attribute_union.attr_Exceptions.exception_index_table = (std::vector<uint16_t>*)malloc(sizeof(std::vector<uint16_t>));
                 	printf("Attribute: Exceptions\n");
-                    attribute_element.attribute_union.attr_Exceptions.attribute_name_index = attribute_element.attribute_name_index;
+                    attribute_element.attribute_union.attr_Exceptions.attribute_name_index = attribute_element.attribute_name_index_l;
                     printf("attribute_name_index:\n%04x\n", attribute_element.attribute_union.attr_Exceptions.attribute_name_index);
 
-                    attribute_element.attribute_union.attr_Exceptions.attribute_length = attribute_element.attribute_length;
+                    attribute_element.attribute_union.attr_Exceptions.attribute_length = attribute_element.attribute_length_l;
                     printf("attribute_length:\n%08x\n", attribute_element.attribute_union.attr_Exceptions.attribute_length);
 
                     int number_of_exceptions = attribute_element.attribute_union.attr_Exceptions.number_of_exceptions = read_word(fp);
                     printf("number_of_exceptions: \n%x\n", number_of_exceptions);
                     printf("Exception_index_table: \n");
           			for(int i = 0; i < number_of_exceptions; i++ ){
-          				attribute_element.attribute_union.attr_Exceptions.exception_index_table[i] = read_word(fp);
-          				printf("[%d]:%x - ",i, attribute_element.attribute_union.attr_Exceptions.exception_index_table[i])
+          				attribute_element.attribute_union.attr_Exceptions.exception_index_table->push_back( read_word(fp) );
+          				//printf("[%d]:%x - ",i, attribute_element.attribute_union.attr_Exceptions.exception_index_table[i]);
           			}
             }
 
