@@ -10,6 +10,7 @@
 #include "../include/read_bytes.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/read_attributes.hpp"
+#include "../include/read_methods.hpp"
 #define ByteCode "../test/testeMultArray.class"
 
 
@@ -133,7 +134,7 @@ int main(int argc, char** argv){
       classF.constant_pool.push_back(cp_element);
 
 
-      n++;// 
+      n++;//
 
 			break;
 
@@ -278,26 +279,7 @@ printf("methods_count:\n%04x\n", classF.methods_count);
 
 /*área de leitura de métodos*/
 for(n = 0; n < classF.methods_count; n++) {
-  printf("Mehtod %d\n", n);
-	method_element.access_flags = read_word(arquivoJava);
-  printf("access_flags:\n%04x\n", method_element.access_flags);
-	
-  method_element.name_index = read_word(arquivoJava);
-  printf("name_index:\n%04x\n", method_element.name_index);
-
-	method_element.descriptor_index = read_word(arquivoJava);
-  printf("descriptor_index:\n%04x\n", method_element.descriptor_index);
-
-	method_element.attributes_count = read_word(arquivoJava);
-  printf("attributes_count:\n%04x\n", field_element.attributes_count);
-
-	for (j = 0; j < method_element.attributes_count; j++) {
-		attribute_element = read_attributes(arquivoJava, classF.constant_pool);
-		method_element.attributes.push_back(attribute_element);
-   
-	}
-
-	classF.methods.push_back(method_element);
+    classF.methods.push_back(read_method(arquivoJava, classF.constant_pool));
 }
 
 // Leitura de attributes count

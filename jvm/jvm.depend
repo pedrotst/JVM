@@ -1,0 +1,67 @@
+# depslib dependency file v1.0
+1464729931 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
+	"../include/exibidor.hpp"
+	<math.h>
+	<map>
+	<iostream>
+	<iomanip>
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\exibidor.hpp
+	<stdio.h>
+	<stdint.h>
+	"../include/structs.hpp"
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\structs.hpp
+	<vector>
+	<stdint.h>
+	"attributes.hpp"
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\attributes.hpp
+	<vector>
+	<stdint.h>
+
+1464730667 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<string>
+	<cstring>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/little_to_big.hpp"
+	"../include/read_bytes.hpp"
+	"../include/exibidor.hpp"
+	"../include/read_attributes.hpp"
+	"../include/read_methods.hpp"
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\little_to_big.hpp
+	<stdint.h>
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\read_bytes.hpp
+	<stdio.h>
+	"../include/little_to_big.hpp"
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\read_attributes.hpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/read_bytes.hpp"
+
+1464729931 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
+	"../include/little_to_big.hpp"
+
+1464729931 source:c:\users\thiag\documents\github repositorios\jvm\src\read_attributes.cpp
+	"../include/read_attributes.hpp"
+
+1464729931 source:c:\users\thiag\documents\github repositorios\jvm\src\read_bytes.cpp
+	"../include/read_bytes.hpp"
+
+1464729931 source:c:\users\thiag\documents\github repositorios\jvm\src\read_methods.cpp
+	"../include/read_attributes.hpp"
+
+1464729931 c:\users\thiag\documents\github repositorios\jvm\include\read_methods.hpp
+	"structs.hpp"
+	"read_attributes.hpp"
+
