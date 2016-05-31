@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -I./include/ -g -Wall
+CFLAGS = -I./include/ -g
 
 ########################## Geracao dos executaveis ##########################
 leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o moveobj
@@ -23,6 +23,7 @@ read_attributes.o:
 
 ########################## Move e Clean ##########################
 moveobj:
+	mkdir -p ./obj
 	mv ./*.o ./obj/
 
 clean:
