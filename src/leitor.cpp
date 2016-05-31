@@ -130,6 +130,10 @@ int main(int argc, char** argv){
 			cp_element.cp_union.constant_long.high_bytes = read_dword(arquivoJava);
 			cp_element.cp_union.constant_long.low_bytes = read_dword(arquivoJava);
 			classF.constant_pool.push_back(cp_element);
+      cp_element.tag = ZERO;
+      classF.constant_pool.push_back(cp_element);
+
+
       n++;// 
 
 			break;
@@ -140,6 +144,8 @@ int main(int argc, char** argv){
 			cp_element.cp_union.constant_double.high_bytes = read_dword(arquivoJava);
 			cp_element.cp_union.constant_double.low_bytes = read_dword(arquivoJava);
 			classF.constant_pool.push_back(cp_element);
+      cp_element.tag = ZERO;
+      classF.constant_pool.push_back(cp_element);
       n++; //
 
 			break;
@@ -273,14 +279,23 @@ printf("methods_count:\n%04x\n", classF.methods_count);
 
 /*área de leitura de métodos*/
 for(n = 0; n < classF.methods_count; n++) {
+  printf("Mehtod %d\n", n);
 	method_element.access_flags = read_word(arquivoJava);
-	method_element.name_index = read_word(arquivoJava);
+  printf("access_flags:\n%04x\n", method_element.access_flags);
+	
+  method_element.name_index = read_word(arquivoJava);
+  printf("name_index:\n%04x\n", method_element.name_index);
+
 	method_element.descriptor_index = read_word(arquivoJava);
+  printf("descriptor_index:\n%04x\n", method_element.descriptor_index);
+
 	method_element.attributes_count = read_word(arquivoJava);
+  printf("attributes_count:\n%04x\n", field_element.attributes_count);
 
 	for (j = 0; j < method_element.attributes_count; j++) {
 		attribute_element = read_attributes(arquivoJava, classF.constant_pool);
 		method_element.attributes.push_back(attribute_element);
+   
 	}
 
 	classF.methods.push_back(method_element);

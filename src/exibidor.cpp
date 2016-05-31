@@ -48,6 +48,10 @@ void exibeClass(ClassFile classF){
         // então há um exemplo no primeiro case e o resto segue uma mesma
         // lógica.
         switch (tag) {
+            case ZERO:
+                printf("continuação numerica\n");
+                break;
+
             case CONSTANT_Class:
                 printf("Class\t\t");
                 index = cinfo.constant_class.name_index;
@@ -129,7 +133,7 @@ void exibeClass(ClassFile classF){
                 l = l<<32;
                 l = l + cinfo.constant_long.low_bytes;
                 printf("%ldl\n", l);
-                j++; //ocupa 2 espaços na constant pool
+                //j++; //ocupa 2 espaços na constant pool
                 break;
 
             case CONSTANT_Double:
@@ -144,7 +148,7 @@ void exibeClass(ClassFile classF){
                         (l & 0xfffffffffffffL) | 0x10000000000000L;
                 d = s*m*(pow(2, (e-1075)));
                 printf("#%gd\n", d);
-                j++; // ocupa2 
+                //j++; // ocupa2 
                 break;
 
             case CONSTANT_NameAndType:

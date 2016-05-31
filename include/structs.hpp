@@ -20,7 +20,8 @@ typedef enum cp_tag_e {
 	CONSTANT_Utf8 = 1,
 	CONSTANT_MethodHandle = 15,
 	CONSTANT_MethodType = 16,
-	CONSTANT_InvokeDynamic = 18
+	CONSTANT_InvokeDynamic = 18,
+	ZERO = 0
 } cp_tag;
 
 // Constant pool structures
