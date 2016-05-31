@@ -44,19 +44,19 @@ typedef struct LineNumberTable_attribute_s {
 } LineNumberTable_attribute;
 
 // Definida para ser utilizada no atributo LocalVariableTable_attribute
-typedef struct local_variable_table_element_s {
+typedef struct local_variable_table_info_s {
       uint16_t start_pc;
       uint16_t length;
       uint16_t name_index;
       uint16_t descriptor_index;
       uint16_t index;
-} local_variable_table_element;
+} local_variable_table_info;
 
 typedef struct LocalVariableTable_attribute_s {
       uint16_t attribute_name_index;
       uint32_t attribute_length;
       uint16_t local_variable_table_length;
-      std::vector<local_variable_table_element> *local_variable_table;
+      std::vector<local_variable_table_info> *local_variable_table;
 } LocalVariableTable_attribute;
 
 // Definida para ser utilizada no atributo LocalVariableTypeTable_attribute
@@ -103,7 +103,23 @@ typedef struct Code_attribute_s {
        std::vector<struct attribute_info_s> *attributes;
 } Code_attribute;
 
+// Definida para ser utilizada no atributo InnerClasses_attribute
+typedef struct classes_info_s {
+      uint16_t inner_class_info_index;
+      uint16_t outer_class_info_index;
+      uint16_t inner_name_index;
+      uint16_t inner_class_access_flags;
+} classes_info;
+
+typedef struct InnerClasses_attribute_s {
+      uint16_t attribute_name_index;
+      uint32_t attribute_length;
+      uint16_t number_of_classes;
+      std::vector<classes_info> *classes;
+} InnerClasses_attribute;
+
 typedef union attribute_type_u {
+      InnerClasses_attribute              attr_InnerClasses;
       LineNumberTable_attribute           attr_LineNumberTable;
       LocalVariableTable_attribute        attr_LocalVariableTable;
       LocalVariableTypeTable_attribute    attr_LocalVariableTypeTable;
@@ -134,21 +150,6 @@ typedef struct attribute_info_s {
 //        uint16_t number_of_exceptions;
 //        uint16_t exception_index_table[number_of_exceptions];
 // } Exceptions_attribute;
-
-// Definida para ser utilizada no atributo InnerClasses_attribute
-typedef struct classes_element_s {
-      uint16_t inner_class_info_index;
-      uint16_t outer_class_info_index;
-      uint16_t inner_name_index;
-      uint16_t inner_class_access_flags;
-} classes_element;
-
-typedef struct InnerClasses_attribute_s {
-      uint16_t attribute_name_index;
-      uint32_t attribute_length;
-      uint16_t number_of_classes;
-      std::vector<classes_element> classes;
-} InnerClasses_attribute;
 
 typedef struct EnclosingMethod_attribute_s {
        uint16_t attribute_name_index;

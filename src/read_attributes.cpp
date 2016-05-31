@@ -7,6 +7,8 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 	attribute_info attribute_element, attribute_element_aux;
       exception_table_info exception_table_element;
       local_variable_type_table_info local_variable_type_table_element;
+      local_variable_table_info local_variable_table_element;
+      classes_info classes_element;
 
 	// Leitura do attribute name index
 	attribute_element.attribute_name_index_l = read_word(fp);
@@ -97,6 +99,17 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 
             // Se o attribute for do tipo InnerClasses
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "InnerClasses")) {
+                  attribute_element.attribute_union.attr_InnerClasses.attribute_name_index = attribute_element.attribute_name_index_l;
+                  attribute_element.attribute_union.attr_InnerClasses.attribute_length = attribute_element.attribute_length_l;
+                  attribute_element.attribute_union.attr_InnerClasses.number_of_classes = read_word(fp);
+                  attribute_element.attribute_union.attr_InnerClasses.classes = new std::vector<classes_info>;
+                  for (n = 0; n < attribute_element.attribute_union.attr_InnerClasses.number_of_classes; n++) {
+                        classes_element.inner_class_info_index = read_word(fp);
+                        classes_element.outer_class_info_index = read_word(fp);
+                        classes_element.inner_name_index = read_word(fp);
+                        classes_element.inner_class_access_flags = read_word(fp);
+                        attribute_element.attribute_union.attr_InnerClasses.classes->push_back(classes_element);
+                  }
             }
 
             // Se o attribute for do tipo LineNumberTable
@@ -114,7 +127,18 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 
             // Se o attribute for do tipo LocalVariableTable
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "LocalVariableTable")) {
-
+                  attribute_element.attribute_union.attr_LocalVariableTable.attribute_name_index = attribute_element.attribute_name_index_l;
+                  attribute_element.attribute_union.attr_LocalVariableTable.attribute_length = attribute_element.attribute_length_l;
+                  attribute_element.attribute_union.attr_LocalVariableTable.local_variable_table_length = read_word(fp);
+                  attribute_element.attribute_union.attr_LocalVariableTable.local_variable_table = new std::vector<local_variable_table_info>;
+                  for (n = 0; n < attribute_element.attribute_union.attr_LocalVariableTable.local_variable_table_length; n++) {
+                        local_variable_table_element.start_pc = read_word(fp);
+                        local_variable_table_element.length = read_word(fp);
+                        local_variable_table_element.name_index = read_word(fp);
+                        local_variable_table_element.descriptor_index = read_word(fp);
+                        local_variable_table_element.index = read_word(fp);
+                        attribute_element.attribute_union.attr_LocalVariableTable.local_variable_table->push_back(local_variable_table_element);
+                  }
             }
 
             // Se o attribute for do tipo LocalVariableTypeTable
