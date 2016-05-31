@@ -12,7 +12,7 @@
 #include "../include/read_bytes.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/read_attributes.hpp"
-#define ByteCode "Puppy.class"
+#define ByteCode "../test/testeStatic.class"
 
 enum Errors {ErrorA=0, ErrorB, ErrorC};
 
@@ -130,6 +130,7 @@ int main(int argc, char** argv){
 			cp_element.cp_union.constant_long.high_bytes = read_dword(arquivoJava);
 			cp_element.cp_union.constant_long.low_bytes = read_dword(arquivoJava);
 			classF.constant_pool.push_back(cp_element);
+      n++;// 
 
 			break;
 
@@ -139,6 +140,7 @@ int main(int argc, char** argv){
 			cp_element.cp_union.constant_double.high_bytes = read_dword(arquivoJava);
 			cp_element.cp_union.constant_double.low_bytes = read_dword(arquivoJava);
 			classF.constant_pool.push_back(cp_element);
+      n++; //
 
 			break;
 
