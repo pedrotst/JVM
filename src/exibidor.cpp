@@ -1,8 +1,12 @@
 #include "../include/exibidor.hpp"
+#include <math.h>
 
 void exibeClass(ClassFile classF){
     uint8_t tag;
-    int n, i;
+    int n, i,j, e, s, aux;
+    long l, m;
+    float f;
+    double d;
     printf("Magic: %X\n", classF.magic);
     printf("Minor version: %d\n", classF.minor_version);
     printf("Major version: %d\n", classF.major_version);
@@ -10,11 +14,11 @@ void exibeClass(ClassFile classF){
 
 
 
-    for (n = 0; n < classF.constant_pool_count - 1; n++) {
+    for (j = 0, n = 0; j < classF.constant_pool_count - 1; n++, j++) {
         int index;
         cp_info_u cinfo = classF.constant_pool[n].cp_union;
         tag = classF.constant_pool[n].tag;
-        printf("#%d = ",n+1);
+        printf("#%d = ",j+1);
 
         // Todas as entradas da constant pool são obtidas de forma parecida,
         // então há um exemplo no primeiro case e o resto segue uma mesma
@@ -58,7 +62,16 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_InterfaceMethodref:
                 printf("InterfaceMethodref\t\t");
-                printf("#%d.#%d\n", cinfo.constant_interfaceMethodref.class_index, cinfo.constant_interfaceMethodref.name_and_type_index);
+                printf("#%d.#%d\t\t", cinfo.constant_interfaceMethodref.class_index, cinfo.constant_interfaceMethodref.name_and_type_index);
+                index = cinfo.constant_interfaceMethodref.class_index;                                              //encontre a class
+                index = classF.constant_pool[index-1].cp_union.constant_class.name_index;                           // encontre a string que a class referencia
+                printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);                       // imprime a string
+                index = cinfo.constant_interfaceMethodref.name_and_type_index;                                      //encontra a name and type
+                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;                     // encontra o campo name
+                printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );                         // imprime a string
+                index = cinfo.constant_interfaceMethodref.name_and_type_index;                                      //encontra a name and type
+                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;               // encontra o campo descriptor
+                printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );                        // imprime a string
                 break;
 
             case CONSTANT_String:
@@ -75,17 +88,39 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_Float:
                 printf("Float\t\t");
-                printf("#%d\n", cinfo.constant_float.bytes);
+                aux = cinfo.constant_float.bytes;
+                s = ((aux >> 31) == 0) ? 1 : -1;
+                e = ((aux >> 23) & 0xff);
+                m = (e == 0) ?
+                    (aux & 0x7fffff) << 1 :
+                    (aux & 0x7fffff) | 0x800000;
+                f = s*m*pow(2, (e-150));
+                printf("#%gf\n", f);
+
                 break;
 
             case CONSTANT_Long:
                 printf("Long\t\t");
-                printf("#%d.#%d\n", cinfo.constant_long.high_bytes, cinfo.constant_long.low_bytes);
+                l = cinfo.constant_long.high_bytes;
+                l = l<<32;
+                l = l + cinfo.constant_long.low_bytes;
+                printf("%ldl\n", l);
+                j++; //ocupa 2 espaços na constant pool
                 break;
 
             case CONSTANT_Double:
                 printf("Double\t\t");
-                printf("#%d.#%d\n", cinfo.constant_double.high_bytes, cinfo.constant_double.low_bytes);
+                l = cinfo.constant_double.high_bytes;
+                l = l <<32;
+                l = l +cinfo.constant_double.low_bytes;
+                 s = ((l >> 63) == 0) ? 1 : -1;
+                 e = (int)((l >> 52) & 0x7ffL);
+                 m = (e == 0) ?
+                        (l & 0xfffffffffffffL) << 1 :
+                        (l & 0xfffffffffffffL) | 0x10000000000000L;
+                d = s*m*(pow(2, (e-1075)));
+                printf("#%gd\n", d);
+                j++; // ocupa2 
                 break;
 
             case CONSTANT_NameAndType:
