@@ -220,5 +220,37 @@ void exibeClass(ClassFile classF){
         printf("Attributes Count: %d\n", classF.fields[n].attributes_count);
         cout << endl;
     }
+    cout << "Methods: " << endl;
+    for(n = 0; n< classF.methods_count; n++){
+        printf("Method: %d\n", n+1);
+        uint16_t access_flags = classF.methods[n].access_flags;
+        printf("Access Flag: %d", access_flags);
+        if((access_flags & 0x0001) == 0x0001){
+            cout << "[ACC_PUBLIC]";
+        }else if((access_flags & 0x0002) == 0x0002){
+            cout << "[ACC_PRIVATE]";
+        }else if((access_flags & 0x0004) == 0x0004){
+            cout << "[ACC_PROTECTED]";
+        }else if((access_flags & 0x0008) == 0x0008){
+            cout << "[ACC_STATIC]";
+        }if((access_flags & 0x0010) == 0x0010){
+            cout << "[ACC_FINAL]";
+        }else if((access_flags & 0x0020) == 0x0020){
+            cout << "[ACC_SYNCHRONIZED]";
+        }else if((access_flags & 0x0040) == 0x0040){
+            cout << "[ACC_BRIDGE]";
+        }else if((access_flags & 0x0080) == 0x0080){
+            cout << "[ACC_VARARGS]";
+        }if((access_flags & 0x0100) == 0x0100){
+            cout << "[ACC_NATIVE]";
+        }else if((access_flags & 0x0400) == 0x0400){
+            cout << "[ACC_ABSTRACT]";
+        }else if((access_flags & 0x0800) == 0x0480){
+            cout << "[ACC_STRICT]";
+        }if((access_flags & 0x1000) == 0x1000){
+            cout << "[ACC_SYNTHETIC]";
+        }
+        cout << endl;
+    }
 
 }
