@@ -164,7 +164,7 @@ typedef struct field_info_s {
 	uint16_t name_index;
 	uint16_t descriptor_index;
 	uint16_t attributes_count;
-	std::vector<attribute_info> atributes;
+	std::vector<attribute_info> attributes;
 } field_info;
 
 typedef struct method_info_s {
