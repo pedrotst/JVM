@@ -10,7 +10,9 @@
 #include "../include/read_bytes.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/read_attributes.hpp"
-#define ByteCode "Puppy.class"
+
+#define ByteCode "../test/testeMultArray.class"
+
 
 
 int main(int argc, char** argv){
