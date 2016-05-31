@@ -4,42 +4,70 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
 
+void print_access_flag(uint16_t access_flags){
+    cout << showbase << internal << setfill('0');
+    cout << "Access Flag: " << hex << setw(6) << access_flags;
+    if((access_flags & 0x0001) == 0x0001){
+        cout << "[ACC_PUBLIC]";
+    }else if((access_flags & 0x0002) == 0x0002){
+        cout << "[ACC_PRIVATE]";
+    }else if((access_flags & 0x0004) == 0x0004){
+        cout << "[ACC_PROTECTED]";
+    }else if((access_flags & 0x0008) == 0x0008){
+        cout << "[ACC_STATIC]";
+    }if((access_flags & 0x0010) == 0x0010){
+        cout << "[ACC_FINAL]";
+    }else if((access_flags & 0x0020) == 0x0020){
+        cout << "[ACC_SUPER]";
+    }else if((access_flags & 0x0040) == 0x0040){
+        cout << "[ACC_VOLATILE]";
+    }else if((access_flags & 0x0080) == 0x0080){
+        cout << "[ACC_TRANSIENT]";
+    }if((access_flags & 0x0200) == 0x0200){
+        cout << "[ACC_INTERFACE]";
+    }else if((access_flags & 0x0400) == 0x0400){
+        cout << "[ACC_ABSTRACT]";
+    }if((access_flags & 0x1000) == 0x1000){
+        cout << "[ACC_SYNTHETIC]";
+    }else if((access_flags & 0x2000) == 0x2000){
+        cout << "[ACC_ANNOTATION]";
+    }else if((access_flags & 0x4000) == 0x4000){
+        cout << "[ACC_ENUM]";
+    }
+    cout << "\n";
+}
 void exibeClass(ClassFile classF){
-    using namespace std;
     uint8_t tag;
     int n, i,j, e, s, aux;
+    int index;
     long l, m;
     float f;
     double d;
 
+    printf("General Information: \n");
     printf("Magic: %X\n", classF.magic);
     printf("Minor version: %d\n", classF.minor_version);
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
-    cout << showbase << internal << setfill('0');
-    cout << "Access Flag:" << hex << setw(6) << classF.access_flags;
-    if((classF.access_flags & 0x0001) == 0x0001){
-        cout << "[ACC_PUBLIC]";
-    }if((classF.access_flags & 0x0010) == 0x0010){
-        cout << "[ACC_FINAL]";
-    }else if((classF.access_flags & 0x0020) == 0x0020){
-        cout << "[ACC_SUPER]";
-    }if((classF.access_flags & 0x0200) == 0x0200){
-        cout << "[ACC_INTERFACE]";
-    }else if((classF.access_flags & 0x0400) == 0x0400){
-        cout << "[ACC_ABSTRACT]";
-    }if((classF.access_flags & 0x1000) == 0x1000){
-        cout << "[ACC_SYNTHETIC]";
-    }else if((classF.access_flags & 0x2000) == 0x2000){
-        cout << "[ACC_ANNOTATION]";
-    }else if((classF.access_flags & 0x4000) == 0x4000){
-        cout << "[ACC_ENUM]";
-    }
-    cout << "\n";
+    print_access_flag(classF.access_flags);
+    
+    
+    index = classF.this_class; //indice da classe na cpool
+    index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
+    printf("This Class: %d \t<%s>\n",classF.this_class, classF.constant_pool[index - 1].cp_union.constant_Utf8.bytes);
+    index = classF.super_class; //indice da classe na cpool
+    index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
+    printf("Super Class: %d <%s>\n", classF.super_class, classF.constant_pool[index - 1].cp_union.constant_Utf8.bytes);
+    printf("Interface count: %d\n",classF.interfaces_count);
+    printf("Fields count: %d\n", classF.fields_count);
+    printf("Methods count: %d\n", classF.methods_count);
+    printf("Attributes count: %d\n", classF.attributes_count);
 
+
+    cout << endl << "Constant Pool: " << endl;
     for (j = 0, n = 0; j < classF.constant_pool_count - 1; n++, j++) {
-        int index;
         cp_info_u cinfo = classF.constant_pool[n].cp_union;
         tag = classF.constant_pool[n].tag;
         printf("#%d = ",j+1);
@@ -179,4 +207,18 @@ void exibeClass(ClassFile classF){
                 break;
         }
     }
+    cout << endl << endl << "Fields: " << endl;
+    for(n = 0; n < classF.fields_count; n++){
+        printf("Field: %d\n", n + 1);
+        print_access_flag(classF.fields[n].access_flags);
+        index = classF.fields[n].name_index;
+        printf("Name: cp_info#%d ", index);
+        printf("<%s>\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+        index = classF.fields[n].descriptor_index;
+        printf("Descriptor: cp_info#%d ", index);
+        printf("<%s>\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+        printf("Attributes Count: %d\n", classF.fields[n].attributes_count);
+        cout << endl;
+    }
+
 }
