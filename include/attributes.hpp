@@ -17,24 +17,78 @@ typedef struct SourceFile_attribute_s {
        uint16_t sourcefile_index;
 } SourceFile_attribute;
 
-typedef union attribute_type_u {
-      ConstantValue_attribute         attr_ConstantValue;
-      SourceFile_attribute            attr_SourceFile;
-} attributeType_u;
-
-typedef struct attribute_info_s {
-	uint16_t attribute_name_index;
-	uint32_t attribute_length;
-	attributeType_u attribute_union;
-} attribute_info;
+typedef struct Synthetic_attribute_s {
+      uint16_t attribute_name_index;
+      uint32_t attribute_length;
+} Synthetic_attribute;
 
 // Definida para ser utilizada no atributo Code_attribute
-typedef struct exception_table_element_s {
+typedef struct exception_table_info_s {
       uint16_t start_pc;
       uint16_t end_pc;
       uint16_t handler_pc;
       uint16_t catch_type;
-} exception_table_element;
+} exception_table_info;
+
+// Definida para ser utilizada no atributo LineNumberTable_attribute
+typedef struct line_number_table_info_s {
+      uint16_t start_pc;
+      uint16_t line_number;
+} line_number_table_info;
+
+typedef struct LineNumberTable_attribute_s {
+       uint16_t attribute_name_index;
+       uint32_t attribute_length;
+       uint16_t line_number_table_length;
+       std::vector<line_number_table_info> *line_number_table;
+} LineNumberTable_attribute;
+
+// Definida para ser utilizada no atributo LocalVariableTable_attribute
+typedef struct local_variable_table_element_s {
+      uint16_t start_pc;
+      uint16_t length;
+      uint16_t name_index;
+      uint16_t descriptor_index;
+      uint16_t index;
+} local_variable_table_element;
+
+typedef struct LocalVariableTable_attribute_s {
+      uint16_t attribute_name_index;
+      uint32_t attribute_length;
+      uint16_t local_variable_table_length;
+      std::vector<local_variable_table_element> *local_variable_table;
+} LocalVariableTable_attribute;
+
+// Definida para ser utilizada no atributo LocalVariableTypeTable_attribute
+typedef struct local_variable_type_table_info_s {
+      uint16_t start_pc;
+      uint16_t length;
+      uint16_t name_index;
+      uint16_t signature_index;
+      uint16_t index;
+} local_variable_type_table_info;
+
+typedef struct LocalVariableTypeTable_attribute_s {
+      uint16_t attribute_name_index;
+      uint32_t attribute_length;
+      uint16_t local_variable_type_table_length;
+      std::vector<local_variable_type_table_info> *local_variable_type_table;
+} LocalVariableTypeTable_attribute;
+
+// typedef union attribute_type_code_u {
+//       LineNumberTable_attribute           attr_LineNumberTable;
+//       LocalVariableTable_attribute        attr_LocalVariableTable;
+//       LocalVariableTypeTable_attribute    attr_LocalVariableTypeTable;
+//       //StackMapTable_attribute           attr_StackMapTable;
+// } attributeTypeCode_u;
+
+// typedef struct attribute_info_code_s {
+// 	uint16_t attribute_name_index;
+// 	uint32_t attribute_length;
+// 	attributeTypeCode_u attr_TypeCode_u;
+// } attribute_info_code;
+
+struct attribute_info_s;
 
 typedef struct Code_attribute_s {
        uint16_t attribute_name_index;
@@ -44,10 +98,27 @@ typedef struct Code_attribute_s {
        uint32_t code_length;
        char *code;
        uint16_t exception_table_length;
-       std::vector<exception_table_element> exception_table;
+       std::vector<exception_table_info> *exception_table;
        uint16_t attributes_count;
-       std::vector<attribute_info> attributes;
+       std::vector<struct attribute_info_s> *attributes;
 } Code_attribute;
+
+typedef union attribute_type_u {
+      LineNumberTable_attribute           attr_LineNumberTable;
+      LocalVariableTable_attribute        attr_LocalVariableTable;
+      LocalVariableTypeTable_attribute    attr_LocalVariableTypeTable;
+      ConstantValue_attribute             attr_ConstantValue;
+      SourceFile_attribute                attr_SourceFile;
+      Synthetic_attribute                 attr_Synthetic;
+      Code_attribute                      attr_Code;
+} attributeType_u;
+
+typedef struct attribute_info_s {
+	uint16_t attribute_name_index_l;
+	uint32_t attribute_length_l;
+	attributeType_u attribute_union;
+} attribute_info;
+
 
 // typedef struct StackMapTable_attribute_s {
 //       uint16_t              attribute_name_index;
@@ -86,13 +157,6 @@ typedef struct EnclosingMethod_attribute_s {
        uint16_t method_index;
  } EnclosingMethod_attribute;
 
-
-
-typedef struct Synthetic_attribute_s {
-      uint16_t attribute_name_index;
-      uint32_t attribute_length;
-} Synthetic_attribute;
-
 typedef struct Signature_attribute_s {
       uint16_t attribute_name_index;
       uint32_t attribute_length;
@@ -104,51 +168,6 @@ typedef struct Signature_attribute_s {
 //       uint32_t attribute_length;
 //       uint8_t debug_extension[attribute_length];
 // } SourceDebugExtension_attribute;
-
-// Definida para ser utilizada no atributo LineNumberTable_attribute
-typedef struct line_number_table_element_s {
-      uint16_t start_pc;
-      uint16_t line_number;
-} line_number_table_element;
-
-typedef struct LineNumberTable_attribute_s {
-       uint16_t attribute_name_index;
-       uint32_t attribute_length;
-       uint16_t line_number_table_length;
-       std::vector<line_number_table_element> line_number_table;
-} LineNumberTable_attribute;
-
-// Definida para ser utilizada no atributo LocalVariableTable_attribute
-typedef struct local_variable_table_element_s {
-      uint16_t start_pc;
-      uint16_t length;
-      uint16_t name_index;
-      uint16_t descriptor_index;
-      uint16_t index;
-} local_variable_table_element;
-
-typedef struct LocalVariableTable_attribute_s {
-      uint16_t attribute_name_index;
-      uint32_t attribute_length;
-      uint16_t local_variable_table_length;
-      std::vector<local_variable_table_element> local_variable_table;
-} LocalVariableTable_attribute;
-
-// Definida para ser utilizada no atributo LocalVariableTypeTable_attribute
-typedef struct local_variable_type_table_element_s {
-      uint16_t start_pc;
-      uint16_t length;
-      uint16_t name_index;
-      uint16_t signature_index;
-      uint16_t index;
-} local_variable_type_table_element;
-
-typedef struct LocalVariableTypeTable_attribute_s {
-      uint16_t attribute_name_index;
-      uint32_t attribute_length;
-      uint16_t local_variable_type_table_length;
-      std::vector<local_variable_type_table_element> local_variable_type_table;
-} LocalVariableTypeTable_attribute;
 
 typedef struct Deprecated_attribute_s {
       uint16_t attribute_name_index;

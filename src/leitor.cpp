@@ -25,6 +25,7 @@ int main(int argc, char** argv){
       cp_info cp_element;
       field_info field_element;
       attribute_info attribute_element;
+	method_info method_element;
 	FILE *arquivoJava;
 
 	if( !(arquivoJava = fopen(ByteCode, "rb"))) {
@@ -267,8 +268,18 @@ int main(int argc, char** argv){
     printf("methods_count:\n%04x\n", classF.methods_count);
 
     /*área de leitura de métodos*/
-    for(n = 0; n < 302; n++){
-        fread(&byte, sizeof(uint8_t), 1, arquivoJava);
+    for(n = 0; n < classF.methods_count; n++){
+        method_element.access_flags = read_word(arquivoJava);
+	  method_element.name_index = read_word(arquivoJava);
+	  method_element.descriptor_index = read_word(arquivoJava);
+	  method_element.attributes_count = read_word(arquivoJava);
+
+	  for (j = 0; j < method_element.attributes_count; j++) {
+		  attribute_element = read_attributes(arquivoJava, classF.constant_pool);
+		  method_element.attributes.push_back(attribute_element);
+	  }
+
+	  classF.methods.push_back(method_element);
     }
 
 	// Leitura de attributes count
