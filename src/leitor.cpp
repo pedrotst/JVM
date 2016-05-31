@@ -10,10 +10,11 @@
 #include "../include/read_bytes.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/read_attributes.hpp"
-#define ByteCode "Puppy.class"
+#define ByteCode "../test/testeStatic.class"
 
 
 int main(int argc, char** argv){
+<<<<<<< HEAD
     int n = 0, m = 0, k = 0, j = 0;
     uint8_t byte = 0, tag = 0;
     uint16_t twoBytes = 0;

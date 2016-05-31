@@ -1,4 +1,4 @@
-#include "read_attributes.hpp"
+#include "../include/read_attributes.hpp"
 
 method_info read_method(FILE *fp, std::vector<cp_info> constant_pool){
     method_info novoMethod;
