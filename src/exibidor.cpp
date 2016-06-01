@@ -554,11 +554,68 @@ void exibeClass(ClassFile classF){
 
         }
         printf("\n");
-        
-
-
-
-
     }
+        printf("Attributes Count: %d\n", classF.attributes_count);
+        
+        for (n = 0; n < classF.attributes_count; n++){
+       
+        attribute_info attributeElement = classF.attributes[n];
+        index = attributeElement.attribute_name_index_l;
+        printf("Attribute name_index = %d\n", index);
+        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+        printf("Attribute Length: %d\n", attributeElement.attribute_length_l);
+
+        
+        // Se o attribute for do tipo SourceFile
+        if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
+            printf("Attribute: SourceFile\n");
+
+            printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_name_index);
+
+            
+            printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
+
+        
+            printf("Sourcefile_index:\n%d\n", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
+        
+            }
+              if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {
+                printf("Attribute: InnerClasses\n");
+                printf("attribute_name_index:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_name_index);
+
+                  printf("attribute_length:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_length);
+                  printf("number of classes\n%d\n",attributeElement.attribute_union.attr_InnerClasses.number_of_classes);
+                  
+             /*     for (int n = 0; n < attributeElement.attribute_union.attr_InnerClasses.number_of_classes; n++) {
+                        printf("inner_class_index:\n%d\t", classesElement.inner_class_info_index);
+                        index = classesElement.inner_class_info_index;
+                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                        printf("outer_class_index:\n%d\t", classesElement.outer_class_info_index) ; //class
+                        index = classesElement.outer_class_info_index;
+                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+
+                        printf("inner_name_index:\n%d\t", classes_element.inner_name_index) ; //class
+                        index = classes_element.inner_name_index;
+                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+
+                      print_access_flag(classesElement.inner_class_access_flags);
+                        
+                  }
+            */
+            }
+             if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Synthetic")) {
+                  printf("Attribute: Synthetic\n");
+
+                  
+                  printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_name_index);
+                  index = attributeElement.attribute_union.attr_Synthetic.attribute_name_index;
+                  printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                  
+                  printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_length);
+            }
+        }
+
+
+    
 
 }
