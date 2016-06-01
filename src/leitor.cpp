@@ -11,7 +11,7 @@
 #include "../include/exibidor.hpp"
 #include "../include/read_attributes.hpp"
 #include "../include/read_methods.hpp"
-#define ByteCode "../test/CheckingAccount.class"
+#define ByteCode "Puppy.class"
 
 
 
