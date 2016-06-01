@@ -183,11 +183,11 @@ map<uint8_t, string> op_mapa = {
     {0XB3 , "PUTSTATIC"},
     {0XB4 , "GETFIELD"},
     {0XB5 , "PUTFIELD"},
-    {0XB6 , "INvOKEvIRTUAL"},
-    {0XB7 , "INvOKESPECIAL"},
-    {0XB8 , "INvOKESTATIC"},
-    {0XB9 , "INvOKEINTERFACE"},
-    {0XBA , "INvOKEDYNAMIC"},
+    {0XB6 , "INVOKEVIRTUAL"},
+    {0XB7 , "INVOKESPECIAL"},
+    {0XB8 , "INVOKESTATIC"},
+    {0XB9 , "INVOKEINTERFACE"},
+    {0XBA , "INVOKEDYNAMIC"},
     {0XBB , "NEW"},
     {0XBC , "NEWARRAY"},
     {0XBD , "ANEWARRAY"},
@@ -547,7 +547,7 @@ void exibeClass(ClassFile classF){
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
                 for(int k = 0; k < code_length; k++){
-                    printf("\t Code: %02x\n", (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k]);
+                    printf("\t\t Code: %02x", (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k]);
                     cout << "\tInstruction: "<<  op_mapa[(uint8_t)classF.methods[n].attributes[j].attribute_union.attr_Code.code[k]] << endl;
                 }
             }
