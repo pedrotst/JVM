@@ -183,11 +183,11 @@ map<uint8_t, string> op_mapa = {
     {0XB3 , "PUTSTATIC"},
     {0XB4 , "GETFIELD"},
     {0XB5 , "PUTFIELD"},
-    {0XB6 , "INVOKEVIRTUAL"},
-    {0XB7 , "INVOKESPECIAL"},
-    {0XB8 , "INVOKESTATIC"},
-    {0XB9 , "INVOKEINTERFACE"},
-    {0XBA , "INVOKEDYNAMIC"},
+    {0XB6 , "INvOKEvIRTUAL"},
+    {0XB7 , "INvOKESPECIAL"},
+    {0XB8 , "INvOKESTATIC"},
+    {0XB9 , "INvOKEINTERFACE"},
+    {0XBA , "INvOKEDYNAMIC"},
     {0XBB , "NEW"},
     {0XBC , "NEWARRAY"},
     {0XBD , "ANEWARRAY"},
@@ -207,7 +207,7 @@ map<uint8_t, string> op_mapa = {
     {0XFE , "IMPDEP1"},
     {0XFF , "IMPDEP2"},
     };
-
+ 
 void print_access_flag(uint16_t access_flags){
     cout << showbase << internal << setfill('0');
     cout << "Access Flag: " << hex << setw(6) << access_flags;
@@ -240,6 +240,46 @@ void print_access_flag(uint16_t access_flags){
     }
     cout << "\n";
 }
+
+void print_comment(vector<cp_info_s> c, int n){
+    cp_tag tag = c[n].tag;
+    int index;
+    cp_info_u cinfo = c[n].cp_union;
+
+    switch(tag){
+        case CONSTANT_String:
+        case CONSTANT_Class:
+            index = cinfo.constant_class.name_index;
+            print_comment(c, index - 1);
+            break;
+        case CONSTANT_Fieldref:
+            index = cinfo.constant_fieldref.class_index;                                            //encontre a class
+            print_comment(c, index - 1);
+            printf(".");
+            index = cinfo.constant_fieldref.name_and_type_index;                                    //encontra a name and type
+            print_comment(c, index - 1);
+            break;
+        case CONSTANT_Methodref:
+            index = cinfo.constant_methodref.class_index;                                            //encontre a class
+            print_comment(c, index-1);
+            printf(".");
+            index = cinfo.constant_methodref.name_and_type_index;                                    //encontra a name and type
+            print_comment(c, index-1);
+            break;
+        case CONSTANT_NameAndType:
+            index = cinfo.constant_nameAndType.name_index;
+            print_comment(c, index-1);
+            printf(":");
+            index = cinfo.constant_nameAndType.descriptor_index;
+            print_comment(c, index-1);
+            break;
+        case CONSTANT_Utf8:
+            printf("%s", c[n].cp_union.constant_Utf8.bytes);
+            break;
+
+    }
+
+}
 void exibeClass(ClassFile classF){
     uint8_t tag;
     int n, i,j, e, s, aux;
@@ -254,8 +294,8 @@ void exibeClass(ClassFile classF){
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
     print_access_flag(classF.access_flags);
-
-
+    
+    
     index = classF.this_class; //indice da classe na cpool
     index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
     printf("This Class: %d \t<%s>\n",classF.this_class, classF.constant_pool[index - 1].cp_union.constant_Utf8.bytes);
@@ -285,38 +325,44 @@ void exibeClass(ClassFile classF){
             case CONSTANT_Class:
                 printf("Class\t\t");
                 index = cinfo.constant_class.name_index;
-                printf("#%d\t\t", index);
-                printf("// %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                printf("#%d\t\t // ", index);
+                print_comment(classF.constant_pool, n);
+                printf("\n");
                 break;
 
             case CONSTANT_Fieldref:
                 printf("Fieldref\t\t");
-                printf("#%d.#%d\t\t", cinfo.constant_fieldref.class_index, cinfo.constant_fieldref.name_and_type_index);
-                index = cinfo.constant_fieldref.class_index;                                            //encontre a class
-                index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a string que a class referencia
-                printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
-                index = cinfo.constant_fieldref.name_and_type_index;                                    //encontra a name and type
-                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
-                printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
-                index = cinfo.constant_fieldref.name_and_type_index;                                    //encontra a name and type
-                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
-                printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
+                printf("#%d.#%d\t\t // ", cinfo.constant_fieldref.class_index, cinfo.constant_fieldref.name_and_type_index);
+                print_comment(classF.constant_pool, n);
+                printf("\n");
+                //index = cinfo.constant_fieldref.class_index;                                            //encontre a class
+                //index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a string que a class referencia
+                //printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
+                //index = cinfo.constant_fieldref.name_and_type_index;                                    //encontra a name and type
+                //index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
+                //printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
+                //index = cinfo.constant_fieldref.name_and_type_index;                                    //encontra a name and type
+                //index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
+                //printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
                 break;
 
             case CONSTANT_Methodref:
                 printf("Methodref\t\t");
-                printf("#%d.#%d\t\t", cinfo.constant_methodref.class_index, cinfo.constant_methodref.name_and_type_index);
-                index = cinfo.constant_methodref.class_index;                                            //encontre a class
-                index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a string que a class referencia
-                printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
-                index = cinfo.constant_methodref.name_and_type_index;                                    //encontra a name and type
-                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
-                printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
-                index = cinfo.constant_methodref.name_and_type_index;                                    //encontra a name and type
-                index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
-                printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
-                break;
+                printf("#%d.#%d\t\t // ", cinfo.constant_methodref.class_index, cinfo.constant_methodref.name_and_type_index);
+                print_comment(classF.constant_pool, n);
+                printf("\n");
 
+                //index = cinfo.constant_methodref.class_index;                                            //encontre a class
+                //index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a string que a class referencia
+                //printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
+                //index = cinfo.constant_methodref.name_and_type_index;                                    //encontra a name and type
+                //index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
+                //printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
+                //index = cinfo.constant_methodref.name_and_type_index;                                    //encontra a name and type
+                //index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
+                //printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
+                break;
+                
 
             case CONSTANT_InterfaceMethodref:
                 printf("InterfaceMethodref\t\t");
@@ -378,16 +424,18 @@ void exibeClass(ClassFile classF){
                         (l & 0xfffffffffffffL) | 0x10000000000000L;
                 d = s*m*(pow(2, (e-1075)));
                 printf("#%gd\n", d);
-                //j++; // ocupa2
+                //j++; // ocupa2 
                 break;
 
             case CONSTANT_NameAndType:
                 printf("NameAndType\t");
                 printf("#%d.#%d\t\t", cinfo.constant_nameAndType.name_index, cinfo.constant_nameAndType.descriptor_index);
-                index = cinfo.constant_nameAndType.name_index;
-                printf("// %s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-                index = cinfo.constant_nameAndType.descriptor_index;
-                printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                print_comment(classF.constant_pool, n);
+                printf("\n");
+                //index = cinfo.constant_nameAndType.name_index;
+                //printf("// %s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                //index = cinfo.constant_nameAndType.descriptor_index;
+                //printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
 
 
                 break;
@@ -399,85 +447,12 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_MethodHandle:
                 printf("MethodHandle\t\t");
-                index = cinfo.constant_methodHandle.reference_kind;
-                printf("#%d:#%d\t\t", cinfo.constant_methodHandle.reference_kind, cinfo.constant_methodHandle.reference_index);
-                if (index <5){
-                    if (index==1)
-                        printf("// getField");
-                    if (index==2)
-                        printf("// getStatic");
-                    if (index==3)
-                        printf("// putField");
-                    if (index==4)
-                        printf("// putStatic");
-                    index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;           //encontreo fieldref
-                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
-                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;           //encontreo fieldref                                 //encontra a name and type
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
-                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;            //encontra o fieldRef
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
-                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
-
-                    }
-                else if ((index>4)&& (index<9)){
-                    if (index==5)
-                            printf("// invokeVirtual");
-                    if (index==6)
-                            printf("// invokeStatic");
-                    if (index==7)
-                            printf("// invokeSpecial");
-                    if (index==8)
-                            printf("// newInvokeSpecial");
-                    index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;           //encontreo fieldref
-                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
-                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;           //encontreo fieldref                                 //encontra a name and type
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
-                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;            //encontra o fieldRef
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
-                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
-                }
-
-                else if (index==9){
-                     printf("// invokeInterface");
-                     index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;           //encontreo fieldref
-                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
-                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;           //encontreo fieldref                                 //encontra a name and type
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
-                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
-
-                    index = index=cinfo.constant_methodHandle.reference_index;
-                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;            //encontra o fieldRef
-                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
-                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
-                }
-
-
+                printf("#%d.#%d\n", cinfo.constant_methodHandle.reference_kind, cinfo.constant_methodHandle.reference_index);
                 break;
-
 
             case CONSTANT_MethodType:
                 printf("MethodType\t\t");
-                index = cinfo.constant_methodType.descriptor_index;
-                printf("#%d\t\t",index) ;
-                printf("// %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                printf("#%d\n", cinfo.constant_methodType.descriptor_index);
                 break;
 
             case CONSTANT_InvokeDynamic:
@@ -500,7 +475,6 @@ void exibeClass(ClassFile classF){
         cout << endl;
     }
     cout << "Methods: " << endl;
-    printf("Methods Count: %d\n", classF.methods_count);
     for(n = 0; n< classF.methods_count; n++){
         printf("Method: %d\n", n+1);
         uint16_t access_flags = classF.methods[n].access_flags;
@@ -547,22 +521,30 @@ void exibeClass(ClassFile classF){
                 printf("\t Max Locals: %d\n", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
+
                 for(int k = 0; k < code_length; k++){
-	            uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
+                    uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
 
                     //printf("\t Code: %02x\n", opcode);
-		      int arg_qnt = print_code(opcode);
+                    int arg_qnt = print_code(opcode);
                     cout << "\t"<< k << ":\t"<<  op_mapa[opcode] << "\t";
-		    //printf("arg_qnt = %d\n", arg_qnt);
-		    for(int u = 0 ; u < arg_qnt; u++){
-			    printf(" #%d ",(uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
-
-		   }
-		   cout << endl;
-	            k += arg_qnt;
+                    //printf("arg_qnt = %d\n", arg_qnt);
+                    for(int u = 0 ; u < arg_qnt; u++){
+                        printf(" #%d ",(uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
+                    }
+                    if(arg_qnt > 0){
+                        cout << "\t // ";
+                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1]);
+                    }
+                    for(int u = 1 ; u < arg_qnt; u++){
+                        printf(" and ");
+                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
+                    }
+                    cout << endl;
+                    k += arg_qnt;
                 }
-            }
 
+            }
         }
         printf("\n");
     }
