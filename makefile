@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -I./include/ -g
+CFLAGS = -I./include/ -g -std=c++11
 
 ########################## Geracao dos executaveis ##########################
 leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o moveobj

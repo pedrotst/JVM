@@ -1,0 +1,219 @@
+Magic Number: 
+cafebabe
+minor_version: 
+0000
+major_version: 
+002e
+constant_pool_count: 
+003f
+access_flags: 
+0021
+this_class: 
+000c
+super_class: 
+0012
+interfaces_count: 
+0000
+fields_count: 
+0001
+Field 1:
+access_flags:
+0002
+name_index:
+0013
+descriptor_index:
+0014
+attributes_count:
+0000
+methods_count:
+0004
+Mehtod 0
+access_flags:
+0001
+name_index:
+0015
+descriptor_index:
+0016
+attributes_count:
+0000
+Attribute: Code
+attribute_name_index:
+0017
+attribute_length:
+0000003e
+Mehtod 1
+access_flags:
+0001
+name_index:
+0019
+descriptor_index:
+001a
+attributes_count:
+0000
+Attribute: Code
+attribute_name_index:
+0017
+attribute_length:
+00000022
+Mehtod 2
+access_flags:
+0001
+name_index:
+001b
+descriptor_index:
+001c
+attributes_count:
+0000
+Attribute: Code
+attribute_name_index:
+0017
+attribute_length:
+0000003d
+Mehtod 3
+access_flags:
+0009
+name_index:
+001d
+descriptor_index:
+001e
+attributes_count:
+0000
+Attribute: Code
+attribute_name_index:
+0017
+attribute_length:
+00000059
+attributes_count:
+0001
+Attribute 1:
+Attribute: SourceFile
+attribute_name_index:
+001f
+attribute_length:
+00000002
+Sourcefile_index:
+0020
+
+
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 63
+Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
+This Class: 12 	<Puppy>
+Super Class: 18 <java/lang/Object>
+Interface count: 0
+Fields count: 1
+Methods count: 4
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#18.#33		// java/lang/Object.<init>:()V
+#2 = Fieldref		#34.#35		// java/lang/System.out:Ljava/io/PrintStream;
+#3 = Class		#36		// java/lang/StringBuffer
+#4 = Methodref		#3.#33		// java/lang/StringBuffer.<init>:()V
+#5 = String		#37		// Name chosen is :
+#6 = Methodref		#3.#38		// java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#7 = Methodref		#3.#39		// java/lang/StringBuffer.toString:()Ljava/lang/String;
+#8 = Methodref		#40.#41		// java/io/PrintStream.println:(Ljava/lang/String;)V
+#9 = Fieldref		#12.#42		// Puppy.puppyAge:I
+#10 = String		#43		// Puppy's age is :
+#11 = Methodref		#3.#44		// java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+#12 = Class		#45		// Puppy
+#13 = String		#46		// tommy
+#14 = Methodref		#12.#47		// Puppy.<init>:(Ljava/lang/String;)V
+#15 = Methodref		#12.#48		// Puppy.setAge:(I)V
+#16 = Methodref		#12.#49		// Puppy.getAge:()I
+#17 = String		#50		// Variable Value :
+#18 = Class		#51		// java/lang/Object
+#19 = Utf8		puppyAge
+#20 = Utf8		I
+#21 = Utf8		<init>
+#22 = Utf8		(Ljava/lang/String;)V
+#23 = Utf8		Code
+#24 = Utf8		LineNumberTable
+#25 = Utf8		setAge
+#26 = Utf8		(I)V
+#27 = Utf8		getAge
+#28 = Utf8		()I
+#29 = Utf8		main
+#30 = Utf8		([Ljava/lang/String;)V
+#31 = Utf8		SourceFile
+#32 = Utf8		Puppy.java
+#33 = NameAndType	#21.#52		// <init>:()V
+#34 = Class		#53		// java/lang/System
+#35 = NameAndType	#54.#55		// out:Ljava/io/PrintStream;
+#36 = Utf8		java/lang/StringBuffer
+#37 = Utf8		Name chosen is :
+#38 = NameAndType	#56.#57		// append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#39 = NameAndType	#58.#59		// toString:()Ljava/lang/String;
+#40 = Class		#60		// java/io/PrintStream
+#41 = NameAndType	#61.#22		// println:(Ljava/lang/String;)V
+#42 = NameAndType	#19.#20		// puppyAge:I
+#43 = Utf8		Puppy's age is :
+#44 = NameAndType	#56.#62		// append:(I)Ljava/lang/StringBuffer;
+#45 = Utf8		Puppy
+#46 = Utf8		tommy
+#47 = NameAndType	#21.#22		// <init>:(Ljava/lang/String;)V
+#48 = NameAndType	#25.#26		// setAge:(I)V
+#49 = NameAndType	#27.#28		// getAge:()I
+#50 = Utf8		Variable Value :
+#51 = Utf8		java/lang/Object
+#52 = Utf8		()V
+#53 = Utf8		java/lang/System
+#54 = Utf8		out
+#55 = Utf8		Ljava/io/PrintStream;
+#56 = Utf8		append
+#57 = Utf8		(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#58 = Utf8		toString
+#59 = Utf8		()Ljava/lang/String;
+#60 = Utf8		java/io/PrintStream
+#61 = Utf8		println
+#62 = Utf8		(I)Ljava/lang/StringBuffer;
+
+
+Fields: 
+Field: 1
+Access Flag: 0x0002[ACC_PRIVATE]
+Name: cp_info#19 <puppyAge>
+Descriptor: cp_info#20 <I>
+Attributes Count: 0
+
+Methods: 
+Method: 1
+Name: <init>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 62
+
+Method: 2
+Name: setAge
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (I)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 62
+
+Method: 3
+Name: getAge
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()I
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 62
+
+Method: 4
+Name: main
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 62
+
