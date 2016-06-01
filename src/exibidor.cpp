@@ -534,11 +534,11 @@ void exibeClass(ClassFile classF){
                     }
                     if(arg_qnt > 0){
                         cout << "\t // ";
-                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1]);
+                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1] - 1);
                     }
                     for(int u = 1 ; u < arg_qnt; u++){
                         printf(" and ");
-                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
+                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] - 1);
                     }
                     cout << endl;
                     k += arg_qnt;
