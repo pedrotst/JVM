@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 #include "../include/structs.hpp"
+#include "../include/print_code.hpp"
 
 void exibeClass(ClassFile classF);
 

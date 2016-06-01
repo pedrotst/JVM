@@ -207,7 +207,7 @@ map<uint8_t, string> op_mapa = {
     {0XFE , "IMPDEP1"},
     {0XFF , "IMPDEP2"},
     };
- 
+
 void print_access_flag(uint16_t access_flags){
     cout << showbase << internal << setfill('0');
     cout << "Access Flag: " << hex << setw(6) << access_flags;
@@ -254,8 +254,8 @@ void exibeClass(ClassFile classF){
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
     print_access_flag(classF.access_flags);
-    
-    
+
+
     index = classF.this_class; //indice da classe na cpool
     index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
     printf("This Class: %d \t<%s>\n",classF.this_class, classF.constant_pool[index - 1].cp_union.constant_Utf8.bytes);
@@ -316,7 +316,7 @@ void exibeClass(ClassFile classF){
                 index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
                 printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
                 break;
-                
+
 
             case CONSTANT_InterfaceMethodref:
                 printf("InterfaceMethodref\t\t");
@@ -378,7 +378,7 @@ void exibeClass(ClassFile classF){
                         (l & 0xfffffffffffffL) | 0x10000000000000L;
                 d = s*m*(pow(2, (e-1075)));
                 printf("#%gd\n", d);
-                //j++; // ocupa2 
+                //j++; // ocupa2
                 break;
 
             case CONSTANT_NameAndType:
@@ -424,7 +424,7 @@ void exibeClass(ClassFile classF){
                     index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;            //encontra o fieldRef
                     index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
                     printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
-                    
+
                     }
                 else if ((index>4)&& (index<9)){
                     if (index==5)
@@ -469,7 +469,7 @@ void exibeClass(ClassFile classF){
                     printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
                 }
 
-                                     
+
                 break;
 
 
@@ -500,6 +500,7 @@ void exibeClass(ClassFile classF){
         cout << endl;
     }
     cout << "Methods: " << endl;
+    printf("Methods Count: %d\n", classF.methods_count);
     for(n = 0; n< classF.methods_count; n++){
         printf("Method: %d\n", n+1);
         uint16_t access_flags = classF.methods[n].access_flags;
@@ -547,21 +548,32 @@ void exibeClass(ClassFile classF){
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
                 for(int k = 0; k < code_length; k++){
-                    printf("\t\t Code: %02x", (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k]);
-                    cout << "\tInstruction: "<<  op_mapa[(uint8_t)classF.methods[n].attributes[j].attribute_union.attr_Code.code[k]] << endl;
+	            uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
+
+                    //printf("\t Code: %02x\n", opcode);
+		      int arg_qnt = print_code(opcode);
+                    cout << "\t"<< k << ":\t"<<  op_mapa[opcode] << "\t";
+		    //printf("arg_qnt = %d\n", arg_qnt);
+		    for(int u = 0 ; u < arg_qnt; u++){
+			    printf(" #%d ",(uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
+
+		   }
+		   cout << endl;
+	            k += arg_qnt;
                 }
             }
 
         }
         printf("\n");
     }
+
         printf("Attributes Count: %d\n", classF.attributes_count);
         
         for (n = 0; n < classF.attributes_count; n++){
        
         attribute_info attributeElement = classF.attributes[n];
         index = attributeElement.attribute_name_index_l;
-        printf("Attribute name_index = %d\n", index);
+        printf("Attribute name_index: #%d\t\t", index);
         printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
         printf("Attribute Length: %d\n", attributeElement.attribute_length_l);
 
@@ -570,13 +582,15 @@ void exibeClass(ClassFile classF){
         if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             printf("Attribute: SourceFile\n");
 
-            printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_name_index);
+            printf("attribute_name_index: #%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_name_index);
 
             
-            printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
+            printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
         
-            printf("Sourcefile_index:\n%d\n", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
+            printf("Sourcefile_index: #%d\t\t", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
+            index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
+            printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
         
             }
               if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {
@@ -616,6 +630,6 @@ void exibeClass(ClassFile classF){
         }
 
 
-    
+
 
 }

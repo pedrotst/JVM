@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -I./include/ -g -std=c++11
 
 ########################## Geracao dos executaveis ##########################
-leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o moveobj
-	$(CC) $(CFLAGS) -o leitor ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o
+leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o moveobj
+	$(CC) $(CFLAGS) -o leitor ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o ./obj/print_code.o
 
 ########################## Geracao dos .o ##########################
 leitor.o:
@@ -23,6 +23,9 @@ read_attributes.o:
 
 read_methods.o:
 	$(CC) $(CFLAGS) -c ./src/read_methods.cpp
+
+print_code.o:
+	$(CC) $(CFLAGS) -c ./src/print_code.cpp
 
 ########################## Move e Clean ##########################
 moveobj:
