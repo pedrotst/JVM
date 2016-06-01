@@ -500,6 +500,7 @@ void exibeClass(ClassFile classF){
         cout << endl;
     }
     cout << "Methods: " << endl;
+    printf("Methods Count: %d\n", classF.methods_count);
     for(n = 0; n< classF.methods_count; n++){
         printf("Method: %d\n", n+1);
         uint16_t access_flags = classF.methods[n].access_flags;
