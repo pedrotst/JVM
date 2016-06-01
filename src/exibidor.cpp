@@ -399,12 +399,85 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_MethodHandle:
                 printf("MethodHandle\t\t");
-                printf("#%d.#%d\n", cinfo.constant_methodHandle.reference_kind, cinfo.constant_methodHandle.reference_index);
+                index = cinfo.constant_methodHandle.reference_kind;
+                printf("#%d:#%d\t\t", cinfo.constant_methodHandle.reference_kind, cinfo.constant_methodHandle.reference_index);
+                if (index <5){
+                    if (index==1)
+                        printf("// getField");
+                    if (index==2)
+                        printf("// getStatic");
+                    if (index==3)
+                        printf("// putField");
+                    if (index==4)
+                        printf("// putStatic");
+                    index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;           //encontreo fieldref
+                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
+                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;           //encontreo fieldref                                 //encontra a name and type
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
+                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_fieldref.class_index;            //encontra o fieldRef
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
+                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
+                    
+                    }
+                else if ((index>4)&& (index<9)){
+                    if (index==5)
+                            printf("// invokeVirtual");
+                    if (index==6)
+                            printf("// invokeStatic");
+                    if (index==7)
+                            printf("// invokeSpecial");
+                    if (index==8)
+                            printf("// newInvokeSpecial");
+                    index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;           //encontreo fieldref
+                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
+                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;           //encontreo fieldref                                 //encontra a name and type
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
+                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_methodref.class_index;            //encontra o fieldRef
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
+                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
+                }
+
+                else if (index==9){
+                     printf("// invokeInterface");
+                     index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;           //encontreo fieldref
+                    index = classF.constant_pool[index-1].cp_union.constant_class.name_index;               // encontre a class
+                    printf("// %s.", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);           // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;           //encontreo fieldref                                 //encontra a name and type
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.name_index;         // encontra o campo name
+                    printf("%s:", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );              // imprime a string
+
+                    index = index=cinfo.constant_methodHandle.reference_index;
+                    index = classF.constant_pool[index-1].cp_union.constant_interfaceMethodref.class_index;            //encontra o fieldRef
+                    index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o type
+                    printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             //imprime o string
+                }
+
+                                     
                 break;
+
 
             case CONSTANT_MethodType:
                 printf("MethodType\t\t");
-                printf("#%d\n", cinfo.constant_methodType.descriptor_index);
+                index = cinfo.constant_methodType.descriptor_index;
+                printf("#%d\t\t",index) ;
+                printf("// %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
                 break;
 
             case CONSTANT_InvokeDynamic:

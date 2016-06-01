@@ -118,6 +118,13 @@ typedef struct InnerClasses_attribute_s {
       std::vector<classes_info> *classes;
 } InnerClasses_attribute;
 
+ typedef struct tions_attribute_s {
+        uint16_t attribute_name_index;
+        uint32_t attribute_length;
+        uint16_t number_of_exceptions;
+        std::vector<uint16_t> *exception_index_table;
+ } Exceptions_attribute;
+
 typedef union attribute_type_u {
       InnerClasses_attribute              attr_InnerClasses;
       LineNumberTable_attribute           attr_LineNumberTable;
@@ -127,6 +134,7 @@ typedef union attribute_type_u {
       SourceFile_attribute                attr_SourceFile;
       Synthetic_attribute                 attr_Synthetic;
       Code_attribute                      attr_Code;
+      Exceptions_attribute                attr_Exceptions;
 } attributeType_u;
 
 typedef struct attribute_info_s {
@@ -142,14 +150,6 @@ typedef struct attribute_info_s {
 //       uint16_t              number_of_entries;
 //       stack_map_frame entries[number_of_entries];
 // } StackMapTable_attribute;
-
-
-// typedef struct Exceptions_attribute_s {
-//        uint16_t attribute_name_index;
-//        uint32_t attribute_length;
-//        uint16_t number_of_exceptions;
-//        uint16_t exception_index_table[number_of_exceptions];
-// } Exceptions_attribute;
 
 typedef struct EnclosingMethod_attribute_s {
        uint16_t attribute_name_index;
