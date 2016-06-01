@@ -547,11 +547,11 @@ void exibeClass(ClassFile classF){
                 printf("\t Max Locals: %d\n", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
-                for(int k = 0; k < code_length; k++){}
+                for(int k = 0; k < code_length; k++){
 	            uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
 
                     //printf("\t Code: %02x\n", opcode);
-		    int arg_qnt = print_code(opcode);
+		      int arg_qnt = print_code(opcode);
                     cout << "\t"<< k << ":\t"<<  op_mapa[opcode] << "\t";
 		    //printf("arg_qnt = %d\n", arg_qnt);
 		    for(int u = 0 ; u < arg_qnt; u++){
