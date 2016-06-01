@@ -1,219 +1,213 @@
-Magic Number: 
-cafebabe
-minor_version: 
-0000
-major_version: 
-002e
-constant_pool_count: 
-003f
-access_flags: 
-0021
-this_class: 
-000c
-super_class: 
-0012
-interfaces_count: 
-0000
-fields_count: 
-0001
-Field 1:
-access_flags:
-0002
-name_index:
-0013
-descriptor_index:
-0014
-attributes_count:
-0000
-methods_count:
-0004
-Mehtod 0
-access_flags:
-0001
-name_index:
-0015
-descriptor_index:
-0016
-attributes_count:
-0000
-Attribute: Code
-attribute_name_index:
-0017
-attribute_length:
-0000003e
-Mehtod 1
-access_flags:
-0001
-name_index:
-0019
-descriptor_index:
-001a
-attributes_count:
-0000
-Attribute: Code
-attribute_name_index:
-0017
-attribute_length:
-00000022
-Mehtod 2
-access_flags:
-0001
-name_index:
-001b
-descriptor_index:
-001c
-attributes_count:
-0000
-Attribute: Code
-attribute_name_index:
-0017
-attribute_length:
-0000003d
-Mehtod 3
-access_flags:
-0009
-name_index:
-001d
-descriptor_index:
-001e
-attributes_count:
-0000
-Attribute: Code
-attribute_name_index:
-0017
-attribute_length:
-00000059
-attributes_count:
-0001
-Attribute 1:
-Attribute: SourceFile
-attribute_name_index:
-001f
-attribute_length:
-00000002
-Sourcefile_index:
-0020
-
-
 General Information: 
 Magic: CAFEBABE
 Minor version: 0
 Major version: 46
-Constant Pool Count: 63
-Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
-This Class: 12 	<Puppy>
-Super Class: 18 <java/lang/Object>
+Constant Pool Count: 71
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 1 	<testeStatic>
+Super Class: 3 <java/lang/Object>
 Interface count: 0
-Fields count: 1
+Fields count: 5
 Methods count: 4
 Attributes count: 1
 
 Constant Pool: 
-#1 = Methodref		#18.#33		// java/lang/Object.<init>:()V
-#2 = Fieldref		#34.#35		// java/lang/System.out:Ljava/io/PrintStream;
-#3 = Class		#36		// java/lang/StringBuffer
-#4 = Methodref		#3.#33		// java/lang/StringBuffer.<init>:()V
-#5 = String		#37		// Name chosen is :
-#6 = Methodref		#3.#38		// java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
-#7 = Methodref		#3.#39		// java/lang/StringBuffer.toString:()Ljava/lang/String;
-#8 = Methodref		#40.#41		// java/io/PrintStream.println:(Ljava/lang/String;)V
-#9 = Fieldref		#12.#42		// Puppy.puppyAge:I
-#10 = String		#43		// Puppy's age is :
-#11 = Methodref		#3.#44		// java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
-#12 = Class		#45		// Puppy
-#13 = String		#46		// tommy
-#14 = Methodref		#12.#47		// Puppy.<init>:(Ljava/lang/String;)V
-#15 = Methodref		#12.#48		// Puppy.setAge:(I)V
-#16 = Methodref		#12.#49		// Puppy.getAge:()I
-#17 = String		#50		// Variable Value :
-#18 = Class		#51		// java/lang/Object
-#19 = Utf8		puppyAge
-#20 = Utf8		I
-#21 = Utf8		<init>
-#22 = Utf8		(Ljava/lang/String;)V
-#23 = Utf8		Code
-#24 = Utf8		LineNumberTable
-#25 = Utf8		setAge
-#26 = Utf8		(I)V
-#27 = Utf8		getAge
-#28 = Utf8		()I
-#29 = Utf8		main
-#30 = Utf8		([Ljava/lang/String;)V
-#31 = Utf8		SourceFile
-#32 = Utf8		Puppy.java
-#33 = NameAndType	#21.#52		// <init>:()V
-#34 = Class		#53		// java/lang/System
-#35 = NameAndType	#54.#55		// out:Ljava/io/PrintStream;
-#36 = Utf8		java/lang/StringBuffer
-#37 = Utf8		Name chosen is :
-#38 = NameAndType	#56.#57		// append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
-#39 = NameAndType	#58.#59		// toString:()Ljava/lang/String;
-#40 = Class		#60		// java/io/PrintStream
-#41 = NameAndType	#61.#22		// println:(Ljava/lang/String;)V
-#42 = NameAndType	#19.#20		// puppyAge:I
-#43 = Utf8		Puppy's age is :
-#44 = NameAndType	#56.#62		// append:(I)Ljava/lang/StringBuffer;
-#45 = Utf8		Puppy
-#46 = Utf8		tommy
-#47 = NameAndType	#21.#22		// <init>:(Ljava/lang/String;)V
-#48 = NameAndType	#25.#26		// setAge:(I)V
-#49 = NameAndType	#27.#28		// getAge:()I
-#50 = Utf8		Variable Value :
-#51 = Utf8		java/lang/Object
-#52 = Utf8		()V
-#53 = Utf8		java/lang/System
-#54 = Utf8		out
-#55 = Utf8		Ljava/io/PrintStream;
-#56 = Utf8		append
-#57 = Utf8		(Ljava/lang/String;)Ljava/lang/StringBuffer;
-#58 = Utf8		toString
-#59 = Utf8		()Ljava/lang/String;
-#60 = Utf8		java/io/PrintStream
-#61 = Utf8		println
-#62 = Utf8		(I)Ljava/lang/StringBuffer;
+#1 = Class		#2		 // testeStatic
+#2 = Utf8		testeStatic
+#3 = Class		#4		 // java/lang/Object
+#4 = Utf8		java/lang/Object
+#5 = Utf8		number
+#6 = Utf8		I
+#7 = Utf8		nome
+#8 = Utf8		Ljava/lang/String;
+#9 = Utf8		td
+#10 = Utf8		D
+#11 = Utf8		tl
+#12 = Utf8		J
+#13 = Utf8		tf
+#14 = Utf8		F
+#15 = Utf8		<clinit>
+#16 = Utf8		()V
+#17 = Utf8		Code
+#18 = Fieldref		#1.#19		 // testeStatic.number:I
+#19 = NameAndType	#5.#6		number:I
+#20 = String		#21		// Teste
+#21 = Utf8		Teste
+#22 = Fieldref		#1.#23		 // testeStatic.nome:Ljava/lang/String;
+#23 = NameAndType	#7.#8		nome:Ljava/lang/String;
+#24 = Double		#3.68d
+#25 = continuação numerica
+#26 = Fieldref		#1.#27		 // testeStatic.td:D
+#27 = NameAndType	#9.#10		td:D
+#28 = Long		3l
+#29 = continuação numerica
+#30 = Fieldref		#1.#31		 // testeStatic.tl:J
+#31 = NameAndType	#11.#12		tl:J
+#32 = Float		#5.8f
+#33 = Fieldref		#1.#34		 // testeStatic.tf:F
+#34 = NameAndType	#13.#14		tf:F
+#35 = Utf8		LineNumberTable
+#36 = Utf8		<init>
+#37 = Methodref		#3.#38		 // java/lang/Object.<init>:()V
+#38 = NameAndType	#36.#16		<init>:()V
+#39 = Utf8		funfloat
+#40 = Utf8		(FF)F
+#41 = Utf8		main
+#42 = Utf8		([Ljava/lang/String;)V
+#43 = Fieldref		#44.#46		 // java/lang/System.out:Ljava/io/PrintStream;
+#44 = Class		#45		 // java/lang/System
+#45 = Utf8		java/lang/System
+#46 = NameAndType	#47.#48		out:Ljava/io/PrintStream;
+#47 = Utf8		out
+#48 = Utf8		Ljava/io/PrintStream;
+#49 = Methodref		#50.#52		 // java/io/PrintStream.println:(I)V
+#50 = Class		#51		 // java/io/PrintStream
+#51 = Utf8		java/io/PrintStream
+#52 = NameAndType	#53.#54		println:(I)V
+#53 = Utf8		println
+#54 = Utf8		(I)V
+#55 = Methodref		#50.#56		 // java/io/PrintStream.println:(Ljava/lang/String;)V
+#56 = NameAndType	#53.#57		println:(Ljava/lang/String;)V
+#57 = Utf8		(Ljava/lang/String;)V
+#58 = Methodref		#50.#59		 // java/io/PrintStream.println:(D)V
+#59 = NameAndType	#53.#60		println:(D)V
+#60 = Utf8		(D)V
+#61 = Methodref		#50.#62		 // java/io/PrintStream.println:(J)V
+#62 = NameAndType	#53.#63		println:(J)V
+#63 = Utf8		(J)V
+#64 = Methodref		#50.#65		 // java/io/PrintStream.println:(F)V
+#65 = NameAndType	#53.#66		println:(F)V
+#66 = Utf8		(F)V
+#67 = Methodref		#1.#68		 // testeStatic.funfloat:(FF)F
+#68 = NameAndType	#39.#40		funfloat:(FF)F
+#69 = Utf8		SourceFile
+#70 = Utf8		testeStatic.java
 
 
 Fields: 
 Field: 1
-Access Flag: 0x0002[ACC_PRIVATE]
-Name: cp_info#19 <puppyAge>
-Descriptor: cp_info#20 <I>
+Access Flag: 0x000a[ACC_PRIVATE]
+Name: cp_info#5 <number>
+Descriptor: cp_info#6 <I>
 Attributes Count: 0
 
+Field: 2
+Access Flag: 0x000a[ACC_PRIVATE]
+Name: cp_info#7 <nome>
+Descriptor: cp_info#8 <Ljava/lang/String;>
+Attributes Count: 0
+
+Field: 3
+Access Flag: 0x000a[ACC_PRIVATE]
+Name: cp_info#9 <td>
+Descriptor: cp_info#10 <D>
+Attributes Count: 0
+
+Field: 4
+Access Flag: 0x000a[ACC_PRIVATE]
+Name: cp_info#11 <tl>
+Descriptor: cp_info#12 <J>
+Attributes Count: 0
+
+Field: 5
+Access Flag: 0x000a[ACC_PRIVATE]
+Name: cp_info#13 <tf>
+Descriptor: cp_info#14 <F>
+Attributes Count: 0
+
+Methods_count: 4
 Methods: 
 Method: 1
-Name: <init>
-Access Flag: 0x0001[ACC_PUBLIC]
-Descritor: (Ljava/lang/String;)V
+Name: #15<<clinit>>
+Access Flag: 0x0008[ACC_STATIC]
+Descritor: ()V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 62
+	 Attribute Length: 72
+	 Max Stack: 2
+	 Max Locals: 0
+	 Code Length: 28
+	0:	BIPUSH	 #22 	 // testeStatic.nome:Ljava/lang/String;
+	0x2:	PUTSTATIC	 #0  #18 	 //  testeStatic.number:I
+	0x5:	LDC	 #20 	 // Teste
+	0x7:	PUTSTATIC	 #0  #22 	 //  testeStatic.nome:Ljava/lang/String;
+	0xa:	LDC2_W	 #0  #24 	 //  
+	0xd:	PUTSTATIC	 #0  #26 	 //  testeStatic.td:D
+	0x10:	LDC2_W	 #0  #28 	 //  
+	0x13:	PUTSTATIC	 #0  #30 	 //  testeStatic.tl:J
+	0x16:	LDC	 #32 	 // 
+	0x18:	PUTSTATIC	 #0  #33 	 //  testeStatic.tf:F
+	0x1b:	RETURN	
 
 Method: 2
-Name: setAge
-Access Flag: 0x0001[ACC_PUBLIC]
-Descritor: (I)V
+Name: #36<<init>>
+Access Flag: 000000
+Descritor: ()V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 62
+	 Attribute Length: 29
+	 Max Stack: 1
+	 Max Locals: 1
+	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INvOKESPECIAL	 #0  #37 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
 
 Method: 3
-Name: getAge
-Access Flag: 0x0001[ACC_PUBLIC]
-Descritor: ()I
+Name: #39<funfloat>
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Descritor: (FF)F
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 62
+	 Attribute Length: 28
+	 Max Stack: 2
+	 Max Locals: 2
+	 Code Length: 4
+	0:	FLOAD_0	
+	0x1:	FLOAD_1	
+	0x2:	FMUL	
+	0x3:	FRETURN	
 
 Method: 4
-Name: main
+Name: #41<main>
 Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
 Descritor: ([Ljava/lang/String;)V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 62
+	 Attribute Length: 109
+	 Max Stack: 3
+	 Max Locals: 1
+	 Code Length: 61
+	0:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x3:	GETSTATIC	 #0  #18 	 //  testeStatic.number:I
+	0x6:	INvOKEvIRTUAL	 #0  #49 	 //  java/io/PrintStream.println:(I)V
+	0x9:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0xc:	GETSTATIC	 #0  #22 	 //  testeStatic.nome:Ljava/lang/String;
+	0xf:	INvOKEvIRTUAL	 #0  #55 	 //  java/io/PrintStream.println:(Ljava/lang/String;)V
+	0x12:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x15:	GETSTATIC	 #0  #26 	 //  testeStatic.td:D
+	0x18:	INvOKEvIRTUAL	 #0  #58 	 //  java/io/PrintStream.println:(D)V
+	0x1b:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x1e:	GETSTATIC	 #0  #30 	 //  testeStatic.tl:J
+	0x21:	INvOKEvIRTUAL	 #0  #61 	 //  java/io/PrintStream.println:(J)V
+	0x24:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x27:	GETSTATIC	 #0  #33 	 //  testeStatic.tf:F
+	0x2a:	INvOKEvIRTUAL	 #0  #64 	 //  java/io/PrintStream.println:(F)V
+	0x2d:	GETSTATIC	 #0  #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x30:	GETSTATIC	 #0  #33 	 //  testeStatic.tf:F
+	0x33:	GETSTATIC	 #0  #33 	 //  testeStatic.tf:F
+	0x36:	INvOKESTATIC	 #0  #67 	 //  testeStatic.funfloat:(FF)F
+	0x39:	INvOKEvIRTUAL	 #0  #64 	 //  java/io/PrintStream.println:(F)V
+	0x3c:	RETURN	
 
+Attributes Count: 1
+Attribute name_index: #69		 SourceFile
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #69
+attribute_length: 2
+Sourcefile_index: #70		 testeStatic.java

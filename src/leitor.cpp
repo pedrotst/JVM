@@ -21,6 +21,7 @@ int main(int argc, char** argv){
 	uint8_t byte = 0, tag = 0;
 	uint16_t twoBytes = 0;
 	uint32_t fourBytes = 0;
+  
 	ClassFile classF;
 	cp_info cp_element;
 	field_info field_element;
@@ -28,7 +29,7 @@ int main(int argc, char** argv){
 	method_info method_element;
 	FILE *arquivoJava;
 
-	if( !(arquivoJava = fopen(ByteCode, "rb"))) {
+	if( !(arquivoJava = fopen(argv[1], "rb"))) {
 		printf("O arquivo .class não pode ser aberto.\n");
 		return 1;
 	}
