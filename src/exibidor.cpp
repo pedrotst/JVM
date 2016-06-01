@@ -183,11 +183,11 @@ map<uint8_t, string> op_mapa = {
     {0XB3 , "PUTSTATIC"},
     {0XB4 , "GETFIELD"},
     {0XB5 , "PUTFIELD"},
-    {0XB6 , "INvOKEvIRTUAL"},
-    {0XB7 , "INvOKESPECIAL"},
-    {0XB8 , "INvOKESTATIC"},
-    {0XB9 , "INvOKEINTERFACE"},
-    {0XBA , "INvOKEDYNAMIC"},
+    {0XB6 , "INVOKEVIRTUAL"},
+    {0XB7 , "INVOKESPECIAL"},
+    {0XB8 , "INVOKESTATIC"},
+    {0XB9 , "INVOKEINTERFACE"},
+    {0XBA , "INVOKEDYNAMIC"},
     {0XBB , "NEW"},
     {0XBC , "NEWARRAY"},
     {0XBD , "ANEWARRAY"},
@@ -500,6 +500,7 @@ void exibeClass(ClassFile classF){
         cout << endl;
     }
     cout << "Methods: " << endl;
+    printf("Methods Count: %d\n", classF.methods_count);
     for(n = 0; n< classF.methods_count; n++){
         printf("Method: %d\n", n+1);
         uint16_t access_flags = classF.methods[n].access_flags;
@@ -546,7 +547,7 @@ void exibeClass(ClassFile classF){
                 printf("\t Max Locals: %d\n", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
-                for(int k = 0; k < code_length; k++){
+                for(int k = 0; k < code_length; k++){}
 	            uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
 
                     //printf("\t Code: %02x\n", opcode);
@@ -555,7 +556,7 @@ void exibeClass(ClassFile classF){
 		    //printf("arg_qnt = %d\n", arg_qnt);
 		    for(int u = 0 ; u < arg_qnt; u++){
 			    printf(" #%d ",(uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
-			
+
 		   }
 		   cout << endl;
 	            k += arg_qnt;

@@ -34,24 +34,16 @@ int main(int argc, char** argv){
 	}
 
 	// Leitura do magicNumber
-	printf("Magic Number: \n");
 	classF.magic = read_dword(arquivoJava);
-	printf("%08x\n", classF.magic);
 
 	// Leitura do minor_version
-	printf("minor_version: \n");
 	classF.minor_version = read_word(arquivoJava);
-	printf("%04x\n", classF.minor_version);
 
 	// Leitura do major_version
-	printf("major_version: \n");
 	classF.major_version = read_word(arquivoJava);
-	printf("%04x\n", classF.major_version);
 
 	// Leitura do constant_pool_count
-	printf("constant_pool_count: \n");
 	classF.constant_pool_count = read_word(arquivoJava);
-	printf("%04x\n", classF.constant_pool_count);
 
 	// Leitura da constant poll
 	for (n = 0; n < classF.constant_pool_count - 1; n++) {
@@ -79,14 +71,10 @@ int main(int argc, char** argv){
 			break;
 
 		case CONSTANT_Methodref:
-			//printf("Methodref:\n");
 			cp_element.tag = CONSTANT_Methodref;
-			//printf("tag:\n%02x\n", cp_element.tag);
 			cp_element.cp_union.constant_methodref.tag = CONSTANT_Methodref;
 			cp_element.cp_union.constant_methodref.class_index = read_word(arquivoJava);
-			//printf("class index:\n%04x\n", cp_element.cp_union.constant_methodref.class_index);
 			cp_element.cp_union.constant_methodref.name_and_type_index = read_word(arquivoJava);
-			//printf("name and type index:\n%04x\n", cp_element.cp_union.constant_methodref.name_and_type_index);
 			classF.constant_pool.push_back(cp_element);
 
 			break;
@@ -202,24 +190,16 @@ int main(int argc, char** argv){
 	}
 
 	// Leitura do access flags
-	printf("access_flags: \n");
 	classF.access_flags = read_word(arquivoJava);
-	printf("%04x\n", classF.access_flags);
 
 	// Leitura de this class
-	printf("this_class: \n");
 	classF.this_class = read_word(arquivoJava);
-	printf("%04x\n", classF.this_class);
 
 	// Leitura de super class
-	printf("super_class: \n");
 	classF.super_class = read_word(arquivoJava);
-	printf("%04x\n", classF.super_class);
 
 	// Leitura de interfaces count
-	printf("interfaces_count: \n");
 	classF.interfaces_count = read_word(arquivoJava);
-	printf("%04x\n", classF.interfaces_count);
 
 	if(classF.interfaces_count != 0) {
 		//Leitura das interfaces
@@ -230,42 +210,15 @@ int main(int argc, char** argv){
 	}
 
 	// Leitura de fields count
-	printf("fields_count: \n");
 	classF.fields_count = read_word(arquivoJava);
-	printf("%04x\n", classF.fields_count);
 
 	//Leitura dos fields
 	for(n = 0; n < classF.fields_count; n++) {
-		printf("Field %d:\n", n + 1);
-
 		field_element.access_flags = read_word(arquivoJava);
-		printf("access_flags:\n%04x\n", field_element.access_flags);
-
 		field_element.name_index = read_word(arquivoJava);
-		printf("name_index:\n%04x\n", field_element.name_index);
-
 		field_element.descriptor_index = read_word(arquivoJava);
-		printf("descriptor_index:\n%04x\n", field_element.descriptor_index);
-
 		field_element.attributes_count = read_word(arquivoJava);
-		printf("attributes_count:\n%04x\n", field_element.attributes_count);
-
-		/*Tem que fazer as estruturas dos attributes que ainda faltam*/
 		for(m = 0; m < field_element.attributes_count; m++) {
-			//     printf("Field Attribute %d:\n", m + 1);
-			//
-			//     fread(&twoBytes, sizeof(uint8_t), 2, arquivoJava);
-			//     attribute_element.attribute_name_index = little_to_big16(twoBytes);
-			//     printf("attribute_name_index:\n%04x\n", attribute_element.attribute_name_index);
-			//
-			//     fread(&fourBytes, sizeof(uint8_t), 4, arquivoJava);
-			//     attribute_element.attribute_length = little_to_big32(twoBytes);
-			//     printf("attribute_length:\n%08x\n", attribute_element.attribute_length);
-			//
-			//     read_attribute_type(attribute_element.attribute_name_index)
-			//     for(k = 0; k < attribute_element.attribute_length; k++){
-			//         fread(&byte, sizeof(uint8_t), 1, arquivoJava);
-			//	}
 			attribute_element = read_attributes(arquivoJava, classF.constant_pool);
 			field_element.attributes.push_back(attribute_element);
 
@@ -275,7 +228,6 @@ int main(int argc, char** argv){
 
 // Leitura do methods count
 classF.methods_count = read_word(arquivoJava);
-printf("methods_count:\n%04x\n", classF.methods_count);
 
 /*área de leitura de métodos*/
 for(n = 0; n < classF.methods_count; n++) {
@@ -284,12 +236,9 @@ for(n = 0; n < classF.methods_count; n++) {
 
 // Leitura de attributes count
 classF.attributes_count = read_word(arquivoJava);
-printf("attributes_count:\n%04x\n", classF.attributes_count);
 
 // Leitura de attributes
 for(n = 0; n < classF.attributes_count; n++) {
-	printf("Attribute %d:\n", n + 1);
-
 	// Lê um atributo
 	attribute_element = read_attributes(arquivoJava, classF.constant_pool);
 
@@ -297,7 +246,6 @@ for(n = 0; n < classF.attributes_count; n++) {
 	classF.attributes.push_back(attribute_element);
 }
 
-printf("\n\n");
 exibeClass(classF);
 
 fclose(arquivoJava);
