@@ -1,0 +1,82 @@
+# depslib dependency file v1.0
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
+	"../include/exibidor.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\exibidor.hpp
+	<math.h>
+	<string.h>
+	<map>
+	<iostream>
+	<iomanip>
+	<stdio.h>
+	<stdint.h>
+	"../include/structs.hpp"
+	"../include/print_code.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\structs.hpp
+	<vector>
+	<stdint.h>
+	"attributes.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\attributes.hpp
+	<vector>
+	<stdint.h>
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\print_code.hpp
+	<stdint.h>
+	"../include/opcode.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\opcode.hpp
+
+1464877564 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<string>
+	<cstring>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/little_to_big.hpp"
+	"../include/read_bytes.hpp"
+	"../include/exibidor.hpp"
+	"../include/read_attributes.hpp"
+	"../include/read_methods.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\little_to_big.hpp
+	<stdint.h>
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\read_bytes.hpp
+	<stdio.h>
+	"../include/little_to_big.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\read_attributes.hpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/read_bytes.hpp"
+
+1464791010 c:\users\thiag\documents\github repositorios\jvm\include\read_methods.hpp
+	"structs.hpp"
+	"read_attributes.hpp"
+
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
+	"../include/little_to_big.hpp"
+
+1464792314 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+
+1464877032 source:c:\users\thiag\documents\github repositorios\jvm\src\print_attributes.cpp
+
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\print_code.cpp
+	"../include/print_code.hpp"
+
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\read_attributes.cpp
+	"../include/read_attributes.hpp"
+
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\read_bytes.cpp
+	"../include/read_bytes.hpp"
+
+1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\read_methods.cpp
+	"../include/read_attributes.hpp"
+

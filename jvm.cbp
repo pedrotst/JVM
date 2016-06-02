@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="jvm" />
+		<Option makefile="makefile" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/jvm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/jvm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/attributes.hpp" />
+		<Unit filename="include/exibidor.hpp" />
+		<Unit filename="include/leitor.hpp" />
+		<Unit filename="include/little_to_big.hpp" />
+		<Unit filename="include/opcode.hpp" />
+		<Unit filename="include/print_code.hpp" />
+		<Unit filename="include/read_attributes.hpp" />
+		<Unit filename="include/read_bytes.hpp" />
+		<Unit filename="include/read_methods.hpp" />
+		<Unit filename="include/structs.hpp" />
+		<Unit filename="src/exibidor.cpp" />
+		<Unit filename="src/leitor.cpp" />
+		<Unit filename="src/little_to_big.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/print_attributes.cpp" />
+		<Unit filename="src/print_code.cpp" />
+		<Unit filename="src/read_attributes.cpp" />
+		<Unit filename="src/read_bytes.cpp" />
+		<Unit filename="src/read_methods.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
