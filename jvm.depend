@@ -28,19 +28,8 @@
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\opcode.hpp
 
-1464877564 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
-	<stdlib.h>
-	<stdio.h>
-	<stdint.h>
-	<string>
-	<cstring>
-	"../include/structs.hpp"
-	"../include/attributes.hpp"
-	"../include/little_to_big.hpp"
-	"../include/read_bytes.hpp"
-	"../include/exibidor.hpp"
-	"../include/read_attributes.hpp"
-	"../include/read_methods.hpp"
+1464881094 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
+	"../include/leitor.hpp"
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\little_to_big.hpp
 	<stdint.h>
@@ -64,7 +53,10 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1464792314 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+1465151690 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+	<stdio.h>
+	"../include/leitor.hpp"
+	"../include/exibidor.hpp"
 
 1464877032 source:c:\users\thiag\documents\github repositorios\jvm\src\print_attributes.cpp
 
@@ -79,4 +71,17 @@
 
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
+
+1465151655 c:\users\thiag\documents\github repositorios\jvm\include\leitor.hpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<string>
+	<cstring>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/little_to_big.hpp"
+	"../include/read_bytes.hpp"
+	"../include/read_attributes.hpp"
+	"../include/read_methods.hpp"
 

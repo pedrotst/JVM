@@ -34,5 +34,8 @@ int main(int argc, char** argv){
     exibeClass(classF);
 
     fclose(arquivoJava);
+
+    char* className = getClassName(&classF);
+    printf("Nome da classe: %s\n", className);
     return 0;
 }

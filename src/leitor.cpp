@@ -243,3 +243,15 @@ int leituraAttributes(ClassFile *classF, FILE *arquivoJava){
         classF->attributes.push_back(attribute_element);
     }
 }
+
+char* getClassName(ClassFile *classF){
+    char *className;
+    //this_class é o indice que faz referencia a propria classe;
+    //naquele indice encontramos o name_index (UTF8) da classe, i.e., o nome da classe
+    //o vetor vai de 0-max; a constant pool de 1 a max+1;
+    //o indice 1 a constant pool esta na posicao 0 do vetor; index-1
+    int index = classF->constant_pool[classF->this_class-1].cp_union.constant_class.name_index;
+    className = (char*) calloc(sizeof(char), classF->constant_pool[index-1].cp_union.constant_Utf8.length);
+    strcpy(className, classF->constant_pool[index-1].cp_union.constant_Utf8.bytes);
+    return className;
+}

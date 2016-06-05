@@ -24,5 +24,6 @@ int leituraInterfaces(ClassFile *classF, FILE *arquivoJava);
 int leituraFields(ClassFile *classF, FILE *arquivoJava);
 int leituraMethods(ClassFile *classF, FILE *arquivoJava);
 int leituraAttributes(ClassFile *classF, FILE *arquivoJava);
+char* getClassName(ClassFile *classF);
 
 #endif // LEITOR_HPP_INCLUDED
