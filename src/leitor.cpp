@@ -23,6 +23,8 @@ int leituraHeader(ClassFile* classF, FILE *arquivoJava){
         classF->minor_version = read_word(arquivoJava);
         // Leitura do major_version
         classF->major_version = read_word(arquivoJava);
+
+        return 0;
 }
 
 int leituraConstantPool(ClassFile *classF, FILE *arquivoJava){
@@ -171,6 +173,8 @@ int leituraConstantPool(ClassFile *classF, FILE *arquivoJava){
                 break;
             }
 	}
+
+      return 0;
 }
 
 int leituraAccessThisSuper(ClassFile *classF, FILE *arquivoJava){
@@ -183,6 +187,7 @@ int leituraAccessThisSuper(ClassFile *classF, FILE *arquivoJava){
 	// Leitura de super class
 	classF->super_class = read_word(arquivoJava);
 
+      return 0;
 }
 
 int leituraInterfaces(ClassFile *classF, FILE *arquivoJava){
@@ -195,6 +200,8 @@ int leituraInterfaces(ClassFile *classF, FILE *arquivoJava){
 			classF->interfaces.push_back(twoBytes);
 		}
 	}
+
+      return 0;
 }
 
 int leituraFields(ClassFile *classF, FILE *arquivoJava){
@@ -216,6 +223,8 @@ int leituraFields(ClassFile *classF, FILE *arquivoJava){
         }
         classF->fields.push_back(field_element);
     }
+
+    return 0;
 }
 
 int leituraMethods(ClassFile *classF, FILE *arquivoJava){
@@ -226,6 +235,8 @@ int leituraMethods(ClassFile *classF, FILE *arquivoJava){
     for(int n = 0; n < classF->methods_count; n++) {
         classF->methods.push_back(read_method(arquivoJava, classF->constant_pool));
     }
+
+    return 0;
 }
 
 int leituraAttributes(ClassFile *classF, FILE *arquivoJava){
@@ -242,6 +253,8 @@ int leituraAttributes(ClassFile *classF, FILE *arquivoJava){
         //Insere o attribute no vetor de attributes do class file
         classF->attributes.push_back(attribute_element);
     }
+
+    return 0;
 }
 
 char* getClassName(ClassFile *classF){

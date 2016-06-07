@@ -2,10 +2,13 @@ CC = g++
 CFLAGS = -I./include/ -g -std=c++11
 
 ########################## Geracao dos executaveis ##########################
-leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o moveobj
-	$(CC) $(CFLAGS) -o leitor ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o ./obj/print_code.o
+leitor: leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o main.o moveobj 
+	$(CC) $(CFLAGS) -o leitor ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o ./obj/print_code.o ./obj/main.o
 
 ########################## Geracao dos .o ##########################
+main.o:
+	$(CC) $(CFLAGS) -c ./src/main.cpp
+
 leitor.o:
 	$(CC) $(CFLAGS) -c ./src/leitor.cpp
 
