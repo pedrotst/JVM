@@ -28,7 +28,7 @@
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\opcode.hpp
 
-1464881094 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
+1465348226 source:c:\users\thiag\documents\github repositorios\jvm\src\leitor.cpp
 	"../include/leitor.hpp"
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\little_to_big.hpp
@@ -53,10 +53,13 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1465151690 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+1465397290 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
 	<stdio.h>
+	<map>
 	"../include/leitor.hpp"
 	"../include/exibidor.hpp"
+	"../include/javaStack_frame.hpp"
+	"../include/interpretador.hpp"
 
 1464877032 source:c:\users\thiag\documents\github repositorios\jvm\src\print_attributes.cpp
 
@@ -72,7 +75,7 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
 
-1465151655 c:\users\thiag\documents\github repositorios\jvm\include\leitor.hpp
+1465347740 c:\users\thiag\documents\github repositorios\jvm\include\leitor.hpp
 	<stdlib.h>
 	<stdio.h>
 	<stdint.h>
@@ -84,4 +87,15 @@
 	"../include/read_bytes.hpp"
 	"../include/read_attributes.hpp"
 	"../include/read_methods.hpp"
+
+1465394371 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
+	<vector>
+
+1465399053 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+	<stdint.h>
+	<stdio.h>
+	<stdlib.h>
+
+1465398717 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
+	"../include/interpretador.hpp"
 

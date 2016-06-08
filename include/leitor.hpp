@@ -16,7 +16,9 @@
 #define ByteCode "Puppy.class"
 #define FileNameLen 30 //define o tamanho da string em abreArquivo
 
-FILE* abreArquivo(int argc, char** argv);
+FILE* abreArqLinhaComando(int argc, char** argv);
+FILE* abreArquivo(char *arquivoJava);
+int leitorClass_info(ClassFile *classF, FILE* arquivoJava);
 int leituraHeader(ClassFile* classF, FILE *arquivoJava);
 int leituraConstantPool(ClassFile *classF, FILE *arquivoJava);
 int leituraAccessThisSuper(ClassFile *classF, FILE *arquivoJava);

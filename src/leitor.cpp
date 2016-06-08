@@ -1,6 +1,41 @@
 #include "../include/leitor.hpp"
 
-FILE* abreArquivo(int argc, char** argv){
+int leitorClass_info(ClassFile *classF, FILE* arquivoJava){
+
+    //Leitura 0xCAFEBABE e versão
+    leituraHeader(classF, arquivoJava);
+
+    //leitura constant pool
+	leituraConstantPool(classF, arquivoJava);
+
+    //Leitura accessThisSuper
+    leituraAccessThisSuper(classF, arquivoJava);
+
+    //leitura interfaces
+    leituraInterfaces(classF, arquivoJava);
+
+    //leitura fields
+    leituraFields(classF, arquivoJava);
+
+    //leitura dos methods
+    leituraMethods(classF, arquivoJava);
+
+    //leitura attributes
+    leituraAttributes(classF, arquivoJava);
+
+    fclose(arquivoJava);
+    return 0;
+}
+
+FILE* abreArquivo(char *nomeArquivo){
+    FILE *arquivoJava;
+    if((arquivoJava = fopen(nomeArquivo, "rb")) == NULL){
+        printf("Falha ao abrir arquivo -%s-. Encerrando...", nomeArquivo);
+	}
+	return arquivoJava;
+}
+
+FILE* abreArqLinhaComando(int argc, char** argv){
     FILE *arquivo;
     char str[FileNameLen];
     if( argc == 1){//não foi passado por linha de comando
