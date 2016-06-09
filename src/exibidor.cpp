@@ -283,9 +283,6 @@ void print_comment(vector<cp_info_s> c, int n){
 
 }
 
-void ClassFile_s::show_magic(){
-    printf("Minor version: %d\n", minor_version);
-}
 
 void exibeClass(ClassFile classF){
     uint8_t tag;
@@ -334,7 +331,6 @@ void exibeClass(ClassFile classF){
                 index = cinfo.constant_class.name_index;
                 printf("#%d\t\t // ", index);
                 print_comment(classF.constant_pool, n);
-                classF.constant_pool[n].print_comment();
                 printf("\n");
                 break;
 

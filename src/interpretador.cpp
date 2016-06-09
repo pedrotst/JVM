@@ -1,20 +1,32 @@
 #include "../include/interpretador.hpp"
 
-int iadd(uint8_t* frameInit){
+void iadd(jStackFrame &jStack){
+    uint8_t lhs, rhs;
     printf("Entrou na funcao\n");
-    return frameInit[0]+frameInit[1];
+    lhs = jStack.opStack.back();
+    jStack.opStack.pop_back();
+    rhs = jStack.opStack.back();
+    jStack.opStack.pop_back();
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    jStack.opStack.push_back(lhs + rhs);
+
 }
 
-
-//função initInterpreter(void)
-//retorna um vetor de ponteiros a função (ponteiro de ponteiro de função)
-//as funções q compõem o vetor sao do tipo: int func(uint8_t*)
-int (**initInterpreter(void))(uint8_t*){
+/*função initInterpreter(void)
+* retorna um vetor de ponteiros a função (ponteiro de ponteiro de função)
+* as funções q compõem o vetor sao do tipo: int func(uint8_t*)*/
+std::vector<instructionFunction> init_interpreter (){
     //inicializa o vetor de ponteiros pra função.
     //so n sei como uma função recebe/retorna ponteiro pra função D:
-    int (**pt)(uint8_t*);//declara o vetor de ponteiro de função
-    pt = (int(**)(uint8_t*)) calloc(sizeof(int(*)(uint8_t*)), numOpcodes );//aloca o vetor
-    pt[0] = &iadd;//associa a função a posição
+    //int (*pt)(op_stack**);//declara o vetor de ponteiro de função
+    std::vector<instructionFunction> pt;
+
+
+    //pt = (int(**)(op_stack**)) calloc(sizeof(int(*)(**op_stack)), numOpcodes );//aloca o vetor
+    //pt[0] = &iadd;//associa a função a posição
+
+
+    pt.push_back(&iadd);
     printf("Interpretador inicializado.\n");
     return pt;
 }

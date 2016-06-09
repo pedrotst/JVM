@@ -3,8 +3,10 @@
 
 #include <vector>
 
+typedef std::vector<uint8_t> op_stack;
+
 typedef struct javaStack_frame_s{
-    std::vector<uint8_t> jStack;//pilha de execução interna ao frame
+    op_stack opStack;//pilha de execução interna ao frame
     //colocar o restante da estrutura
 }jStackFrame;
 
