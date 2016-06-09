@@ -207,7 +207,7 @@ map<uint8_t, string> op_mapa = {
     {0XFE , "IMPDEP1"},
     {0XFF , "IMPDEP2"},
     };
- 
+
 void print_access_flag(uint16_t access_flags){
     cout << showbase << internal << setfill('0');
     cout << "Access Flag: " << hex << setw(6) << access_flags;
@@ -282,6 +282,11 @@ void print_comment(vector<cp_info_s> c, int n){
     }
 
 }
+
+void ClassFile_s::show_magic(){
+    printf("Minor version: %d\n", minor_version);
+}
+
 void exibeClass(ClassFile classF){
     uint8_t tag;
     int n, i,j, e, s, aux;
@@ -296,8 +301,8 @@ void exibeClass(ClassFile classF){
     printf("Major version: %d\n", classF.major_version);
     printf("Constant Pool Count: %d\n", classF.constant_pool_count);
     print_access_flag(classF.access_flags);
-    
-    
+
+
     index = classF.this_class; //indice da classe na cpool
     index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
     printf("This Class: %d \t<%s>\n",classF.this_class, classF.constant_pool[index - 1].cp_union.constant_Utf8.bytes);
@@ -329,6 +334,7 @@ void exibeClass(ClassFile classF){
                 index = cinfo.constant_class.name_index;
                 printf("#%d\t\t // ", index);
                 print_comment(classF.constant_pool, n);
+                classF.constant_pool[n].print_comment();
                 printf("\n");
                 break;
 
@@ -364,7 +370,7 @@ void exibeClass(ClassFile classF){
                 //index = classF.constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;   // encontra o campo descriptor
                 //printf("%s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes );             // imprime a string
                 break;
-                
+
 
             case CONSTANT_InterfaceMethodref:
                 printf("InterfaceMethodref\t\t");
@@ -426,7 +432,7 @@ void exibeClass(ClassFile classF){
                         (l & 0xfffffffffffffL) | 0x10000000000000L;
                 d = s*m*(pow(2, (e-1075)));
                 printf("#%gd\n", d);
-                //j++; // ocupa2 
+                //j++; // ocupa2
                 break;
 
             case CONSTANT_NameAndType:
@@ -553,30 +559,30 @@ void exibeClass(ClassFile classF){
     }
 
         printf("Attributes Count: %d\n", classF.attributes_count);
-        
+
         for (n = 0; n < classF.attributes_count; n++){
-       
+
         attribute_info attributeElement = classF.attributes[n];
         index = attributeElement.attribute_name_index_l;
         printf("Attribute name_index: #%d\t\t", index);
         printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
         printf("Attribute Length: %d\n", attributeElement.attribute_length_l);
 
-        
+
         // Se o attribute for do tipo SourceFile
         if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             printf("Attribute: SourceFile\n");
 
             printf("attribute_name_index: #%d\n", attributeElement.attribute_union.attr_SourceFile.attribute_name_index);
 
-            
+
             printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
-        
+
             printf("Sourcefile_index: #%d\t\t", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
             printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-        
+
             }
               if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {
                 printf("Attribute: InnerClasses\n");
@@ -584,7 +590,7 @@ void exibeClass(ClassFile classF){
 
                   printf("attribute_length:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_length);
                   printf("number of classes\n%d\n",attributeElement.attribute_union.attr_InnerClasses.number_of_classes);
-                  
+
              /*     for (int n = 0; n < attributeElement.attribute_union.attr_InnerClasses.number_of_classes; n++) {
                         printf("inner_class_index:\n%d\t", classesElement.inner_class_info_index);
                         index = classesElement.inner_class_info_index;
@@ -598,18 +604,18 @@ void exibeClass(ClassFile classF){
                         printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
 
                       print_access_flag(classesElement.inner_class_access_flags);
-                        
+
                   }
             */
             }
              if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Synthetic")) {
                   printf("Attribute: Synthetic\n");
 
-                  
+
                   printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_name_index);
                   index = attributeElement.attribute_union.attr_Synthetic.attribute_name_index;
                   printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-                  
+
                   printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_length);
             }
         }

@@ -99,3 +99,100 @@
 1465398717 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
+1465439941 source:d:\gitstuf\jvm\src\exibidor.cpp
+	"../include/exibidor.hpp"
+
+1465439184 d:\gitstuf\jvm\include\exibidor.hpp
+	<math.h>
+	<string.h>
+	<map>
+	<iostream>
+	<iomanip>
+	<stdio.h>
+	<stdint.h>
+	"../include/structs.hpp"
+	"../include/print_code.hpp"
+
+1465440058 d:\gitstuf\jvm\include\structs.hpp
+	<vector>
+	<stdint.h>
+	"attributes.hpp"
+
+1465439184 d:\gitstuf\jvm\include\attributes.hpp
+	<vector>
+	<stdint.h>
+
+1465439184 d:\gitstuf\jvm\include\print_code.hpp
+	<stdint.h>
+	"../include/opcode.hpp"
+
+1465439184 d:\gitstuf\jvm\include\opcode.hpp
+
+1465439184 source:d:\gitstuf\jvm\src\leitor.cpp
+	"../include/leitor.hpp"
+
+1465439184 d:\gitstuf\jvm\include\leitor.hpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<string>
+	<cstring>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/little_to_big.hpp"
+	"../include/read_bytes.hpp"
+	"../include/read_attributes.hpp"
+	"../include/read_methods.hpp"
+
+1465439184 d:\gitstuf\jvm\include\little_to_big.hpp
+	<stdint.h>
+
+1465439184 d:\gitstuf\jvm\include\read_bytes.hpp
+	<stdio.h>
+	"../include/little_to_big.hpp"
+
+1465439184 d:\gitstuf\jvm\include\read_attributes.hpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/read_bytes.hpp"
+
+1465439184 d:\gitstuf\jvm\include\read_methods.hpp
+	"structs.hpp"
+	"read_attributes.hpp"
+
+1465439184 source:d:\gitstuf\jvm\src\little_to_big.cpp
+	"../include/little_to_big.hpp"
+
+1465439956 source:d:\gitstuf\jvm\src\main.cpp
+	<stdio.h>
+	<map>
+	"../include/leitor.hpp"
+	"../include/exibidor.hpp"
+	"../include/javaStack_frame.hpp"
+	"../include/interpretador.hpp"
+
+1465439184 d:\gitstuf\jvm\include\javastack_frame.hpp
+	<vector>
+
+1465439184 d:\gitstuf\jvm\include\interpretador.hpp
+	<stdint.h>
+	<stdio.h>
+	<stdlib.h>
+
+1465439184 source:d:\gitstuf\jvm\src\print_attributes.cpp
+
+1465439184 source:d:\gitstuf\jvm\src\print_code.cpp
+	"../include/print_code.hpp"
+
+1465439184 source:d:\gitstuf\jvm\src\read_attributes.cpp
+	"../include/read_attributes.hpp"
+
+1465439184 source:d:\gitstuf\jvm\src\read_bytes.cpp
+	"../include/read_bytes.hpp"
+
+1465439184 source:d:\gitstuf\jvm\src\read_methods.cpp
+	"../include/read_attributes.hpp"
+

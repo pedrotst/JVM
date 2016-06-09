@@ -44,5 +44,6 @@ int main(int argc, char** argv){
     //exibe resultado
     printf("Resultado: %d\n", pt[0](&stackFrame.jStack[0]));//usando pt[0] == usar iadd(uint_8*)
 
+    exibeClass(classF);
     return 0;
 }
