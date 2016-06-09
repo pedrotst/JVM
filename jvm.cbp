@@ -35,6 +35,7 @@
 		</Compiler>
 		<Unit filename="include/attributes.hpp" />
 		<Unit filename="include/exibidor.hpp" />
+		<Unit filename="include/javaStack_frame.hpp" />
 		<Unit filename="include/leitor.hpp" />
 		<Unit filename="include/little_to_big.hpp" />
 		<Unit filename="include/opcode.hpp" />
