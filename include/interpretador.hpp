@@ -4,14 +4,21 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 
 #define numOpcodes 1 //mudar pra 250
+=======
+#include "../include/javaStack_frame.hpp"
+#define numOpcodes 1
+>>>>>>> origin/master
+
+typedef void (*instructionFunction)(jStackFrame&);
 
 //inicializador do interpretador
-int (**initInterpreter(void))(uint8_t*);
+std::vector<instructionFunction> init_interpreter ();
 
 //uma das funções do interpretador
-int iadd(uint8_t*);
+void iadd(jStackFrame &jStack);
 
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

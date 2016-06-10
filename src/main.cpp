@@ -34,15 +34,16 @@ int main(int argc, char** argv){
     //cria um frame para a javaStack
     jStackFrame stackFrame;
     //coloca operandos na pilha
-    stackFrame.jStack.push_back(2);
-    stackFrame.jStack.push_back(3);
+    stackFrame.opStack.push_back(2);
+    stackFrame.opStack.push_back(3);
 
     //inicializa interpretador
-    int(**pt)(uint8_t*);
-    pt = initInterpreter();
-
+    std::vector<instructionFunction> pt;
+    pt = init_interpreter();
+    pt[0](stackFrame);
     //exibe resultado
-    printf("Resultado: %d\n", pt[0](&stackFrame.jStack[0]));//usando pt[0] == usar iadd(uint_8*)
+    printf("Resultado: %d\n", stackFrame.opStack.back());//usando pt[0] == usar iadd(uint_8*)
 
+    //exibeClass(classF);
     return 0;
 }
