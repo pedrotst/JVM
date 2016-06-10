@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
+1465581787 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
 	"../include/exibidor.hpp"
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\exibidor.hpp
@@ -88,15 +88,16 @@
 	"../include/read_attributes.hpp"
 	"../include/read_methods.hpp"
 
-1465394371 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
+1465581787 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465399053 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+1465582231 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>
+	"../include/javaStack_frame.hpp"
 
-1465398717 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
+1465582185 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
 1465505808 source:d:\gitstuf\jvm\src\exibidor.cpp

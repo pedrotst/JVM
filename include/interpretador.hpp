@@ -4,14 +4,11 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
 
 #define numOpcodes 1 //mudar pra 250
-=======
 #include "../include/javaStack_frame.hpp"
-#define numOpcodes 1
->>>>>>> origin/master
-
+//void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
+//typedef utilizado para nomear o item descrito acima como instructionFunction
 typedef void (*instructionFunction)(jStackFrame&);
 
 //inicializador do interpretador
@@ -19,7 +16,6 @@ std::vector<instructionFunction> init_interpreter ();
 
 //uma das funções do interpretador
 void iadd(jStackFrame &jStack);
-
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
