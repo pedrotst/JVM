@@ -1,11 +1,5 @@
 #include "../include/interpretador.hpp"
 
-int iadd(uint8_t* frameInit){
-    printf("Entrou na funcao\n");
-    return frameInit[0]+frameInit[1];
-}
-
-
 //função initInterpreter(void)
 //retorna um vetor de ponteiros a função (ponteiro de ponteiro de função)
 //as funções q compõem o vetor sao do tipo: int func(uint8_t*)
@@ -18,3 +12,276 @@ int (**initInterpreter(void))(uint8_t*){
     printf("Interpretador inicializado.\n");
     return pt;
 }
+
+int iadd(uint8_t* frameInit){
+    printf("Entrou na funcao\n");
+    return frameInit[0]+frameInit[1];
+}
+
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
+//
+//int ladd(uint8_t* frameInit){
+//    return 0;
+//}
