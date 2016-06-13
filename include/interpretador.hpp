@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define numOpcodes 1 //mudar pra 250
+#define numOpcodes 250 //mudar pra 250
 #include "../include/javaStack_frame.hpp"
+#include "../include/opcode.hpp"
 //void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
 //typedef utilizado para nomear o item descrito acima como instructionFunction
 typedef void (*instructionFunction)(jStackFrame&);

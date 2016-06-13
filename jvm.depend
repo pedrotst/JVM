@@ -53,7 +53,7 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1465397290 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+1465582671 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
 	<stdio.h>
 	<map>
 	"../include/leitor.hpp"
@@ -91,7 +91,7 @@
 1465581787 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465582231 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+1465843404 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>

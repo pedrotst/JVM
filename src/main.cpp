@@ -4,6 +4,7 @@
 #include "../include/exibidor.hpp"
 #include "../include/javaStack_frame.hpp"
 #include "../include/interpretador.hpp"
+#include "../include/opcode.hpp"
 
 
 int main(int argc, char** argv){
@@ -40,7 +41,7 @@ int main(int argc, char** argv){
     //inicializa interpretador
     std::vector<instructionFunction> pt;
     pt = init_interpreter();
-    pt[0](stackFrame);
+    pt[IADD](stackFrame);
     //exibe resultado
     printf("Resultado: %d\n", stackFrame.opStack.back());//usando pt[0] == usar iadd(uint_8*)
 
