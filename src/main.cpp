@@ -19,7 +19,7 @@ int main(int argc, char** argv){
 
     //leitorClass_info ja fecha o arquivo. Acham melhor não faze-lo para explicitar?
     leitorClass_info(&classF, arquivoJava);
-
+    exibeClass(classF);
     //no caso de usar o map
     //classMap.emplace(getClassName(&classF), classF);//classe mapeada pelo nome
     //classNames.push_back(getClassName(&classF));   //vetor com nomes das classes. Unico jeito que eu pensei de navegar no map "via indice"
@@ -33,7 +33,7 @@ int main(int argc, char** argv){
     printf("Nome da classe: %s\n", getClassName( &loadedClasses[0] ) );
 
     //cria um frame para a javaStack
-    Frame frame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
+    Frame frame;
     //coloca operandos na pilha de operandos
     frame.opStack->push_back(23);
     frame.opStack->push_back(3);

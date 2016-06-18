@@ -522,8 +522,8 @@ void exibeClass(ClassFile classF){
             printf("\t Attribute Name: %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
             printf("\t Attribute Length: %d\n", classF.methods[n].attributes[j].attribute_length_l);
             if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Code")){
-                printf("\t Max Stack: %d\n", classF.methods[n].attributes[j].attribute_union.attr_Code.max_stack);
-                printf("\t Max Locals: %d\n", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
+                printf("\t Max Stack: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_stack);
+                printf("\t Max Locals: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
                 code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
                 printf("\t Code Length: %d\n", code_length);
 
@@ -534,16 +534,25 @@ void exibeClass(ClassFile classF){
                     int arg_qnt = print_code(opcode);
                     cout << "\t"<< k << ":\t"<<  op_mapa[opcode] << "\t";
                     //printf("arg_qnt = %d\n", arg_qnt);
-                    for(int u = 0 ; u < arg_qnt; u++){
-                        printf(" #%d ",(uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1]);
+                    for(int u = 0 ; u < arg_qnt; u += (!(arg_qnt%2) + 1)){
+                        uint16_t cp_ref;
+                        if((arg_qnt%2) == 0)
+                            cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
+                        else
+                            cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
+                        printf(" #%d ",cp_ref);
                     }
                     if(arg_qnt > 0){
                         cout << "\t // ";
-                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1] - 1);
                     }
-                    for(int u = 1 ; u < arg_qnt; u++){
+                    for(int u = 0 ; u < arg_qnt; u+= (!(arg_qnt%2) + 1)){
                         printf(" ");
-                        print_comment(classF.constant_pool, (uint8_t) classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] - 1);
+                        uint16_t cp_ref;
+                        if((arg_qnt%2) == 0)
+                            cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
+                        else
+                            cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
+                        print_comment(classF.constant_pool, cp_ref - 1);
                     }
                     cout << endl;
                     k += arg_qnt;

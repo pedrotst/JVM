@@ -102,7 +102,7 @@
 1466204697 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
-1465505808 source:d:\gitstuf\jvm\src\exibidor.cpp
+1466223668 source:d:\gitstuf\jvm\src\exibidor.cpp
 	"../include/exibidor.hpp"
 
 1465439184 d:\gitstuf\jvm\include\exibidor.hpp
@@ -169,12 +169,12 @@
 1465439184 source:d:\gitstuf\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1466218288 source:d:\gitstuf\jvm\src\main.cpp
+1466223466 source:d:\gitstuf\jvm\src\main.cpp
 	<stdio.h>
 	<map>
 	"../include/leitor.hpp"
 	"../include/exibidor.hpp"
-	"../include/javaStack_frame.hpp"
+	"../include/frame.hpp"
 	"../include/interpretador.hpp"
 	"../include/opcode.hpp"
 
