@@ -222,7 +222,7 @@ void iadd(jStackFrame &jStack){
 
 }
 
-void ladd(jStackFrame &jStack){
+void ladd(jFrame &jStack){
     uint8_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
     operand1[0] = jStack.opStack.back();

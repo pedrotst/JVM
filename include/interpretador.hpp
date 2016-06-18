@@ -10,13 +10,13 @@
 #include "../include/opcode.hpp"
 //void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
 //typedef utilizado para nomear o item descrito acima como instructionFunction
-typedef void (*instructionFunction)(jStackFrame&);
+typedef void (*instructionFunction)(jFrame&);
 
 //inicializador do interpretador
 std::vector<instructionFunction> init_interpreter ();
 
 //uma das funções do interpretador
-void iadd(jStackFrame &jStack);
+void iadd(jFrame &jStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

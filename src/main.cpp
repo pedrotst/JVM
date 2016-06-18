@@ -33,8 +33,8 @@ int main(int argc, char** argv){
     printf("Nome da classe: %s\n", getClassName( &loadedClasses[0] ) );
 
     //cria um frame para a javaStack
-    jStackFrame stackFrame;
-    //coloca operandos na pilha
+    jFrame stackFrame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
+    //coloca operandos na pilha de operandos
     stackFrame.opStack.push_back(2);
     stackFrame.opStack.push_back(3);
 
