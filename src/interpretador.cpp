@@ -1,16 +1,23 @@
 #include "../include/interpretador.hpp"
 
-std::vector<instructionFunction> init_interpreter (){
+void Interpretador::execute_instruction(int opcode, op_stack *opStack){
+    // (*instructions[opcode])(opStack);
+    (*this.*instructions[opcode])(opStack);
+}
+
+Interpretador::Interpretador(){
     //inicializa o vetor de ponteiros pra função.
     //so n sei como uma função recebe/retorna ponteiro pra função D:
     //int (*pt)(op_stack**);//declara o vetor de ponteiro de função
     //pt = (int(**)(op_stack**)) calloc(sizeof(int(*)(**op_stack)), numOpcodes );//aloca o vetor
     //pt[0] = &iadd;//associa a função a posição
-    std::vector<instructionFunction> pt(numOpcodes);
 
     //cada instrução deverá ser colocada na posição do vetor equivalente ao seu byte de opcode
     //pt.push_back(&iadd);
-    pt[IADD] = &iadd;
+    std::vector<instructionFunction> pt(numOpcodes);
+    //this->instructions.resize(numOpcodes);
+    //*this.*instructions[IADD] = &Interpretador::iadd;
+    pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
 //    pt[ACONST_NULL] = &aConst_null;
 //    pt[ICONST_M1] = &iConst_m1;
@@ -208,9 +215,9 @@ std::vector<instructionFunction> init_interpreter (){
 //    pt[IMPDEP1] = &impdep1;
 //    pt[IMPDEP2] = &impdep2;
     printf("Interpretador inicializado.\n");
-    return pt;
+    this->instructions = pt;
 }
-void iadd(op_stack *opStack){
+void Interpretador::iadd(op_stack *opStack){
     uint32_t lhs, rhs;
     printf("Entrou na funcao\n");
     lhs = opStack->back();
@@ -222,7 +229,7 @@ void iadd(op_stack *opStack){
 
 }
 
-void ladd(op_stack *opStack){
+void Interpretador::ladd(op_stack *opStack){
     uint8_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
     operand1[0] = opStack->back();

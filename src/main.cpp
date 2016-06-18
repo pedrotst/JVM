@@ -35,13 +35,13 @@ int main(int argc, char** argv){
     //cria um frame para a javaStack
     Frame frame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
     //coloca operandos na pilha de operandos
-    frame.opStack->push_back(2);
+    frame.opStack->push_back(23);
     frame.opStack->push_back(3);
 
     //inicializa interpretador
-    std::vector<instructionFunction> pt;
-    pt = init_interpreter();
-    pt[IADD](frame.opStack);
+    Interpretador interpreter;
+    interpreter.execute_instruction(IADD, frame.opStack);
+
     //exibe resultado
     printf("Resultado: %d\n", frame.opStack->back());//usando pt[0] == usar iadd(uint_8*)
 
