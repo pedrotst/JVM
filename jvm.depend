@@ -177,14 +177,15 @@
 	"../include/javaStack_frame.hpp"
 	"../include/interpretador.hpp"
 
-1465506403 d:\gitstuf\jvm\include\javastack_frame.hpp
+1466217550 d:\gitstuf\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465509614 d:\gitstuf\jvm\include\interpretador.hpp
+1466218319 d:\gitstuf\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>
 	"../include/javaStack_frame.hpp"
+	"../include/opcode.hpp"
 
 1465439184 source:d:\gitstuf\jvm\src\print_attributes.cpp
 
@@ -200,6 +201,6 @@
 1465439184 source:d:\gitstuf\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
 
-1465509864 source:d:\gitstuf\jvm\src\interpretador.cpp
+1466218281 source:d:\gitstuf\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 

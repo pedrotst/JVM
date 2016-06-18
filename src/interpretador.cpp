@@ -210,34 +210,34 @@ std::vector<instructionFunction> init_interpreter (){
     printf("Interpretador inicializado.\n");
     return pt;
 }
-void iadd(jStackFrame &jStack){
+void iadd(op_stack *opStack){
     uint32_t lhs, rhs;
     printf("Entrou na funcao\n");
-    lhs = jStack.opStack.back();
-    jStack.opStack.pop_back();
-    rhs = jStack.opStack.back();
-    jStack.opStack.pop_back();
+    lhs = opStack->back();
+    opStack->pop_back();
+    rhs = opStack->back();
+    opStack->pop_back();
     printf("lhs: %d rhs: %d\n", lhs, rhs);
-    jStack.opStack.push_back(lhs + rhs);
+    opStack->push_back(lhs + rhs);
 
 }
 
-void ladd(jFrame &jStack){
+void ladd(op_stack *opStack){
     uint8_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
-    operand1[0] = jStack.opStack.back();
-    jStack.opStack.pop_back();
-    operand1[1] = jStack.opStack.back();
-    jStack.opStack.pop_back();
+    operand1[0] = opStack->back();
+    opStack->pop_back();
+    operand1[1] = opStack->back();
+    opStack->pop_back();
 
-    operand2[0] = jStack.opStack.back();
-    jStack.opStack.pop_back();
-    operand2[1] = jStack.opStack.back();
-    jStack.opStack.pop_back();
+    operand2[0] = opStack->back();
+    opStack->pop_back();
+    operand2[1] = opStack->back();
+    opStack->pop_back();
 
     printf("operand1: %d operand2: %d\n", operand1, operand2);
-    jStack.opStack.push_back(operand1[0] + operand2[0]);
-    jStack.opStack.push_back(operand1[1] + operand2[1]);
+    opStack->push_back(operand1[0] + operand2[0]);
+    opStack->push_back(operand1[1] + operand2[1]);
 }
 //
 //void fadd(jStackFrame &jStack){

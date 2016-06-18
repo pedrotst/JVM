@@ -34,16 +34,17 @@ int main(int argc, char** argv){
 
     //cria um frame para a javaStack
     jFrame stackFrame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
+    stackFrame.opStack = new op_stack();
     //coloca operandos na pilha de operandos
-    stackFrame.opStack.push_back(2);
-    stackFrame.opStack.push_back(3);
+    stackFrame.opStack->push_back(2);
+    stackFrame.opStack->push_back(3);
 
     //inicializa interpretador
     std::vector<instructionFunction> pt;
     pt = init_interpreter();
-    pt[IADD](stackFrame);
+    pt[IADD](stackFrame.opStack);
     //exibe resultado
-    printf("Resultado: %d\n", stackFrame.opStack.back());//usando pt[0] == usar iadd(uint_8*)
+    printf("Resultado: %d\n", stackFrame.opStack->back());//usando pt[0] == usar iadd(uint_8*)
 
     //exibeClass(classF);
     return 0;

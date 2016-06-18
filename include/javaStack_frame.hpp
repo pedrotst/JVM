@@ -6,7 +6,7 @@
 typedef std::vector<uint32_t> op_stack;
 
 typedef struct j_frame_s{
-    op_stack opStack;//pilha de execução interna ao frame
+    op_stack *opStack;//pilha de execução interna ao frame
     //pc
     //vetor de variaveis locais
     //referencia pra constant pool
