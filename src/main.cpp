@@ -15,11 +15,21 @@ int main(int argc, char** argv){
 	std::vector<ClassFile> loadedClasses;
 	ClassFile classF;
 	FILE *arquivoJava;
-	arquivoJava = abreArqLinhaComando(argc, argv);//só serve pra ler a primeira por tratar entrada via linha de comando
+	//arquivoJava = abreArqLinhaComando(argc, argv);//só serve pra ler a primeira por tratar entrada via linha de comando
 
     //leitorClass_info ja fecha o arquivo. Acham melhor não faze-lo para explicitar?
-    leitorClass_info(&classF, arquivoJava);
-    exibeClass(classF);
+    if(argc > 1){
+        if(strcmp(argv[1], "-v") == 0){
+            arquivoJava = abreArquivo(argv[2]);
+            leitorClass_info(&classF, arquivoJava);
+            exibeClass(classF);
+        }
+    }
+    else{
+        arquivoJava = abreArqLinhaComando(argc, argv);
+        leitorClass_info(&classF, arquivoJava);
+    }
+    
     //no caso de usar o map
     //classMap.emplace(getClassName(&classF), classF);//classe mapeada pelo nome
     //classNames.push_back(getClassName(&classF));   //vetor com nomes das classes. Unico jeito que eu pensei de navegar no map "via indice"

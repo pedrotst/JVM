@@ -242,7 +242,6 @@ void Interpretador::ladd(op_stack *opStack){
     operand2[1] = opStack->back();
     opStack->pop_back();
 
-    printf("operand1: %d operand2: %d\n", operand1, operand2);
     opStack->push_back(operand1[0] + operand2[0]);
     opStack->push_back(operand1[1] + operand2[1]);
 }
