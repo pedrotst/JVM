@@ -2,7 +2,7 @@
 #include <map>
 #include "../include/leitor.hpp"
 #include "../include/exibidor.hpp"
-#include "../include/javaStack_frame.hpp"
+#include "../include/frame.hpp"
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
 
@@ -19,7 +19,7 @@ int main(int argc, char** argv){
 
     //leitorClass_info ja fecha o arquivo. Acham melhor não faze-lo para explicitar?
     leitorClass_info(&classF, arquivoJava);
-
+    exibeClass(classF);
     //no caso de usar o map
     //classMap.emplace(getClassName(&classF), classF);//classe mapeada pelo nome
     //classNames.push_back(getClassName(&classF));   //vetor com nomes das classes. Unico jeito que eu pensei de navegar no map "via indice"
@@ -33,17 +33,17 @@ int main(int argc, char** argv){
     printf("Nome da classe: %s\n", getClassName( &loadedClasses[0] ) );
 
     //cria um frame para a javaStack
-    jStackFrame stackFrame;
-    //coloca operandos na pilha
-    stackFrame.opStack.push_back(2);
-    stackFrame.opStack.push_back(3);
+    Frame frame;
+    //coloca operandos na pilha de operandos
+    frame.opStack->push_back(23);
+    frame.opStack->push_back(3);
 
     //inicializa interpretador
-    std::vector<instructionFunction> pt;
-    pt = init_interpreter();
-    pt[IADD](stackFrame);
+    Interpretador interpreter;
+    interpreter.execute_instruction(IADD, frame.opStack);
+
     //exibe resultado
-    printf("Resultado: %d\n", stackFrame.opStack.back());//usando pt[0] == usar iadd(uint_8*)
+    printf("Resultado: %d\n", frame.opStack->back());//usando pt[0] == usar iadd(uint_8*)
 
     //exibeClass(classF);
     return 0;

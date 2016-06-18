@@ -53,13 +53,14 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1465582671 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+1465843716 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
 	<stdio.h>
 	<map>
 	"../include/leitor.hpp"
 	"../include/exibidor.hpp"
 	"../include/javaStack_frame.hpp"
 	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
 
 1464877032 source:c:\users\thiag\documents\github repositorios\jvm\src\print_attributes.cpp
 
@@ -88,19 +89,20 @@
 	"../include/read_attributes.hpp"
 	"../include/read_methods.hpp"
 
-1465581787 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
+1466211711 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465843404 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+1465843658 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>
 	"../include/javaStack_frame.hpp"
+	"../include/opcode.hpp"
 
-1465582185 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
+1466204697 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
-1465505808 source:d:\gitstuf\jvm\src\exibidor.cpp
+1466223668 source:d:\gitstuf\jvm\src\exibidor.cpp
 	"../include/exibidor.hpp"
 
 1465439184 d:\gitstuf\jvm\include\exibidor.hpp
@@ -167,22 +169,24 @@
 1465439184 source:d:\gitstuf\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1465506744 source:d:\gitstuf\jvm\src\main.cpp
+1466223466 source:d:\gitstuf\jvm\src\main.cpp
 	<stdio.h>
 	<map>
 	"../include/leitor.hpp"
 	"../include/exibidor.hpp"
-	"../include/javaStack_frame.hpp"
+	"../include/frame.hpp"
 	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
 
-1465506403 d:\gitstuf\jvm\include\javastack_frame.hpp
+1466219256 d:\gitstuf\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465509614 d:\gitstuf\jvm\include\interpretador.hpp
+1466221648 d:\gitstuf\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>
-	"../include/javaStack_frame.hpp"
+	"../include/frame.hpp"
+	"../include/opcode.hpp"
 
 1465439184 source:d:\gitstuf\jvm\src\print_attributes.cpp
 
@@ -198,6 +202,13 @@
 1465439184 source:d:\gitstuf\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
 
-1465509864 source:d:\gitstuf\jvm\src\interpretador.cpp
+1466223237 source:d:\gitstuf\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
+
+1466219607 source:d:\gitstuf\jvm\src\frame.cpp
+	"../include/frame.hpp"
+
+1466219570 d:\gitstuf\jvm\include\frame.hpp
+	<vector>
+	<cstdint>
 

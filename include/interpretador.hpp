@@ -1,22 +1,31 @@
-#ifndef INTERPRETADOR_HPP_INCLUDED
-#define INTERPRETADOR_HPP_INCLUDED
+#ifndef INTERPRETADOR_H
+#define INTERPRETADOR_H
 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define numOpcodes 250 //mudar pra 250
-#include "../include/javaStack_frame.hpp"
+#include "../include/frame.hpp"
 #include "../include/opcode.hpp"
 //void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
 //typedef utilizado para nomear o item descrito acima como instructionFunction
-typedef void (*instructionFunction)(jStackFrame&);
+
 
 //inicializador do interpretador
-std::vector<instructionFunction> init_interpreter ();
+
+class Interpretador{
+public:
+Interpretador();
+void execute_instruction(int opcode, op_stack *opStack);
+
+private:
+typedef void (Interpretador::*instructionFunction)(op_stack*);
+std::vector<instructionFunction> instructions;
 
 //uma das funções do interpretador
-void iadd(jStackFrame &jStack);
+void iadd(op_stack *opStack);
+void ladd(op_stack *opStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
@@ -241,6 +250,5 @@ void iadd(jStackFrame &jStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
-//int iadd(uint8_t*);
-
-#endif // INTERPRETADOR_HPP_INCLUDED
+};
+#endif // INTERPRETADOR_H
