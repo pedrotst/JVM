@@ -211,7 +211,7 @@ std::vector<instructionFunction> init_interpreter (){
     return pt;
 }
 void iadd(jStackFrame &jStack){
-    uint8_t lhs, rhs;
+    uint32_t lhs, rhs;
     printf("Entrou na funcao\n");
     lhs = jStack.opStack.back();
     jStack.opStack.pop_back();
@@ -222,8 +222,23 @@ void iadd(jStackFrame &jStack){
 
 }
 
-//void ladd(jStackFrame &jStack){
-//}
+void ladd(jStackFrame &jStack){
+    uint8_t operand1[2], operand2[2];
+    printf("Entrou na funcao\n");
+    operand1[0] = jStack.opStack.back();
+    jStack.opStack.pop_back();
+    operand1[1] = jStack.opStack.back();
+    jStack.opStack.pop_back();
+
+    operand2[0] = jStack.opStack.back();
+    jStack.opStack.pop_back();
+    operand2[1] = jStack.opStack.back();
+    jStack.opStack.pop_back();
+
+    printf("operand1: %d operand2: %d\n", operand1, operand2);
+    jStack.opStack.push_back(operand1[0] + operand2[0]);
+    jStack.opStack.push_back(operand1[1] + operand2[1]);
+}
 //
 //void fadd(jStackFrame &jStack){
 //}
