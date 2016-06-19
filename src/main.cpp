@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <map>
 #include "../include/leitor.hpp"
 #include "../include/exibidor.hpp"
@@ -6,45 +8,55 @@
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
 
+#define ARG1(ac, av) (ac > 1 ? av[1] : "")
+
+#define ARG2(ac, av) (ac > 2 ? av[2] : "")
+
+const char *help = "\nSintaxe:\n\
+jvm -h Exibe o menu de ajuda.\n\
+\n\
+jvm { -r | -e } {nome_arquivo_class}\n\
+\n\
+-r : read. LÃª o arquivo .class passado e o exibe na tela, assim como o javac -v.\n\
+\n\
+-e : execute. Executa o arquivo .class passado.\n\
+\n";
 
 int main(int argc, char** argv){
-    //não consegui fazer esse formato rodar com getClassName()
-	//std::map<char*, ClassFile> classMap;//map contendo todas as classes
-	//std::vector<char*> classNames;        //vetor contendo os nomes para referenciar no map
-
-	std::vector<ClassFile> loadedClasses;
+      const char *arg1 = NULL, *arg2 = NULL;
+      FILE *arquivoClass = NULL;
 	ClassFile classF;
-	FILE *arquivoJava;
-	arquivoJava = abreArqLinhaComando(argc, argv);//só serve pra ler a primeira por tratar entrada via linha de comando
 
-    //leitorClass_info ja fecha o arquivo. Acham melhor não faze-lo para explicitar?
-    leitorClass_info(&classF, arquivoJava);
-    exibeClass(classF);
-    //no caso de usar o map
-    //classMap.emplace(getClassName(&classF), classF);//classe mapeada pelo nome
-    //classNames.push_back(getClassName(&classF));   //vetor com nomes das classes. Unico jeito que eu pensei de navegar no map "via indice"
-                                                    //sei que tem o iterator, mas ta dando problema na hora de imprimir, então whatever
-    loadedClasses.push_back(classF);
-    //Comentei só pra n ficar aparecendo aquilo tudo
-    //ainda tem que colocar exibição condicional
-    //exibeClass(loadedClasses[0]);
+      arg1 = ARG1(argc, argv);
+      arg2 = ARG2(argc, argv);
 
+      // Caso o parÃ¢metro passado seja um -r (READ).
+      if (!strcmp(arg1, "-r")) {
+            // Abre o arquivo
+            if( !(arquivoClass = fopen(arg2, "rb"))) {
+                  printf("O arquivo .class nao pode ser aberto.\n");
+                  exit(0);
+            }
 
-    printf("Nome da classe: %s\n", getClassName( &loadedClasses[0] ) );
+            // LÃª o arquivo .class
+            leitorClass_info(&classF, arquivoClass);
 
-    //cria um frame para a javaStack
-    Frame frame;
-    //coloca operandos na pilha de operandos
-    frame.opStack->push_back(23);
-    frame.opStack->push_back(3);
+            // Exibe o arquivo lido.
+            exibeClass(classF);
+      }
 
-    //inicializa interpretador
-    Interpretador interpreter;
-    interpreter.execute_instruction(IADD, frame.opStack);
+      // Caso o parÃ¢metro passado seja um -e (EXECUTE).
+      else if (!strcmp(arg1, "-e")) {
+            // Inicializa a jvm para a execuÃ§Ã£o do arquivo class passado (arg2).
+            //jvm(arg2);
+      }
 
-    //exibe resultado
-    printf("Resultado: %d\n", frame.opStack->back());//usando pt[0] == usar iadd(uint_8*)
+      // Se a passagem de parÃ¢metros da linha de comando estiver errada.
+      else {
+            printf("%s\n", help);
+      }
 
-    //exibeClass(classF);
-    return 0;
+	fclose(arquivoClass);
+
+      return 0;
 }

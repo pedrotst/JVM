@@ -6,52 +6,40 @@
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
 
-int jvm(*char classF_name) {
+int jvm(*char arq_class_name) {
+	// Vetor de classes carregadas.
 	std::vector<ClassFile> loadedClasses;
-      std::vector<jStackFrame> jStack;
+	// Pilha de execução da jvm. Pilha de frames.
+	std::vector<jStackFrame> jStack;
 	ClassFile classF;
-	FILE *arquivoJava;
+	method_info *main;
+	FILE *arquivoClass;
 
-      pt = init_interpreter();
+	if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
+		printf("O arquivo .class nao pode ser aberto.\n");
+		exit(0);
+	}
 
-	arquivoJava = abreArqLinhaComando(argc, argv);
-
-	//leitorClass_info ja fecha o arquivo. Acham melhor n�o faze-lo para explicitar?
-	leitorClass_info(&classF, arquivoJava);
+	leitorClass_info(&classF, arquivoClass);
 
 	loadedClasses.push_back(classF);
 
-	printf("Nome da classe: %s\n", getClassName( &loadedClasses[0] ) );
-
 	// Procura o método main na primeira classe carregada. Se não encontrar,
-	// a execução é finalizada. Se encontra, começa a execução.
-	if (getMethodName() == "main") {
-		execMethod();
+	// a execução é finalizada. Se encontrar, começa a execução.
+	if (!(main = findMain(&classF))) {
+		execMethod(main, &jStack);
+	}
+	else {
+		printf("O arquivo .class não possui uma main.\n", );
+		exit(0);
 	}
 
-	execMethod(std::vector<jStackFrame> &jStack) {
-		//cria um frame para a javaStack
-		jStackFrame stackFrame;
-
-		// A pilha de operandos começa vazia. Ela é populada ao longo da execução
-            // das instruções.
-
-            // Popula a pilha de variáveis locais. Ela recebe as variáveis locais do
-            // método, inclusive os parâmetros.
-
-            // Empilha o frame.
-            push(std::vector<jStackFrame> &jStack, jStackFrame &stackFrame);
-
-            // Executa o código do método.
-            execCode();
-	}
-
-      execCode() {
-            //
-            while (não acabar as instruções) {
-                  (*instrucs[op]) ();
-            }
-      };
+	execCode() {
+		//
+		while (não acabar as instruções) {
+			(*instrucs[op])();
+		}
+	};
 
 	//inicializa interpretador
 	std::vector<instructionFunction> pt;
@@ -61,4 +49,65 @@ int jvm(*char classF_name) {
 
 	//exibeClass(classF);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+method_info* findMain(ClassFile *classF_pt) {
+	int i = 0;
+	char *method_name = NULL;
+	method_info *method_pt = NULL;
+
+	// Para cada método
+	for (i = 0; i < classF_pt->methods_count; i++) {
+		// Pega o método
+		method_pt = &classF_pt->methods[i];
+		// Pega o nome do método
+		method_name = getName(classF_pt, method_pt->name_index);
+		// Retorna o método, se for o main
+		if (!strcmp(method_name, "main"))
+			return method_pt;
+	}
+
+	// Só ocorre se não houver main
+	return NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+char* getName(ClassFile *classF_pt, int name_index){
+	char *name = NULL;
+
+	// Checa se a entrada da constant_pool apontada pelo index é uma string.
+	// Se não for retorna NULL.
+	if (classF->constant_pool[name_index-1].tag != CONSTANT_Utf8) {
+		printf("O index (da constant_pool) passado não aponta para uma string.\n", );
+		return NULL;
+	}
+
+	// Obtém a string da constant_pool.
+	name = classF->constant_pool[name_index-1].cp_union.constant_Utf8.bytes;
+
+	return name;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+int execMethod(method_info *method, std::vector<jStackFrame> *jStack) {
+	// Pilha de operandos.
+	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
+	// das instruções.
+	std::vector<operand> operandStack;
+	// Pilha de variáveis locais.
+	std::vector<local_var> localVarStack;
+	// Frame da javaStack.
+	jStackFrame stackFrame;
+
+	// Popula a pilha de variáveis locais. Ela recebe as variáveis locais do
+	// método, inclusive os parâmetros.
+
+	// Empilha o frame.
+	push(std::vector<jStackFrame> &jStack, jStackFrame &stackFrame);
+
+	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
+	// por uma.
+	// Executa o código do método.
+	execCode();
 }
