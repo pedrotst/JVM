@@ -59,7 +59,16 @@ method_info* findMain (ClassFile *classF_pt);
 //
 char* getName(ClassFile *classF_pt, int name_index);
 
+// Em andamento
+//
+// Cria o frame
 int execMethod(method_info *method, std::vector<jStackFrame> *jStack);
+
+// Em andamento
+//
+// Executa as instruções.
+// interpretador
+execCode();
 
 // Descrição:
 //    Executa a jvm em si.
