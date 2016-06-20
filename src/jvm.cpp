@@ -8,7 +8,7 @@
 #include "../include/jvm.hpp"
 
 
-int jvm(char* arq_class_name) {
+int jvm(const char* arq_class_name) {
 	// Vetor de classes carregadas.
 	std::vector<ClassFile> loadedClasses;
 	// Pilha de execução da jvm. Pilha de frames.
@@ -18,7 +18,7 @@ int jvm(char* arq_class_name) {
 	FILE *arquivoClass;
 
 	if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
-		printf("O arquivo .class nao pode ser aberto.\n");
+		printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
 		exit(0);
 	}
 
@@ -32,7 +32,7 @@ int jvm(char* arq_class_name) {
 		execMethod(main, &Stack);
 	}
 	else {
-		printf("O arquivo .class não possui uma main.\n");
+		printf("O arquivo .class nao possui uma main.\n");
 		exit(0);
 	}
 
@@ -44,14 +44,14 @@ int jvm(char* arq_class_name) {
 	};*/
 
     //cria um frame para a javaStack
-    Frame frame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
+    Frame frame = Frame();
     //coloca operandos na pilha de operandos
     frame.opStack->push_back(23);
     frame.opStack->push_back(3);
 
     //inicializa interpretador
 
-    Interpretador interpreter;
+    Interpretador interpreter = Interpretador();
     interpreter.execute_instruction(IADD, frame.opStack);
 
 	//exibe resultado
@@ -120,4 +120,5 @@ int execMethod(method_info *method, std::vector<Frame> *jStack) {
 	// por uma.
 	// Executa o código do método.
 	//execCode();
+	return 0;
 }

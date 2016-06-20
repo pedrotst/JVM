@@ -82,6 +82,6 @@ int execMethod(method_info *method, std::vector<Frame> *jStack);
 //    *char arq_class_name: nome do arquivo .class a ser executado.
 //
 //
-int jvm(char* arq_class_name);
+int jvm(const char* arq_class_name);
 
 #endif // _JVM_HPP

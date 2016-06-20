@@ -215,7 +215,7 @@
 1466454144 source:d:\mygit\jvm\src\frame.cpp
 	"../include/frame.hpp"
 
-1466454144 d:\mygit\jvm\include\frame.hpp
+1466458887 d:\mygit\jvm\include\frame.hpp
 	<vector>
 	<cstdint>
 
@@ -258,7 +258,7 @@
 	<stdint.h>
 	"../include/opcode.hpp"
 
-1466457721 source:d:\mygit\jvm\src\jvm.cpp
+1466459191 source:d:\mygit\jvm\src\jvm.cpp
 	<stdio.h>
 	<map>
 	"../include/leitor.hpp"
@@ -300,7 +300,7 @@
 	"structs.hpp"
 	"read_attributes.hpp"
 
-1466457760 d:\mygit\jvm\include\jvm.hpp
+1466459191 d:\mygit\jvm\include\jvm.hpp
 
 1465486855 source:d:\mygit\jvm\src\leitor.cpp
 	"../include/leitor.hpp"
@@ -308,7 +308,7 @@
 1465486855 source:d:\mygit\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1466454675 source:d:\mygit\jvm\src\main.cpp
+1466458648 source:d:\mygit\jvm\src\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -318,6 +318,7 @@
 	"../include/frame.hpp"
 	"../include/interpretador.hpp"
 	"../include/opcode.hpp"
+	"../include/jvm.hpp"
 
 1465486855 source:d:\mygit\jvm\src\print_attributes.cpp
 

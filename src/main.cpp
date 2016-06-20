@@ -7,6 +7,7 @@
 #include "../include/frame.hpp"
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
+#include "../include/jvm.hpp"
 
 #define ARG1(ac, av) (ac > 1 ? av[1] : "")
 
@@ -48,7 +49,7 @@ int main(int argc, char** argv){
       // Caso o parâmetro passado seja um -e (EXECUTE).
       else if (!strcmp(arg1, "-e")) {
             // Inicializa a jvm para a execução do arquivo class passado (arg2).
-            //jvm(arg2[2]);
+            jvm(arg2);
       }
 
       // Se a passagem de parâmetros da linha de comando estiver errada.
