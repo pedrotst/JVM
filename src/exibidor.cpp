@@ -286,7 +286,7 @@ void print_comment(vector<cp_info_s> c, int n){
 
 void exibeClass(ClassFile classF){
     uint8_t tag;
-    int n, i,j, e, s, aux;
+    int n, j, e, s, aux;
     int index;
     long l, m;
     float f;

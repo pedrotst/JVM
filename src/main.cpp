@@ -48,7 +48,7 @@ int main(int argc, char** argv){
       // Caso o parâmetro passado seja um -e (EXECUTE).
       else if (!strcmp(arg1, "-e")) {
             // Inicializa a jvm para a execução do arquivo class passado (arg2).
-            //jvm(arg2);
+            //jvm(arg2[2]);
       }
 
       // Se a passagem de parâmetros da linha de comando estiver errada.

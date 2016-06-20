@@ -62,13 +62,13 @@ char* getName(ClassFile *classF_pt, int name_index);
 // Em andamento
 //
 // Cria o frame
-int execMethod(method_info *method, std::vector<jStackFrame> *jStack);
+int execMethod(method_info *method, std::vector<Frame> *jStack);
 
 // Em andamento
 //
 // Executa as instruções.
 // interpretador
-execCode();
+//execCode();
 
 // Descrição:
 //    Executa a jvm em si.
@@ -82,6 +82,6 @@ execCode();
 //    *char arq_class_name: nome do arquivo .class a ser executado.
 //
 //
-int jvm(*char arq_class_name);
+int jvm(char* arq_class_name);
 
 #endif // _JVM_HPP

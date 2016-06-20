@@ -1,22 +1,11 @@
 #include "../include/interpretador.hpp"
 
 void Interpretador::execute_instruction(int opcode, op_stack *opStack){
-    // (*instructions[opcode])(opStack);
     (*this.*instructions[opcode])(opStack);
 }
 
 Interpretador::Interpretador(){
-    //inicializa o vetor de ponteiros pra função.
-    //so n sei como uma função recebe/retorna ponteiro pra função D:
-    //int (*pt)(op_stack**);//declara o vetor de ponteiro de função
-    //pt = (int(**)(op_stack**)) calloc(sizeof(int(*)(**op_stack)), numOpcodes );//aloca o vetor
-    //pt[0] = &iadd;//associa a função a posição
-
-    //cada instrução deverá ser colocada na posição do vetor equivalente ao seu byte de opcode
-    //pt.push_back(&iadd);
     std::vector<instructionFunction> pt(numOpcodes);
-    //this->instructions.resize(numOpcodes);
-    //*this.*instructions[IADD] = &Interpretador::iadd;
     pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
 //    pt[ACONST_NULL] = &aConst_null;
@@ -214,7 +203,6 @@ Interpretador::Interpretador(){
 //    pt[BREAKPOINT] = &breakpoint;
 //    pt[IMPDEP1] = &impdep1;
 //    pt[IMPDEP2] = &impdep2;
-    printf("Interpretador inicializado.\n");
     this->instructions = pt;
 }
 void Interpretador::iadd(op_stack *opStack){

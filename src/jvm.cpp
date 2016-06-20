@@ -2,15 +2,17 @@
 #include <map>
 #include "../include/leitor.hpp"
 #include "../include/exibidor.hpp"
-#include "../include/javaStack_frame.hpp"
+#include "../include/frame.hpp"
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
+#include "../include/jvm.hpp"
 
-int jvm(*char arq_class_name) {
+
+int jvm(char* arq_class_name) {
 	// Vetor de classes carregadas.
 	std::vector<ClassFile> loadedClasses;
 	// Pilha de execução da jvm. Pilha de frames.
-	std::vector<jStackFrame> jStack;
+	std::vector<Frame> Stack;
 	ClassFile classF;
 	method_info *main;
 	FILE *arquivoClass;
@@ -27,25 +29,33 @@ int jvm(*char arq_class_name) {
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
 	if (!(main = findMain(&classF))) {
-		execMethod(main, &jStack);
+		execMethod(main, &Stack);
 	}
 	else {
-		printf("O arquivo .class não possui uma main.\n", );
+		printf("O arquivo .class não possui uma main.\n");
 		exit(0);
 	}
 
-	execCode() {
+	/*execCode() {
 		//
 		while (não acabar as instruções) {
 			(*instrucs[op])();
 		}
-	};
+	};*/
 
-	//inicializa interpretador
-	std::vector<instructionFunction> pt;
-	pt[IADD](stackFrame);
+    //cria um frame para a javaStack
+    Frame frame;//se fizer um vetor de jFrame, tem a Pilha de execução dos metodos
+    //coloca operandos na pilha de operandos
+    frame.opStack->push_back(23);
+    frame.opStack->push_back(3);
+
+    //inicializa interpretador
+
+    Interpretador interpreter;
+    interpreter.execute_instruction(IADD, frame.opStack);
+
 	//exibe resultado
-	printf("Resultado: %d\n", stackFrame.opStack.back());//usando pt[0] == usar iadd(uint_8*)
+	printf("Resultado: %d\n", frame.opStack->back());
 
 	//exibeClass(classF);
 	return 0;
@@ -73,15 +83,15 @@ method_info* findMain(ClassFile *classF_pt) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-char* getName(ClassFile *classF_pt, int name_index){
+char* getName(ClassFile *classF, int name_index){
 	char *name = NULL;
 
 	// Checa se a entrada da constant_pool apontada pelo index é uma string.
 	// Se não for retorna NULL.
-	if (classF->constant_pool[name_index-1].tag != CONSTANT_Utf8) {
-		printf("O index (da constant_pool) passado não aponta para uma string.\n", );
+	/*if (classF.constant_pool[name_index-1].tag != cp_tag.CONSTANT_Utf8) {
+		printf("O index (da constant_pool) passado não aponta para uma string.\n");
 		return NULL;
-	}
+	}*/
 
 	// Obtém a string da constant_pool.
 	name = classF->constant_pool[name_index-1].cp_union.constant_Utf8.bytes;
@@ -90,7 +100,7 @@ char* getName(ClassFile *classF_pt, int name_index){
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int execMethod(method_info *method, std::vector<jStackFrame> *jStack) {
+int execMethod(method_info *method, std::vector<Frame> *jStack) {
 	// Pilha de operandos.
 	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
 	// das instruções.
@@ -98,16 +108,16 @@ int execMethod(method_info *method, std::vector<jStackFrame> *jStack) {
 	// Pilha de variáveis locais.
 	std::vector<local_var> localVarStack;
 	// Frame da javaStack.
-	jStackFrame stackFrame;
+	Frame frame;
 
 	// Popula a pilha de variáveis locais. Ela recebe as variáveis locais do
 	// método, inclusive os parâmetros.
 
 	// Empilha o frame.
-	push(std::vector<jStackFrame> &jStack, jStackFrame &stackFrame);
+	jStack->push_back(frame);
 
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
 	// Executa o código do método.
-	execCode();
+	//execCode();
 }
