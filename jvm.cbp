@@ -12,6 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="-e Puppy.class" />
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
@@ -38,7 +39,7 @@
 		<Unit filename="include/exibidor.hpp" />
 		<Unit filename="include/heap.hpp" />
 		<Unit filename="include/interpretador.hpp" />
-		<Unit filename="include/javaStack_frame.hpp" />
+		<Unit filename="include/jvm.hpp" />
 		<Unit filename="include/leitor.hpp" />
 		<Unit filename="include/little_to_big.hpp" />
 		<Unit filename="include/opcode.hpp" />
@@ -48,7 +49,9 @@
 		<Unit filename="include/read_methods.hpp" />
 		<Unit filename="include/structs.hpp" />
 		<Unit filename="src/exibidor.cpp" />
+		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/interpretador.cpp" />
+		<Unit filename="src/jvm.cpp" />
 		<Unit filename="src/leitor.cpp" />
 		<Unit filename="src/little_to_big.cpp" />
 		<Unit filename="src/main.cpp" />
