@@ -109,7 +109,9 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 
 /////////////////////////////////////////////////////////////////////////////
 int Jvm::execMethod(int n, ClassFile classF) {
-	int index, j;
+	int index, j, pc, buffer;
+
+
 	uint32_t code_length;
 	// Pilha de operandos.
 	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
@@ -126,11 +128,12 @@ int Jvm::execMethod(int n, ClassFile classF) {
 	this->jStack.push_back(frame);
 
  	index = classF.methods[n].descriptor_index;
-	for(int i=0; i < classF.methods[n].attributes_count; i++){
+	for(j=0; j < classF.methods[n].attributes_count; j++){
 		printf("\t Attribute number: %d\n", j + 1);
         index = classF.methods[n].attributes[j].attribute_name_index_l;
         printf("\t Attribute Name: %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
         printf("\t Attribute Length: %d\n", classF.methods[n].attributes[j].attribute_length_l);
+
 		if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Code")){
             printf("\t Max Stack: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_stack);
             printf("\t Max Locals: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
@@ -140,31 +143,28 @@ int Jvm::execMethod(int n, ClassFile classF) {
                 for(int k = 0; k < code_length; k++){
                     uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
 
-                    //printf("\t Code: %02x\n", opcode);
-                    int arg_qnt = print_code(opcode);
-                    cout << "\t"<< k << ":\t"<<  opcode << "\t";
-                    //printf("arg_qnt = %d\n", arg_qnt);
-                    for(int u = 0 ; u < arg_qnt; u += (!(arg_qnt%2) + 1)){
-                        uint16_t cp_ref;
-                        if((arg_qnt%2) == 0)
-                            cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
-                        else
-                            cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
-                        printf(" #%d ",cp_ref);
-                    }
-                    if(arg_qnt > 0){
-                        cout << "\t // ";
-                    }
-                    for(int u = 0 ; u < arg_qnt; u+= (!(arg_qnt%2) + 1)){
-                        printf(" ");
-                        uint16_t cp_ref;
-                        if((arg_qnt%2) == 0)
-                            cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
-                        else
-                            cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
-                        print_comment(classF.constant_pool, cp_ref - 1);
-                    }
-                    cout << endl;
+                    //teste
+                    /*O interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
+                    de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
+                    na pilha. Para este fim criamos o interpreter_op_code.cpp/hpp. 
+
+                    A ideia seguinte seria chamar o vetor de instruções passando o op_code */
+
+                    int arg_qnt = interpreter_op_code(opcode);
+                    //as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
+                    //para area de codigo, a posição do leitor na area de codigo(neste caso o k) e a referencia para a pilha.
+                    uint8_t operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1];
+                    buffer = operand;
+                    buffer = buffer<<8;
+                    operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+2];
+                    buffer = buffer|operand;
+                    printf("%d a\n", buffer);
+
+
+
+                    // interpretar o opcode, saber qual é o tipo do operando, ler e colocar na pilha, antes de chamar a função
+
+                    
                     k += arg_qnt;
                 }
             }
@@ -175,3 +175,5 @@ int Jvm::execMethod(int n, ClassFile classF) {
 	//execCode();
 	return 0;
 }
+
+

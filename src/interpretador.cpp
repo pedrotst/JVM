@@ -187,7 +187,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[INvOKESTATIC] = &invokestatic;
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
-//    pt[NEW] = &new;
+//    pt[NEW] = &new_op;
 //    pt[NEWARRAY] = &newarray;
 //    pt[ANEWARRAY] = &anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;

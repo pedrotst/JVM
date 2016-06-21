@@ -9,6 +9,7 @@
 #include "../include/opcode.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/op_instrucs.hpp"
+#include "../include/interpreter_op_code.hpp"
 
 
 
