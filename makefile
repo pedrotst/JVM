@@ -39,6 +39,9 @@ frame.o:
 jvm.o:
 	$(CC) $(CFLAGS) -c ./src/jvm.cpp
 
+#translator.o:
+	#$(CC) $(CFLAGS) -c ./src/op_instrucs.cpp
+
 ########################## Move e Clean ##########################
 moveobj:
 	mkdir -p ./obj

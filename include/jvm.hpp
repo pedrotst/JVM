@@ -1,6 +1,16 @@
 #ifndef _JVM_HPP
 #define _JVM_HPP
 
+#include <iostream>
+#include "../include/leitor.hpp"
+#include "../include/exibidor.hpp"
+#include "../include/frame.hpp"
+#include "../include/interpretador.hpp"
+#include "../include/opcode.hpp"
+#include "../include/exibidor.hpp"
+#include "../include/op_instrucs.hpp"
+
+
 
 // Os tipos float e double não estão presentes porque não vamos dar suporte a
 // ponto flutuante.
@@ -13,7 +23,7 @@ typedef union operand_u {
     int16_t          short_type;
     int32_t          int_type;
     int64_t          long_type;
-    //reference        reference_type;
+    void             *reference_type;
     //returnAddress        returnAddress_type;
 } operand;
 
@@ -33,6 +43,7 @@ typedef union local_var_u {
 class Jvm{
     private:
         std::vector<Frame> jStack;
+        std::vector<ClassFile> loadedClasses;
     public:
         //Construtor
         Jvm();
@@ -49,7 +60,7 @@ class Jvm{
         //
         //    Se a main não for encontrada, retorna NULL.
         //
-        method_info* findMain (ClassFile *classF_pt);
+        int findMain (ClassFile *classF_pt);
 
         // Descrição:
         //    Resolve uma referência para um nome presente na constant_pool.
@@ -69,7 +80,9 @@ class Jvm{
         // Em andamento
         //
         // Cria o frame
-        int execMethod(method_info *method);
+        int execMethod(int main_index, ClassFile classF);
+        bool isCode(attribute_info attr);
+
 
         // Em andamento
         //

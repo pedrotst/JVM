@@ -217,7 +217,7 @@ void print_access_flag(uint16_t access_flags){
         cout << "[ACC_PRIVATE]";
     }else if((access_flags & 0x0004) == 0x0004){
         cout << "[ACC_PROTECTED]";
-    }else if((access_flags & 0x0008) == 0x0008){
+    }if((access_flags & 0x0008) == 0x0008){
         cout << "[ACC_STATIC]";
     }if((access_flags & 0x0010) == 0x0010){
         cout << "[ACC_FINAL]";

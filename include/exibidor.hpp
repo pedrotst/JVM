@@ -3,7 +3,6 @@
 
 #include <math.h>
 #include <string.h>
-#include <map>
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>
@@ -11,8 +10,12 @@
 
 #include "../include/structs.hpp"
 #include "../include/print_code.hpp"
+#include "../include/op_instrucs.hpp"
+
 
 void exibeClass(ClassFile classF);
+void print_comment(std::vector<cp_info_s> c, int n);
+
 
 
 #endif // _EXIBIDOR

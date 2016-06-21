@@ -1,10 +1,12 @@
 #include "../include/interpretador.hpp"
 
+
 void Interpretador::execute_instruction(int opcode, op_stack *opStack){
     (*this.*instructions[opcode])(opStack);
 }
 
-Interpretador::Interpretador(){
+Interpretador::Interpretador(Jvm *jvm){
+    this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
@@ -232,6 +234,10 @@ void Interpretador::ladd(op_stack *opStack){
 
     opStack->push_back(operand1[0] + operand2[0]);
     opStack->push_back(operand1[1] + operand2[1]);
+}
+void Interpretador::new_op(op_stack *opStack){
+    
+    
 }
 //
 //void fadd(jStackFrame &jStack){

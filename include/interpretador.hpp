@@ -8,24 +8,27 @@
 #define numOpcodes 250 //mudar pra 250
 #include "../include/frame.hpp"
 #include "../include/opcode.hpp"
+#include "../include/jvm.hpp"
 //void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
 //typedef utilizado para nomear o item descrito acima como instructionFunction
 
-
+class Jvm;
 //inicializador do interpretador
 
 class Interpretador{
-public:
-Interpretador();
-void execute_instruction(int opcode, op_stack *opStack);
+	public:
+		Interpretador(Jvm *jvm);
+		void execute_instruction(int opcode, op_stack *opStack);
 
-private:
-typedef void (Interpretador::*instructionFunction)(op_stack*);
-std::vector<instructionFunction> instructions;
+	private:
+		Jvm *jvm;
+		typedef void (Interpretador::*instructionFunction)(op_stack*);
+		std::vector<instructionFunction> instructions;
 
-//uma das funções do interpretador
-void iadd(op_stack *opStack);
-void ladd(op_stack *opStack);
+		//uma das funções do interpretador
+		void iadd(op_stack *opStack);
+		void ladd(op_stack *opStack);
+		void new_op(op_stack *opStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
@@ -250,5 +253,6 @@ void ladd(op_stack *opStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
+
 };
 #endif // INTERPRETADOR_H
