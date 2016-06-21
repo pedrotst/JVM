@@ -206,7 +206,7 @@ map<uint8_t, string> op_mapa = {
     {0XCA , "BREAKPOINT"},
     {0XFE , "IMPDEP1"},
     {0XFF , "IMPDEP2"},
-    };
+};
 
 void print_access_flag(uint16_t access_flags){
     cout << showbase << internal << setfill('0');
@@ -421,11 +421,11 @@ void exibeClass(ClassFile classF){
                 l = cinfo.constant_double.high_bytes;
                 l = l <<32;
                 l = l +cinfo.constant_double.low_bytes;
-                 s = ((l >> 63) == 0) ? 1 : -1;
-                 e = (int)((l >> 52) & 0x7ffL);
-                 m = (e == 0) ?
-                        (l & 0xfffffffffffffL) << 1 :
-                        (l & 0xfffffffffffffL) | 0x10000000000000L;
+                s = ((l >> 63) == 0) ? 1 : -1;
+                e = (int)((l >> 52) & 0x7ffL);
+                m = (e == 0) ?
+                    (l & 0xfffffffffffffL) << 1 :
+                    (l & 0xfffffffffffffL) | 0x10000000000000L;
                 d = s*m*(pow(2, (e-1075)));
                 printf("#%gd\n", d);
                 //j++; // ocupa2
@@ -563,14 +563,12 @@ void exibeClass(ClassFile classF){
         printf("\n");
     }
 
-        printf("Attributes Count: %d\n", classF.attributes_count);
+    printf("Attributes Count: %d\n", classF.attributes_count);
 
-        for (n = 0; n < classF.attributes_count; n++){
+    for (n = 0; n < classF.attributes_count; n++){
 
         attribute_info attributeElement = classF.attributes[n];
         index = attributeElement.attribute_name_index_l;
-        printf("Attribute name_index: #%d\t\t", index);
-        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
         printf("Attribute Length: %d\n", attributeElement.attribute_length_l);
 
 
@@ -583,47 +581,46 @@ void exibeClass(ClassFile classF){
 
             printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
-
             printf("Sourcefile_index: #%d\t\t", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
             printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
 
-            }
-              if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {
-                printf("Attribute: InnerClasses\n");
-                printf("attribute_name_index:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_name_index);
-
-                  printf("attribute_length:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_length);
-                  printf("number of classes\n%d\n",attributeElement.attribute_union.attr_InnerClasses.number_of_classes);
-
-             /*     for (int n = 0; n < attributeElement.attribute_union.attr_InnerClasses.number_of_classes; n++) {
-                        printf("inner_class_index:\n%d\t", classesElement.inner_class_info_index);
-                        index = classesElement.inner_class_info_index;
-                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-                        printf("outer_class_index:\n%d\t", classesElement.outer_class_info_index) ; //class
-                        index = classesElement.outer_class_info_index;
-                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-
-                        printf("inner_name_index:\n%d\t", classes_element.inner_name_index) ; //class
-                        index = classes_element.inner_name_index;
-                        printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-
-                      print_access_flag(classesElement.inner_class_access_flags);
-
-                  }
-            */
-            }
-             if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Synthetic")) {
-                  printf("Attribute: Synthetic\n");
-
-
-                  printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_name_index);
-                  index = attributeElement.attribute_union.attr_Synthetic.attribute_name_index;
-                  printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-
-                  printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_length);
-            }
         }
+        if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {
+            printf("Attribute: InnerClasses\n");
+            printf("attribute_name_index:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_name_index);
+
+            printf("attribute_length:\n%d\n",attributeElement.attribute_union.attr_InnerClasses.attribute_length);
+            printf("number of classes\n%d\n",attributeElement.attribute_union.attr_InnerClasses.number_of_classes);
+
+            /*for (int n = 0; n < attributeElement.attribute_union.attr_InnerClasses.number_of_classes; n++) {
+                printf("inner_class_index:\n%d\t", classesElement.inner_class_info_index);
+                index = classesElement.inner_class_info_index;
+                printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+                printf("outer_class_index:\n%d\t", classesElement.outer_class_info_index) ; //class
+                index = classesElement.outer_class_info_index;
+                printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+
+                printf("inner_name_index:\n%d\t", classes_element.inner_name_index) ; //class
+                index = classes_element.inner_name_index;
+                printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+
+                print_access_flag(classesElement.inner_class_access_flags);
+
+            }*/
+
+        }
+        if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Synthetic")) {
+            printf("Attribute: Synthetic\n");
+
+
+            printf("attribute_name_index:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_name_index);
+            index = attributeElement.attribute_union.attr_Synthetic.attribute_name_index;
+            printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+
+            printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_length);
+        }
+    }
 
 
 

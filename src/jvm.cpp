@@ -7,8 +7,12 @@
 #include "../include/opcode.hpp"
 #include "../include/jvm.hpp"
 
+Jvm::Jvm(){
+    std::vector<Frame> jStack = std::vector<Frame>();
+    this->jStack = jStack;
+}
 
-int jvm(const char* arq_class_name) {
+int Jvm::run(const char* arq_class_name) {
 	// Vetor de classes carregadas.
 	std::vector<ClassFile> loadedClasses;
 	// Pilha de execução da jvm. Pilha de frames.
@@ -28,8 +32,8 @@ int jvm(const char* arq_class_name) {
 
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
-	if (!(main = findMain(&classF))) {
-		execMethod(main, &Stack);
+	if (main = findMain(&classF)) {
+		execMethod(main);
 	}
 	else {
 		printf("O arquivo .class nao possui uma main.\n");
@@ -62,7 +66,7 @@ int jvm(const char* arq_class_name) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-method_info* findMain(ClassFile *classF_pt) {
+method_info* Jvm::findMain(ClassFile *classF_pt) {
 	int i = 0;
 	char *method_name = NULL;
 	method_info *method_pt = NULL;
@@ -83,7 +87,7 @@ method_info* findMain(ClassFile *classF_pt) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-char* getName(ClassFile *classF, int name_index){
+char* Jvm::getName(ClassFile *classF, int name_index){
 	char *name = NULL;
 
 	// Checa se a entrada da constant_pool apontada pelo index é uma string.
@@ -100,7 +104,7 @@ char* getName(ClassFile *classF, int name_index){
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int execMethod(method_info *method, std::vector<Frame> *jStack) {
+int Jvm::execMethod(method_info *method) {
 	// Pilha de operandos.
 	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
 	// das instruções.
@@ -114,7 +118,8 @@ int execMethod(method_info *method, std::vector<Frame> *jStack) {
 	// método, inclusive os parâmetros.
 
 	// Empilha o frame.
-	jStack->push_back(frame);
+	this->jStack.push_back(frame);
+
 
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
