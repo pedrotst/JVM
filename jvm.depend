@@ -1,17 +1,17 @@
 # depslib dependency file v1.0
-1465581787 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
+1466562447 source:c:\users\thiag\documents\github repositorios\jvm\src\exibidor.cpp
 	"../include/exibidor.hpp"
 
-1464791010 c:\users\thiag\documents\github repositorios\jvm\include\exibidor.hpp
+1466562447 c:\users\thiag\documents\github repositorios\jvm\include\exibidor.hpp
 	<math.h>
 	<string.h>
-	<map>
 	<iostream>
 	<iomanip>
 	<stdio.h>
 	<stdint.h>
 	"../include/structs.hpp"
 	"../include/print_code.hpp"
+	"../include/op_instrucs.hpp"
 
 1464791010 c:\users\thiag\documents\github repositorios\jvm\include\structs.hpp
 	<vector>
@@ -53,14 +53,17 @@
 1464791010 source:c:\users\thiag\documents\github repositorios\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1465843716 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
+1466562447 source:c:\users\thiag\documents\github repositorios\jvm\src\main.cpp
 	<stdio.h>
+	<stdlib.h>
+	<string.h>
 	<map>
 	"../include/leitor.hpp"
 	"../include/exibidor.hpp"
-	"../include/javaStack_frame.hpp"
+	"../include/frame.hpp"
 	"../include/interpretador.hpp"
 	"../include/opcode.hpp"
+	"../include/jvm.hpp"
 
 1464877032 source:c:\users\thiag\documents\github repositorios\jvm\src\print_attributes.cpp
 
@@ -92,14 +95,15 @@
 1466211711 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
 	<vector>
 
-1465843658 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+1466628617 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
 	<stdint.h>
 	<stdio.h>
 	<stdlib.h>
-	"../include/javaStack_frame.hpp"
+	"../include/frame.hpp"
 	"../include/opcode.hpp"
+	"../include/jvm.hpp"
 
-1466204697 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
+1466562447 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
 1466223668 source:d:\gitstuf\jvm\src\exibidor.cpp
@@ -333,4 +337,37 @@
 
 1465486855 source:d:\mygit\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
+
+1466562447 c:\users\thiag\documents\github repositorios\jvm\include\op_instrucs.hpp
+	<map>
+
+1466562447 source:c:\users\thiag\documents\github repositorios\jvm\src\frame.cpp
+	"../include/frame.hpp"
+
+1466628924 c:\users\thiag\documents\github repositorios\jvm\include\frame.hpp
+	<vector>
+	<cstdint>
+	"..\include\jvm.hpp"
+
+1466562447 c:\users\thiag\documents\github repositorios\jvm\include\jvm.hpp
+	<iostream>
+	"../include/leitor.hpp"
+	"../include/exibidor.hpp"
+	"../include/frame.hpp"
+	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
+	"../include/exibidor.hpp"
+	"../include/op_instrucs.hpp"
+	"../include/interpreter_op_code.hpp"
+
+1466628691 c:\users\thiag\documents\github repositorios\jvm\include\interpreter_op_code.hpp
+	<stdint.h>
+	<stdio.h>
+	"../include/opcode.hpp"
+	"../include/frame.hpp"
+
+1466564676 source:c:\users\thiag\documents\github repositorios\jvm\src\jvm.cpp
+	<stdio.h>
+	<map>
+	"../include/jvm.hpp"
 

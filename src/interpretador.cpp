@@ -207,7 +207,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
 }
-void Interpretador::iadd(op_stack *opStack){
+void Interpretador::iadd(Parametros *param){
+    OpStack *opStack = (*OpStack) param[OPSTACK];
     uint32_t lhs, rhs;
     printf("Entrou na funcao\n");
     lhs = opStack->back();
@@ -216,11 +217,10 @@ void Interpretador::iadd(op_stack *opStack){
     opStack->pop_back();
     printf("lhs: %d rhs: %d\n", lhs, rhs);
     opStack->push_back(lhs + rhs);
-
 }
 
 void Interpretador::ladd(op_stack *opStack){
-    uint8_t operand1[2], operand2[2];
+    uint32_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
     operand1[0] = opStack->back();
     opStack->pop_back();
@@ -235,13 +235,21 @@ void Interpretador::ladd(op_stack *opStack){
     opStack->push_back(operand1[0] + operand2[0]);
     opStack->push_back(operand1[1] + operand2[1]);
 }
-void Interpretador::new_op(op_stack *opStack){
-    
-    
+void Interpretador::new_op(/*op_stack *opStack*/){//faltam parametros: vetor de objetos,
+//    printf("NeW\n");
+//    uint8_t operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1];
+//    buffer = operand;
+//    buffer = buffer<<8;
+//    operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+2];
+//    buffer = buffer|operand;
+//    printf("%d a\n", buffer);
+    cp_info *constantPool;
+    buffer = constantPool[buffer-1].cp_union.constant_class.name_index;
+    char* nomeClasse = constantPool[buffer].cp_union.constant_Utf8;
+    //cria objeto dessa classe
+
+//    return k += arg_qnt;
 }
-//
-//void fadd(jStackFrame &jStack){
-//}
-//
+
 //void dadd(jStackFrame &jStack){
 //}

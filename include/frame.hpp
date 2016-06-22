@@ -3,18 +3,28 @@
 
 #include<vector>
 #include<cstdint>
-
-typedef std::vector<uint32_t> op_stack; //trocar para o tipo da union depois
+#include "..\include\jvm.hpp"//para operand
 
 class Frame{
 public:
-    op_stack *opStack;//pilha de execução interna ao frame
-    //pc
-    //vetor de variaveis locais
-    //referencia pra constant pool
+    //op_stack *opStack;//pilha de execuÑ‡Ñƒo interna ao frame
+    std::vector<uint32_t> op_stack;
 
+    //operandStack *opStack;
+    std::vector<operand> operandStack;
+
+    //Vetor de variaveis locais
+    //localVarStack *localVar; //pilha de variaveis locais
+    std::vector<local_var> localVarStack;
+
+    //ReferÃªncia para a ConstantPool
+    cp_info *cpReference;
+
+    //Serve para ler o Code:
+    int pc;
+    int code_length;
+    char *code;
     Frame();
-
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED

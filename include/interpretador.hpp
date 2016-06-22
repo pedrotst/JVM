@@ -14,21 +14,31 @@
 
 class Jvm;
 //inicializador do interpretador
+typedef std::vector<void*> Parametros;
+//cada instrução sabe quais posições do vetor deve ler e como interpretar
+//por exemplo
+//parametros.push_back((void*) &heap);
+//parametros.push_back((void*) &opStack);
+typedef enum structs_s{
+    OPSTACK = 0,
+    CPOOL,
+    HEAP
+}Estruturas;
 
 class Interpretador{
 	public:
 		Interpretador(Jvm *jvm);
-		void execute_instruction(int opcode, op_stack *opStack);
+		void execute_instruction(int opcode, std::vector<uint32_t> *opStack);
 
 	private:
 		Jvm *jvm;
-		typedef void (Interpretador::*instructionFunction)(op_stack*);
+		typedef void (Interpretador::*instructionFunction)(Parametros*);
 		std::vector<instructionFunction> instructions;
 
 		//uma das funções do interpretador
-		void iadd(op_stack *opStack);
-		void ladd(op_stack *opStack);
-		void new_op(op_stack *opStack);
+		void iadd(Parametros *param);
+		void ladd(Parametros *param);
+		void new_op(Parametros *param);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

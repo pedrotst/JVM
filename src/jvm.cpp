@@ -29,7 +29,7 @@ int Jvm::run(const char* arq_class_name) {
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
 	main_index = findMain(&classF);
-	if (main_index) {
+	if (main_index != -1) {
 		execMethod(main_index, classF);
 	}
 	else {
@@ -108,65 +108,42 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int Jvm::execMethod(int n, ClassFile classF) {
+int Jvm::execMethod(int atual, ClassFile classF) {
 	int index, j, pc, buffer;
-
-
 	uint32_t code_length;
-	// Pilha de operandos.
-	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
-	// das instruções.
-	std::vector<operand> operandStack;
-	// Pilha de variáveis locais.
-	std::vector<local_var> localVarStack;
 	// Frame da javaStack.
 	Frame frame;
 	// Popula a pilha de variáveis locais. Ela recebe as variáveis locais do
 	// método, inclusive os parâmetros.
-
 	// Empilha o frame.
 	this->jStack.push_back(frame);
 
- 	index = classF.methods[n].descriptor_index;
-	for(j=0; j < classF.methods[n].attributes_count; j++){
+ 	index = classF.methods[atual].descriptor_index;
+	for(j=0; j < classF.methods[atual].attributes_count; j++){
 		printf("\t Attribute number: %d\n", j + 1);
-        index = classF.methods[n].attributes[j].attribute_name_index_l;
+        index = classF.methods[atual].attributes[j].attribute_name_index_l;
         printf("\t Attribute Name: %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
-        printf("\t Attribute Length: %d\n", classF.methods[n].attributes[j].attribute_length_l);
+        printf("\t Attribute Length: %d\n", classF.methods[atual].attributes[j].attribute_length_l);
 
 		if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "Code")){
-            printf("\t Max Stack: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_stack);
-            printf("\t Max Locals: %d, ", classF.methods[n].attributes[j].attribute_union.attr_Code.max_locals);
-            code_length = classF.methods[n].attributes[j].attribute_union.attr_Code.code_length;
+            //achei o Code
+            printf("\t Max Stack: %d, ", classF.methods[atual].attributes[j].attribute_union.attr_Code.max_stack);
+            printf("\t Max Locals: %d, ", classF.methods[atual].attributes[j].attribute_union.attr_Code.max_locals);
+            code_length = classF.methods[atual].attributes[j].attribute_union.attr_Code.code_length;
             printf("\t Code Length: %d\n", code_length);
+            jStack.back().code_length = code_length;
+            jStack.back().code = classF.methods[atual].attributes[j].attribute_union.attr_Code.code;
+            // interpretar o opcode, saber qual é o tipo do operando, ler e colocar na pilha, antes de chamar a função
+            //^^^^Falha aqui. O interpretador não atua somente em cima da pilha de operandos, ele deve pegar a string CODE
+            //e interpretar (dur). Interpretador recebe a string code e, de acordo com o opcode lido, chama a instrução.
+            //Instruçoes como o New, por exemplo, não utilizam apenas a pilha de operandos. New checa a constant pool para
+            //checar o nome da classe (atributo passado para new); alocar espaço na heap (outra estrutura a qual deve ter acesso)
+            //e por fim colocar na pilha a referência para a referencia para a instância (objectref) é colocado na pilha.
+            //New só usou a pilha para obter um valor e devolver o resultado; todo o resto foi feito utilizando outras estruturas.
+            //Assim, o mais correto para o interpretador seria: receber a string code; seu tamanho; receber o frame, contendo:
+            //pc (para saber em qual instrução está); referencia para constant pool; vetor de variaveis locais; pilha de operandos.
 
-                for(int k = 0; k < code_length; k++){
-                    uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
-
-                    //teste
-                    /*O interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
-                    de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
-                    na pilha. Para este fim criamos o interpreter_op_code.cpp/hpp. 
-
-                    A ideia seguinte seria chamar o vetor de instruções passando o op_code */
-
-                    int arg_qnt = interpreter_op_code(opcode);
-                    //as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
-                    //para area de codigo, a posição do leitor na area de codigo(neste caso o k) e a referencia para a pilha.
-                    uint8_t operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1];
-                    buffer = operand;
-                    buffer = buffer<<8;
-                    operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+2];
-                    buffer = buffer|operand;
-                    printf("%d a\n", buffer);
-
-
-
-                    // interpretar o opcode, saber qual é o tipo do operando, ler e colocar na pilha, antes de chamar a função
-
-                    
-                    k += arg_qnt;
-                }
+            int arg_qnt = interpreter_code(&jStack/*, heap*/);
             }
         }
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
