@@ -12,6 +12,7 @@ string ClassFile::getSource(){
             return(this->getCpoolUtf8(index));
         }
     }
+    return NULL;
 }
 
 string ClassFile::getClassName(){
@@ -24,12 +25,11 @@ string ClassFile::getCpoolUtf8(int index){
     if(this->constant_pool[index-1].tag != CONSTANT_Utf8)
         throw "Entrada nao eh utf8";
     return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
-
 }
 
 map<string, string> ClassFile::getFieldsNamesTypes(){
     map<string, string> fbind;
-    
+
     for(int i=0; i < this->fields_count; i++){
         string fieldName, fieldType;
         fieldName = this->getCpoolUtf8(this->fields[i].name_index);
@@ -37,5 +37,4 @@ map<string, string> ClassFile::getFieldsNamesTypes(){
         fbind[fieldName] = fieldType;
     }
     return fbind;
-
 }
