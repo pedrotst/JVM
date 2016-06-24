@@ -207,18 +207,25 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
 }
+
 void Interpretador::iadd(op_stack *opStack){
     uint32_t lhs, rhs;
+    operand_value op_v;
+    operand_type op;
     printf("Entrou na funcao\n");
-    lhs = opStack->back();
+    lhs = opStack->back().op.int_type;
     opStack->pop_back();
-    rhs = opStack->back();
+    rhs = opStack->back().op.int_type;
     opStack->pop_back();
     printf("lhs: %d rhs: %d\n", lhs, rhs);
-    opStack->push_back(lhs + rhs);
+    op.int_type = lhs + rhs;
+    op_v.op= op;
+    op_v.tag = INT;
+    opStack->push_back(op_v);
 
 }
 
+/*
 void Interpretador::ladd(op_stack *opStack){
     uint8_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
@@ -236,9 +243,10 @@ void Interpretador::ladd(op_stack *opStack){
     opStack->push_back(operand1[1] + operand2[1]);
 }
 void Interpretador::new_op(op_stack *opStack){
+
     
     
-}
+}*/
 //
 //void fadd(jStackFrame &jStack){
 //}

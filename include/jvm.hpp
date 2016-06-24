@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "../include/leitor.hpp"
+#include "../include/heap.hpp"
 #include "../include/frame.hpp"
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
@@ -12,39 +13,6 @@
 #include "../include/interpreter_op_code.hpp"
 
 
-
-// Os tipos float e double não estão presentes porque não vamos dar suporte a
-// ponto flutuante.
-//
-// Falta definir os tipos reference e returnAddress.
-typedef union operand_u {
-    bool             boolean_type;
-    uint8_t          byte_type;
-    uint8_t          char_type;
-    int16_t          short_type;
-    int32_t          int_type;
-    int64_t          long_type;
-    void             *reference_type;
-    //returnAddress        returnAddress_type;
-} operand;
-
-// A diferença entre os operandos e as variáveis locais é que as variáveis locais
-// não podem receber long ou double. Para salvar um long ou um double são necessárias
-// duas variáveis locais.
-typedef union local_var_u {
-    bool             boolean_type;
-    uint8_t          byte_type;
-    uint8_t          char_type;
-    int16_t          short_type;
-    int32_t          int_type;
-    //reference        reference_type;
-    //returnAddress        returnAddress_type;
-} local_var;
-
-typedef struct instance_class_u {
-    ClassFile                       *cf;
-    std::map<std::string, operand>  field_instances;
-} InstanceClass;
 
 
 
@@ -61,7 +29,7 @@ class Jvm{
     public:
         //Construtor
         Jvm();
-        void instanceClass(std::string className);
+        void alocarClasse(std::string className);
 
         // Descrição:
         //    Procura o método main em uma classe.

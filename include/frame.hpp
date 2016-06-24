@@ -3,8 +3,9 @@
 
 #include<vector>
 #include<cstdint>
+#include "../include/heap.hpp"
 
-typedef std::vector<uint32_t> op_stack; //trocar para o tipo da union depois
+typedef std::vector<operand_value> op_stack; //trocar para o tipo da union depois
 
 class Frame{
 public:

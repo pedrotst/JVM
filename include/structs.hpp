@@ -1,5 +1,5 @@
-#ifndef _STRUCTS_HPP
-#define _STRUCTS_HPP
+#ifndef STRUCTS_HPP
+#define STRUCTS_HPP
 
 #include <vector>
 #include <stdint.h>

@@ -24,7 +24,7 @@ int Jvm::run(const char* arq_class_name) {
 
 	leitorClass_info(&classF, arquivoClass);
 
-    this->instanceClass(classF.getClassName());
+    this->alocarClasse(classF.getClassName());
 
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
@@ -109,7 +109,7 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
-void Jvm::instanceClass(string className){
+void Jvm::alocarClasse(string className){
     ClassFile classF;
     FILE *arquivoClass = NULL;
     InstanceClass inst;
@@ -152,7 +152,7 @@ int Jvm::execMethod(int n, ClassFile classF) {
 	// Pilha de operandos.
 	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
 	// das instruções.
-	std::vector<operand> operandStack;
+	std::vector<operand_value> operandStack;
 	// Pilha de variáveis locais.
 	std::vector<local_var> localVarStack;
 	// Frame da javaStack.

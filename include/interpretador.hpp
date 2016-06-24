@@ -1,7 +1,7 @@
 #ifndef INTERPRETADOR_H
 #define INTERPRETADOR_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <stdio.h>
 #include <stdlib.h>
 
