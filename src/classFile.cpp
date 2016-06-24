@@ -1,6 +1,7 @@
 #include "../include/classFile.hpp"
 
 using namespace std;
+
 string ClassFile::getSource(){
     int index;
     for(int n=0; n < this->attributes_count; n++){
@@ -8,7 +9,7 @@ string ClassFile::getSource(){
         index = attributeElement.attribute_name_index_l;
         if(!strcmp(this->constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
+            return(this->getCpoolUtf8(index));
         }
     }
 }

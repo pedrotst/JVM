@@ -12,6 +12,7 @@
 #include "../include/print_code.hpp"
 #include "../include/classFile.hpp"
 #include "../include/op_instrucs.hpp"
+#include "../include/operationMap.hpp"
 
 
 void exibeClass(ClassFile classF);

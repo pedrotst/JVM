@@ -61,7 +61,7 @@ class Jvm{
     public:
         //Construtor
         Jvm();
-        void createClass(std::string className);
+        void instanceClass(std::string className);
 
         // Descrição:
         //    Procura o método main em uma classe.

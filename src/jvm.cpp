@@ -24,7 +24,7 @@ int Jvm::run(const char* arq_class_name) {
 
 	leitorClass_info(&classF, arquivoClass);
 
-    this->createClass(classF.getClassName());
+    this->instanceClass(classF.getClassName());
 
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
@@ -109,7 +109,7 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
-void Jvm::InstanceClass(string className){
+void Jvm::instanceClass(string className){
     ClassFile classF;
     FILE *arquivoClass = NULL;
     InstanceClass inst;
@@ -124,13 +124,14 @@ void Jvm::InstanceClass(string className){
         leitorClass_info(&classF, arquivoClass);
         this->loadedClasses[className] = classF;
     }
-    else 
+    else {
         classF = this->loadedClasses[className];
+    }
 
     cout << "Creating class" << className << endl;
     vector<string> fnames = classF.getFieldsNames();
     for(int i=0; i < fnames.size(); i++){
-        string fname = fnames[i]
+        string fname = fnames[i];
         cout << fnames[i] << endl;
 
         //faz instancia do field segundo seu tipo
