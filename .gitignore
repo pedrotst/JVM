@@ -34,3 +34,4 @@ leitor
 
 # Vim swap
 *.swp
+*.swo

@@ -3,11 +3,11 @@
 
 #include <iostream>
 #include "../include/leitor.hpp"
-#include "../include/exibidor.hpp"
 #include "../include/frame.hpp"
 #include "../include/interpretador.hpp"
 #include "../include/opcode.hpp"
 #include "../include/exibidor.hpp"
+#include "../include/classFile.hpp"
 #include "../include/op_instrucs.hpp"
 #include "../include/interpreter_op_code.hpp"
 
@@ -41,13 +41,26 @@ typedef union local_var_u {
     //returnAddress        returnAddress_type;
 } local_var;
 
+typedef struct instance_class_u {
+    ClassFile                       *cf;
+    std::map<std::string, operand>  field_instances;
+} InstanceClass;
+
+
+
 class Jvm{
     private:
         std::vector<Frame> jStack;
-        std::vector<ClassFile> loadedClasses;
+        //troquei loadedClasses para mapa entre className e classFile
+        //pois assim podemos
+        //checar se a classe ta carregada checando simplesmente
+        //se loadedClasses[className] != NULL
+        std::map<std::string, ClassFile> loadedClasses;
+        std::map<std::string, InstanceClass> heap;
     public:
         //Construtor
         Jvm();
+        void createClass(std::string className);
 
         // Descrição:
         //    Procura o método main em uma classe.

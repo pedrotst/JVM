@@ -8,6 +8,7 @@
 #include <cstring>
 
 #include "../include/structs.hpp"
+#include "../include/classFile.hpp"
 #include "../include/attributes.hpp"
 #include "../include/little_to_big.hpp"
 #include "../include/read_bytes.hpp"

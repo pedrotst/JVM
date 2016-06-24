@@ -24,7 +24,7 @@ int Jvm::run(const char* arq_class_name) {
 
 	leitorClass_info(&classF, arquivoClass);
 
-	this->loadedClasses.push_back(classF);
+    this->createClass(classF.getClassName());
 
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
@@ -107,6 +107,24 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 	return name;
 }
 
+void Jvm::createClass(std::string className){
+    ClassFile classF;
+    FILE *arquivoClass = NULL;
+
+    //if checa se a classe jah foi carregada
+    if(this->loadedClasses.find(className) == this->loadedClasses.end()){
+        if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
+            printf("O arquivo .class nao pode ser aberto.\n");
+            exit(0);
+        }
+
+        leitorClass_info(&classF, arquivoClass);
+        this->loadedClasses[className] = classF;
+    }
+
+
+
+}
 /////////////////////////////////////////////////////////////////////////////
 int Jvm::execMethod(int n, ClassFile classF) {
 	int index, j, pc, buffer;

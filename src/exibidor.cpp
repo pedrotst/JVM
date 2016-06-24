@@ -582,8 +582,8 @@ void exibeClass(ClassFile classF){
             printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
             printf("Sourcefile_index: #%d\t\t", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
-            index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            printf(" %s\n", classF.constant_pool[index-1].cp_union.constant_Utf8.bytes);
+            //index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
+            cout << classF.getClassName() << endl;
 
         }
         if(!strcmp(classF.constant_pool[index-1].cp_union.constant_Utf8.bytes, "InnerClasses")) {

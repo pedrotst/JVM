@@ -10,6 +10,7 @@
 
 #include "../include/structs.hpp"
 #include "../include/print_code.hpp"
+#include "../include/classFile.hpp"
 #include "../include/op_instrucs.hpp"
 
 
