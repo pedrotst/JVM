@@ -30,7 +30,7 @@ int Jvm::run(const char* arq_class_name) {
 	// a execução é finalizada. Se encontrar, começa a execução.
 	main_index = findMain(&classF);
 	if (main_index) {
-		execMethod(main_index, classF);
+		//execMethod(main_index, classF);
 	}
 	else {
 		printf("O arquivo .class nao possui uma main.\n");
@@ -127,16 +127,59 @@ void Jvm::alocarClasse(string className){
     else {
         classF = this->loadedClasses[className];
     }
+    inst.cf = &classF;
 
     cout << "Creating class" << className << endl;
-    vector<string> fnames = classF.getFieldsNames();
-    for(int i=0; i < fnames.size(); i++){
-        string fname = fnames[i];
-        cout << fnames[i] << endl;
+    map<string, string> fbinds = classF.getFieldsNamesTypes();
+    for(auto const &ent : fbinds){
+        string fname = ent.first;
+        const char* ftype = ent.second.c_str();
+        cout << fname << " " << ftype[0] << endl;
 
-        //faz instancia do field segundo seu tipo
-        //inst.field_instances[fname] =  
-
+        field_value fval;
+        switch(ftype[0]){
+            case 'B': //byte type
+                fval.tag = BYTE;
+                fval.val.byte = 0;
+                break;
+            case 'C': //char
+                fval.tag = CHAR;
+                fval.val.caractere = 0;
+                break;
+            case 'D': // double
+                fval.tag = DUPLO;
+                fval.val.duplo = 0;
+                break;
+            case 'F': // float
+                fval.tag = INSTANCIA;
+                fval.val.pFlutuante = 0;
+                break;
+            case 'I': // int
+                fval.tag = INT;
+                fval.val.inteiro = 0;
+                break;
+            case 'J': // long
+                fval.tag = LONGO;
+                fval.val.longo = 0;
+                break;
+            case 'S': // short
+                fval.tag = CURTO;
+                fval.val.curto = 0;
+                break;
+            case 'Z': // boolean
+                fval.tag = BOOL;
+                fval.val.boleano = false;
+                break;
+            case 'L': // reference
+                fval.tag = INSTANCIA;
+                fval.val.instancia = NULL;
+                break;
+            case '[': // array
+                fval.tag = LISTA;
+                //fval.val = NULL;
+                break;
+        inst.field_instances[fname] = fval;
+    }
     }
 
 

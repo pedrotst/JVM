@@ -27,14 +27,15 @@ string ClassFile::getCpoolUtf8(int index){
 
 }
 
-vector<string> ClassFile::getFieldsNames(){
-    vector<string> fnames;
+map<string, string> ClassFile::getFieldsNamesTypes(){
+    map<string, string> fbind;
     
     for(int i=0; i < this->fields_count; i++){
-        string fieldName;
+        string fieldName, fieldType;
         fieldName = this->getCpoolUtf8(this->fields[i].name_index);
-        fnames.push_back(fieldName);
+        fieldType = this->getCpoolUtf8(this->fields[i].descriptor_index);
+        fbind[fieldName] = fieldType;
     }
-    return fnames;
+    return fbind;
 
 }

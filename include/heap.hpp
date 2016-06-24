@@ -8,10 +8,11 @@
 struct instance_class_u;
 
 typedef union type_s{
+    bool            boleano;
     int32_t         inteiro;
     char*           palavra;
     char            caractere;
-    uint8_t         byte;//byte e boolean e null
+    uint8_t         byte;
     int64_t         longo;
     uint32_t        pFlutuante;
     int16_t         curto;
@@ -21,7 +22,8 @@ typedef union type_s{
 }field_type;
 
 typedef enum tag_tipo_e{
-    INT = 0,
+    BOOL = 0,
+    INT,
     CHAR,
     PALAVRA,
     BYTE,
@@ -35,7 +37,7 @@ typedef enum tag_tipo_e{
 
 typedef struct field_value_s{
     uint8_t tag;
-    field_type field;
+    field_type val;
 }field_value;
 
 typedef struct instance_class_u {

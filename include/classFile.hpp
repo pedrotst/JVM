@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <string>
+#include <map>
 #include <exception>
 #include "../include/structs.hpp"
 
@@ -28,7 +29,8 @@ public:
     std::string getSource();
     std::string getClassName();
     std::string getCpoolUtf8(int index);
-    std::vector<std::string> getFieldsNames();
+    //retorna um bind entre o nome e o tipo
+    std::map<std::string, std::string> getFieldsNamesTypes();
 };
 
 #endif //CLASS_FILE
