@@ -56,6 +56,7 @@ class Jvm{
         //checar se a classe ta carregada checando simplesmente
         //se loadedClasses[className] != NULL
         std::map<std::string, ClassFile> loadedClasses;
+        //mapeia classname para instancias
         std::map<std::string, InstanceClass> heap;
     public:
         //Construtor

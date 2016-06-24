@@ -1,7 +1,7 @@
 #include "../include/classFile.hpp"
 
-
-std::string ClassFile::getSource(){
+using namespace std;
+string ClassFile::getSource(){
     int index;
     for(int n=0; n < this->attributes_count; n++){
         attribute_info attributeElement = this->attributes[n];
@@ -13,13 +13,27 @@ std::string ClassFile::getSource(){
     }
 }
 
-std::string ClassFile::getClassName(){
-    std::string source_name = this->getSource();
-    std::size_t found = source_name.find_first_of(".java");
+string ClassFile::getClassName(){
+    string source_name = this->getSource();
+    size_t found = source_name.find_first_of(".java");
     return source_name.substr(0, found);
 }
 
-std::vector<field_info> ClassFile::getFields(){
+string ClassFile::getCpoolUtf8(int index){
+    if(this->constant_pool[index-1].tag != CONSTANT_Utf8)
+        throw "Entrada nao eh utf8";
+    return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
 
+}
+
+vector<string> ClassFile::getFieldsNames(){
+    vector<string> fnames;
+    
+    for(int i=0; i < this->fields_count; i++){
+        string fieldName;
+        fieldName = this->getCpoolUtf8(this->fields[i].name_index);
+        fnames.push_back(fieldName);
+    }
+    return fnames;
 
 }

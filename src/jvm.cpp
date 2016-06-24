@@ -107,9 +107,12 @@ char* Jvm::getName(ClassFile *classF, int name_index){
 	return name;
 }
 
-void Jvm::createClass(std::string className){
+//Classe para iniciar instanciacao da classe
+//Se ele o classfile ainda nao foi carregado, ele carrega
+void Jvm::InstanceClass(string className){
     ClassFile classF;
     FILE *arquivoClass = NULL;
+    InstanceClass inst;
 
     //if checa se a classe jah foi carregada
     if(this->loadedClasses.find(className) == this->loadedClasses.end()){
@@ -121,6 +124,20 @@ void Jvm::createClass(std::string className){
         leitorClass_info(&classF, arquivoClass);
         this->loadedClasses[className] = classF;
     }
+    else 
+        classF = this->loadedClasses[className];
+
+    cout << "Creating class" << className << endl;
+    vector<string> fnames = classF.getFieldsNames();
+    for(int i=0; i < fnames.size(); i++){
+        string fname = fnames[i]
+        cout << fnames[i] << endl;
+
+        //faz instancia do field segundo seu tipo
+        //inst.field_instances[fname] =  
+
+    }
+
 
 
 

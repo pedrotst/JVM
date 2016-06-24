@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <string>
+#include <exception>
 #include "../include/structs.hpp"
 
 class ClassFile{
@@ -26,7 +27,8 @@ public:
 
     std::string getSource();
     std::string getClassName();
-    std::vector<field_info> getFields();
+    std::string getCpoolUtf8(int index);
+    std::vector<std::string> getFieldsNames();
 };
 
 #endif //CLASS_FILE
