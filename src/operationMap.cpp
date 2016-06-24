@@ -1,7 +1,8 @@
 #include "../include/operationMap.hpp"
 
 namespace OperationMap{
-	map<uint16_t, std::string> OperationMap::op_mapa;
+    namespace{
+	map<uint8_t, std::string> OperationMap::op_mapa;
 	OperationMap::op_mapa[0X00] = "NOP";
 	OperationMap::op_mapa[0X01] = "ACONST_NULL";
 	OperationMap::op_mapa[0X02] = "ICONST_M1";
@@ -209,6 +210,7 @@ namespace OperationMap{
 	OperationMap::op_mapa[0XFF] = "IMPDEP2";
     
     std::string getOperation(uint8_t opcode){
-        return(OperationMap::OperationMap::op_mapa[opcode]);
+        return(OperationMap::op_mapa[opcode]);
+    }
     }
 }
