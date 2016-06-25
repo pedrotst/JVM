@@ -12,53 +12,38 @@
 #include "../include/op_instrucs.hpp"
 #include "../include/interpreter_op_code.hpp"
 
-
-
-
-
 class Jvm{
     private:
+        // Pilha de execução da jvm. Pilha de frames.
         std::vector<Frame> jStack;
-        //troquei loadedClasses para mapa entre className e classFile
-        //pois assim podemos
-        //checar se a classe ta carregada checando simplesmente
-        //se loadedClasses[className] != NULL
+        // Vetor de classes carregadas.
         std::map<std::string, ClassFile> loadedClasses;
-        //mapeia classname para instancias
+        // Mapeia classname para instancias
         std::map<std::string, InstanceClass> heap;
+
     public:
-        //Construtor
-        Jvm();
+        // Construtor
+        Jvm(){};
+
+        // Descrição:
+        //    Obtém uma referência para uma classe carregada. A classe é carregada,
+        //    caso já não estiver.
+        //
+        // Parâmetros:
+        //    string className: nome da classe a ser retornada
+        //
+        // Retorno:
+        //    Refrência para uma classe carregada.
+        ClassFile getClassRef(std::string className);
+
+        // Descrição:
+        //
+        // Parâmetros:
+        //
+        // Retorno:
+        //
         void alocarClasse(std::string className);
 
-        // Descrição:
-        //    Procura o método main em uma classe.
-        //
-        // Parâmetros:
-        //    ClassFile *classF_pt: Um ponteiro para uma classe carregada.
-        //
-        // Retorno:
-        //    Se a main for encontrada, retorna um ponteiro para sua method_info.
-        //    A mesma method_info que está dentro da constant_pool.
-        //
-        //    Se a main não for encontrada, retorna NULL.
-        //
-        int findMain (ClassFile *classF_pt);
-
-        // Descrição:
-        //    Resolve uma referência para um nome presente na constant_pool.
-        //
-        // Parâmetros:
-        //    ClassFile *classF_pt: Um ponteiro para uma classe carregada.
-        //
-        //    int name_index: Um index da constant_pool.
-        //
-        // Retorno:
-        //    Se o index apontar para uma string, retorna a string.
-        //
-        //    Se o index não apontar para uma string, retorna NULL.
-        //
-        char* getName(ClassFile *classF_pt, int name_index);
 
         // Em andamento
         //

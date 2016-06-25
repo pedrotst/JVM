@@ -1,5 +1,5 @@
 #ifndef CLASS_FILE
-#define CLASS_FILE 
+#define CLASS_FILE
 
 #include <string.h>
 #include <string>
@@ -26,11 +26,34 @@ public:
 	uint16_t attributes_count;
 	std::vector<attribute_info> attributes;
 
-    std::string getSource();
-    std::string getClassName();
-    std::string getCpoolUtf8(int index);
-    //retorna um bind entre o nome e o tipo
-    std::map<std::string, std::string> getFieldsNamesTypes();
+	std::string getSource();
+	std::string getClassName();
+	std::string getCpoolUtf8(int index);
+	//retorna um bind entre o nome e o tipo
+	std::map<std::string, std::string> getFieldsNamesTypes();
+
+	// Descrição:
+	//    Procura o método main em uma classe.
+	//
+	// Retorno:
+	//    Se a main for encontrada, retorna o index do método main na classe.
+	//
+	//    Se a main não for encontrada, retorna -1.
+	//
+	int findMain();
+
+	// Descrição:
+	//    Resolve uma referência para um nome presente na constant_pool.
+	//
+	// Parâmetros:
+	//    int name_index: Um index da constant_pool.
+	//
+	// Retorno:
+	//    Se o index apontar para uma string, retorna a string.
+	//
+	//    Se o index não apontar para uma string, retorna NULL.
+	//
+	char* getName(int name_index);
 };
 
 #endif //CLASS_FILE

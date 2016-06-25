@@ -35,3 +35,6 @@ leitor
 # Vim swap
 *.swp
 *.swo
+
+# Executable antigo
+leitor3

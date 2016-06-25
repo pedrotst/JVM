@@ -38,3 +38,41 @@ map<string, string> ClassFile::getFieldsNamesTypes(){
     }
     return fbind;
 }
+
+/////////////////////////////////////////////////////////////////////////////
+int ClassFile::findMain() {
+	int i = 0;
+	char *method_name = NULL;
+	method_info *method_pt = NULL;
+
+	// Para cada método
+	for (i = 0; i < this->methods_count; i++) {
+		// Pega o método
+		method_pt = &this->methods[i];
+		// Pega o nome do método
+		method_name = this->getName(method_pt->name_index);
+		// Retorna index do método, se for o main
+		if (!strcmp(method_name, "main"))
+			return i;
+	}
+
+	// Só ocorre se não houver main
+	return -1;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+char* ClassFile::getName(int name_index){
+	char *name = NULL;
+
+	// Checa se a entrada da constant_pool apontada pelo index é uma string.
+	// Se não for retorna NULL.
+      if (this->constant_pool[name_index-1].tag != CONSTANT_Utf8) {
+            printf("O index (da constant_pool) passado não aponta para uma string.\n");
+            return NULL;
+      }
+
+	// Obtém a string da constant_pool.
+	name = this->constant_pool[name_index-1].cp_union.constant_Utf8.bytes;
+
+	return name;
+}
