@@ -53,9 +53,9 @@ public:
       // Pilha de operandos.
 	// A pilha de operandos começa vazia. Ela é populada ao longo da execução
 	// das instruções.
-	std::vector<operand> operandStack;
+	op_stack operandStack;
 	// Vetor de variáveis locais.
-	std::vector<local_var> localVarVector;
+	local_var_vector localVarVector;
       // pc
       uint8_t pc;
       // referencia pra constant pool

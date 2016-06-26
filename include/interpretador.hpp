@@ -15,18 +15,23 @@ class Jvm;
 
 class Interpretador{
 	public:
-		Interpretador(Jvm *jvm);
+		Interpretador(/*Jvm *jvm*/);
 		void execute_instruction(int opcode, op_stack *opStack);
+		int push_operands(uint8_t opcode, char* codeAligned, op_stack *opStack);
 
 	private:
 		Jvm *jvm;
 		typedef void (Interpretador::*instructionFunction)(op_stack*);
-		std::vector<instructionFunction> instructions;
+		std::vector<instructionFunction> instructions;//instruções
 
+		typedef int (Interpretador::*instructionFunctionOperands)(char*, op_stack*);
+		std::vector<instructionFunctionOperands> operands_pusher;//preparador da pilha para as instruções
 		//uma das fun��es do interpretador
 		void iadd(op_stack *opStack);
+		int iadd_pusher(char *codeAligned, op_stack *opStack);
 		void ladd(op_stack *opStack);
 		void new_op(op_stack *opStack);
+		int new_op_pusher(char* codeAligned, op_stack *opStack);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

@@ -44,18 +44,20 @@ int ClassFile::findMain() {
 	int i = 0;
 	char *method_name = NULL;
 	method_info *method_pt = NULL;
-
+    //printf("Em findMain():\n");
 	// Para cada método
 	for (i = 0; i < this->methods_count; i++) {
 		// Pega o método
 		method_pt = &this->methods[i];
 		// Pega o nome do método
 		method_name = this->getName(method_pt->name_index);
+		//printf("Nome do metodo checado: %s\n", method_name);
 		// Retorna index do método, se for o main
-		if (!strcmp(method_name, "main"))
+		//printf("Resultado de strcmp(): %d\n", strcmp(method_name, "main"));
+		if (strcmp(method_name, "main") == 0){
 			return i;
+		}
 	}
-
 	// Só ocorre se não houver main
 	return -1;
 }
@@ -70,7 +72,6 @@ char* ClassFile::getName(int name_index){
             printf("O index (da constant_pool) passado não aponta para uma string.\n");
             return NULL;
       }
-
 	// Obtém a string da constant_pool.
 	name = this->constant_pool[name_index-1].cp_union.constant_Utf8.bytes;
 

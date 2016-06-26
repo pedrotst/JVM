@@ -2,13 +2,20 @@
 
 
 void Interpretador::execute_instruction(int opcode, op_stack *opStack){
+    printf("Vou executar a instrucao\n");
     (*this.*instructions[opcode])(opStack);
 }
 
-Interpretador::Interpretador(Jvm *jvm){
-    this->jvm = jvm;
+int Interpretador::push_operands(uint8_t opcode, char* code, op_stack *opStack){
+    return (*this.*operands_pusher[opcode])(code, opStack);
+}
+
+Interpretador::Interpretador(/*Jvm *jvm*/){
+    //this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
+    std::vector<instructionFunctionOperands> pt2(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
+    pt2[IADD] = &Interpretador::iadd_pusher;
 //    pt[NOP] = &nop;
 //    pt[ACONST_NULL] = &aConst_null;
 //    pt[ICONST_M1] = &iConst_m1;
@@ -187,7 +194,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[INvOKESTATIC] = &invokestatic;
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
-//    pt[NEW] = &new_op;
+    pt[NEW] = &Interpretador::new_op;
+    pt2[NEW] = &Interpretador::new_op_pusher;
 //    pt[NEWARRAY] = &newarray;
 //    pt[ANEWARRAY] = &anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;
@@ -206,6 +214,11 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP1] = &impdep1;
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
+    this->operands_pusher = pt2;
+}
+
+int Interpretador::iadd_pusher(char* code, op_stack *opStack){
+    return 0;
 }
 
 void Interpretador::iadd(op_stack *opStack){
@@ -240,12 +253,28 @@ void Interpretador::ladd(op_stack *opStack){
 
     opStack->push_back(operand1[0] + operand2[0]);
     opStack->push_back(operand1[1] + operand2[1]);
+}*/
+
+int Interpretador::new_op_pusher(char* codeAligned, op_stack *opStack){
+    operand argumento;
+    //falta arrumar as tags
+    argumento.tag = 0;
+    //coloquei como char para teste
+    argumento.value.char_value = codeAligned[0];
+    opStack->push_back(argumento);
+    argumento.value.char_value = codeAligned[1];
+    opStack->push_back(argumento);
+    return 2;//numero de bytes lidos
 }
 void Interpretador::new_op(op_stack *opStack){
-
-
-
-}*/
+    printf("Cheguei na new\n");
+    operand argumento = opStack->back();
+//		uint8_t operand = code[n+1];
+//		buffer = operand;
+//		buffer = buffer<<8;
+//		buffer = buffer|operand;
+//		printf("%d a\n", buffer);
+}
 //
 //void fadd(jStackFrame &jStack){
 //}

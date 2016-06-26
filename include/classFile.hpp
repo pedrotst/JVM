@@ -1,6 +1,7 @@
 #ifndef CLASS_FILE
 #define CLASS_FILE
 
+#include <stdio.h>
 #include <string.h>
 #include <string>
 #include <map>

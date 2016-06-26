@@ -21,10 +21,10 @@ int Jvm::run(const char* arq_class_name) {
 	// Procura o método main na primeira classe carregada. Se não encontrar,
 	// a execução é finalizada. Se encontrar, começa a execução.
 	main_index = classF.findMain();
-	if (main_index) {
-		//execMethod(main_index, classF);
-	}
-	else {
+	printf("Valor de main_index: %d\n", main_index);
+	if(main_index > 0){
+		execMethod(main_index, &classF);
+	}else {
 		printf("O arquivo .class nao possui uma main.\n");
 		exit(0);
 	}
@@ -149,7 +149,7 @@ void Jvm::alocarObjeto(string className){
 
 /////////////////////////////////////////////////////////////////////////////
 int Jvm::execMethod(int n, ClassFile *classF) {
-	int index, j, pc, buffer;
+	int index, j, buffer;
       Code_attribute *code_attr_pt = NULL;
 	// Frame da javaStack.
 	Frame frame;
@@ -169,7 +169,7 @@ int Jvm::execMethod(int n, ClassFile *classF) {
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
 	// Executa o código do método.
-	// execCode();
+	execCode(code_attr_pt, &frame);
 	return 0;
 }
 
@@ -178,10 +178,10 @@ int Jvm::execCode(Code_attribute *code_attr_pt, Frame *frame_pt) {
       int n = 0, buffer = 0;
       uint8_t opcode = -1;
       char *code = NULL;
-
       code = code_attr_pt->code;
-
-      for(n = 0; n < code_attr_pt->code_length; n++) {
+      frame_pt->pc = 0;
+      Interpretador interpreter;
+      for(n = 0; n < 1/*code_attr_pt->code_length*/; n++) {
 		//teste
 		// interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
 		// de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
@@ -189,17 +189,16 @@ int Jvm::execCode(Code_attribute *code_attr_pt, Frame *frame_pt) {
             //
 		// A ideia seguinte seria chamar o vetor de instruções passando o op_code
 
-		int arg_qnt = interpreter_op_code(opcode);
+		//int arg_qnt = interpreter_op_code(opcode);
 		//as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
 		//para area de codigo, a posição do leitor na area de codigo(neste caso o n) e a referencia para a pilha.
-		uint8_t operand = code[n+1];
-		buffer = operand;
-		buffer = buffer<<8;
-		operand = code[n+2];
-		buffer = buffer|operand;
-		printf("%d a\n", buffer);
-
-            n += arg_qnt;
+        opcode = code[frame_pt->pc];
+        //Coloca os argumentos na pilha
+        //pc sempre aponta pra proxima instrução
+        frame_pt->pc += interpreter.push_operands(opcode, code+1, &frame_pt->operandStack);
+        //chama o interpre
+        interpreter.execute_instruction(opcode, &frame_pt->operandStack );
+        //n += arg_qnt;
       }
 
       return -1;
