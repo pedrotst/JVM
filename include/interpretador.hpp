@@ -5,15 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define numOpcodes 250 //mudar pra 250
+#define numOpcodes 250
 #include "../include/frame.hpp"
 #include "../include/opcode.hpp"
 #include "../include/jvm.hpp"
-//void(*)(jStackFrame&) >> ponteiro a função que retorna void e pega a referencia do que for passado como entrada
-//typedef utilizado para nomear o item descrito acima como instructionFunction
 
+// Somente uma declaraÃ§Ã£o, para poder compilar.
 class Jvm;
-//inicializador do interpretador
 
 class Interpretador{
 	public:
@@ -25,7 +23,7 @@ class Interpretador{
 		typedef void (Interpretador::*instructionFunction)(op_stack*);
 		std::vector<instructionFunction> instructions;
 
-		//uma das funções do interpretador
+		//uma das funï¿½ï¿½es do interpretador
 		void iadd(op_stack *opStack);
 		void ladd(op_stack *opStack);
 		void new_op(op_stack *opStack);

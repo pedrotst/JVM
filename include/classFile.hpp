@@ -54,6 +54,20 @@ public:
 	//    Se o index não apontar para uma string, retorna NULL.
 	//
 	char* getName(int name_index);
+
+	// Descrição:
+	//    Retorna o atributo Code de um dos métodos da classe.
+	//
+	// Parâmetros:
+	//    method_info *method: ponteiro para o método que terá seu atributo
+	//	Code obtido.
+	//
+	// Retorno:
+	//    Retorna um ponteiro para o atributo Code do método.
+	//
+	//    Se o método não possuir um atributo code, retorna NULL.
+	//
+	Code_attribute* getCodeAttr(method_info *method);
 };
 
 #endif //CLASS_FILE

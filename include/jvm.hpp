@@ -23,7 +23,7 @@ class Jvm{
 
     public:
         // Construtor
-        Jvm(){};
+        Jvm(){}
 
         // Descrição:
         //    Obtém uma referência para uma classe carregada. A classe é carregada,
@@ -42,14 +42,16 @@ class Jvm{
         //
         // Retorno:
         //
-        void alocarClasse(std::string className);
+        void alocarObjeto(std::string className);
 
 
         // Em andamento
         //
         // Cria o frame
-        int execMethod(int main_index, ClassFile classF);
+        int execMethod(int main_index, ClassFile *classF);
         bool isCode(attribute_info attr);
+
+        int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 
 
         // Em andamento

@@ -76,3 +76,24 @@ char* ClassFile::getName(int name_index){
 
 	return name;
 }
+
+/////////////////////////////////////////////////////////////////////////////
+Code_attribute* ClassFile::getCodeAttr(method_info *method){
+	Code_attribute *code_attr = NULL;
+	int i = 0, name_index = 0;
+      char *name = NULL;
+
+	for(i = 0; i < method->attributes_count; i++) {
+		// Obtém o name_index do atributo i
+		name_index = method->attributes[i].attribute_name_index_l;
+		// Resolve o nome do atributo na constant_pool
+		name = this->constant_pool[name_index-1].cp_union.constant_Utf8.bytes;
+            // Checa se o nome do atributo é "Code".
+            if (!strcmp(name, "Code")) {
+			code_attr = &method->attributes[i].attribute_union.attr_Code;
+			return code_attr;
+		}
+	}
+
+	return NULL;
+}
