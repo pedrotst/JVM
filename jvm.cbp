@@ -43,11 +43,13 @@
 		<Unit filename="include/leitor.hpp" />
 		<Unit filename="include/little_to_big.hpp" />
 		<Unit filename="include/opcode.hpp" />
+		<Unit filename="include/operationMap.hpp" />
 		<Unit filename="include/print_code.hpp" />
 		<Unit filename="include/read_attributes.hpp" />
 		<Unit filename="include/read_bytes.hpp" />
 		<Unit filename="include/read_methods.hpp" />
 		<Unit filename="include/structs.hpp" />
+		<Unit filename="src/classFile.cpp" />
 		<Unit filename="src/exibidor.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/interpretador.cpp" />
@@ -55,6 +57,7 @@
 		<Unit filename="src/leitor.cpp" />
 		<Unit filename="src/little_to_big.cpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/operationMap.cpp" />
 		<Unit filename="src/print_attributes.cpp" />
 		<Unit filename="src/print_code.cpp" />
 		<Unit filename="src/read_attributes.cpp" />
