@@ -37,6 +37,7 @@
 		</Compiler>
 		<Unit filename="include/attributes.hpp" />
 		<Unit filename="include/exibidor.hpp" />
+		<Unit filename="include/frame.hpp" />
 		<Unit filename="include/heap.hpp" />
 		<Unit filename="include/interpretador.hpp" />
 		<Unit filename="include/jvm.hpp" />

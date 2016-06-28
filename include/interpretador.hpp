@@ -9,6 +9,7 @@
 #include "../include/frame.hpp"
 #include "../include/opcode.hpp"
 #include "../include/jvm.hpp"
+#include "../include/structs.hpp"
 
 // Somente uma declaração, para poder compilar.
 class Jvm;
@@ -16,22 +17,35 @@ class Jvm;
 class Interpretador{
 	public:
 		Interpretador(/*Jvm *jvm*/);
-		void execute_instruction(int opcode, op_stack *opStack);
-		int push_operands(uint8_t opcode, char* codeAligned, op_stack *opStack);
-
+		//void execute_instruction(int opcode, op_stack *opStack);
+		//int push_operands(uint8_t opcode, char* codeAligned, op_stack *opStack);
+        int runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt);
 	private:
 		Jvm *jvm;
-		typedef void (Interpretador::*instructionFunction)(op_stack*);
+		//typedef void (Interpretador::*instructionFunction)(op_stack*);
+		typedef void (Interpretador::*instructionFunction)();
 		std::vector<instructionFunction> instructions;//instruções
+		Frame *frame_corrente;
+		Code_attribute *code_corrente;
+		uint16_t descriptor_index;
 
-		typedef int (Interpretador::*instructionFunctionOperands)(char*, op_stack*);
+		//typedef int (Interpretador::*instructionFunctionOperands)(char*, op_stack*);
+		typedef int (Interpretador::*instructionFunctionOperands)();
 		std::vector<instructionFunctionOperands> operands_pusher;//preparador da pilha para as instruções
+
+		int push_operands(uint8_t opcode);
+		void execute_instruction(int opcode);
 		//uma das fun��es do interpretador
-		void iadd(op_stack *opStack);
-		int iadd_pusher(char *codeAligned, op_stack *opStack);
-		void ladd(op_stack *opStack);
-		void new_op(op_stack *opStack);
-		int new_op_pusher(char* codeAligned, op_stack *opStack);
+//		void iadd(op_stack *opStack);
+//		int iadd_pusher(char *codeAligned, op_stack *opStack);
+//		void ladd(op_stack *opStack);
+//		void new_op(op_stack *opStack);
+//		int new_op_pusher(char* codeAligned, op_stack *opStack);
+        void iadd();
+		int iadd_pusher();
+		void ladd();
+		void new_op();
+		int new_op_pusher();
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

@@ -1,14 +1,43 @@
 #include "../include/interpretador.hpp"
 
 
-void Interpretador::execute_instruction(int opcode, op_stack *opStack){
+void Interpretador::execute_instruction(int opcode){
     printf("Vou executar a instrucao\n");
-    (*this.*instructions[opcode])(opStack);
+    (*this.*instructions[opcode])();
 }
 
-int Interpretador::push_operands(uint8_t opcode, char* code, op_stack *opStack){
-    return (*this.*operands_pusher[opcode])(code, opStack);
+int Interpretador::push_operands(uint8_t opcode){
+    return (*this.*operands_pusher[opcode])();
 }
+//
+//
+//void Interpretador::setFrame(Frame *frame){
+//    this->referencias[0] = (void*) frame->operandStack;
+//    this->referencias[1] = (void*) frame->constant_pool_pt;
+//    this->referencias[2] = (void*) frame->localVarVector;
+//}
+
+int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt) {
+    //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
+    this->frame_corrente = frame_pt;
+    this->code_corrente = code_attr_pt;
+    this->descriptor_index = descriptor_index;
+
+    uint8_t opcode;
+    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 1/*code_attr_pt->code_length*/;) {
+    opcode = this->code_corrente->code[this->frame_corrente->pc];
+//        //Coloca os argumentos na pilha
+//        //pc sempre aponta pra proxima instrução
+//        interpreter.setConstantPool(frame_pt->constant_pool_pt);
+//        interpreter.setOperandStack(frame_pt->operandStack);
+//        frame_pt->pc += interpreter.push_operands(opcode, code+frame_pt->pc+1, &frame_pt->operandStack);
+    this->frame_corrente->pc += this->push_operands(opcode);
+    this->execute_instruction(opcode);
+    //n += arg_qnt;
+    }
+    return -1;
+}
+
 
 Interpretador::Interpretador(/*Jvm *jvm*/){
     //this->jvm = jvm;
@@ -217,24 +246,33 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
     this->operands_pusher = pt2;
 }
 
-int Interpretador::iadd_pusher(char* code, op_stack *opStack){
+//int Interpretador::iadd_pusher(char* code, op_stack *opStack){
+int Interpretador::iadd_pusher(){
     return 0;
 }
 
-void Interpretador::iadd(op_stack *opStack){
+//void Interpretador::iadd(op_stack *opStack){
+void Interpretador::iadd(){
+
     uint32_t lhs, rhs;
     operand op;
     operand_value op_v;
     printf("Entrou na funcao\n");
-    lhs = opStack->back().value.int_value;
-    opStack->pop_back();
-    rhs = opStack->back().value.int_value;
-    opStack->pop_back();
+//    lhs = opStack->back().value.int_value;
+//    opStack->pop_back();
+//    rhs = opStack->back().value.int_value;
+//    opStack->pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    rhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
     printf("lhs: %d rhs: %d\n", lhs, rhs);
     op_v.int_value = lhs + rhs;
     op.value = op_v;
     op.tag = INT;
-    opStack->push_back(op);
+    //opStack->push_back(op);
+    this->frame_corrente->operandStack.push_back(op);
 }
 
 /*
@@ -255,25 +293,22 @@ void Interpretador::ladd(op_stack *opStack){
     opStack->push_back(operand1[1] + operand2[1]);
 }*/
 
-int Interpretador::new_op_pusher(char* codeAligned, op_stack *opStack){
-    operand argumento;
-    //falta arrumar as tags
-    argumento.tag = 0;
-    //coloquei como char para teste
-    argumento.value.char_value = codeAligned[0];
-    opStack->push_back(argumento);
-    argumento.value.char_value = codeAligned[1];
-    opStack->push_back(argumento);
-    return 2;//numero de bytes lidos
+//int Interpretador::new_op_pusher(char* codeAligned, op_stack *opStack){
+int Interpretador::new_op_pusher(){
+//new não utiliza a stack como entrada
+    return 0;
 }
-void Interpretador::new_op(op_stack *opStack){
+
+//void Interpretador::new_op(op_stack *opStack){
+void Interpretador::new_op(){
     printf("Cheguei na new\n");
-    operand argumento = opStack->back();
-//		uint8_t operand = code[n+1];
-//		buffer = operand;
-//		buffer = buffer<<8;
-//		buffer = buffer|operand;
-//		printf("%d a\n", buffer);
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
+    uint16_t buffer = operand;
+    buffer = buffer<<8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    buffer = buffer|operand;
+    printf("new #%d\n", buffer);
+    this->frame_corrente->pc += 2; //dois bytes lidos,
 }
 //
 //void fadd(jStackFrame &jStack){
