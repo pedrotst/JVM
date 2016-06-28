@@ -49,7 +49,7 @@ int Jvm::run(const char* arq_class_name) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-ClassFile Jvm::getClassRef(std::string className) {
+ClassFile Jvm::getClassRef(string className) {
       ClassFile classF;
       FILE *arquivoClass = NULL;
 
@@ -148,12 +148,15 @@ void Jvm::alocarObjeto(string className){
 }
 
 /////////////////////////////////////////////////////////////////////////////
+/** execMethod é criar o ambiente para que o método possa ser executado:
+ * inicializa as informações no frame;
+ * encontra e prepara method para execução;
+ * encontra o índice do descritor do metodo.
+ *
+ */
+	
 int Jvm::execMethod(int n, ClassFile *classF) {
-	//execMethod é criar o ambiente para que o método possa ser executado:
-	//inicializa as informações no frame;
-	//encontra e prepara method para execução;
-	//encontra o índice do descritor do metodo.
-	uint16_t index;
+	uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
 	// Frame da javaStack.
 	Frame frame;
@@ -162,14 +165,14 @@ int Jvm::execMethod(int n, ClassFile *classF) {
 	this->jStack.push_back(frame);
 
     code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
-	index = classF->methods[n].descriptor_index;
+	descriptor_index = classF->methods[n].descriptor_index;
 
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
 	// Executa o código do método.
 	//execCode(code_attr_pt, &frame);
 	Interpretador interpreter;
-	interpreter.runCode(index, code_attr_pt, &frame);
+	interpreter.runCode(descriptor_index, code_attr_pt, &frame);
 	return 0;
 }
 

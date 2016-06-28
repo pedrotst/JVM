@@ -25,15 +25,10 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 1/*code_attr_pt->code_length*/;) {
-    opcode = this->code_corrente->code[this->frame_corrente->pc];
-//        //Coloca os argumentos na pilha
-//        //pc sempre aponta pra proxima instrução
-//        interpreter.setConstantPool(frame_pt->constant_pool_pt);
-//        interpreter.setOperandStack(frame_pt->operandStack);
-//        frame_pt->pc += interpreter.push_operands(opcode, code+frame_pt->pc+1, &frame_pt->operandStack);
-    this->frame_corrente->pc += this->push_operands(opcode);
-    this->execute_instruction(opcode);
-    //n += arg_qnt;
+        opcode = this->code_corrente->code[this->frame_corrente->pc];
+        this->frame_corrente->pc += this->push_operands(opcode);
+        this->execute_instruction(opcode);
+        //n += arg_qnt;
     }
     return -1;
 }
