@@ -50,19 +50,18 @@ typedef std::vector<local_var> local_var_vector;
 class Frame{
 public:
       int max_stack, max_locals;
-      // Pilha de operandos.
-    // A pilha de operandos começa vazia. Ela é populada ao longo da execução
-	// das instruções.
-	op_stack operandStack;
-	// Vetor de variáveis locais.
-	local_var_vector localVarVector;
-      // pc
+      /** Pilha de operandos.
+      * A pilha de operandos começa vazia. Ela é populada ao longo da execução
+      * das instruções.
+      */
+      op_stack operandStack;
+      /** Vetor de variáveis locais. */
+      local_var_vector localVarVector;
       uint8_t pc;
-      // referencia pra constant pool
+      /** referencia pra constant pool */
       std::vector<cp_info> *constant_pool_pt;
 
       Frame(){} //Depois esse Construtor deve ser deletado
-
       Frame(int max_stack, int max_locals, uint16_t descriptor_index, std::vector<cp_info> *constant_pool_pt);
 };
 
