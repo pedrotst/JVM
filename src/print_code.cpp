@@ -1,7 +1,7 @@
 #include "../include/print_code.hpp"
 
 int print_code(uint8_t opcode) {
-      int n = 0;
+      //int n = 0;
 
       switch (opcode) {
             case (INvOKEINTERFACE):

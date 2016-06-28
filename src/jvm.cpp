@@ -149,57 +149,59 @@ void Jvm::alocarObjeto(string className){
 
 /////////////////////////////////////////////////////////////////////////////
 int Jvm::execMethod(int n, ClassFile *classF) {
-	int index, j, buffer;
-      Code_attribute *code_attr_pt = NULL;
+	//execMethod é criar o ambiente para que o método possa ser executado:
+	//inicializa as informações no frame;
+	//encontra e prepara method para execução;
+	//encontra o índice do descritor do metodo.
+	uint16_t index;
+    Code_attribute *code_attr_pt = NULL;
 	// Frame da javaStack.
 	Frame frame;
-
-	// Popula a pilha de variáveis locais com os patâmetros do método.
-      // As variáveis locais do método são adicionadas pelas instruções do code.
-      /* Em andamento */
-
-      // Obtém o atributo code do método
-      code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
-
+	frame.constant_pool_pt = &classF->constant_pool;
 	// Empilha o frame.
 	this->jStack.push_back(frame);
 
+    code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
 	index = classF->methods[n].descriptor_index;
 
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
 	// Executa o código do método.
-	execCode(code_attr_pt, &frame);
+	//execCode(code_attr_pt, &frame);
+	Interpretador interpreter;
+	interpreter.runCode(index, code_attr_pt, &frame);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int Jvm::execCode(Code_attribute *code_attr_pt, Frame *frame_pt) {
-      int n = 0, buffer = 0;
-      uint8_t opcode = -1;
-      char *code = NULL;
-      code = code_attr_pt->code;
-      frame_pt->pc = 0;
-      Interpretador interpreter;
-      for(n = 0; n < 1/*code_attr_pt->code_length*/; n++) {
-		//teste
-		// interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
-		// de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
-		// na pilha. Para este fim criamos o interpreter_op_code.cpp/hpp.
-            //
-		// A ideia seguinte seria chamar o vetor de instruções passando o op_code
-
-		//int arg_qnt = interpreter_op_code(opcode);
-		//as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
-		//para area de codigo, a posição do leitor na area de codigo(neste caso o n) e a referencia para a pilha.
-        opcode = code[frame_pt->pc];
-        //Coloca os argumentos na pilha
-        //pc sempre aponta pra proxima instrução
-        frame_pt->pc += interpreter.push_operands(opcode, code+1, &frame_pt->operandStack);
-        //chama o interpre
-        interpreter.execute_instruction(opcode, &frame_pt->operandStack );
-        //n += arg_qnt;
-      }
-
-      return -1;
-}
+//int Jvm::execCode(Code_attribute *code_attr_pt, Frame *frame_pt) {
+//      int n = 0, buffer = 0;
+//      uint8_t opcode = -1;
+//      char *code = NULL;
+//      code = code_attr_pt->code;
+//      frame_pt->pc = 0;
+//      Interpretador interpreter;
+//      for(n = 0; n < 1/*code_attr_pt->code_length*/; n++) {
+//		//teste
+//		// interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
+//		// de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
+//		// na pilha. Para este fim criamos o interpreter_op_code.cpp/hpp.
+//            //
+//		// A ideia seguinte seria chamar o vetor de instruções passando o op_code
+//
+//		//int arg_qnt = interpreter_op_code(opcode);
+//		//as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
+//		//para area de codigo, a posição do leitor na area de codigo(neste caso o n) e a referencia para a pilha.
+//        opcode = code[frame_pt->pc];
+//        //Coloca os argumentos na pilha
+//        //pc sempre aponta pra proxima instrução
+//        interpreter.setConstantPool(frame_pt->constant_pool_pt);
+//        interpreter.setOperandStack(frame_pt->operandStack);
+//        frame_pt->pc += interpreter.push_operands(opcode, code+frame_pt->pc+1, &frame_pt->operandStack);
+//        //chama o interpre
+//        interpreter.execute_instruction(opcode, &frame_pt->operandStack );
+//        //n += arg_qnt;
+//      }
+//
+//      return -1;
+//}
