@@ -36,6 +36,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/attributes.hpp" />
+		<Unit filename="include/classFile.hpp" />
 		<Unit filename="include/exibidor.hpp" />
 		<Unit filename="include/frame.hpp" />
 		<Unit filename="include/heap.hpp" />

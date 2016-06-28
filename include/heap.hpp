@@ -7,7 +7,20 @@
 
 struct instance_class_u;
 
-typedef union type_s{
+typedef union reference_u{
+    //object
+    struct instance_class_u*  instancia;
+    //interface
+    //array_type
+    union type_u* ref_lista;
+}reference_type;
+
+typedef struct reference_value_s{
+    uint8_t tag;
+    reference_type val;
+}reference_value;
+
+typedef union type_u{
     bool            boleano;
     int32_t         inteiro;
     char*           palavra;
@@ -17,8 +30,7 @@ typedef union type_s{
     uint32_t        pFlutuante;
     int16_t         curto;
     uint64_t        duplo;
-    struct instance_class_u*  instancia;
-    //std::vector<union type_s> lista;
+    reference_value  instancia;
 }field_type;
 
 typedef enum tag_tipo_e{
