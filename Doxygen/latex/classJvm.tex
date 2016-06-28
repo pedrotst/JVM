@@ -1,0 +1,150 @@
+\hypertarget{classJvm}{\section{Jvm Class Reference}
+\label{classJvm}\index{Jvm@{Jvm}}
+}
+
+
+Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos.  
+
+
+
+
+{\ttfamily \#include $<$jvm.\+hpp$>$}
+
+
+
+Collaboration diagram for Jvm\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classJvm__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classJvm_a2bbdf6ed1c101825a440bd38dfa54a5a}{Jvm} ()
+\item 
+\hyperlink{classClassFile}{Class\+File} \hyperlink{classJvm_a476c06c87fd095094de0978b8f70228f}{get\+Class\+Ref} (std\+::string class\+Name)
+\begin{DoxyCompactList}\small\item\em Obtém uma referência para uma classe carregada. A classe é carregada, caso já não estiver. \end{DoxyCompactList}\item 
+void \hyperlink{classJvm_aa2b02b00822755f177cfcaabdb26d793}{alocar\+Objeto} (std\+::string class\+Name)
+\item 
+int \hyperlink{classJvm_a4efbdc04a403a81c7cd904422a4d1cf2}{exec\+Method} (int main\+\_\+index, \hyperlink{classClassFile}{Class\+File} $\ast$class\+F)
+\item 
+bool \hyperlink{classJvm_a160a1f1832069aa5e9e6aba0359f32db}{is\+Code} (\hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{attribute\+\_\+info} attr)
+\item 
+int \hyperlink{classJvm_aa837238f1eb0f4ce3efc83ff4f928908}{exec\+Code} (\hyperlink{attributes_8hpp_ad1d2692bc09d9023430faad186e7647e}{Code\+\_\+attribute} $\ast$code\+\_\+attr\+\_\+pt, \hyperlink{classFrame}{Frame} $\ast$frame\+\_\+pt)
+\item 
+int \hyperlink{classJvm_ac7b36cf9d42be5f4e9fbd1e49f4565d3}{run} (const char $\ast$arq\+\_\+class\+\_\+name)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classFrame}{Frame} $>$ \hyperlink{classJvm_ab29598f860fab7d451e6ff71d5488735}{j\+Stack}
+\begin{DoxyCompactList}\small\item\em Pilha de execução da jvm. Pilha de frames. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, \hyperlink{classClassFile}{Class\+File} $>$ \hyperlink{classJvm_ac74fb0e170f232ddc32244a1ce7746b7}{loaded\+Classes}
+\begin{DoxyCompactList}\small\item\em Vetor de classes carregadas. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, \\*
+\hyperlink{heap_8hpp_a10a6b663306bb9ebfa5959ab91c79eda}{Instance\+Class} $>$ \hyperlink{classJvm_ac0054a4d92e17e2a3ad01f9fe32bb096}{heap}
+\begin{DoxyCompactList}\small\item\em Mapeia classname para instancias. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classJvm_a2bbdf6ed1c101825a440bd38dfa54a5a}{\index{Jvm@{Jvm}!Jvm@{Jvm}}
+\index{Jvm@{Jvm}!Jvm@{Jvm}}
+\subsubsection[{Jvm}]{\setlength{\rightskip}{0pt plus 5cm}Jvm\+::\+Jvm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classJvm_a2bbdf6ed1c101825a440bd38dfa54a5a}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classJvm_aa2b02b00822755f177cfcaabdb26d793}{\index{Jvm@{Jvm}!alocar\+Objeto@{alocar\+Objeto}}
+\index{alocar\+Objeto@{alocar\+Objeto}!Jvm@{Jvm}}
+\subsubsection[{alocar\+Objeto}]{\setlength{\rightskip}{0pt plus 5cm}void Jvm\+::alocar\+Objeto (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{class\+Name}
+\end{DoxyParamCaption}
+)}}\label{classJvm_aa2b02b00822755f177cfcaabdb26d793}
+\hypertarget{classJvm_aa837238f1eb0f4ce3efc83ff4f928908}{\index{Jvm@{Jvm}!exec\+Code@{exec\+Code}}
+\index{exec\+Code@{exec\+Code}!Jvm@{Jvm}}
+\subsubsection[{exec\+Code}]{\setlength{\rightskip}{0pt plus 5cm}int Jvm\+::exec\+Code (
+\begin{DoxyParamCaption}
+\item[{{\bf Code\+\_\+attribute} $\ast$}]{code\+\_\+attr\+\_\+pt, }
+\item[{{\bf Frame} $\ast$}]{frame\+\_\+pt}
+\end{DoxyParamCaption}
+)}}\label{classJvm_aa837238f1eb0f4ce3efc83ff4f928908}
+\hypertarget{classJvm_a4efbdc04a403a81c7cd904422a4d1cf2}{\index{Jvm@{Jvm}!exec\+Method@{exec\+Method}}
+\index{exec\+Method@{exec\+Method}!Jvm@{Jvm}}
+\subsubsection[{exec\+Method}]{\setlength{\rightskip}{0pt plus 5cm}int Jvm\+::exec\+Method (
+\begin{DoxyParamCaption}
+\item[{int}]{main\+\_\+index, }
+\item[{{\bf Class\+File} $\ast$}]{class\+F}
+\end{DoxyParamCaption}
+)}}\label{classJvm_a4efbdc04a403a81c7cd904422a4d1cf2}
+\hypertarget{classJvm_a476c06c87fd095094de0978b8f70228f}{\index{Jvm@{Jvm}!get\+Class\+Ref@{get\+Class\+Ref}}
+\index{get\+Class\+Ref@{get\+Class\+Ref}!Jvm@{Jvm}}
+\subsubsection[{get\+Class\+Ref}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Class\+File} Jvm\+::get\+Class\+Ref (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{class\+Name}
+\end{DoxyParamCaption}
+)}}\label{classJvm_a476c06c87fd095094de0978b8f70228f}
+
+
+Obtém uma referência para uma classe carregada. A classe é carregada, caso já não estiver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\+Name} & nome da classe a ser retornada\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: 
+\end{DoxyReturn}
+\hypertarget{classJvm_a160a1f1832069aa5e9e6aba0359f32db}{\index{Jvm@{Jvm}!is\+Code@{is\+Code}}
+\index{is\+Code@{is\+Code}!Jvm@{Jvm}}
+\subsubsection[{is\+Code}]{\setlength{\rightskip}{0pt plus 5cm}bool Jvm\+::is\+Code (
+\begin{DoxyParamCaption}
+\item[{{\bf attribute\+\_\+info}}]{attr}
+\end{DoxyParamCaption}
+)}}\label{classJvm_a160a1f1832069aa5e9e6aba0359f32db}
+\hypertarget{classJvm_ac7b36cf9d42be5f4e9fbd1e49f4565d3}{\index{Jvm@{Jvm}!run@{run}}
+\index{run@{run}!Jvm@{Jvm}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}int Jvm\+::run (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{arq\+\_\+class\+\_\+name}
+\end{DoxyParamCaption}
+)}}\label{classJvm_ac7b36cf9d42be5f4e9fbd1e49f4565d3}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classJvm_ac0054a4d92e17e2a3ad01f9fe32bb096}{\index{Jvm@{Jvm}!heap@{heap}}
+\index{heap@{heap}!Jvm@{Jvm}}
+\subsubsection[{heap}]{\setlength{\rightskip}{0pt plus 5cm}Jvm\+::heap}}\label{classJvm_ac0054a4d92e17e2a3ad01f9fe32bb096}
+
+
+Mapeia classname para instancias. 
+
+\hypertarget{classJvm_ab29598f860fab7d451e6ff71d5488735}{\index{Jvm@{Jvm}!j\+Stack@{j\+Stack}}
+\index{j\+Stack@{j\+Stack}!Jvm@{Jvm}}
+\subsubsection[{j\+Stack}]{\setlength{\rightskip}{0pt plus 5cm}Jvm\+::j\+Stack}}\label{classJvm_ab29598f860fab7d451e6ff71d5488735}
+
+
+Pilha de execução da jvm. Pilha de frames. 
+
+\hypertarget{classJvm_ac74fb0e170f232ddc32244a1ce7746b7}{\index{Jvm@{Jvm}!loaded\+Classes@{loaded\+Classes}}
+\index{loaded\+Classes@{loaded\+Classes}!Jvm@{Jvm}}
+\subsubsection[{loaded\+Classes}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$ std\+::string, {\bf Class\+File} $>$ Jvm\+::loaded\+Classes}}\label{classJvm_ac74fb0e170f232ddc32244a1ce7746b7}
+
+
+Vetor de classes carregadas. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{jvm_8hpp}{jvm.\+hpp}\item 
+src/\hyperlink{jvm_8cpp}{jvm.\+cpp}\end{DoxyCompactItemize}

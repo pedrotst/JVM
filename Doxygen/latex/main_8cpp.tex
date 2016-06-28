@@ -1,0 +1,85 @@
+\hypertarget{main_8cpp}{\section{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.\+cpp@{src/main.\+cpp}}
+}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include \char`\"{}../include/leitor.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/exibidor.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/frame.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/interpretador.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/opcode.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/jvm.\+hpp\char`\"{}}\\*
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{main_8cpp_a8520214cf2fa71a1427fd7a05f813e9e}{A\+R\+G1}(ac, av)~(ac $>$ 1 ? av\mbox{[}1\mbox{]} \+: \char`\"{}\char`\"{})
+\item 
+\#define \hyperlink{main_8cpp_abc83b76d1d130ff9e8fd24a3093f7942}{A\+R\+G2}(ac, av)~(ac $>$ 2 ? av\mbox{[}2\mbox{]} \+: \char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{main_8cpp_ad7ec84b4d1c84a2d1af0c0de9ea5b86f}{help}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{main_8cpp_a8520214cf2fa71a1427fd7a05f813e9e}{\index{main.\+cpp@{main.\+cpp}!A\+R\+G1@{A\+R\+G1}}
+\index{A\+R\+G1@{A\+R\+G1}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{A\+R\+G1}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+R\+G1(
+\begin{DoxyParamCaption}
+\item[{}]{ac, }
+\item[{}]{av}
+\end{DoxyParamCaption}
+)~(ac $>$ 1 ? av\mbox{[}1\mbox{]} \+: \char`\"{}\char`\"{})}}\label{main_8cpp_a8520214cf2fa71a1427fd7a05f813e9e}
+\hypertarget{main_8cpp_abc83b76d1d130ff9e8fd24a3093f7942}{\index{main.\+cpp@{main.\+cpp}!A\+R\+G2@{A\+R\+G2}}
+\index{A\+R\+G2@{A\+R\+G2}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{A\+R\+G2}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+R\+G2(
+\begin{DoxyParamCaption}
+\item[{}]{ac, }
+\item[{}]{av}
+\end{DoxyParamCaption}
+)~(ac $>$ 2 ? av\mbox{[}2\mbox{]} \+: \char`\"{}\char`\"{})}}\label{main_8cpp_abc83b76d1d130ff9e8fd24a3093f7942}
+
+
+\subsection{Function Documentation}
+\hypertarget{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{main.\+cpp@{main.\+cpp}!main@{main}}
+\index{main@{main}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+\subsection{Variable Documentation}
+\hypertarget{main_8cpp_ad7ec84b4d1c84a2d1af0c0de9ea5b86f}{\index{main.\+cpp@{main.\+cpp}!help@{help}}
+\index{help@{help}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{help}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ help}}\label{main_8cpp_ad7ec84b4d1c84a2d1af0c0de9ea5b86f}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \textcolor{stringliteral}{"\(\backslash\)nSintaxe:\(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    jvm -h Exibe o menu de ajuda.\(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    \(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    jvm \{ -r | -e \} \{nome\_arquivo\_class\}\(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    \(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    -r : read. Lê o arquivo .class passado e o exibe na tela, assim como o javac -v.\(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    \(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    -e : execute. Executa o arquivo .class passado.\(\backslash\)n\(\backslash\)}
+\textcolor{stringliteral}{                    \(\backslash\)n"}
+\end{DoxyCode}

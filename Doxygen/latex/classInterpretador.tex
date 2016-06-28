@@ -1,0 +1,149 @@
+\hypertarget{classInterpretador}{\section{Interpretador Class Reference}
+\label{classInterpretador}\index{Interpretador@{Interpretador}}
+}
+
+
+{\ttfamily \#include $<$interpretador.\+hpp$>$}
+
+
+
+Collaboration diagram for Interpretador\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{classInterpretador__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classInterpretador_a12d844a7ab8d634e96b57971c9aedd9e}{Interpretador} ()
+\item 
+void \hyperlink{classInterpretador_a2a8c4a95bc1fa1e6a689059f6f7ecb8c}{execute\+\_\+instruction} (int opcode, \hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\item 
+int \hyperlink{classInterpretador_a0a8a79662aafc9cd4a7a194350c7165c}{push\+\_\+operands} (uint8\+\_\+t opcode, char $\ast$code\+Aligned, \hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef void(Interpretador\+::$\ast$ \hyperlink{classInterpretador_aaf603472f241d9de30ebf482cabb1ffc}{instruction\+Function} )(\hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$)
+\item 
+typedef int(Interpretador\+::$\ast$ \hyperlink{classInterpretador_a6202f301ed122ef7572356e51333a18c}{instruction\+Function\+Operands} )(char $\ast$, \hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classInterpretador_a165915133c412ded3f754ec43121a23b}{iadd} (\hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\item 
+int \hyperlink{classInterpretador_aa5b5ae5978b9f45f629807fa3e10c496}{iadd\+\_\+pusher} (char $\ast$code\+Aligned, \hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\item 
+void \hyperlink{classInterpretador_a448412cfc43f6b5501a0e9a61f9a4e12}{ladd} (\hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\item 
+void \hyperlink{classInterpretador_a5b8ee7fdcf502ad96762f874903b3e05}{new\+\_\+op} (\hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\item 
+int \hyperlink{classInterpretador_a10103aeb6ee4fd69ebf1307043bb6036}{new\+\_\+op\+\_\+pusher} (char $\ast$code\+Aligned, \hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} $\ast$op\+Stack)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classJvm}{Jvm} $\ast$ \hyperlink{classInterpretador_aed3bd481ff345333414aa70360a94b7c}{jvm}
+\item 
+std\+::vector$<$ \hyperlink{classInterpretador_aaf603472f241d9de30ebf482cabb1ffc}{instruction\+Function} $>$ \hyperlink{classInterpretador_ad31e757e96232fbfc88637b26263055f}{instructions}
+\item 
+std\+::vector\\*
+$<$ \hyperlink{classInterpretador_a6202f301ed122ef7572356e51333a18c}{instruction\+Function\+Operands} $>$ \hyperlink{classInterpretador_a25ace76ac4d752a224422fadfb550ebf}{operands\+\_\+pusher}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classInterpretador_aaf603472f241d9de30ebf482cabb1ffc}{\index{Interpretador@{Interpretador}!instruction\+Function@{instruction\+Function}}
+\index{instruction\+Function@{instruction\+Function}!Interpretador@{Interpretador}}
+\subsubsection[{instruction\+Function}]{\setlength{\rightskip}{0pt plus 5cm}typedef void(Interpretador\+::$\ast$ Interpretador\+::instruction\+Function)({\bf op\+\_\+stack} $\ast$)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aaf603472f241d9de30ebf482cabb1ffc}
+\hypertarget{classInterpretador_a6202f301ed122ef7572356e51333a18c}{\index{Interpretador@{Interpretador}!instruction\+Function\+Operands@{instruction\+Function\+Operands}}
+\index{instruction\+Function\+Operands@{instruction\+Function\+Operands}!Interpretador@{Interpretador}}
+\subsubsection[{instruction\+Function\+Operands}]{\setlength{\rightskip}{0pt plus 5cm}typedef int(Interpretador\+::$\ast$ Interpretador\+::instruction\+Function\+Operands)(char $\ast$, {\bf op\+\_\+stack} $\ast$)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a6202f301ed122ef7572356e51333a18c}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classInterpretador_a12d844a7ab8d634e96b57971c9aedd9e}{\index{Interpretador@{Interpretador}!Interpretador@{Interpretador}}
+\index{Interpretador@{Interpretador}!Interpretador@{Interpretador}}
+\subsubsection[{Interpretador}]{\setlength{\rightskip}{0pt plus 5cm}Interpretador\+::\+Interpretador (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classInterpretador_a12d844a7ab8d634e96b57971c9aedd9e}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classInterpretador_a2a8c4a95bc1fa1e6a689059f6f7ecb8c}{\index{Interpretador@{Interpretador}!execute\+\_\+instruction@{execute\+\_\+instruction}}
+\index{execute\+\_\+instruction@{execute\+\_\+instruction}!Interpretador@{Interpretador}}
+\subsubsection[{execute\+\_\+instruction}]{\setlength{\rightskip}{0pt plus 5cm}void Interpretador\+::execute\+\_\+instruction (
+\begin{DoxyParamCaption}
+\item[{int}]{opcode, }
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)}}\label{classInterpretador_a2a8c4a95bc1fa1e6a689059f6f7ecb8c}
+\hypertarget{classInterpretador_a165915133c412ded3f754ec43121a23b}{\index{Interpretador@{Interpretador}!iadd@{iadd}}
+\index{iadd@{iadd}!Interpretador@{Interpretador}}
+\subsubsection[{iadd}]{\setlength{\rightskip}{0pt plus 5cm}void Interpretador\+::iadd (
+\begin{DoxyParamCaption}
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a165915133c412ded3f754ec43121a23b}
+\hypertarget{classInterpretador_aa5b5ae5978b9f45f629807fa3e10c496}{\index{Interpretador@{Interpretador}!iadd\+\_\+pusher@{iadd\+\_\+pusher}}
+\index{iadd\+\_\+pusher@{iadd\+\_\+pusher}!Interpretador@{Interpretador}}
+\subsubsection[{iadd\+\_\+pusher}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::iadd\+\_\+pusher (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{code\+Aligned, }
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aa5b5ae5978b9f45f629807fa3e10c496}
+\hypertarget{classInterpretador_a448412cfc43f6b5501a0e9a61f9a4e12}{\index{Interpretador@{Interpretador}!ladd@{ladd}}
+\index{ladd@{ladd}!Interpretador@{Interpretador}}
+\subsubsection[{ladd}]{\setlength{\rightskip}{0pt plus 5cm}void Interpretador\+::ladd (
+\begin{DoxyParamCaption}
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a448412cfc43f6b5501a0e9a61f9a4e12}
+\hypertarget{classInterpretador_a5b8ee7fdcf502ad96762f874903b3e05}{\index{Interpretador@{Interpretador}!new\+\_\+op@{new\+\_\+op}}
+\index{new\+\_\+op@{new\+\_\+op}!Interpretador@{Interpretador}}
+\subsubsection[{new\+\_\+op}]{\setlength{\rightskip}{0pt plus 5cm}void Interpretador\+::new\+\_\+op (
+\begin{DoxyParamCaption}
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a5b8ee7fdcf502ad96762f874903b3e05}
+\hypertarget{classInterpretador_a10103aeb6ee4fd69ebf1307043bb6036}{\index{Interpretador@{Interpretador}!new\+\_\+op\+\_\+pusher@{new\+\_\+op\+\_\+pusher}}
+\index{new\+\_\+op\+\_\+pusher@{new\+\_\+op\+\_\+pusher}!Interpretador@{Interpretador}}
+\subsubsection[{new\+\_\+op\+\_\+pusher}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::new\+\_\+op\+\_\+pusher (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{code\+Aligned, }
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a10103aeb6ee4fd69ebf1307043bb6036}
+\hypertarget{classInterpretador_a0a8a79662aafc9cd4a7a194350c7165c}{\index{Interpretador@{Interpretador}!push\+\_\+operands@{push\+\_\+operands}}
+\index{push\+\_\+operands@{push\+\_\+operands}!Interpretador@{Interpretador}}
+\subsubsection[{push\+\_\+operands}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::push\+\_\+operands (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{opcode, }
+\item[{char $\ast$}]{code\+Aligned, }
+\item[{{\bf op\+\_\+stack} $\ast$}]{op\+Stack}
+\end{DoxyParamCaption}
+)}}\label{classInterpretador_a0a8a79662aafc9cd4a7a194350c7165c}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classInterpretador_ad31e757e96232fbfc88637b26263055f}{\index{Interpretador@{Interpretador}!instructions@{instructions}}
+\index{instructions@{instructions}!Interpretador@{Interpretador}}
+\subsubsection[{instructions}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf instruction\+Function}$>$ Interpretador\+::instructions\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_ad31e757e96232fbfc88637b26263055f}
+\hypertarget{classInterpretador_aed3bd481ff345333414aa70360a94b7c}{\index{Interpretador@{Interpretador}!jvm@{jvm}}
+\index{jvm@{jvm}!Interpretador@{Interpretador}}
+\subsubsection[{jvm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Jvm}$\ast$ Interpretador\+::jvm\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aed3bd481ff345333414aa70360a94b7c}
+\hypertarget{classInterpretador_a25ace76ac4d752a224422fadfb550ebf}{\index{Interpretador@{Interpretador}!operands\+\_\+pusher@{operands\+\_\+pusher}}
+\index{operands\+\_\+pusher@{operands\+\_\+pusher}!Interpretador@{Interpretador}}
+\subsubsection[{operands\+\_\+pusher}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf instruction\+Function\+Operands}$>$ Interpretador\+::operands\+\_\+pusher\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a25ace76ac4d752a224422fadfb550ebf}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{interpretador_8hpp}{interpretador.\+hpp}\item 
+src/\hyperlink{interpretador_8cpp}{interpretador.\+cpp}\end{DoxyCompactItemize}

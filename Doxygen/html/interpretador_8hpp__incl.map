@@ -1,0 +1,19 @@
+<map id="include/interpretador.hpp" name="include/interpretador.hpp">
+<area shape="rect" id="node5" href="$frame_8hpp.html" title="../include/frame.hpp" alt="" coords="85,155,222,181"/>
+<area shape="rect" id="node16" href="$opcode_8hpp.html" title="../include/opcode.hpp" alt="" coords="2180,395,2327,421"/>
+<area shape="rect" id="node17" href="$jvm_8hpp.html" title="../include/jvm.hpp" alt="" coords="1083,80,1208,107"/>
+<area shape="rect" id="node7" href="$heap_8hpp.html" title="../include/heap.hpp" alt="" coords="976,229,1107,256"/>
+<area shape="rect" id="node9" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="944,312,1099,339"/>
+<area shape="rect" id="node13" href="$structs_8hpp.html" title="../include/structs.hpp" alt="" coords="460,395,604,421"/>
+<area shape="rect" id="node15" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="394,477,495,504"/>
+<area shape="rect" id="node19" href="$leitor_8hpp.html" title="../include/leitor.hpp" alt="" coords="634,155,766,181"/>
+<area shape="rect" id="node25" href="$exibidor_8hpp.html" title="../include/exibidor.hpp" alt="" coords="1514,229,1662,256"/>
+<area shape="rect" id="node29" href="$op__instrucs_8hpp.html" title="../include/op_instrucs.hpp" alt="" coords="2048,312,2219,339"/>
+<area shape="rect" id="node31" href="$interpreter__op__code_8hpp.html" title="../include/interpreter\l_op_code.hpp" alt="" coords="2345,305,2482,346"/>
+<area shape="rect" id="node21" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="1153,470,1274,511"/>
+<area shape="rect" id="node22" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="780,395,948,421"/>
+<area shape="rect" id="node23" href="$read__attributes_8hpp.html" title="../include/read_attributes.hpp" alt="" coords="474,312,664,339"/>
+<area shape="rect" id="node24" href="$read__methods_8hpp.html" title="../include/read_methods.hpp" alt="" coords="426,229,612,256"/>
+<area shape="rect" id="node28" href="$print__code_8hpp.html" title="../include/print_code.hpp" alt="" coords="1536,312,1699,339"/>
+<area shape="rect" id="node30" href="$operationMap_8hpp.html" title="../include/operationMap.hpp" alt="" coords="1226,312,1408,339"/>
+</map>

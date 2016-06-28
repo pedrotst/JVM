@@ -1,6 +1,8 @@
 #ifndef _JVM_HPP
 #define _JVM_HPP
 
+/**  \file  */
+
 #include <iostream>
 #include "../include/leitor.hpp"
 #include "../include/heap.hpp"
@@ -12,28 +14,50 @@
 #include "../include/op_instrucs.hpp"
 #include "../include/interpreter_op_code.hpp"
 
+/**  \class Jvm
+ *
+ *  \brief Esta é a classe mãe da JVM ela
+ *  Ela quem deve encontrar a main da classe inicial e rodar o loop para
+ *  rodar os métodos
+ */
+
+
 class Jvm{
-    private:
-        // Pilha de execução da jvm. Pilha de frames.
+    public:
+        /** @var jStack
+         *
+         * @brief Pilha de execução da jvm. Pilha de frames.
+         */
         std::vector<Frame> jStack;
-        // Vetor de classes carregadas.
+
+        /** \var std::map<std::string, ClassFile> loadedClasses
+         *
+         * \brief Vetor de classes carregadas.
+         */
         std::map<std::string, ClassFile> loadedClasses;
-        // Mapeia classname para instancias
+
+        /** \var heap
+         *
+         * \brief Mapeia classname para instancias
+         */
         std::map<std::string, InstanceClass> heap;
 
-    public:
-        // Construtor
+        /** \fn JVM()
+         *
+         * \brief Construtor
+         */
         Jvm(){}
 
-        // Descrição:
-        //    Obtém uma referência para uma classe carregada. A classe é carregada,
-        //    caso já não estiver.
-        //
-        // Parâmetros:
-        //    string className: nome da classe a ser retornada
-        //
-        // Retorno:
-        //    Refrência para uma classe carregada.
+        /** \fn ClassFile getClassRef (std::string className)
+         *
+         * \brief Obtém uma referência para uma classe carregada. A classe é
+         * carregada, caso já não estiver.
+         *
+         * \param className nome da classe a ser retornada
+         *
+         * \return A classfile que de fato representa a estrutura do .class
+         *    
+         */
         ClassFile getClassRef(std::string className);
 
         // Descrição:

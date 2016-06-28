@@ -1,0 +1,178 @@
+\hypertarget{classClassFile}{\section{Class\+File Class Reference}
+\label{classClassFile}\index{Class\+File@{Class\+File}}
+}
+
+
+{\ttfamily \#include $<$class\+File.\+hpp$>$}
+
+
+
+Collaboration diagram for Class\+File\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{classClassFile__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{classClassFile_a327e97890dd251532d064da9aa61deeb}{get\+Source} ()
+\item 
+std\+::string \hyperlink{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}{get\+Class\+Name} ()
+\item 
+std\+::string \hyperlink{classClassFile_a917fdac173079a7eebacb22b728f295d}{get\+Cpool\+Utf8} (int index)
+\item 
+std\+::map$<$ std\+::string, \\*
+std\+::string $>$ \hyperlink{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}{get\+Fields\+Names\+Types} ()
+\item 
+int \hyperlink{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}{find\+Main} ()
+\item 
+char $\ast$ \hyperlink{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}{get\+Name} (int name\+\_\+index)
+\item 
+\hyperlink{attributes_8hpp_ad1d2692bc09d9023430faad186e7647e}{Code\+\_\+attribute} $\ast$ \hyperlink{classClassFile_a3c6a5ced9d8616700fa2eef615489724}{get\+Code\+Attr} (\hyperlink{structs_8hpp_a6cbc7230791f4ca5e82816e58baeeacc}{method\+\_\+info} $\ast$method)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{classClassFile_a9d4d72751ff9250dd3305d5d853f7921}{magic}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a357116b538d1b1ef11073560eba9396d}{minor\+\_\+version}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a931ebda6a22c18e009891d40016b2790}{major\+\_\+version}
+\item 
+uint32\+\_\+t \hyperlink{classClassFile_a76abb829a9ebb954e9ef381f144bdbf9}{constant\+\_\+pool\+\_\+count}
+\item 
+std\+::vector$<$ \hyperlink{structs_8hpp_a0c0d87e91cda2669bf03488501eccd4d}{cp\+\_\+info} $>$ \hyperlink{classClassFile_aecb7bcd6074a0dbda85dea876a691187}{constant\+\_\+pool}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a2d095ef980330834af44c587ce52590e}{access\+\_\+flags}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_aa45abc9545fe11fca252d9769b665294}{this\+\_\+class}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_aa48f683b6e5b60021410f88a5e831cbe}{super\+\_\+class}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a25f384f7a9746352aad90fb499126704}{interfaces\+\_\+count}
+\item 
+std\+::vector$<$ uint16\+\_\+t $>$ \hyperlink{classClassFile_a5ff706f77d13aa4cd2876e6a083ed849}{interfaces}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a517d14b0d9e507f1485a3b6d3cb38683}{fields\+\_\+count}
+\item 
+std\+::vector$<$ \hyperlink{structs_8hpp_a9dec70227361c4b10468fe98e7b8d2ab}{field\+\_\+info} $>$ \hyperlink{classClassFile_adf8e8ff620c2e938c5bcb8616e754ce3}{fields}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_a479310e3e0674d9171d24beb794fcb14}{methods\+\_\+count}
+\item 
+std\+::vector$<$ \hyperlink{structs_8hpp_a6cbc7230791f4ca5e82816e58baeeacc}{method\+\_\+info} $>$ \hyperlink{classClassFile_ab1f087a706ccd7f5334bd17ed4d05936}{methods}
+\item 
+uint16\+\_\+t \hyperlink{classClassFile_accd99ee441c45eb8fdcd3836d56e9ef4}{attributes\+\_\+count}
+\item 
+std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{attribute\+\_\+info} $>$ \hyperlink{classClassFile_a119011b9d84894da116c83fa6539d5ce}{attributes}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}{\index{Class\+File@{Class\+File}!find\+Main@{find\+Main}}
+\index{find\+Main@{find\+Main}!Class\+File@{Class\+File}}
+\subsubsection[{find\+Main}]{\setlength{\rightskip}{0pt plus 5cm}int Class\+File\+::find\+Main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}
+\hypertarget{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}{\index{Class\+File@{Class\+File}!get\+Class\+Name@{get\+Class\+Name}}
+\index{get\+Class\+Name@{get\+Class\+Name}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Class\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Class\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}
+\hypertarget{classClassFile_a3c6a5ced9d8616700fa2eef615489724}{\index{Class\+File@{Class\+File}!get\+Code\+Attr@{get\+Code\+Attr}}
+\index{get\+Code\+Attr@{get\+Code\+Attr}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Code\+Attr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Code\+\_\+attribute} $\ast$ Class\+File\+::get\+Code\+Attr (
+\begin{DoxyParamCaption}
+\item[{{\bf method\+\_\+info} $\ast$}]{method}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a3c6a5ced9d8616700fa2eef615489724}
+\hypertarget{classClassFile_a917fdac173079a7eebacb22b728f295d}{\index{Class\+File@{Class\+File}!get\+Cpool\+Utf8@{get\+Cpool\+Utf8}}
+\index{get\+Cpool\+Utf8@{get\+Cpool\+Utf8}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Cpool\+Utf8}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Utf8 (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a917fdac173079a7eebacb22b728f295d}
+\hypertarget{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}{\index{Class\+File@{Class\+File}!get\+Fields\+Names\+Types@{get\+Fields\+Names\+Types}}
+\index{get\+Fields\+Names\+Types@{get\+Fields\+Names\+Types}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Fields\+Names\+Types}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ string, string $>$ Class\+File\+::get\+Fields\+Names\+Types (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}
+\hypertarget{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}{\index{Class\+File@{Class\+File}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Name}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ Class\+File\+::get\+Name (
+\begin{DoxyParamCaption}
+\item[{int}]{name\+\_\+index}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}
+\hypertarget{classClassFile_a327e97890dd251532d064da9aa61deeb}{\index{Class\+File@{Class\+File}!get\+Source@{get\+Source}}
+\index{get\+Source@{get\+Source}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Source}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Source (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a327e97890dd251532d064da9aa61deeb}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classClassFile_a2d095ef980330834af44c587ce52590e}{\index{Class\+File@{Class\+File}!access\+\_\+flags@{access\+\_\+flags}}
+\index{access\+\_\+flags@{access\+\_\+flags}!Class\+File@{Class\+File}}
+\subsubsection[{access\+\_\+flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::access\+\_\+flags}}\label{classClassFile_a2d095ef980330834af44c587ce52590e}
+\hypertarget{classClassFile_a119011b9d84894da116c83fa6539d5ce}{\index{Class\+File@{Class\+File}!attributes@{attributes}}
+\index{attributes@{attributes}!Class\+File@{Class\+File}}
+\subsubsection[{attributes}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf attribute\+\_\+info}$>$ Class\+File\+::attributes}}\label{classClassFile_a119011b9d84894da116c83fa6539d5ce}
+\hypertarget{classClassFile_accd99ee441c45eb8fdcd3836d56e9ef4}{\index{Class\+File@{Class\+File}!attributes\+\_\+count@{attributes\+\_\+count}}
+\index{attributes\+\_\+count@{attributes\+\_\+count}!Class\+File@{Class\+File}}
+\subsubsection[{attributes\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::attributes\+\_\+count}}\label{classClassFile_accd99ee441c45eb8fdcd3836d56e9ef4}
+\hypertarget{classClassFile_aecb7bcd6074a0dbda85dea876a691187}{\index{Class\+File@{Class\+File}!constant\+\_\+pool@{constant\+\_\+pool}}
+\index{constant\+\_\+pool@{constant\+\_\+pool}!Class\+File@{Class\+File}}
+\subsubsection[{constant\+\_\+pool}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf cp\+\_\+info}$>$ Class\+File\+::constant\+\_\+pool}}\label{classClassFile_aecb7bcd6074a0dbda85dea876a691187}
+\hypertarget{classClassFile_a76abb829a9ebb954e9ef381f144bdbf9}{\index{Class\+File@{Class\+File}!constant\+\_\+pool\+\_\+count@{constant\+\_\+pool\+\_\+count}}
+\index{constant\+\_\+pool\+\_\+count@{constant\+\_\+pool\+\_\+count}!Class\+File@{Class\+File}}
+\subsubsection[{constant\+\_\+pool\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Class\+File\+::constant\+\_\+pool\+\_\+count}}\label{classClassFile_a76abb829a9ebb954e9ef381f144bdbf9}
+\hypertarget{classClassFile_adf8e8ff620c2e938c5bcb8616e754ce3}{\index{Class\+File@{Class\+File}!fields@{fields}}
+\index{fields@{fields}!Class\+File@{Class\+File}}
+\subsubsection[{fields}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf field\+\_\+info}$>$ Class\+File\+::fields}}\label{classClassFile_adf8e8ff620c2e938c5bcb8616e754ce3}
+\hypertarget{classClassFile_a517d14b0d9e507f1485a3b6d3cb38683}{\index{Class\+File@{Class\+File}!fields\+\_\+count@{fields\+\_\+count}}
+\index{fields\+\_\+count@{fields\+\_\+count}!Class\+File@{Class\+File}}
+\subsubsection[{fields\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::fields\+\_\+count}}\label{classClassFile_a517d14b0d9e507f1485a3b6d3cb38683}
+\hypertarget{classClassFile_a5ff706f77d13aa4cd2876e6a083ed849}{\index{Class\+File@{Class\+File}!interfaces@{interfaces}}
+\index{interfaces@{interfaces}!Class\+File@{Class\+File}}
+\subsubsection[{interfaces}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$uint16\+\_\+t$>$ Class\+File\+::interfaces}}\label{classClassFile_a5ff706f77d13aa4cd2876e6a083ed849}
+\hypertarget{classClassFile_a25f384f7a9746352aad90fb499126704}{\index{Class\+File@{Class\+File}!interfaces\+\_\+count@{interfaces\+\_\+count}}
+\index{interfaces\+\_\+count@{interfaces\+\_\+count}!Class\+File@{Class\+File}}
+\subsubsection[{interfaces\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::interfaces\+\_\+count}}\label{classClassFile_a25f384f7a9746352aad90fb499126704}
+\hypertarget{classClassFile_a9d4d72751ff9250dd3305d5d853f7921}{\index{Class\+File@{Class\+File}!magic@{magic}}
+\index{magic@{magic}!Class\+File@{Class\+File}}
+\subsubsection[{magic}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Class\+File\+::magic}}\label{classClassFile_a9d4d72751ff9250dd3305d5d853f7921}
+\hypertarget{classClassFile_a931ebda6a22c18e009891d40016b2790}{\index{Class\+File@{Class\+File}!major\+\_\+version@{major\+\_\+version}}
+\index{major\+\_\+version@{major\+\_\+version}!Class\+File@{Class\+File}}
+\subsubsection[{major\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::major\+\_\+version}}\label{classClassFile_a931ebda6a22c18e009891d40016b2790}
+\hypertarget{classClassFile_ab1f087a706ccd7f5334bd17ed4d05936}{\index{Class\+File@{Class\+File}!methods@{methods}}
+\index{methods@{methods}!Class\+File@{Class\+File}}
+\subsubsection[{methods}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf method\+\_\+info}$>$ Class\+File\+::methods}}\label{classClassFile_ab1f087a706ccd7f5334bd17ed4d05936}
+\hypertarget{classClassFile_a479310e3e0674d9171d24beb794fcb14}{\index{Class\+File@{Class\+File}!methods\+\_\+count@{methods\+\_\+count}}
+\index{methods\+\_\+count@{methods\+\_\+count}!Class\+File@{Class\+File}}
+\subsubsection[{methods\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::methods\+\_\+count}}\label{classClassFile_a479310e3e0674d9171d24beb794fcb14}
+\hypertarget{classClassFile_a357116b538d1b1ef11073560eba9396d}{\index{Class\+File@{Class\+File}!minor\+\_\+version@{minor\+\_\+version}}
+\index{minor\+\_\+version@{minor\+\_\+version}!Class\+File@{Class\+File}}
+\subsubsection[{minor\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::minor\+\_\+version}}\label{classClassFile_a357116b538d1b1ef11073560eba9396d}
+\hypertarget{classClassFile_aa48f683b6e5b60021410f88a5e831cbe}{\index{Class\+File@{Class\+File}!super\+\_\+class@{super\+\_\+class}}
+\index{super\+\_\+class@{super\+\_\+class}!Class\+File@{Class\+File}}
+\subsubsection[{super\+\_\+class}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::super\+\_\+class}}\label{classClassFile_aa48f683b6e5b60021410f88a5e831cbe}
+\hypertarget{classClassFile_aa45abc9545fe11fca252d9769b665294}{\index{Class\+File@{Class\+File}!this\+\_\+class@{this\+\_\+class}}
+\index{this\+\_\+class@{this\+\_\+class}!Class\+File@{Class\+File}}
+\subsubsection[{this\+\_\+class}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Class\+File\+::this\+\_\+class}}\label{classClassFile_aa45abc9545fe11fca252d9769b665294}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{classFile_8hpp}{class\+File.\+hpp}\item 
+src/\hyperlink{classFile_8cpp}{class\+File.\+cpp}\end{DoxyCompactItemize}

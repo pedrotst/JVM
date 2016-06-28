@@ -1,0 +1,11 @@
+<map id="attribute_type_u" name="attribute_type_u">
+<area shape="rect" id="node2" href="$structSynthetic__attribute__s.html" title="{Synthetic_attribute_s\n|+ attribute_name_index\l+ attribute_length\l|}" alt="" coords="5,65,163,157"/>
+<area shape="rect" id="node3" href="$structCode__attribute__s.html" title="{Code_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ max_stack\l+ max_locals\l+ code_length\l+ code\l+ exception_table_length\l+ exception_table\l+ attributes_count\l+ attributes\l|}" alt="" coords="187,6,353,215"/>
+<area shape="rect" id="node4" href="$structLineNumberTable__attribute__s.html" title="{LineNumberTable_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ line_number_table_length\l+ line_number_table\l|}" alt="" coords="379,50,571,171"/>
+<area shape="rect" id="node5" href="$structSourceFile__attribute__s.html" title="{SourceFile_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ sourcefile_index\l|}" alt="" coords="595,57,753,164"/>
+<area shape="rect" id="node6" href="$structtions__attribute__s.html" title="{tions_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ number_of_exceptions\l+ exception_index_table\l|}" alt="" coords="779,50,943,171"/>
+<area shape="rect" id="node7" href="$structLocalVariableTypeTable__attribute__s.html" title="{LocalVariableTypeTable\l_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ local_variable_type\l_table_length\l+ local_variable_type\l_table\l|}" alt="" coords="969,28,1129,193"/>
+<area shape="rect" id="node8" href="$structLocalVariableTable__attribute__s.html" title="{LocalVariableTable\l_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ local_variable_table\l_length\l+ local_variable_table\l|}" alt="" coords="1154,35,1312,186"/>
+<area shape="rect" id="node9" href="$structInnerClasses__attribute__s.html" title="{InnerClasses_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ number_of_classes\l+ classes\l|}" alt="" coords="1337,50,1503,171"/>
+<area shape="rect" id="node10" href="$structConstantValue__attribute__s.html" title="{ConstantValue_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ constantvalue_index\l|}" alt="" coords="1528,57,1704,164"/>
+</map>
