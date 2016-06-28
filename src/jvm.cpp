@@ -49,7 +49,7 @@ int Jvm::run(const char* arq_class_name) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-ClassFile Jvm::getClassRef(std::string className) {
+ClassFile Jvm::getClassRef(string className) {
       ClassFile classF;
       FILE *arquivoClass = NULL;
 
@@ -100,60 +100,93 @@ void Jvm::alocarObjeto(string className){
 		const char* ftype = ent.second.c_str();
 		cout << fname << " " << ftype[0] << endl;
 
-		field_value fval;
-		switch(ftype[0]) {
-		case 'B': //byte type
-			fval.tag = BYTE;
-			fval.val.byte = 0;
-			break;
-		case 'C': //char
-			fval.tag = CHAR;
-			fval.val.caractere = 0;
-			break;
-		case 'D': // double
-			fval.tag = DUPLO;
-			fval.val.duplo = 0;
-			break;
-		case 'F': // float
-			fval.tag = INSTANCIA;
-			fval.val.pFlutuante = 0;
-			break;
-		case 'I': // int
-			fval.tag = INT;
-			fval.val.inteiro = 0;
-			break;
-		case 'J': // long
-			fval.tag = LONGO;
-			fval.val.longo = 0;
-			break;
-		case 'S': // short
-			fval.tag = CURTO;
-			fval.val.curto = 0;
-			break;
-		case 'Z': // boolean
-			fval.tag = BOOL;
-			fval.val.boleano = false;
-			break;
-		case 'L': // reference
-			fval.tag = INSTANCIA;
-			fval.val.instancia = NULL;
-			break;
-		case '[': // array
-			fval.tag = LISTA;
-			//fval.val = NULL;
-			break;
-			inst.field_instances[fname] = fval;
-		}
-	}
+		FieldValue fval;
+        fval = this->inicializaFval(ftype, 0);
+        inst.field_instances[fname] = fval;
+    }
+}
+
+FieldValue Jvm::inicializaFval(const char* ftype, int n){
+    FieldValue fval; 
+    BaseType bval;
+    ObjectType oval;
+    ArrayType aval;
+
+    switch(ftype[n]) {
+    case 'B': //byte type
+        bval.tag = BYTE;
+        bval.val.byte = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'C': //char
+        bval.tag = CHAR;
+        bval.val.caractere = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'D': // double
+        bval.tag = DUPLO;
+        bval.val.duplo = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'F': // float
+        bval.tag = PFLUTUANTE;
+        bval.val.pFlutuante = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'I': // int
+        bval.tag = INT;
+        bval.val.inteiro = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'J': // long
+        bval.tag = LONGO;
+        bval.val.longo = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'S': // short
+        bval.tag = CURTO;
+        bval.val.curto = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'Z': // boolean
+        bval.tag = BOOL;
+        bval.val.boleano = false;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'L': // reference
+        oval.className = (char*)calloc(strlen(ftype) - 1, sizeof(char));
+        strcpy(oval.className, ftype+1);
+        fval.tag = OBJECTTYPE;
+        fval.val.objtype = oval;
+        break;
+    case '[': // array
+        fval.tag = ARRAYTYPE;
+        aval.field = new std::vector<FieldValue>();
+        aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
+        fval.val.arrtype = aval;
+        //fval.val = NULL;
+        break;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
+/** execMethod é criar o ambiente para que o método possa ser executado:
+ * inicializa as informações no frame;
+ * encontra e prepara method para execução;
+ * encontra o índice do descritor do metodo.
+ *
+ */
+	
 int Jvm::execMethod(int n, ClassFile *classF) {
-	//execMethod é criar o ambiente para que o método possa ser executado:
-	//inicializa as informações no frame;
-	//encontra e prepara method para execução;
-	//encontra o índice do descritor do metodo.
-	uint16_t index;
+	uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
 	// Frame da javaStack.
 	Frame frame;
@@ -162,14 +195,14 @@ int Jvm::execMethod(int n, ClassFile *classF) {
 	this->jStack.push_back(frame);
 
     code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
-	index = classF->methods[n].descriptor_index;
+	descriptor_index = classF->methods[n].descriptor_index;
 
 	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
 	// por uma.
 	// Executa o código do método.
 	//execCode(code_attr_pt, &frame);
 	Interpretador interpreter;
-	interpreter.runCode(index, code_attr_pt, &frame);
+	interpreter.runCode(descriptor_index, code_attr_pt, &frame);
 	return 0;
 }
 
