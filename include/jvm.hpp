@@ -77,6 +77,8 @@ class Jvm{
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 
+        FieldValue inicializaFval(const char* ftype, int n);
+
 
         // Em andamento
         //

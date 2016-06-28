@@ -100,51 +100,81 @@ void Jvm::alocarObjeto(string className){
 		const char* ftype = ent.second.c_str();
 		cout << fname << " " << ftype[0] << endl;
 
-		field_value fval;
-		switch(ftype[0]) {
-		case 'B': //byte type
-			fval.tag = BYTE;
-			fval.val.byte = 0;
-			break;
-		case 'C': //char
-			fval.tag = CHAR;
-			fval.val.caractere = 0;
-			break;
-		case 'D': // double
-			fval.tag = DUPLO;
-			fval.val.duplo = 0;
-			break;
-		case 'F': // float
-			fval.tag = INSTANCIA;
-			fval.val.pFlutuante = 0;
-			break;
-		case 'I': // int
-			fval.tag = INT;
-			fval.val.inteiro = 0;
-			break;
-		case 'J': // long
-			fval.tag = LONGO;
-			fval.val.longo = 0;
-			break;
-		case 'S': // short
-			fval.tag = CURTO;
-			fval.val.curto = 0;
-			break;
-		case 'Z': // boolean
-			fval.tag = BOOL;
-			fval.val.boleano = false;
-			break;
-		case 'L': // reference
-			fval.tag = INSTANCIA;
-			fval.val.instancia = NULL;
-			break;
-		case '[': // array
-			fval.tag = LISTA;
-			//fval.val = NULL;
-			break;
-			inst.field_instances[fname] = fval;
-		}
-	}
+		FieldValue fval;
+        fval = this->inicializaFval(ftype, 0);
+        inst.field_instances[fname] = fval;
+    }
+}
+
+FieldValue Jvm::inicializaFval(const char* ftype, int n){
+    FieldValue fval; 
+    BaseType bval;
+    ObjectType oval;
+    ArrayType aval;
+
+    switch(ftype[n]) {
+    case 'B': //byte type
+        bval.tag = BYTE;
+        bval.val.byte = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'C': //char
+        bval.tag = CHAR;
+        bval.val.caractere = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'D': // double
+        bval.tag = DUPLO;
+        bval.val.duplo = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'F': // float
+        bval.tag = PFLUTUANTE;
+        bval.val.pFlutuante = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'I': // int
+        bval.tag = INT;
+        bval.val.inteiro = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'J': // long
+        bval.tag = LONGO;
+        bval.val.longo = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'S': // short
+        bval.tag = CURTO;
+        bval.val.curto = 0;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'Z': // boolean
+        bval.tag = BOOL;
+        bval.val.boleano = false;
+        fval.tag = BASETYPE;
+        fval.val.btype = bval;
+        break;
+    case 'L': // reference
+        oval.className = (char*)calloc(strlen(ftype) - 1, sizeof(char));
+        strcpy(oval.className, ftype+1);
+        fval.tag = OBJECTTYPE;
+        fval.val.objtype = oval;
+        break;
+    case '[': // array
+        fval.tag = ARRAYTYPE;
+        aval.field = new std::vector<FieldValue>();
+        aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
+        fval.val.arrtype = aval;
+        //fval.val = NULL;
+        break;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
