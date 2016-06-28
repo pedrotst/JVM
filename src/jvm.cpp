@@ -83,7 +83,7 @@ bool Jvm::isCode(attribute_info attr){
 /////////////////////////////////////////////////////////////////////////////
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
-void Jvm::alocarObjeto(string className){
+InstanceClass Jvm::alocarObjeto(string className){
 	ClassFile classF;
 	FILE *arquivoClass = NULL;
 	InstanceClass inst;
@@ -104,10 +104,11 @@ void Jvm::alocarObjeto(string className){
         fval = this->inicializaFval(ftype, 0);
         inst.field_instances[fname] = fval;
     }
+    return inst;
 }
 
 FieldValue Jvm::inicializaFval(const char* ftype, int n){
-    FieldValue fval; 
+    FieldValue fval;
     BaseType bval;
     ObjectType oval;
     ArrayType aval;
@@ -184,7 +185,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  * encontra o índice do descritor do metodo.
  *
  */
-	
+
 int Jvm::execMethod(int n, ClassFile *classF) {
 	uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;

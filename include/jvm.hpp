@@ -56,17 +56,21 @@ class Jvm{
          * \param className nome da classe a ser retornada
          *
          * \return A classfile que de fato representa a estrutura do .class
-         *    
+         *
          */
         ClassFile getClassRef(std::string className);
 
-        // Descrição:
-        //
-        // Parâmetros:
-        //
-        // Retorno:
-        //
-        void alocarObjeto(std::string className);
+        /** \fn ClassFile alocarObjeto (std::string className)
+         *
+         * \brief Carrega a instância de uma classe carregada, alocando
+         * as fields e instânciando com os valores padrão.
+         *
+         * \param className nome da classe a ser retornada
+         *
+         * \return A instância da classe alocada com valores padrão.
+         *
+         */
+        InstanceClass alocarObjeto(std::string className);
 
 
         // Em andamento

@@ -1,6 +1,8 @@
 #ifndef HEAP
 #define HEAP
-
+/** \file heap.hpp
+* Este arquivo trata a documentação 4.3.2
+*/
 #include <map>
 #include <vector>
 #include <string>
@@ -60,10 +62,13 @@ typedef struct FieldValue_s{
     tag_FieldType tag;
     FieldType val;
 }FieldValue;
-
+/** \class InstanceClass
+* Esta struct representa o mapeamento entre a instância de uma classe e a referência
+* para esta no vetor de classes carregadas.
+*/
 typedef struct instance_class_s {
-    ClassFile                       *cf;
-    /** field_instances
+    ClassFile  *cf;
+    /** \var field_instances
      * \brief a instancia basicamente mapeia o nome da field para seu valor
      */
     std::map<std::string, FieldValue>  field_instances;

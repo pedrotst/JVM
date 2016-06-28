@@ -360,17 +360,18 @@
 1467081468 source:c:\users\thiag\documents\github repositorios\jvm\src\frame.cpp
 	"../include/frame.hpp"
 
-1467082225 c:\users\thiag\documents\github repositorios\jvm\include\frame.hpp
+1467144765 c:\users\thiag\documents\github repositorios\jvm\include\frame.hpp
 	<vector>
 	<cstdint>
 	"../include/heap.hpp"
 
-1466953010 c:\users\thiag\documents\github repositorios\jvm\include\heap.hpp
+1467155181 c:\users\thiag\documents\github repositorios\jvm\include\heap.hpp
 	<map>
 	<vector>
+	<string>
 	"../include/classFile.hpp"
 
-1466961392 c:\users\thiag\documents\github repositorios\jvm\include\jvm.hpp
+1467155331 c:\users\thiag\documents\github repositorios\jvm\include\jvm.hpp
 	<iostream>
 	"../include/leitor.hpp"
 	"../include/heap.hpp"
