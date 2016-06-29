@@ -44,6 +44,9 @@ typedef struct BaseType_s{
     BaseType_u  val;
 }BaseType;
 
+/**
+ * Não esquecer que este classname é o nome completo
+*/
 typedef struct ObjectType_s{
     char *className;
 }ObjectType;

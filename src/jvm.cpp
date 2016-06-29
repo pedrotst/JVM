@@ -173,9 +173,9 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
         aval.field = new std::vector<FieldValue>();
         aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
         fval.val.arrtype = aval;
-        //fval.val = NULL;
         break;
     }
+    return fval;
 }
 
 /////////////////////////////////////////////////////////////////////////////
