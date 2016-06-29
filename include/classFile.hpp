@@ -33,6 +33,8 @@ public:
 	//retorna um bind entre o nome e o tipo
 	std::map<std::string, std::string> getFieldsNamesTypes();
 
+    std::string getCpoolClass(int index);
+
 	// Descrição:
 	//    Procura o método main em uma classe.
 	//

@@ -6,19 +6,12 @@ int Interpretador::execute_instruction(int opcode){
     return (*this.*instructions[opcode])();
 }
 
-//
-//
-//void Interpretador::setFrame(Frame *frame){
-//    this->referencias[0] = (void*) frame->operandStack;
-//    this->referencias[1] = (void*) frame->constant_pool_pt;
-//    this->referencias[2] = (void*) frame->localVarVector;
-//}
-
-int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt) {
+int Interpretador::runCode(ClassFile *cf, int n, Frame *frame_pt) {
     //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
+    this->cf = cf;
     this->frame_corrente = frame_pt;
-    this->code_corrente = code_attr_pt;
-    this->descriptor_index = descriptor_index;
+    this->code_corrente = cf->getCodeAttr(&cf->methods[n]);
+    this->descriptor_index = cf->methods[n].descriptor_index;
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 1/*code_attr_pt->code_length*/;) {
@@ -30,8 +23,8 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
 }
 
 
-Interpretador::Interpretador(/*Jvm *jvm*/){
-    //this->jvm = jvm;
+Interpretador::Interpretador(Jvm *jvm){
+    this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
@@ -282,11 +275,16 @@ int Interpretador::dup(){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
-    uint16_t buffer = operand;
-    buffer = buffer<<8;
+    uint16_t name_index = operand;
+    std::string className;
+    name_index = name_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
-    buffer = buffer|operand;
-    printf("new #%d\n", buffer);
+    name_index = name_index|operand;
+    printf("new #%d\n", name_index);
+    className = this->cf->getCpoolClass(name_index);
+ 
+    printf("nome da classe: %s\n", className.c_str());
+    jvm->alocarObjeto(className);
     return 3; //dois bytes lidos + o opcode
 }
 //

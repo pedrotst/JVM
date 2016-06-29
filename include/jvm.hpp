@@ -24,11 +24,11 @@
 
 class Jvm{
     public:
-        /** @var jStack
+        /** \var fStack
          *
-         * @brief Pilha de execução da jvm. Pilha de frames.
+         *  \brief Pilha de execução da jvm. Pilha de frames.
          */
-        std::vector<Frame> jStack;
+        std::vector<Frame> fStack;
 
         /** \var std::map<std::string, ClassFile> loadedClasses
          *

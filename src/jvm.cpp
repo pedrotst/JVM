@@ -5,102 +5,102 @@
 using namespace std;
 
 int Jvm::run(const char* arq_class_name) {
-	ClassFile classF;
-	int main_index;
-	FILE *arquivoClass;
+    ClassFile classF;
+    int main_index;
+    FILE *arquivoClass;
 
-	if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
-		printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
-		exit(0);
-	}
+    if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
+        printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
+        exit(0);
+    }
 
-	leitorClass_info(&classF, arquivoClass);
+    leitorClass_info(&classF, arquivoClass);
 
-	this->alocarObjeto(classF.getClassName());
+    this->alocarObjeto(classF.getClassName());
 
-	// Procura o método main na primeira classe carregada. Se não encontrar,
-	// a execução é finalizada. Se encontrar, começa a execução.
-	main_index = classF.findMain();
-	printf("Valor de main_index: %d\n", main_index);
-	if(main_index > 0){
-		execMethod(main_index, &classF);
-	}else {
-		printf("O arquivo .class nao possui uma main.\n");
-		exit(0);
-	}
+    // Procura o método main na primeira classe carregada. Se não encontrar,
+    // a execução é finalizada. Se encontrar, começa a execução.
+    main_index = classF.findMain();
+    printf("Valor de main_index: %d\n", main_index);
+    if(main_index > 0){
+        execMethod(main_index, &classF);
+    }else {
+        printf("O arquivo .class nao possui uma main.\n");
+        exit(0);
+    }
 
-	//cria um frame para a javaStack
-	/*Frame frame = Frame();
-	   //coloca operandos na pilha de operandos
-	   frame.opStack->push_back(23);
-	   frame.opStack->push_back(3);
+    //cria um frame para a javaStack
+    /*Frame frame = Frame();
+    //coloca operandos na pilha de operandos
+    frame.opStack->push_back(23);
+    frame.opStack->push_back(3);
 
-	   //inicializa interpretador
+    //inicializa interpretador
 
-	   Interpretador interpreter = Interpretador(this);
-	   interpreter.execute_instruction(IADD, frame.opStack);
+    Interpretador interpreter = Interpretador(this);
+    interpreter.execute_instruction(IADD, frame.opStack);
 
-	   //exibe resultado
-	   printf("Resultado: %d\n", frame.opStack->back());
+    //exibe resultado
+    printf("Resultado: %d\n", frame.opStack->back());
 
-	   //exibeClass(classF);*/
+    //exibeClass(classF);*/
 
-	return 0;
+    return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 ClassFile Jvm::getClassRef(string className) {
-      ClassFile classF;
-      FILE *arquivoClass = NULL;
+    ClassFile classF;
+    FILE *arquivoClass = NULL;
 
-      // Se a classe não for encontrada no map, o find retorna um iterador para end.
-      // Ou seja, caso a classe não for encontrada.
-      // Carrega a nova classe.
-      if(this->loadedClasses.find(className) == this->loadedClasses.end()) {
-            if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
-      		printf("O arquivo .class nao pode ser aberto.\n");
-      		exit(0);
-      	}
+    // Se a classe não for encontrada no map, o find retorna um iterador para end.
+    // Ou seja, caso a classe não for encontrada.
+    // Carrega a nova classe.
+    if(this->loadedClasses.find(className) == this->loadedClasses.end()) {
+        if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
+            printf("O arquivo .class nao pode ser aberto.\n");
+            exit(0);
+        }
 
-      	leitorClass_info(&classF, arquivoClass);
+        leitorClass_info(&classF, arquivoClass);
 
-      	this->loadedClasses[className] = classF;
-      }
-      // Se a classe for encontrada retorna uma referência para ela
-      else {
-      	classF = this->loadedClasses[className];
-      }
+        this->loadedClasses[className] = classF;
+    }
+    // Se a classe for encontrada retorna uma referência para ela
+    else {
+        classF = this->loadedClasses[className];
+    }
 
-      return classF;
+    return classF;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 bool Jvm::isCode(attribute_info attr){
-	//if(attr.)
-	return false;
+    //if(attr.)
+    return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
 InstanceClass Jvm::alocarObjeto(string className){
-	ClassFile classF;
-	FILE *arquivoClass = NULL;
-	InstanceClass inst;
+    ClassFile classF;
+    FILE *arquivoClass = NULL;
+    InstanceClass inst;
 
-      // Obtém a referência para a classe. A classe é carrega se necessário.
-      classF = getClassRef(className);
+    // Obtém a referência para a classe. A classe é carrega se necessário.
+    classF = getClassRef(className);
 
-      inst.cf = &classF;
+    inst.cf = &classF;
 
-	cout << "Creating class" << className << endl;
-	map<string, string> fbinds = classF.getFieldsNamesTypes();
-	for(auto const &ent : fbinds) {
-		string fname = ent.first;
-		const char* ftype = ent.second.c_str();
-		cout << fname << " " << ftype[0] << endl;
+    cout << "Creating class" << className << endl;
+    map<string, string> fbinds = classF.getFieldsNamesTypes();
+    for(auto const &ent : fbinds) {
+        string fname = ent.first;
+        const char* ftype = ent.second.c_str();
+        cout << fname << " " << ftype[0] << endl;
 
-		FieldValue fval;
+        FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
         inst.field_instances[fname] = fval;
     }
@@ -114,66 +114,66 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
     ArrayType aval;
 
     switch(ftype[n]) {
-    case 'B': //byte type
-        bval.tag = BYTE;
-        bval.val.byte = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'C': //char
-        bval.tag = CHAR;
-        bval.val.caractere = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'D': // double
-        bval.tag = DUPLO;
-        bval.val.duplo = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'F': // float
-        bval.tag = PFLUTUANTE;
-        bval.val.pFlutuante = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'I': // int
-        bval.tag = INT;
-        bval.val.inteiro = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'J': // long
-        bval.tag = LONGO;
-        bval.val.longo = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'S': // short
-        bval.tag = CURTO;
-        bval.val.curto = 0;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'Z': // boolean
-        bval.tag = BOOL;
-        bval.val.boleano = false;
-        fval.tag = BASETYPE;
-        fval.val.btype = bval;
-        break;
-    case 'L': // reference
-        oval.className = (char*)calloc(strlen(ftype) - 1, sizeof(char));
-        strcpy(oval.className, ftype+1);
-        fval.tag = OBJECTTYPE;
-        fval.val.objtype = oval;
-        break;
-    case '[': // array
-        fval.tag = ARRAYTYPE;
-        aval.field = new std::vector<FieldValue>();
-        aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
-        fval.val.arrtype = aval;
-        break;
+        case 'B': //byte type
+            bval.tag = BYTE;
+            bval.val.byte = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'C': //char
+            bval.tag = CHAR;
+            bval.val.caractere = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'D': // double
+            bval.tag = DUPLO;
+            bval.val.duplo = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'F': // float
+            bval.tag = PFLUTUANTE;
+            bval.val.pFlutuante = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'I': // int
+            bval.tag = INT;
+            bval.val.inteiro = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'J': // long
+            bval.tag = LONGO;
+            bval.val.longo = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'S': // short
+            bval.tag = CURTO;
+            bval.val.curto = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'Z': // boolean
+            bval.tag = BOOL;
+            bval.val.boleano = false;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'L': // reference
+            oval.className = (char*)calloc(strlen(ftype) - 1, sizeof(char));
+            strcpy(oval.className, ftype+1);
+            fval.tag = OBJECTTYPE;
+            fval.val.objtype = oval;
+            break;
+        case '[': // array
+            fval.tag = ARRAYTYPE;
+            aval.field = new std::vector<FieldValue>();
+            aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
+            fval.val.arrtype = aval;
+            break;
     }
     return fval;
 }
@@ -187,24 +187,24 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  */
 
 int Jvm::execMethod(int n, ClassFile *classF) {
-	uint16_t descriptor_index;
+    uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
-	// Frame da javaStack.
-	Frame frame;
-	frame.constant_pool_pt = &classF->constant_pool;
-	// Empilha o frame.
-	this->jStack.push_back(frame);
+    // Frame da javaStack.
+    Frame frame;
+    frame.constant_pool_pt = &classF->constant_pool;
+    // Empilha o frame.
+    this->fStack.push_back(frame);
 
-    code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
-	descriptor_index = classF->methods[n].descriptor_index;
+    //code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
+    //descriptor_index = classF->methods[n].descriptor_index;
 
-	// Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
-	// por uma.
-	// Executa o código do método.
-	//execCode(code_attr_pt, &frame);
-	Interpretador interpreter;
-	interpreter.runCode(descriptor_index, code_attr_pt, &frame);
-	return 0;
+    // Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
+    // por uma.
+    // Executa o código do método.
+    //execCode(code_attr_pt, &frame);
+    Interpretador interpreter(this);
+    interpreter.runCode(classF, n, &frame);
+    return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
