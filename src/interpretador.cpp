@@ -1,14 +1,11 @@
 #include "../include/interpretador.hpp"
 
 
-void Interpretador::execute_instruction(int opcode){
+int Interpretador::execute_instruction(int opcode){
     printf("Vou executar a instrucao\n");
-    (*this.*instructions[opcode])();
+    return (*this.*instructions[opcode])();
 }
 
-int Interpretador::push_operands(uint8_t opcode){
-    return (*this.*operands_pusher[opcode])();
-}
 //
 //
 //void Interpretador::setFrame(Frame *frame){
@@ -26,8 +23,7 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 1/*code_attr_pt->code_length*/;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        this->frame_corrente->pc += this->push_operands(opcode);
-        this->execute_instruction(opcode);
+        this->frame_corrente->pc += this->execute_instruction(opcode);
         //n += arg_qnt;
     }
     return -1;
@@ -37,9 +33,7 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
 Interpretador::Interpretador(/*Jvm *jvm*/){
     //this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
-    std::vector<instructionFunctionOperands> pt2(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
-    pt2[IADD] = &Interpretador::iadd_pusher;
 //    pt[NOP] = &nop;
 //    pt[ACONST_NULL] = &aConst_null;
 //    pt[ICONST_M1] = &iConst_m1;
@@ -124,7 +118,7 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
 //    pt[SASTORE] = &saStore;
 //    pt[POP] = &pop;
 //    pt[POP2] = &pop2;
-//    pt[DUP] = &dup;
+    pt[DUP] = &Interpretador::dup;
 //    pt[DUP_X1] = &dup_x1;
 //    pt[DUP_X2] = &dup_x2;
 //    pt[DUP2] = &dup2;
@@ -219,7 +213,6 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
     pt[NEW] = &Interpretador::new_op;
-    pt2[NEW] = &Interpretador::new_op_pusher;
 //    pt[NEWARRAY] = &newarray;
 //    pt[ANEWARRAY] = &anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;
@@ -238,25 +231,15 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
 //    pt[IMPDEP1] = &impdep1;
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
-    this->operands_pusher = pt2;
-}
-
-//int Interpretador::iadd_pusher(char* code, op_stack *opStack){
-int Interpretador::iadd_pusher(){
-    return 0;
 }
 
 //void Interpretador::iadd(op_stack *opStack){
-void Interpretador::iadd(){
+int Interpretador::iadd(){
 
     uint32_t lhs, rhs;
     operand op;
     operand_value op_v;
     printf("Entrou na funcao\n");
-//    lhs = opStack->back().value.int_value;
-//    opStack->pop_back();
-//    rhs = opStack->back().value.int_value;
-//    opStack->pop_back();
     lhs = frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
     rhs = frame_corrente->operandStack.back().value.int_value;
@@ -268,6 +251,7 @@ void Interpretador::iadd(){
     op.tag = INT;
     //opStack->push_back(op);
     this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
 
 /*
@@ -288,14 +272,14 @@ void Interpretador::ladd(op_stack *opStack){
     opStack->push_back(operand1[1] + operand2[1]);
 }*/
 
-//int Interpretador::new_op_pusher(char* codeAligned, op_stack *opStack){
-int Interpretador::new_op_pusher(){
-//new não utiliza a stack como entrada
-    return 0;
+int Interpretador::dup(){
+    frame_corrente->operandStack.push_back( frame_corrente->operandStack.back() );
 }
 
+
+
 //void Interpretador::new_op(op_stack *opStack){
-void Interpretador::new_op(){
+int Interpretador::new_op(){
     printf("Cheguei na new\n");
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
     uint16_t buffer = operand;
@@ -303,7 +287,7 @@ void Interpretador::new_op(){
     operand = code_corrente->code[frame_corrente->pc+2];
     buffer = buffer|operand;
     printf("new #%d\n", buffer);
-    this->frame_corrente->pc += 2; //dois bytes lidos,
+    return 3; //dois bytes lidos + o opcode
 }
 //
 //void fadd(jStackFrame &jStack){

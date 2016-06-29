@@ -23,29 +23,33 @@ class Interpretador{
 	private:
 		Jvm *jvm;
 		//typedef void (Interpretador::*instructionFunction)(op_stack*);
-		typedef void (Interpretador::*instructionFunction)();
+		typedef int (Interpretador::*instructionFunction)();
 		std::vector<instructionFunction> instructions;//instruções
 		Frame *frame_corrente;
 		Code_attribute *code_corrente;
 		uint16_t descriptor_index;
-
-		//typedef int (Interpretador::*instructionFunctionOperands)(char*, op_stack*);
-		typedef int (Interpretador::*instructionFunctionOperands)();
-		std::vector<instructionFunctionOperands> operands_pusher;//preparador da pilha para as instruções
-
-		int push_operands(uint8_t opcode);
-		void execute_instruction(int opcode);
+        /** \fn interpretador execute_instruction (std::string className)
+         *
+         * \brief Executa a instrução de acordo com o opcode de entrada.
+         *  para encontrar a funcao correta eh montado o vetor ponteiro
+         * para funcoes, os quais seguem a ordem dos opcode
+         *
+         * \param opcode da funcao a ser executada
+         *
+         * \return a quantidade de bytes utilizados pela instrucao executada
+         * este numero deve ser utilizado para incremento do pc
+         */
+		int execute_instruction(int opcode);
 		//uma das fun��es do interpretador
 //		void iadd(op_stack *opStack);
 //		int iadd_pusher(char *codeAligned, op_stack *opStack);
 //		void ladd(op_stack *opStack);
 //		void new_op(op_stack *opStack);
 //		int new_op_pusher(char* codeAligned, op_stack *opStack);
-        void iadd();
-		int iadd_pusher();
-		void ladd();
-		void new_op();
-		int new_op_pusher();
+        int iadd();
+		int ladd();
+		int new_op();
+		int dup();
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
