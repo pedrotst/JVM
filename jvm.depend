@@ -98,7 +98,7 @@
 1466211711 c:\users\thiag\documents\github repositorios\jvm\include\javastack_frame.hpp
 	<vector>
 
-1467301081 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
+1467308250 c:\users\thiag\documents\github repositorios\jvm\include\interpretador.hpp
 	<cstdint>
 	<stdio.h>
 	<stdlib.h>
@@ -106,8 +106,9 @@
 	"../include/opcode.hpp"
 	"../include/jvm.hpp"
 	"../include/structs.hpp"
+	"../include/classFile.hpp"
 
-1467158434 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
+1467308277 source:c:\users\thiag\documents\github repositorios\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
 1466223668 source:d:\gitstuf\jvm\src\exibidor.cpp
@@ -342,7 +343,7 @@
 1465486855 source:d:\mygit\jvm\src\read_methods.cpp
 	"../include/read_attributes.hpp"
 
-1466954298 c:\users\thiag\documents\github repositorios\jvm\include\classfile.hpp
+1467306588 c:\users\thiag\documents\github repositorios\jvm\include\classfile.hpp
 	<stdio.h>
 	<string.h>
 	<string>
@@ -360,18 +361,18 @@
 1467081468 source:c:\users\thiag\documents\github repositorios\jvm\src\frame.cpp
 	"../include/frame.hpp"
 
-1467303054 c:\users\thiag\documents\github repositorios\jvm\include\frame.hpp
+1467308085 c:\users\thiag\documents\github repositorios\jvm\include\frame.hpp
 	<vector>
 	<cstdint>
 	"../include/heap.hpp"
 
-1467218331 c:\users\thiag\documents\github repositorios\jvm\include\heap.hpp
+1467310723 c:\users\thiag\documents\github repositorios\jvm\include\heap.hpp
 	<map>
 	<vector>
 	<string>
 	"../include/classFile.hpp"
 
-1467155475 c:\users\thiag\documents\github repositorios\jvm\include\jvm.hpp
+1467306588 c:\users\thiag\documents\github repositorios\jvm\include\jvm.hpp
 	<iostream>
 	"../include/leitor.hpp"
 	"../include/heap.hpp"
@@ -388,12 +389,12 @@
 	"../include/opcode.hpp"
 	<stdio.h>
 
-1467300270 source:c:\users\thiag\documents\github repositorios\jvm\src\jvm.cpp
+1467310653 source:c:\users\thiag\documents\github repositorios\jvm\src\jvm.cpp
 	<stdio.h>
 	<map>
 	"../include/jvm.hpp"
 
-1466962606 source:c:\users\thiag\documents\github repositorios\jvm\src\classfile.cpp
+1467306588 source:c:\users\thiag\documents\github repositorios\jvm\src\classfile.cpp
 	"../include/classFile.hpp"
 
 1466953010 source:c:\users\thiag\documents\github repositorios\jvm\src\operationmap.cpp
@@ -401,4 +402,170 @@
 
 1466953010 source:c:\users\thiag\documents\github repositorios\jvm\src\interpreter_op_code.cpp
 	"../include/interpreter_op_code.hpp"
+
+1467243510 source:/home/pedroabreu/gitstuff/JVM/src/classFile.cpp
+	"../include/classFile.hpp"
+
+1467246033 /home/pedroabreu/gitstuff/JVM/include/classFile.hpp
+	<stdio.h>
+	<string.h>
+	<string>
+	<map>
+	<exception>
+	"../include/structs.hpp"
+
+1466797327 /home/pedroabreu/gitstuff/JVM/include/structs.hpp
+	<vector>
+	<stdint.h>
+	"attributes.hpp"
+
+1464740273 /home/pedroabreu/gitstuff/JVM/include/attributes.hpp
+	<vector>
+	<stdint.h>
+
+1466787944 source:/home/pedroabreu/gitstuff/JVM/src/exibidor.cpp
+	"../include/exibidor.hpp"
+
+1466787944 /home/pedroabreu/gitstuff/JVM/include/exibidor.hpp
+	<math.h>
+	<string.h>
+	<iostream>
+	<iomanip>
+	<stdio.h>
+	<stdint.h>
+	"../include/structs.hpp"
+	"../include/print_code.hpp"
+	"../include/classFile.hpp"
+	"../include/op_instrucs.hpp"
+	"../include/operationMap.hpp"
+
+1464750774 /home/pedroabreu/gitstuff/JVM/include/print_code.hpp
+	<stdint.h>
+	"../include/opcode.hpp"
+
+1464750774 /home/pedroabreu/gitstuff/JVM/include/opcode.hpp
+
+1466684458 /home/pedroabreu/gitstuff/JVM/include/op_instrucs.hpp
+	<map>
+
+1466861491 /home/pedroabreu/gitstuff/JVM/include/operationMap.hpp
+	<map>
+	<string>
+
+1467242148 source:/home/pedroabreu/gitstuff/JVM/src/frame.cpp
+	"../include/frame.hpp"
+
+1467247382 /home/pedroabreu/gitstuff/JVM/include/frame.hpp
+	<vector>
+	<cstdint>
+	"../include/heap.hpp"
+
+1467247188 /home/pedroabreu/gitstuff/JVM/include/heap.hpp
+	<map>
+	<vector>
+	<string>
+	"../include/classFile.hpp"
+
+1467243749 source:/home/pedroabreu/gitstuff/JVM/src/interpretador.cpp
+	"../include/interpretador.hpp"
+
+1467243004 /home/pedroabreu/gitstuff/JVM/include/interpretador.hpp
+	<cstdint>
+	<stdio.h>
+	<stdlib.h>
+	"../include/frame.hpp"
+	"../include/opcode.hpp"
+	"../include/jvm.hpp"
+	"../include/structs.hpp"
+	"../include/classFile.hpp"
+
+1467245679 /home/pedroabreu/gitstuff/JVM/include/jvm.hpp
+	<iostream>
+	"../include/leitor.hpp"
+	"../include/heap.hpp"
+	"../include/frame.hpp"
+	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
+	"../include/exibidor.hpp"
+	"../include/classFile.hpp"
+	"../include/op_instrucs.hpp"
+	"../include/interpreter_op_code.hpp"
+
+1466787944 /home/pedroabreu/gitstuff/JVM/include/leitor.hpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<string>
+	<cstring>
+	"../include/structs.hpp"
+	"../include/classFile.hpp"
+	"../include/attributes.hpp"
+	"../include/little_to_big.hpp"
+	"../include/read_bytes.hpp"
+	"../include/read_attributes.hpp"
+	"../include/read_methods.hpp"
+
+1464740273 /home/pedroabreu/gitstuff/JVM/include/little_to_big.hpp
+	<stdint.h>
+
+1464740273 /home/pedroabreu/gitstuff/JVM/include/read_bytes.hpp
+	<stdio.h>
+	"../include/little_to_big.hpp"
+
+1464740273 /home/pedroabreu/gitstuff/JVM/include/read_attributes.hpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../include/structs.hpp"
+	"../include/attributes.hpp"
+	"../include/read_bytes.hpp"
+
+1464740273 /home/pedroabreu/gitstuff/JVM/include/read_methods.hpp
+	"structs.hpp"
+	"read_attributes.hpp"
+
+1466787944 /home/pedroabreu/gitstuff/JVM/include/interpreter_op_code.hpp
+	<stdint.h>
+	"../include/opcode.hpp"
+	<stdio.h>
+
+1467246910 source:/home/pedroabreu/gitstuff/JVM/src/jvm.cpp
+	<stdio.h>
+	<map>
+	"../include/jvm.hpp"
+
+1466287049 source:/home/pedroabreu/gitstuff/JVM/src/leitor.cpp
+	"../include/leitor.hpp"
+
+1464740273 source:/home/pedroabreu/gitstuff/JVM/src/little_to_big.cpp
+	"../include/little_to_big.hpp"
+
+1466475180 source:/home/pedroabreu/gitstuff/JVM/src/main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<map>
+	"../include/leitor.hpp"
+	"../include/exibidor.hpp"
+	"../include/frame.hpp"
+	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
+	"../include/jvm.hpp"
+
+1466806326 source:/home/pedroabreu/gitstuff/JVM/src/operationMap.cpp
+	"../include/operationMap.hpp"
+
+1466287049 source:/home/pedroabreu/gitstuff/JVM/src/print_attributes.cpp
+
+1467084487 source:/home/pedroabreu/gitstuff/JVM/src/print_code.cpp
+	"../include/print_code.hpp"
+
+1464745503 source:/home/pedroabreu/gitstuff/JVM/src/read_attributes.cpp
+	"../include/read_attributes.hpp"
+
+1464740273 source:/home/pedroabreu/gitstuff/JVM/src/read_bytes.cpp
+	"../include/read_bytes.hpp"
+
+1464740273 source:/home/pedroabreu/gitstuff/JVM/src/read_methods.cpp
+	"../include/read_attributes.hpp"
 

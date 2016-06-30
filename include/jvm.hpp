@@ -24,11 +24,11 @@
 
 class Jvm{
     public:
-        /** @var jStack
+        /** \var fStack
          *
-         * @brief Pilha de execução da jvm. Pilha de frames.
+         *  \brief Pilha de execução da jvm. Pilha de frames.
          */
-        std::vector<Frame> jStack;
+        std::vector<Frame> fStack;
 
         /** \var std::map<std::string, ClassFile> loadedClasses
          *
@@ -40,7 +40,7 @@ class Jvm{
          *
          * \brief Mapeia classname para instancias
          */
-        std::map<std::string, InstanceClass> heap;
+        std::vector<InstanceClass*> heap;
 
         /** \fn JVM()
          *
@@ -67,10 +67,10 @@ class Jvm{
          *
          * \param className nome da classe a ser retornada
          *
-         * \return A instância da classe alocada com valores padrão.
+         * \return A referência da instância da classe alocada com valores padrão.
          *
          */
-        InstanceClass alocarObjeto(std::string className);
+        InstanceClass* alocarObjeto(std::string className);
 
 
         // Em andamento

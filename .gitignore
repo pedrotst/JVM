@@ -38,3 +38,7 @@ leitor
 
 # Executable antigo
 leitor3
+
+# codeblocks file
+*.depend
+*.layout

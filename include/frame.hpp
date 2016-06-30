@@ -6,9 +6,11 @@
 #include "../include/heap.hpp"
 
 //////////////////////////// Estruturas ////////////////////////////
-// Os tipos float e double não estão presentes porque não vamos dar suporte a
-// ponto flutuante.
-// Falta definir os tipos reference e returnAddress.
+/** \class Operand_Type
+ * \brief Os tipos float e double não estão presentes porque não vamos dar suporte a
+ * ponto flutuante.
+ * Falta definir os tipos reference e returnAddress.
+*/
 typedef union operand_value_u {
 	bool boolean_value;
 	uint8_t byte_value;
@@ -18,26 +20,18 @@ typedef union operand_value_u {
 	int64_t long_value;
 	InstanceClass*   reference_value;
 	//returnAddress        returnAddress_value;
-}Operand_value;
-
-typedef enum op_tag_e{
-    INT_TYPE = 0,
-    BOOLEAN_TYPE,
-    BYTE_TYPE,
-    CHAR_TYPE,
-    SHORT_TYPE,
-    LONG_TYPE,
-    REFERENCE_TYPE
-}Op_tag;
+}Operand_Type;
 
 typedef struct operand_s {
-	Op_tag tag;
-	Operand_value value;
+	tag_Tipo tag;
+	Operand_Type value;
 }Operand;
 
-// A diferença entre os operandos e as variáveis locais é que as variáveis locais
-// não podem receber long ou double. Para salvar um long ou um double são necessárias
-// duas variáveis locais.
+/** \class local_var_value
+ *  \var A diferença entre os operandos e as variáveis locais é que as variáveis locais
+ *       não podem receber long ou double. Para salvar um long ou um double são necessárias
+ *       duas variáveis locais.
+ */
 typedef union local_var_value_u {
 	bool boolean_value;
 	uint8_t byte_value;

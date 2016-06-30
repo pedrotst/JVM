@@ -6,11 +6,12 @@ int Interpretador::execute_instruction(int opcode){
     return (*this.*instructions[opcode])();
 }
 
-int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt) {
+int Interpretador::runCode(ClassFile *cf, int n, Frame *frame_pt) {
     //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
+    this->cf = cf;
     this->frame_corrente = frame_pt;
-    this->code_corrente = code_attr_pt;
-    this->descriptor_index = descriptor_index;
+    this->code_corrente = cf->getCodeAttr(&cf->methods[n]);
+    this->descriptor_index = cf->methods[n].descriptor_index;
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 5/*code_attr_pt->code_length*/;) {
@@ -22,7 +23,8 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
 
 
 Interpretador::Interpretador(Jvm *jvm){
-    //this->jvm = jvm;
+
+    this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
@@ -229,7 +231,7 @@ int Interpretador::iadd(){
 
     uint32_t lhs, rhs;
     Operand op;
-    Operand_value op_v;
+    Operand_Type op_v;
     printf("Entrou na funcao iadd\n");
     lhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
     this->frame_corrente->operandStack.pop_back();
@@ -239,7 +241,7 @@ int Interpretador::iadd(){
     printf("lhs: %d rhs: %d\n", lhs, rhs);
     op_v.int_value = lhs + rhs;
     op.value = op_v;
-    op.tag = INT_TYPE;
+    op.tag = INT;
     //opStack->push_back(op);
     this->frame_corrente->operandStack.push_back(op);
     return 1;
@@ -305,18 +307,23 @@ int Interpretador::dup(){
 //void Interpretador::new_op(op_stack *opStack){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
-    uint8_t operando_new = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
-    uint16_t buffer = operando_new;
-    buffer = buffer<<8;
-    operando_new = code_corrente->code[frame_corrente->pc+2];
-    buffer = buffer|operando_new;
-    printf("new #%d\n", buffer);
-    //resolver e criar a instância da classe apontada por buffer
-    Operand operand;
-    printf("Tag que new coloca na CP: %d\n", REFERENCE_TYPE);
-    operand.tag = REFERENCE_TYPE;
-    operand.value.int_value = 2; //    <<----- provisorio, tem que ser um ponteiro
-    this->frame_corrente->operandStack.push_back(operand);
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
+    uint16_t name_index = operand;
+    std::string className;
+    Operand op;
+    Operand_Type op_val;
+
+    name_index = name_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    name_index = name_index|operand;
+    printf("new #%d\n", name_index);
+    className = this->cf->getCpoolClass(name_index);
+
+    printf("nome da classe: %s\n", className.c_str());
+    op.tag = OBJECTTYPE;
+    op_val.reference_value = jvm->alocarObjeto(className);
+    op.value = op_val;
+    frame_corrente->operandStack.push_back(op);
     return 3; //dois bytes lidos + o opcode
 }
 //
