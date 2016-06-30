@@ -8,6 +8,7 @@ int Jvm::run(const char* arq_class_name) {
     ClassFile classF;
     int main_index;
     FILE *arquivoClass;
+    //heap = new vector<InstanceClass*>();
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
@@ -16,7 +17,8 @@ int Jvm::run(const char* arq_class_name) {
 
     leitorClass_info(&classF, arquivoClass);
 
-    this->alocarObjeto(classF.getClassName());
+    heap.push_back(this->alocarObjeto(classF.getClassName()));
+
 
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
@@ -83,15 +85,16 @@ bool Jvm::isCode(attribute_info attr){
 /////////////////////////////////////////////////////////////////////////////
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
-InstanceClass Jvm::alocarObjeto(string className){
+InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile classF;
     FILE *arquivoClass = NULL;
-    InstanceClass inst;
+    InstanceClass *inst;
 
+    inst = (InstanceClass*)malloc(sizeof(InstanceClass));
     // Obtém a referência para a classe. A classe é carrega se necessário.
     classF = getClassRef(className);
 
-    inst.cf = &classF;
+    inst->cf = &classF;
 
     cout << "Creating class" << className << endl;
     map<string, string> fbinds = classF.getFieldsNamesTypes();
@@ -102,8 +105,10 @@ InstanceClass Jvm::alocarObjeto(string className){
 
         FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
-        inst.field_instances[fname] = fval;
+        inst->field_instances[fname] = fval;
     }
+
+    heap.push_back(inst);
     return inst;
 }
 

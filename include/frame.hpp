@@ -18,12 +18,12 @@ typedef union operand_value_u {
 	int64_t long_value;
 	InstanceClass*   reference_value;
 	//returnAddress        returnAddress_value;
-}operand_value;
+}Operand_Type;
 
 typedef struct operand_s {
-	uint8_t tag;
-	operand_value value;
-}operand;
+	tag_Tipo tag;
+	Operand_Type value;
+}Operand;
 
 // A diferença entre os operandos e as variáveis locais é que as variáveis locais
 // não podem receber long ou double. Para salvar um long ou um double são necessárias
@@ -43,7 +43,7 @@ typedef struct local_var_s {
 	local_var_value value;
 }local_var;
 
-typedef std::vector<operand> op_stack;
+typedef std::vector<Operand> op_stack;
 typedef std::vector<local_var> local_var_vector;
 
 //////////////////////////// Class ////////////////////////////

@@ -230,8 +230,8 @@ Interpretador::Interpretador(Jvm *jvm){
 int Interpretador::iadd(){
 
     uint32_t lhs, rhs;
-    operand op;
-    operand_value op_v;
+    Operand op;
+    Operand_Type op_v;
     printf("Entrou na funcao\n");
     lhs = frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -277,14 +277,20 @@ int Interpretador::new_op(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
     uint16_t name_index = operand;
     std::string className;
+    Operand op;
+    Operand_Type op_val;
+
     name_index = name_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     name_index = name_index|operand;
     printf("new #%d\n", name_index);
     className = this->cf->getCpoolClass(name_index);
- 
+
     printf("nome da classe: %s\n", className.c_str());
-    jvm->alocarObjeto(className);
+    op.tag = OBJECTTYPE;
+    op_val.reference_value = jvm->alocarObjeto(className);
+    op.value = op_val;
+    frame_corrente->operandStack.push_back(op);
     return 3; //dois bytes lidos + o opcode
 }
 //

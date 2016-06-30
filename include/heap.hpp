@@ -14,19 +14,15 @@ typedef enum tag_tipo_e{
     BOOL = 0,
     INT,
     CHAR,
-    PALAVRA,
     BYTE,
     LONGO,
     PFLUTUANTE,
     CURTO,
     DUPLO,
-}tag_tipo;
-
-typedef enum tag_FieldType_e{
-    BASETYPE = 0,
+    BASETYPE,
     OBJECTTYPE,
     ARRAYTYPE
-}tag_FieldType;
+}tag_Tipo;
 
 typedef union base_type_s{
     uint8_t         byte;
@@ -40,7 +36,7 @@ typedef union base_type_s{
 }BaseType_u;
 
 typedef struct BaseType_s{
-    tag_tipo    tag;
+    tag_Tipo    tag;
     BaseType_u  val;
 }BaseType;
 
@@ -62,7 +58,7 @@ typedef union FieldType_u{
 }FieldType;
 
 typedef struct FieldValue_s{
-    tag_FieldType tag;
+    tag_Tipo  tag;
     FieldType val;
 }FieldValue;
 /** \class InstanceClass
