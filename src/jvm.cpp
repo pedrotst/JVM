@@ -31,22 +31,6 @@ int Jvm::run(const char* arq_class_name) {
         exit(0);
     }
 
-    //cria um frame para a javaStack
-    /*Frame frame = Frame();
-    //coloca operandos na pilha de operandos
-    frame.opStack->push_back(23);
-    frame.opStack->push_back(3);
-
-    //inicializa interpretador
-
-    Interpretador interpreter = Interpretador(this);
-    interpreter.execute_instruction(IADD, frame.opStack);
-
-    //exibe resultado
-    printf("Resultado: %d\n", frame.opStack->back());
-
-    //exibeClass(classF);*/
-
     return 0;
 }
 
@@ -77,12 +61,6 @@ ClassFile Jvm::getClassRef(string className) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-bool Jvm::isCode(attribute_info attr){
-    //if(attr.)
-    return false;
-}
-
-/////////////////////////////////////////////////////////////////////////////
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
 InstanceClass* Jvm::alocarObjeto(string className){
@@ -92,7 +70,7 @@ InstanceClass* Jvm::alocarObjeto(string className){
 
     inst = (InstanceClass*)malloc(sizeof(InstanceClass));
     //teste
-    inst->field_instances = new Fields_Values;//(Fields_Values*)malloc(sizeof(Fields_Values));
+    inst->field_instances = new Fields_Values();//(Fields_Values*)malloc(sizeof(Fields_Values));
     // Obtém a referência para a classe. A classe é carrega se necessário.
     classF = getClassRef(className);
 
@@ -197,8 +175,7 @@ int Jvm::execMethod(int n, ClassFile *classF) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
     // Frame da javaStack.
-    Frame frame;
-    frame.constant_pool_pt = &classF->constant_pool;
+    Frame frame(n, classF);
     // Empilha o frame.
     this->fStack.push_back(frame);
 
@@ -210,7 +187,7 @@ int Jvm::execMethod(int n, ClassFile *classF) {
     // Executa o código do método.
     //execCode(code_attr_pt, &frame);
     Interpretador interpreter(this);
-    interpreter.runCode(classF, n, &frame);
+    interpreter.runCode(&frame);
     return 0;
 }
 

@@ -6,12 +6,12 @@ int Interpretador::execute_instruction(int opcode){
     return (*this.*instructions[opcode])();
 }
 
-int Interpretador::runCode(ClassFile *cf, int n, Frame *frame_pt) {
+int Interpretador::runCode(Frame *frame_pt) {
+    int n = frame_pt->method_index;
     //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
-    this->cf = cf;
     this->frame_corrente = frame_pt;
-    this->code_corrente = cf->getCodeAttr(&cf->methods[n]);
-    this->descriptor_index = cf->methods[n].descriptor_index;
+    this->code_corrente = frame_pt->cf->getCodeAttr(&frame_pt->cf->methods[n]);
+    this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 5/*code_attr_pt->code_length*/;) {
@@ -268,9 +268,10 @@ int Interpretador::ldc(){
     printf("Entrei na ldc\n");
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
     printf("Index: %d\n", index);
-    printf("Tag: %d\n", this->frame_corrente->constant_pool_pt->at(index-1).tag);
+
+    printf("Tag: %d\n", this->frame_corrente->cf->constant_pool[index-1].tag);
     //o operador "[index]" estava dando problema, por isso o uso do .at()
-    switch(this->frame_corrente->constant_pool_pt->at(index-1).tag){
+    switch(this->frame_corrente->cf->constant_pool[index-1].tag){
         case CONSTANT_Integer:
             //colocar o valor na operand stack
             break;
@@ -317,7 +318,7 @@ int Interpretador::new_op(){
     operand = code_corrente->code[frame_corrente->pc+2];
     name_index = name_index|operand;
     printf("new #%d\n", name_index);
-    className = this->cf->getCpoolClass(name_index);
+    className = this->frame_corrente->cf->getCpoolClass(name_index);
 
     printf("nome da classe: %s\n", className.c_str());
     op.tag = OBJECTTYPE;

@@ -77,7 +77,6 @@ class Jvm{
         //
         // Cria o frame
         int execMethod(int main_index, ClassFile *classF);
-        bool isCode(attribute_info attr);
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 

@@ -20,27 +20,24 @@ class Interpretador{
         Interpretador(Jvm *jvm);
 
         /** \fn runcode
-         *  \param *cf Ponteiro para ClassFile
          *
-         *  \param n eh o numero do metodo executando na classfile
-         *
-         *  \param ponteiro para o frame criado na jvm (para q eu nao sei)
-         *
+         *  \param ponteiro para o frame sendo executado
          */
-        int runCode(ClassFile *cf, int n, Frame *frame_pt);
+        int runCode(Frame *frame_pt);
     private:
         Jvm *jvm;
 
         /** \var *cf
          *  \brief Decidimos que o interpretador tem acesso ao classfile inteiro
          */
-        ClassFile *cf;
         //typedef void (Interpretador::*instructionFunction)(op_stack*);
         typedef int (Interpretador::*instructionFunction)();
         std::vector<instructionFunction> instructions;//instruções
         Frame *frame_corrente;
         Code_attribute *code_corrente;
         uint16_t descriptor_index;
+
+
         /** \fn interpretador execute_instruction (std::string className)
          *
          * \brief Executa a instrução de acordo com o opcode de entrada.

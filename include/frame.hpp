@@ -53,7 +53,6 @@ typedef std::vector<local_var> local_var_vector;
 //////////////////////////// Class ////////////////////////////
 class Frame{
 public:
-      int max_stack, max_locals;
       /** Pilha de operandos.
       * A pilha de operandos começa vazia. Ela é populada ao longo da execução
       * das instruções.
@@ -63,10 +62,15 @@ public:
       local_var_vector localVarVector;
       uint8_t pc;
       /** referencia pra constant pool */
-      std::vector<cp_info> *constant_pool_pt;
+      ClassFile *cf;
+
+      /** \var method_index
+       *  \brief esta será a variável que identifica qual método da cf estamos rodando
+       */
+      int method_index;
 
       Frame(){} //Depois esse Construtor deve ser deletado
-      Frame(int max_stack, int max_locals, uint16_t descriptor_index, std::vector<cp_info> *constant_pool_pt);
+      Frame(int method_index, ClassFile *cf);
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED

@@ -221,40 +221,46 @@
 	<vector>
 	<cstdint>
 
-1466454144 source:d:\mygit\jvm\src\frame.cpp
+1467316462 source:d:\mygit\jvm\src\frame.cpp
 	"../include/frame.hpp"
 
-1466458887 d:\mygit\jvm\include\frame.hpp
+1467316462 d:\mygit\jvm\include\frame.hpp
 	<vector>
 	<cstdint>
+	"../include/heap.hpp"
 
-1466454236 source:d:\mygit\jvm\src\interpretador.cpp
+1467316460 source:d:\mygit\jvm\src\interpretador.cpp
 	"../include/interpretador.hpp"
 
-1466454144 d:\mygit\jvm\include\interpretador.hpp
-	<stdint.h>
+1467316435 d:\mygit\jvm\include\interpretador.hpp
+	<cstdint>
 	<stdio.h>
 	<stdlib.h>
 	"../include/frame.hpp"
 	"../include/opcode.hpp"
+	"../include/jvm.hpp"
+	"../include/structs.hpp"
+	"../include/classFile.hpp"
 
 1465486855 d:\mygit\jvm\include\opcode.hpp
 
-1466454709 source:d:\mygit\jvm\src\exibidor.cpp
+1467313210 source:d:\mygit\jvm\src\exibidor.cpp
 	"../include/exibidor.hpp"
 
-1465486855 d:\mygit\jvm\include\exibidor.hpp
+1467313210 d:\mygit\jvm\include\exibidor.hpp
 	<math.h>
 	<string.h>
-	<map>
 	<iostream>
 	<iomanip>
 	<stdio.h>
 	<stdint.h>
 	"../include/structs.hpp"
 	"../include/print_code.hpp"
+	"../include/classFile.hpp"
+	"../include/op_instrucs.hpp"
+	"../include/operationMap.hpp"
 
-1465486855 d:\mygit\jvm\include\structs.hpp
+1467313210 d:\mygit\jvm\include\structs.hpp
 	<vector>
 	<stdint.h>
 	"attributes.hpp"
@@ -267,23 +273,19 @@
 	<stdint.h>
 	"../include/opcode.hpp"
 
-1466459191 source:d:\mygit\jvm\src\jvm.cpp
+1467316163 source:d:\mygit\jvm\src\jvm.cpp
 	<stdio.h>
 	<map>
-	"../include/leitor.hpp"
-	"../include/exibidor.hpp"
-	"../include/frame.hpp"
-	"../include/interpretador.hpp"
-	"../include/opcode.hpp"
 	"../include/jvm.hpp"
 
-1465486855 d:\mygit\jvm\include\leitor.hpp
+1467313210 d:\mygit\jvm\include\leitor.hpp
 	<stdlib.h>
 	<stdio.h>
 	<stdint.h>
 	<string>
 	<cstring>
 	"../include/structs.hpp"
+	"../include/classFile.hpp"
 	"../include/attributes.hpp"
 	"../include/little_to_big.hpp"
 	"../include/read_bytes.hpp"
@@ -309,7 +311,17 @@
 	"structs.hpp"
 	"read_attributes.hpp"
 
-1466459191 d:\mygit\jvm\include\jvm.hpp
+1467315381 d:\mygit\jvm\include\jvm.hpp
+	<iostream>
+	"../include/leitor.hpp"
+	"../include/heap.hpp"
+	"../include/frame.hpp"
+	"../include/interpretador.hpp"
+	"../include/opcode.hpp"
+	"../include/exibidor.hpp"
+	"../include/classFile.hpp"
+	"../include/op_instrucs.hpp"
+	"../include/interpreter_op_code.hpp"
 
 1465486855 source:d:\mygit\jvm\src\leitor.cpp
 	"../include/leitor.hpp"
@@ -317,7 +329,7 @@
 1465486855 source:d:\mygit\jvm\src\little_to_big.cpp
 	"../include/little_to_big.hpp"
 
-1466458648 source:d:\mygit\jvm\src\main.cpp
+1467313210 source:d:\mygit\jvm\src\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -331,7 +343,7 @@
 
 1465486855 source:d:\mygit\jvm\src\print_attributes.cpp
 
-1465486855 source:d:\mygit\jvm\src\print_code.cpp
+1467313210 source:d:\mygit\jvm\src\print_code.cpp
 	"../include/print_code.hpp"
 
 1465486855 source:d:\mygit\jvm\src\read_attributes.cpp
@@ -568,4 +580,36 @@
 
 1464740273 source:/home/pedroabreu/gitstuff/JVM/src/read_methods.cpp
 	"../include/read_attributes.hpp"
+
+1467315957 d:\mygit\jvm\include\classfile.hpp
+	<stdio.h>
+	<string.h>
+	<string>
+	<map>
+	<exception>
+	"../include/structs.hpp"
+
+1467315952 source:d:\mygit\jvm\src\classfile.cpp
+	"../include/classFile.hpp"
+
+1467313210 d:\mygit\jvm\include\op_instrucs.hpp
+	<map>
+
+1467313210 d:\mygit\jvm\include\operationmap.hpp
+	<map>
+	<string>
+
+1467313210 d:\mygit\jvm\include\heap.hpp
+	<map>
+	<vector>
+	<string>
+	"../include/classFile.hpp"
+
+1467313210 d:\mygit\jvm\include\interpreter_op_code.hpp
+	<stdint.h>
+	"../include/opcode.hpp"
+	<stdio.h>
+
+1467313210 source:d:\mygit\jvm\src\operationmap.cpp
+	"../include/operationMap.hpp"
 
