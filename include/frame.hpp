@@ -40,15 +40,15 @@ typedef union local_var_value_u {
 	int32_t int_value;
 	InstanceClass*   reference_value;
 	//returnAddress        returnAddress_value;
-} local_var_value;
+} Local_var_value;
 
 typedef struct local_var_s {
 	uint8_t tag;
-	local_var_value value;
-}local_var;
+	Local_var_value value;
+}Local_var;
 
 typedef std::vector<Operand> op_stack;
-typedef std::vector<local_var> local_var_vector;
+typedef std::vector<Local_var> local_var_vector;
 
 //////////////////////////// Class ////////////////////////////
 class Frame{

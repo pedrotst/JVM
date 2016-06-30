@@ -64,6 +64,12 @@ public:
 	*   \return Retorna um ponteiro para o atributo Code do método. Se o método não possuir um atributo code, retorna NULL.
 	*/
 	Code_attribute* getCodeAttr(method_info *method);
+
+
+	/**
+	*   \return Retorna true se o método no indice method_index for true
+	*/
+	bool isStaticMethod(int method_index);
 };
 
 #endif //CLASS_FILE

@@ -90,7 +90,7 @@ char* ClassFile::getName(int name_index){
 Code_attribute* ClassFile::getCodeAttr(method_info *method){
 	Code_attribute *code_attr = NULL;
 	int i = 0, name_index = 0;
-      char *name = NULL;
+    char *name = NULL;
 
 	for(i = 0; i < method->attributes_count; i++) {
 		// Obtém o name_index do atributo i
@@ -105,4 +105,12 @@ Code_attribute* ClassFile::getCodeAttr(method_info *method){
 	}
 
 	return NULL;
+}
+
+
+bool ClassFile::isStaticMethod(int method_index){
+    if(this->methods[method_index].access_flags && 0x0008 == 0x0008)
+        return true;
+    return false;
+
 }

@@ -15,11 +15,9 @@ int Jvm::run(const char* arq_class_name) {
         exit(0);
     }
 
+
+
     leitorClass_info(&classF, arquivoClass);
-
-    heap.push_back(this->alocarObjeto(classF.getClassName()));
-
-
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMain();
@@ -65,7 +63,6 @@ ClassFile Jvm::getClassRef(string className) {
 //Se ele o classfile ainda nao foi carregado, ele carrega
 InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile classF;
-    FILE *arquivoClass = NULL;
     InstanceClass *inst;
 
     inst = (InstanceClass*)malloc(sizeof(InstanceClass));
@@ -174,52 +171,28 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
 int Jvm::execMethod(int n, ClassFile *classF) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
-    // Frame da javaStack.
     Frame frame(n, classF);
-    // Empilha o frame.
+    InstanceClass *inst;
+    Local_var lvar;
+    Local_var_value lvarval;
+
+    /** Insere o this no localVarVector caso método não seja estático*/
+    if(!classF->isStaticMethod(n)){
+        inst = this->alocarObjeto(classF->getClassName());
+        //insere a instancia na heap para não se perder a referencia
+        //note que a heap é só um monte de objetos largados soltos e perdidos
+        heap.push_back(inst);
+        lvar.tag = OBJECTTYPE;
+        lvarval.reference_value = inst;
+        lvar.value = lvarval;
+        frame.localVarVector.push_back(lvar);
+    }
+
+
+
     this->fStack.push_back(frame);
 
-    //code_attr_pt = classF->getCodeAttr(&classF->methods[n]);
-    //descriptor_index = classF->methods[n].descriptor_index;
-
-    // Esse é o interpretador mesmo. Ele passa pelas instruções executando uma
-    // por uma.
-    // Executa o código do método.
-    //execCode(code_attr_pt, &frame);
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
     return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-//int Jvm::execCode(Code_attribute *code_attr_pt, Frame *frame_pt) {
-//      int n = 0, buffer = 0;
-//      uint8_t opcode = -1;
-//      char *code = NULL;
-//      code = code_attr_pt->code;
-//      frame_pt->pc = 0;
-//      Interpretador interpreter;
-//      for(n = 0; n < 1/*code_attr_pt->code_length*/; n++) {
-//		//teste
-//		// interpreter_op_code ira identificar os operandos de cada instrucao, lendo os bytes correspondentes
-//		// de cada operando, formar os operandos com os bytes lidos (concatenando-os se necessário) e puxando-os
-//		// na pilha. Para este fim criamos o interpreter_op_code.cpp/hpp.
-//            //
-//		// A ideia seguinte seria chamar o vetor de instruções passando o op_code
-//
-//		//int arg_qnt = interpreter_op_code(opcode);
-//		//as linhas abaixo deverao ser parte do interpreter_op_code, mas para tal é necessário passar as referencias
-//		//para area de codigo, a posição do leitor na area de codigo(neste caso o n) e a referencia para a pilha.
-//        opcode = code[frame_pt->pc];
-//        //Coloca os argumentos na pilha
-//        //pc sempre aponta pra proxima instrução
-//        interpreter.setConstantPool(frame_pt->constant_pool_pt);
-//        interpreter.setOperandStack(frame_pt->operandStack);
-//        frame_pt->pc += interpreter.push_operands(opcode, code+frame_pt->pc+1, &frame_pt->operandStack);
-//        //chama o interpre
-//        interpreter.execute_instruction(opcode, &frame_pt->operandStack );
-//        //n += arg_qnt;
-//      }
-//
-//      return -1;
-//}
