@@ -6,14 +6,6 @@ int Interpretador::execute_instruction(int opcode){
     return (*this.*instructions[opcode])();
 }
 
-//
-//
-//void Interpretador::setFrame(Frame *frame){
-//    this->referencias[0] = (void*) frame->operandStack;
-//    this->referencias[1] = (void*) frame->constant_pool_pt;
-//    this->referencias[2] = (void*) frame->localVarVector;
-//}
-
 int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt) {
     //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
     this->frame_corrente = frame_pt;
@@ -21,16 +13,15 @@ int Interpretador::runCode(uint16_t descriptor_index, Code_attribute *code_attr_
     this->descriptor_index = descriptor_index;
 
     uint8_t opcode;
-    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 1/*code_attr_pt->code_length*/;) {
+    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 5/*code_attr_pt->code_length*/;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
-        //n += arg_qnt;
     }
     return -1;
 }
 
 
-Interpretador::Interpretador(/*Jvm *jvm*/){
+Interpretador::Interpretador(Jvm *jvm){
     //this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
@@ -52,7 +43,7 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
 //    pt[DCONST_1] = &dConst_1;
 //    pt[BIPUSH] = &biPush;
 //    pt[SIPUSH] = &siPush;
-//    pt[LDC] = &ldc;
+    pt[LDC] = &Interpretador::ldc;
 //    pt[LDC_W] = &ldc_w;
 //    pt[LDC2_W] = &ldc2_w;
 //    pt[ILOAD] = &iLoad;
@@ -237,10 +228,10 @@ Interpretador::Interpretador(/*Jvm *jvm*/){
 int Interpretador::iadd(){
 
     uint32_t lhs, rhs;
-    operand op;
-    operand_value op_v;
-    printf("Entrou na funcao\n");
-    lhs = frame_corrente->operandStack.back().value.int_value;
+    Operand op;
+    Operand_value op_v;
+    printf("Entrou na funcao iadd\n");
+    lhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
     this->frame_corrente->operandStack.pop_back();
     rhs = frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -248,15 +239,15 @@ int Interpretador::iadd(){
     printf("lhs: %d rhs: %d\n", lhs, rhs);
     op_v.int_value = lhs + rhs;
     op.value = op_v;
-    op.tag = INT;
+    op.tag = INT_TYPE;
     //opStack->push_back(op);
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
 
 /*
-void Interpretador::ladd(op_stack *opStack){
-    uint8_t operand1[2], operand2[2];
+int Interpretador::ladd(){
+    uint32_t operand1[2], operand2[2];
     printf("Entrou na funcao\n");
     operand1[0] = opStack->back();
     opStack->pop_back();
@@ -271,9 +262,42 @@ void Interpretador::ladd(op_stack *opStack){
     opStack->push_back(operand1[0] + operand2[0]);
     opStack->push_back(operand1[1] + operand2[1]);
 }*/
+int Interpretador::ldc(){
+    printf("Entrei na ldc\n");
+    uint8_t index = code_corrente->code[frame_corrente->pc+1];
+    printf("Index: %d\n", index);
+    printf("Tag: %d\n", this->frame_corrente->constant_pool_pt->at(index-1).tag);
+    //o operador "[index]" estava dando problema, por isso o uso do .at()
+    switch(this->frame_corrente->constant_pool_pt->at(index-1).tag){
+        case CONSTANT_Integer:
+            //colocar o valor na operand stack
+            break;
+        case CONSTANT_Float:
+            //colocar o valor na operand stack
+            break;
+        case CONSTANT_String:
+            //colocar a referencia da string na operand stack
+            break;
+        case CONSTANT_Class:
+            //resolver a classe e colocar a refeência ao class object (value) na operand stack
+            break;
+        case CONSTANT_MethodType:
+        case CONSTANT_MethodHandle:
+            //resolver o methodType ou methodHandle e colocar na operand stack a referência para a instância resultante de
+            //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
+            break;
+        default:
+            //exception
+            break;
+    }
+    return 2;//opcode lido
+}
 
 int Interpretador::dup(){
-    frame_corrente->operandStack.push_back( frame_corrente->operandStack.back() );
+    printf("Entrei na dup\n");
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
+    printf("sai da dup\n");
+    return 1;//opcode lido
 }
 
 
@@ -281,12 +305,18 @@ int Interpretador::dup(){
 //void Interpretador::new_op(op_stack *opStack){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
-    uint16_t buffer = operand;
+    uint8_t operando_new = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
+    uint16_t buffer = operando_new;
     buffer = buffer<<8;
-    operand = code_corrente->code[frame_corrente->pc+2];
-    buffer = buffer|operand;
+    operando_new = code_corrente->code[frame_corrente->pc+2];
+    buffer = buffer|operando_new;
     printf("new #%d\n", buffer);
+    //resolver e criar a instância da classe apontada por buffer
+    Operand operand;
+    printf("Tag que new coloca na CP: %d\n", REFERENCE_TYPE);
+    operand.tag = REFERENCE_TYPE;
+    operand.value.int_value = 2; //    <<----- provisorio, tem que ser um ponteiro
+    this->frame_corrente->operandStack.push_back(operand);
     return 3; //dois bytes lidos + o opcode
 }
 //

@@ -202,7 +202,7 @@ int Jvm::execMethod(int n, ClassFile *classF) {
 	// por uma.
 	// Executa o código do método.
 	//execCode(code_attr_pt, &frame);
-	Interpretador interpreter;
+	Interpretador interpreter(this);
 	interpreter.runCode(descriptor_index, code_attr_pt, &frame);
 	return 0;
 }

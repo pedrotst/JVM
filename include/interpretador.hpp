@@ -16,7 +16,7 @@ class Jvm;
 
 class Interpretador{
 	public:
-		Interpretador(/*Jvm *jvm*/);
+		Interpretador(Jvm *jvm);
 		//void execute_instruction(int opcode, op_stack *opStack);
 		//int push_operands(uint8_t opcode, char* codeAligned, op_stack *opStack);
         int runCode(uint16_t descriptor_index, Code_attribute *code_attr_pt, Frame *frame_pt);
@@ -50,6 +50,7 @@ class Interpretador{
 		int ladd();
 		int new_op();
 		int dup();
+		int ldc();
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);
 //int iadd(uint8_t*);

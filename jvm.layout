@@ -1,141 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\exibidor.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\exibidor.cpp" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="13756" topLine="285" />
 		</Cursor>
 	</File>
-<<<<<<< HEAD
-	<File name="src\interpretador.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\interpretador.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8452" topLine="269" />
-		</Cursor>
-	</File>
-	<File name="src\print_code.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="938" topLine="76" />
-=======
-	<File name="include\structs.hpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3964" topLine="139" />
-		</Cursor>
-	</File>
-	<File name="src\exibidor.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18412" topLine="376" />
->>>>>>> e14334bbbaedd26af977e2513be1f9c71d83fcce
-		</Cursor>
-	</File>
-	<File name="src\frame.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="271" topLine="0" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="src\main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1532" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="include\frame.hpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1715" topLine="43" />
-		</Cursor>
-	</File>
-	<File name="include\structs.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3964" topLine="154" />
-		</Cursor>
-	</File>
-	<File name="include\classFile.hpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-=======
-	<File name="src\print_code.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="158" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\interpretador.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="532" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\jvm.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2745" topLine="69" />
-		</Cursor>
-	</File>
-	<File name="src\main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1532" topLine="24" />
->>>>>>> e14334bbbaedd26af977e2513be1f9c71d83fcce
-		</Cursor>
-	</File>
-	<File name="src\print_attributes.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="178" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="include\jvm.hpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2045" topLine="60" />
-		</Cursor>
-	</File>
-	<File name="include\print_code.hpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-	<File name="include\attributes.hpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="91" />
-		</Cursor>
-	</File>
-	<File name="include\classFile.hpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
->>>>>>> e14334bbbaedd26af977e2513be1f9c71d83fcce
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="src\jvm.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5985" topLine="191" />
-		</Cursor>
-	</File>
-	<File name="include\interpretador.hpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1455" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="include\opcode.hpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2388" topLine="0" />
-=======
-	<File name="include\frame.hpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1715" topLine="28" />
-		</Cursor>
-	</File>
-	<File name="include\heap.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="497" topLine="51" />
-		</Cursor>
-	</File>
-	<File name="include\interpretador.hpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="652" topLine="13" />
->>>>>>> e14334bbbaedd26af977e2513be1f9c71d83fcce
-		</Cursor>
-	</File>
-	<File name="include\jvm.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1205" topLine="39" />
-		</Cursor>
-	</File>
-	<File name="include\heap.hpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1555" topLine="52" />
+			<Cursor1 position="366" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
