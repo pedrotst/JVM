@@ -15,7 +15,6 @@ int Jvm::run(const char* arq_class_name) {
         exit(0);
     }
 
-
     leitorClass_info(&classF, arquivoClass);
 
     heap.push_back(this->alocarObjeto(classF.getClassName()));
