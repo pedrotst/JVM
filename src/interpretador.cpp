@@ -284,16 +284,43 @@ int Interpretador::ldc(){
             //colocar o valor na operand stack
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
-            //std::string stringClass("String");
-           // InstanceClass *inst = jvm->alocarObjeto(stringClass);
+            //cria uma instância de objeto String e coloca a
+            //referência dessa instância na pilha
+
+            std::string stringClass("String");
+            InstanceClass *inst = jvm->alocarObjeto(stringClass);
+
+            //criando instância
             operand.tag = OBJECTTYPE;
-//            inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
-            //inst->field_instances
-            //operand.value.reference_value = inst;
+            inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
+            inst->field_instances = new Fields_Values;
+            inst->field_instances->push_back(jvm->inicializaFval("L", 0));
+            /*na linha abaixo, colocar o valor que a instância deve receber informado via index.
+              Como colocar o valor se ObjectType tem apenas o nome da classe como campo?
+              Tem que ser via field_instances, mas para isso tem que se conhecer a organização
+              interna de String.class*/
+
             //colocar a referencia da string na operand stack
+            operand.value.reference_value = inst;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
             //resolver a classe e colocar a refeência ao class object (value) na operand stack
+            operand.tag = OBJECTTYPE;
+
+            /*abaixo nao pode ser utilizado getClassName() porque
+              não necessariamente o objeto instanciado será da mesma classe
+              a qual pertence o método em execução
+              (ex: método de Puppy.class pode instanciar Cocô.class)*/
+            uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
+            std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
+
+            InstanceClass *inst = jvm->alocarObjeto(className);
+            inst->cf = jvm->getClassRef(className);//a instância deve receber referência de onde foi alocado o ClassFile
+            inst->field_instances = new Fields_Values;
+            inst->field_instances->push_back(jvm->inicializaFval("L", 0));
+            /*falta colocar o valor*/
+
+
    }else if(tag == CONSTANT_MethodType){
    }else if(tag == CONSTANT_MethodHandle){
             //resolver o methodType ou methodHandle e colocar na operand stack a referência para a instância resultante de

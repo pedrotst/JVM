@@ -18,7 +18,7 @@ const char *help = "\nSintaxe:\n\
                     \n\
                     jvm { -r | -e } {nome_arquivo_class}\n\
                     \n\
-                    -r : read. Lê o arquivo .class passado e o exibe na tela, assim como o javac -v.\n\
+                    -r : read. Le o arquivo .class passado e o exibe na tela, assim como o javap -v.\n\
                     \n\
                     -e : execute. Executa o arquivo .class passado.\n\
                     \n";
