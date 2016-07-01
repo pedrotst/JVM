@@ -340,6 +340,7 @@ int Interpretador::invokespecial(){
     uint16_t method_index = operand;
     string invoking_class, method_name, descriptor;
     ClassFile* cf;
+    vector<Local_var> args;
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
@@ -347,7 +348,20 @@ int Interpretador::invokespecial(){
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
     cf = this->jvm->getClassRef(invoking_class);
-    this->jvm->execStaticMethod(method_index, cf);
+    string argtypes;
+
+    for (int i=1; i < descriptor.find(")"); i++){
+        argtypes += descriptor[i];
+        cout << argtypes;
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.back();
+    }
+
+    cout << endl;
+
+    this->jvm->execStaticMethod(method_index, cf, args);
+
+
 
     return 3;
 }

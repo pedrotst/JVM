@@ -2,9 +2,11 @@ public class Puppy{
 
    private int puppyAge;
 
-   public Puppy(String name){
+   public Puppy(int age){
+       puppyAge = age;
+
       // This constructor has one parameter, name.
-      System.out.println("Name chosen is :" + name );
+      //System.out.println("Name chosen is :" + name );
    }
 
    public void setAge( int age ){
@@ -12,21 +14,21 @@ public class Puppy{
    }
 
    public int getAge( ){
-       System.out.println("Puppy's age is :" + puppyAge );
+       //System.out.println("Puppy's age is :" + puppyAge );
        return puppyAge;
    }
 
    public static void main(String []args){
       /* Object creation */
-      Puppy myPuppy = new Puppy( "tommy" );
+      Puppy myPuppy = new Puppy( 1);
 
       /* Call class method to set puppy's age */
-      myPuppy.setAge( 2 );
+      //myPuppy.setAge( 2 );
 
       /* Call another class method to get puppy's age */
-      myPuppy.getAge( );
+      //myPuppy.getAge( );
 
       /* You can access instance variable as follows as well */
-      System.out.println("Variable Value :" + myPuppy.puppyAge );
+      //System.out.println("Variable Value :" + myPuppy.puppyAge );
    }
 }

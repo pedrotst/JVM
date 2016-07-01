@@ -8,6 +8,7 @@ int Jvm::run(const char* arq_class_name) {
     ClassFile classF;
     int main_index;
     FILE *arquivoClass;
+    vector<Local_var> args;
     //heap = new vector<InstanceClass*>();
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
@@ -23,7 +24,7 @@ int Jvm::run(const char* arq_class_name) {
     main_index = classF.findMethod("main");
     printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
-        execStaticMethod(main_index, &classF);
+        execStaticMethod(main_index, &classF, args);
     }else {
         printf("O arquivo .class nao possui uma main.\n");
         exit(0);
@@ -163,7 +164,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-int Jvm::execStaticMethod(int n, ClassFile *classF) {
+int Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
@@ -171,6 +172,9 @@ int Jvm::execStaticMethod(int n, ClassFile *classF) {
     Local_var lvar;
     Local_var_Type lvarval;
 
+    for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
+        frame.localVarVector.push_back(*it);
+    }
     this->fStack.push_back(frame);
     printf("Criei um frame\n");
 
