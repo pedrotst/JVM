@@ -90,11 +90,11 @@ public:
 
 	/** \brief Retorna o atributo Code de um dos métodos da classe.
 	*
-	*   \param method_info *method: ponteiro para o método que terá seu atributo Code obtido.
+	*   \param method_info indice do método que se quer o code attribute
 	*
 	*   \return Retorna um ponteiro para o atributo Code do método. Se o método não possuir um atributo code, retorna NULL.
 	*/
-	Code_attribute* getCodeAttr(method_info *method);
+	Code_attribute* getCodeAttr(int m_index);
 
 
 	/**

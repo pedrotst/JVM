@@ -108,11 +108,11 @@ string ClassFile::getName(int name_index){
 }
 
 /////////////////////////////////////////////////////////////////////////////
-Code_attribute* ClassFile::getCodeAttr(method_info *method){
+Code_attribute* ClassFile::getCodeAttr(int m_index){
 	Code_attribute *code_attr = NULL;
 	int i = 0, name_index = 0;
     char *name = NULL;
-
+    method_info *method = &this->methods[m_index];
 	for(i = 0; i < method->attributes_count; i++) {
 		// Obtém o name_index do atributo i
 		name_index = method->attributes[i].attribute_name_index_l;

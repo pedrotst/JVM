@@ -9,11 +9,11 @@ int Interpretador::runCode(Frame *frame_pt) {
     int n = frame_pt->method_index;
     //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
     this->frame_corrente = frame_pt;
-    this->code_corrente = frame_pt->cf->getCodeAttr(&frame_pt->cf->methods[n]);
+    this->code_corrente = frame_pt->cf->getCodeAttr(n);
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
 
     uint8_t opcode;
-    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 7/*code_attr_pt->code_length*/;) {
+    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -394,6 +394,7 @@ int Interpretador::invokespecial(){
 }
 
 int Interpretador::aload_0(){
+    printf("coloquei a primeiro variável na pilha");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[0]);
     return 1;
 }
