@@ -2,6 +2,7 @@
 #define INTERPRETADOR_H
 
 #include <cstdint>
+//#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 

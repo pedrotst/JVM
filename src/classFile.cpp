@@ -23,15 +23,16 @@ string ClassFile::getClassName(){
 
 string ClassFile::getCpoolClass(int index){
     int cname_index = this->constant_pool[index-1].cp_union.constant_class.name_index;
-    if(this->constant_pool[index-1].tag != CONSTANT_Class)
-        throw "Entrada nao eh uma classe";
+    //if(this->constant_pool[index-1].tag != CONSTANT_Class)
+       // throw "Entrada nao eh uma classe";
 
     return(this->getCpoolUtf8(cname_index));
 }
 
 string ClassFile::getCpoolUtf8(int index){
-    if(this->constant_pool[index-1].tag != CONSTANT_Utf8)
-        throw "Entrada nao eh utf8";
+    //if(this->constant_pool[index-1].tag != CONSTANT_Utf8)
+        //throw "Entrada nao eh utf8";
+    //string str(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
     return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
 }
 

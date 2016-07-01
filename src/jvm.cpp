@@ -47,14 +47,12 @@ ClassFile Jvm::getClassRef(string className) {
         }
 
         leitorClass_info(&classF, arquivoClass);
-
         this->loadedClasses[className] = classF;
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {
         classF = this->loadedClasses[className];
     }
-
     return classF;
 }
 
