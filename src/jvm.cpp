@@ -20,10 +20,10 @@ int Jvm::run(const char* arq_class_name) {
     leitorClass_info(&classF, arquivoClass);
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
-    main_index = classF.findMain();
+    main_index = classF.findMethod("main");
     printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
-        execMethod(main_index, &classF);
+        execStaticMethod(main_index, &classF);
     }else {
         printf("O arquivo .class nao possui uma main.\n");
         exit(0);
@@ -79,8 +79,6 @@ InstanceClass* Jvm::alocarObjeto(string className){
 
         FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
-        printf("fval.tag = %d\n", fval.tag);
-        //Algum problema místico na linha de baixo
         inst->field_instances->push_back(fval);
     }
     heap.push_back(inst);
@@ -165,27 +163,50 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-int Jvm::execMethod(int n, ClassFile *classF) {
+int Jvm::execStaticMethod(int n, ClassFile *classF) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
     InstanceClass *inst;
     Local_var lvar;
-    Local_var_value lvarval;
-
-    /** Insere o this no localVarVector caso método não seja estático*/
-    if(!classF->isStaticMethod(n)){
-        inst = this->alocarObjeto(classF->getClassName());
-        //insere a instancia na heap para não se perder a referencia
-        //note que a heap é só um monte de objetos largados soltos e perdidos
-        heap.push_back(inst);
-        lvar.tag = OBJECTTYPE;
-        lvarval.reference_value = inst;
-        lvar.value = lvarval;
-        frame.localVarVector.push_back(lvar);
-    }
+    Local_var_Type lvarval;
 
     this->fStack.push_back(frame);
+    printf("Criei um frame\n");
+
+    Interpretador interpreter(this);
+    interpreter.runCode(&frame);
+    return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+/** execMethod é criar o ambiente para que o método possa ser executado:
+ * inicializa as informações no frame;
+ * encontra e prepara method para execução;
+ * encontra o índice do descritor do metodo.
+ *
+ */
+
+int Jvm::execVirtualMethod(int n, ClassFile *classF) {
+    uint16_t descriptor_index;
+    Code_attribute *code_attr_pt = NULL;
+    Frame frame(n, classF);
+    InstanceClass *inst;
+    Local_var lvar;
+    Local_var_Type lvarval;
+
+    /** Insere o this no localVarVector caso método não seja estático*/
+    inst = this->alocarObjeto(classF->getClassName());
+    //insere a instancia na heap para não se perder a referencia
+    //note que a heap é só um monte de objetos largados soltos e perdidos
+    heap.push_back(inst);
+    lvar.tag = OBJECTTYPE;
+    lvarval.reference_value = inst;
+    lvar.value = lvarval;
+    frame.localVarVector.push_back(lvar);
+
+    this->fStack.push_back(frame);
+    printf("Criei um frame\n");
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);

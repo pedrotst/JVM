@@ -90,6 +90,10 @@ int print_code(uint8_t opcode) {
                   return 2;
 
             case (ALOAD):
+            case (ALOAD_0):
+            case (ALOAD_1):
+            case (ALOAD_2):
+            case (ALOAD_3):
 
             case (ASTORE):
 

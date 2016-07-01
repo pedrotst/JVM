@@ -69,9 +69,9 @@ map<string, string> ClassFile::getFieldsNamesTypes(){
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int ClassFile::findMain() {
+int ClassFile::findMethod(string method) {
 	int i = 0;
-	char *method_name = NULL;
+	string method_name;
 	method_info *method_pt = NULL;
     //printf("Em findMain():\n");
 	// Para cada método
@@ -83,7 +83,7 @@ int ClassFile::findMain() {
 		//printf("Nome do metodo checado: %s\n", method_name);
 		// Retorna index do método, se for o main
 		//printf("Resultado de strcmp(): %d\n", strcmp(method_name, "main"));
-		if (strcmp(method_name, "main") == 0){
+		if (method_name.compare(method) == 0){
 			return i;
 		}
 	}
@@ -92,7 +92,7 @@ int ClassFile::findMain() {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-char* ClassFile::getName(int name_index){
+string ClassFile::getName(int name_index){
 	char *name = NULL;
 
 	// Checa se a entrada da constant_pool apontada pelo index é uma string.

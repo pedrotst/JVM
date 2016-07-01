@@ -76,7 +76,8 @@ class Jvm{
         // Em andamento
         //
         // Cria o frame
-        int execMethod(int main_index, ClassFile *classF);
+        int execStaticMethod(int main_index, ClassFile *classF);
+        int execVirtualMethod(int main_index, ClassFile *classF);
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 

@@ -2,7 +2,6 @@
 
 
 int Interpretador::execute_instruction(int opcode){
-    printf("Vou executar a instrucao\n");
     return (*this.*instructions[opcode])();
 }
 
@@ -29,13 +28,13 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[IADD] = &Interpretador::iadd;
 //    pt[NOP] = &nop;
 //    pt[ACONST_NULL] = &aConst_null;
-//    pt[ICONST_M1] = &iConst_m1;
-//    pt[ICONST_0] = &iConst_0;
-//    pt[ICONST_1] = &iConst_1;
-//    pt[ICONST_2] = &iConst_2;
-//    pt[ICONST_3] = &iConst_3;
-//    pt[ICONST_4] = &iConst_4;
-//    pt[ICONST_5] = &iConst_5;
+    pt[ICONST_M1] = &Interpretador::iconst_m1;
+    pt[ICONST_0] = &Interpretador::iconst_0;
+    pt[ICONST_1] = &Interpretador::iconst_1;
+    pt[ICONST_2] = &Interpretador::iconst_2;
+    pt[ICONST_3] = &Interpretador::iconst_3;
+    pt[ICONST_4] = &Interpretador::iconst_4;
+    pt[ICONST_5] = &Interpretador::iconst_5;
 //    pt[LCONST_0] = &lConst_0;
 //    pt[LCONST_1] = &lConst_1;
 //    pt[FCONST_0] = &fConst_0;
@@ -52,11 +51,11 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[LLOAD] = &lLoad;
 //    pt[FLOAD] = &fLoad;
 //    pt[DLOAD] = &dLoad;
-//    pt[ALOAD] = &aLoad;
-//    pt[ILOAD_0] = &iLoad_0;
-//    pt[ILOAD_1] = &iLoad_1;
-//    pt[ILOAD_2] = &iLoad_2;
-//    pt[ILOAD_3] = &iLoad_3;
+//    pt[ALOAD] = &Interpretador::aload;
+    pt[ALOAD_0] = &Interpretador::aload_0;
+    pt[ALOAD_1] = &Interpretador::aload_1;
+    pt[ALOAD_2] = &Interpretador::aload_2;
+    pt[ALOAD_3] = &Interpretador::aload_3;
 //    pt[FLOAD_0] = &fLoad_0;
 //    pt[FLOAD_1] = &fLoad_1;
 //    pt[FLOAD_2] = &fLoad_2;
@@ -230,8 +229,8 @@ Interpretador::Interpretador(Jvm *jvm){
 int Interpretador::iadd(){
 
     uint32_t lhs, rhs;
-    Operand op;
-    Operand_Type op_v;
+    Local_var op;
+    Local_var_Type op_v;
     printf("Entrou na funcao iadd\n");
     lhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
     this->frame_corrente->operandStack.pop_back();
@@ -269,7 +268,7 @@ int Interpretador::ldc(){
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
     printf("Index: %d\n", index);
 
-    Operand operand;
+    Local_var operand;
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
     printf("Tag: %d\n", tag);
     //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
@@ -308,7 +307,6 @@ int Interpretador::ldc(){
 int Interpretador::dup(){
     printf("Entrei na dup\n");
     this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
-    printf("sai da dup\n");
     return 1;//opcode lido
 }
 
@@ -319,8 +317,8 @@ int Interpretador::new_op(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
     uint16_t name_index = operand;
     std::string className;
-    Operand op;
-    Operand_Type op_val;
+    Local_var op;
+    Local_var_Type op_val;
 
     name_index = name_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
@@ -341,13 +339,86 @@ int Interpretador::invokespecial(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
     uint16_t method_index = operand;
     string invoking_class, method_name, descriptor;
+    ClassFile* cf;
+
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand;
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+    cf = this->jvm->getClassRef(invoking_class);
+    this->jvm->execStaticMethod(method_index, cf);
 
     return 3;
+}
+
+int Interpretador::aload_0(){
+    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[0]);
+    return 1;
+}
+int Interpretador::aload_1(){
+    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[1]);
+    return 1;
+}
+int Interpretador::aload_2(){
+    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[2]);
+    return 1;
+}
+int Interpretador::aload_3(){
+    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[3]);
+    return 1;
+}
+
+
+int Interpretador::iconst_m1(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = -1;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+int Interpretador::iconst_0(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 0;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+int Interpretador::iconst_1(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 1;
+    this->frame_corrente->operandStack.push_back(op);
+    printf("joguei o 1 no opstack\n");
+    return 1;
+}
+int Interpretador::iconst_2(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 2;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+int Interpretador::iconst_3(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 3;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+int Interpretador::iconst_4(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 4;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+int Interpretador::iconst_5(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 5;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
 //
 //void fadd(jStackFrame &jStack){

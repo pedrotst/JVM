@@ -73,11 +73,12 @@ public:
 
 
 
-	/** \brief Procura o método main em uma classe.
+	/** \brief Procura o método em uma classe.
 	*
-	*   \return Se a main for encontrada, retorna o index do método main na classe. Se a main não for encontrada, retorna -1.
+	*   \return Se o método for encontrada, retorna o index do método na classe.
+    *   Se o método não for encontrada, retorna -1.
 	*/
-	int findMain();
+	int findMethod(string method);
 
 	/** \brief Resolve uma referência para um nome presente na constant_pool.
 	*
@@ -85,7 +86,7 @@ public:
 	*
 	*   \return Se o index apontar para uma string, retorna a string. Se o index não apontar para uma string, retorna NULL.
 	*/
-	char* getName(int name_index);
+	string getName(int name_index);
 
 	/** \brief Retorna o atributo Code de um dos métodos da classe.
 	*
