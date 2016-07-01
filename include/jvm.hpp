@@ -34,7 +34,7 @@ class Jvm{
          *
          * \brief Vetor de classes carregadas.
          */
-        std::map<std::string, ClassFile> loadedClasses;
+        std::map<std::string, ClassFile*> loadedClasses;
 
         /** \var heap
          *
@@ -58,7 +58,7 @@ class Jvm{
          * \return A classfile que de fato representa a estrutura do .class
          *
          */
-        ClassFile getClassRef(std::string className);
+        ClassFile* getClassRef(std::string className);
 
         /** \fn ClassFile alocarObjeto (std::string className)
          *

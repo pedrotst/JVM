@@ -33,8 +33,8 @@ int Jvm::run(const char* arq_class_name) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-ClassFile Jvm::getClassRef(string className) {
-    ClassFile classF;
+ClassFile* Jvm::getClassRef(string className) {
+    ClassFile *classF = new ClassFile();
     FILE *arquivoClass = NULL;
 
     // Se a classe não for encontrada no map, o find retorna um iterador para end.
@@ -45,8 +45,7 @@ ClassFile Jvm::getClassRef(string className) {
             printf("O arquivo .class nao pode ser aberto.\n");
             exit(0);
         }
-
-        leitorClass_info(&classF, arquivoClass);
+        leitorClass_info(classF, arquivoClass);
         this->loadedClasses[className] = classF;
     }
     // Se a classe for encontrada retorna uma referência para ela
@@ -60,7 +59,7 @@ ClassFile Jvm::getClassRef(string className) {
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
 InstanceClass* Jvm::alocarObjeto(string className){
-    ClassFile classF;
+    ClassFile *classF;
     InstanceClass *inst;
 
     inst = (InstanceClass*)malloc(sizeof(InstanceClass));
@@ -69,10 +68,10 @@ InstanceClass* Jvm::alocarObjeto(string className){
     // Obtém a referência para a classe. A classe é carrega se necessário.
     classF = getClassRef(className);
 
-    inst->cf = &classF;
+    inst->cf = classF;
 
     cout << "Creating class " << className << endl;
-    map<string, string> fbinds = classF.getFieldsNamesTypes();
+    map<string, string> fbinds = classF->getFieldsNamesTypes();
     for(auto const &ent : fbinds) {
         string fname = ent.first;
         const char* ftype = ent.second.c_str();
