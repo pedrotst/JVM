@@ -14,7 +14,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
 
     uint8_t opcode;
-    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 5/*code_attr_pt->code_length*/;) {
+    for(this->frame_corrente->pc = 0; this->frame_corrente->pc < 7/*code_attr_pt->code_length*/;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -201,7 +201,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[GETFIELD] = &getfield;
 //    pt[PUTFIELD] = &putfield;
 //    pt[INvOKEvIRTUAL] = &invokevirtual;
-//    pt[INvOKESPECIAL] = &invokespecial;
+    pt[INvOKESPECIAL] = &Interpretador::invokespecial;
 //    pt[INvOKESTATIC] = &invokestatic;
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
@@ -304,7 +304,6 @@ int Interpretador::dup(){
 }
 
 
-
 //void Interpretador::new_op(op_stack *opStack){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
@@ -326,6 +325,19 @@ int Interpretador::new_op(){
     op.value = op_val;
     frame_corrente->operandStack.push_back(op);
     return 3; //dois bytes lidos + o opcode
+}
+
+int Interpretador::invokespecial(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor;
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand;
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+    printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+
+    return 3;
 }
 //
 //void fadd(jStackFrame &jStack){

@@ -188,8 +188,6 @@ int Jvm::execMethod(int n, ClassFile *classF) {
         frame.localVarVector.push_back(lvar);
     }
 
-
-
     this->fStack.push_back(frame);
 
     Interpretador interpreter(this);

@@ -8,6 +8,7 @@
 #include <exception>
 #include "../include/structs.hpp"
 
+using namespace std;
 class ClassFile{
 public:
 	uint32_t magic;
@@ -41,7 +42,36 @@ public:
     *   \brief O index primeiro localiza o ClassName no Constant Pool que irá indicar
     *           o index do UTF-8 que contem o nome da classe
     */
-    std::string getCpoolClass(int index);
+    string getCpoolClass(int index);
+
+    /** \fn getCpoolClass
+    *   \brief Busca na Constant Pool o nome e o tipo do método a partir do index
+    *
+    *   \param index Index utilizado para encontrar o método
+    *   \param invoking_class referencia para string onde será escrito o nome da classe a ser invocada
+    *   \param method_name referencia para string onde será escrito o nome do método
+    *   \param descriptor referencia para string onde será escrito o descritor do método
+    *
+    *   \return Retorna o nome o nome e o tipo de retorno da classe no formato invoking_class.nome:tipo
+    *
+    */
+    string getCpoolMethod(int index, string &invoking_class, string &method_name, string &descriptor);
+
+    /** \fn getCpoolClass Busca na Constant Pool o nome da Classe a partir do index
+    *
+    *   \param index Index utilizado para encontrar o ClassName
+    *
+    *   \param method_name referencia para string onde será escrito o nome do método
+    *   \param descriptor referencia para string onde será escrito o descritor do método
+    *
+    *   \return Retorna o nome da classe em format String
+    *
+    *   \brief O index primeiro localiza o ClassName no Constant Pool que irá indicar
+    *           o index do UTF-8 que contem o nome da classe
+    */
+    string getCpoolNameAndType(int index, string &method_name, string &descriptor);
+
+
 
 	/** \brief Procura o método main em uma classe.
 	*
@@ -70,6 +100,8 @@ public:
 	*   \return Retorna true se o método no indice method_index for true
 	*/
 	bool isStaticMethod(int method_index);
+
+
 };
 
 #endif //CLASS_FILE

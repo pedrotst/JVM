@@ -61,5 +61,6 @@ class Interpretador{
 		int new_op();
 		int dup();
 		int ldc();
+		int invokespecial();
 };
 #endif // INTERPRETADOR_H
