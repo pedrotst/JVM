@@ -98,8 +98,10 @@ void exibeClass(ClassFile classF){
     index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
     printf("This Class: %d \t<%s>\n",classF.this_class, classF.getCpoolUtf8(index).c_str());
     index = classF.super_class; //indice da classe na cpool
-    index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
-    printf("Super Class: %d <%s>\n", classF.super_class, classF.getCpoolUtf8(index).c_str());
+    if(index != 0){
+        index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
+        printf("Super Class: %d <%s>\n", classF.super_class, classF.getCpoolUtf8(index).c_str());
+    }
     printf("Interface count: %d\n",classF.interfaces_count);
     printf("Fields count: %d\n", classF.fields_count);
     printf("Methods count: %d\n", classF.methods_count);
@@ -215,7 +217,7 @@ void exibeClass(ClassFile classF){
 
             case CONSTANT_Utf8:
                 printf("Utf8\t\t");
-                printf("%s\n", cinfo.constant_Utf8.bytes); 
+                printf("%s\n", cinfo.constant_Utf8.bytes);
                 break;
 
             case CONSTANT_MethodHandle:
