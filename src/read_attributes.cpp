@@ -80,7 +80,7 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
 
             // Se o attribute for do tipo Exceptions
             if(!strcmp(cp_element.cp_union.constant_Utf8.bytes, "Exceptions")) {
-                    attribute_element.attribute_union.attr_Exceptions.exception_index_table = (std::vector<uint16_t>*)malloc(sizeof(std::vector<uint16_t>));
+                    attribute_element.attribute_union.attr_Exceptions.exception_index_table = new std::vector<uint16_t>();
                     attribute_element.attribute_union.attr_Exceptions.attribute_name_index = attribute_element.attribute_name_index_l;
 
                     attribute_element.attribute_union.attr_Exceptions.attribute_length = attribute_element.attribute_length_l;
