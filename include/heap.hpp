@@ -21,7 +21,7 @@ typedef enum tag_tipo_e{
     DUPLO,
     BASETYPE,
     OBJECTTYPE,
-    ARRAYTYPE
+    ARRAYTYPE,
 }tag_Tipo;
 
 typedef union base_type_s{

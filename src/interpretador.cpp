@@ -269,31 +269,40 @@ int Interpretador::ldc(){
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
     printf("Index: %d\n", index);
 
-    printf("Tag: %d\n", this->frame_corrente->cf->constant_pool[index-1].tag);
-    //o operador "[index]" estava dando problema, por isso o uso do .at()
-    switch(this->frame_corrente->cf->constant_pool[index-1].tag){
-        case CONSTANT_Integer:
+    Operand operand;
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
+    printf("Tag: %d\n", tag);
+    //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
+    if(tag == CONSTANT_Integer){
+            operand.tag = INT;
+            operand.value.int_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
             //colocar o valor na operand stack
-            break;
-        case CONSTANT_Float:
+            this->frame_corrente->operandStack.push_back(operand);
+    }else if(tag == CONSTANT_Float){
+            //  SEM SUPORTE
+            //operand.tag = PFLUTUANTE;
+            //operand.value.float_value.bytes;
             //colocar o valor na operand stack
-            break;
-        case CONSTANT_String:
+   }else if(tag == CONSTANT_String){
+            printf("ldc de String\n");
+            //std::string stringClass("String");
+           // InstanceClass *inst = jvm->alocarObjeto(stringClass);
+            operand.tag = OBJECTTYPE;
+//            inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
+            //inst->field_instances
+            //operand.value.reference_value = inst;
             //colocar a referencia da string na operand stack
-            break;
-        case CONSTANT_Class:
+            this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_Class){
             //resolver a classe e colocar a refeência ao class object (value) na operand stack
-            break;
-        case CONSTANT_MethodType:
-        case CONSTANT_MethodHandle:
+   }else if(tag == CONSTANT_MethodType){
+   }else if(tag == CONSTANT_MethodHandle){
             //resolver o methodType ou methodHandle e colocar na operand stack a referência para a instância resultante de
             //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
-            break;
-        default:
+   }else{
             //exception
-            break;
     }
-    return 2;//opcode lido
+    return 2;//opcode e byte seguinde lidos
 }
 
 int Interpretador::dup(){
@@ -324,6 +333,7 @@ int Interpretador::new_op(){
     op_val.reference_value = jvm->alocarObjeto(className);
     op.value = op_val;
     frame_corrente->operandStack.push_back(op);
+    printf("Sai da new\n");
     return 3; //dois bytes lidos + o opcode
 }
 
