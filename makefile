@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -I./include/ -g -std=c++11
 
 ########################## Geracao dos executaveis ##########################
-jvm: classFile.o interpreter_op_code.o leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o interpretador.o frame.o jvm.o main.o moveobj
-	$(CC) $(CFLAGS) -o jvm.out ./obj/operationMap.o ./obj/classFile.o ./obj/interpreter_op_code.o ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o ./obj/print_code.o ./obj/frame.o ./obj/interpretador.o ./obj/jvm.o ./obj/main.o
+jvm: classFile.o interpreter_op_code.o leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o interpretador.o frame.o jvm.o main.o verificador.o moveobj
+	$(CC) $(CFLAGS) -o jvm.out ./obj/operationMap.o ./obj/classFile.o ./obj/interpreter_op_code.o ./obj/leitor.o ./obj/little_to_big.o ./obj/read_bytes.o ./obj/exibidor.o ./obj/read_attributes.o ./obj/read_methods.o ./obj/print_code.o ./obj/frame.o ./obj/interpretador.o ./obj/jvm.o ./obj/main.o ./obj/verificador.o
 
 ########################## Geracao dos .o ##########################
 main.o:
@@ -47,6 +47,9 @@ classFile.o:
 
 #translator.o:
 	#$(CC) $(CFLAGS) -c ./src/op_instrucs.cpp
+
+verificador.o:
+	$(CC) $(CFLAGS) -c ./src/verificador.cpp
 
 ########################## Move e Clean ##########################
 moveobj:

@@ -1,8 +1,14 @@
 #include "../include/interpretador.hpp"
 
-
+//------Verificar se faz sentido isso!!----------
 int Interpretador::execute_instruction(int opcode){
-    return (*this.*instructions[opcode])();
+    if(opcode <= instructions.size()){
+        return (*this.*instructions[opcode])();
+    }
+    else{
+        printf("Instrucao nao especificada!\n");
+        exit(-1);
+    }
 }
 
 int Interpretador::runCode(Frame *frame_pt) {
