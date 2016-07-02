@@ -51,6 +51,7 @@
 		<Unit filename="include/read_bytes.hpp" />
 		<Unit filename="include/read_methods.hpp" />
 		<Unit filename="include/structs.hpp" />
+		<Unit filename="include/verificador.hpp" />
 		<Unit filename="src/classFile.cpp" />
 		<Unit filename="src/exibidor.cpp" />
 		<Unit filename="src/frame.cpp" />
@@ -65,6 +66,7 @@
 		<Unit filename="src/read_attributes.cpp" />
 		<Unit filename="src/read_bytes.cpp" />
 		<Unit filename="src/read_methods.cpp" />
+		<Unit filename="src/verificador.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
