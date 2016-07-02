@@ -9,7 +9,6 @@ int Jvm::run(const char* arq_class_name) {
     int main_index;
     FILE *arquivoClass;
     vector<Local_var> args;
-    //heap = new vector<InstanceClass*>();
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
@@ -63,9 +62,8 @@ InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile *classF;
     InstanceClass *inst;
 
-    inst = (InstanceClass*)malloc(sizeof(InstanceClass));
-    //teste
-    inst->field_instances = new Fields_Values();//(Fields_Values*)malloc(sizeof(Fields_Values));
+    inst = new InstanceClass();
+    //inst->field_instances = new Fields_Values();//(Fields_Values*)malloc(sizeof(Fields_Values));
     // Obtém a referência para a classe. A classe é carrega se necessário.
     classF = getClassRef(className);
 
@@ -80,7 +78,7 @@ InstanceClass* Jvm::alocarObjeto(string className){
 
         FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
-        inst->field_instances->push_back(fval);
+        inst->field_instances[fname]= fval;
     }
     heap.push_back(inst);
     return inst;
@@ -164,15 +162,9 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-void put_field(std::string field_name, Local_var lvar){
-    this->
-
-}
-InstanceClass* Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
-    uint16_t descriptor_index;
+Local_var Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
-    InstanceClass *inst;
     Local_var lvar;
     Local_var_Type lvarval;
 
@@ -184,8 +176,17 @@ InstanceClass* Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var>
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
+
+    // se a pilha estiver vazia consideramos que ela retornou void
+    if(!fStack.back().operandStack.empty())
+        lvar = fStack.back().operandStack.back();
+    else{
+        printf("o método chamada retornou void\n");
+        lvar.tag = VOID_T;
+        lvar.value.void_v = true;
+    }
     this->fStack.pop_back();
-    return inst;
+    return lvar;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -198,7 +199,6 @@ InstanceClass* Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var>
 
 InstanceClass* Jvm::execVirtualMethod(int n, ClassFile *classF) {
     uint16_t descriptor_index;
-    Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
     InstanceClass *inst;
     Local_var lvar;

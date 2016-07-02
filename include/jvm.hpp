@@ -67,7 +67,7 @@ class Jvm{
          * \param field_name nome do field a ser alterado
          * \param valor para colocar no field
          *
-         * \return A classfile que de fato representa a estrutura do .class
+         * \return void
          *
          */
         void put_field(std::string field_name, Local_var lvar);
@@ -88,7 +88,7 @@ class Jvm{
         // Em andamento
         //
         // Cria o frame
-        InstanceClass* execStaticMethod(int main_index, ClassFile *classF, vector<Local_var> args);
+        Local_var execStaticMethod(int main_index, ClassFile *classF, vector<Local_var> args);
         InstanceClass* execVirtualMethod(int main_index, ClassFile *classF);
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);

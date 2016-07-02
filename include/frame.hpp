@@ -9,7 +9,7 @@
 /** \class Operand_Type
  * \brief Os tipos float e double não estão presentes porque não vamos dar suporte a
  * ponto flutuante.
- * Falta definir os tipos reference e returnAddress.
+ * O tipo void será utilizado para avisar que a função retorna nada
 */
 typedef union Local_var_Type_u {
 	bool boolean_value;
@@ -19,11 +19,12 @@ typedef union Local_var_Type_u {
 	int32_t int_value;
 	int64_t long_value;
 	InstanceClass*   reference_value;
+	bool  void_v;
 	//returnAddress        returnAddress_value;
 }Local_var_Type;
 
 typedef struct local_var_s {
-	uint8_t tag;
+    tag_Tipo tag;
 	Local_var_Type value;
 }Local_var;
 

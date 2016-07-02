@@ -234,7 +234,7 @@ int Interpretador::putfield(){
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
     printf("entrou na função putfield\n");
     string field_name, field_type;
-    Local_var lvar;
+    Local_var lvar, this_var;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -242,11 +242,19 @@ int Interpretador::putfield(){
     field_type = frame_corrente->cf->getFieldType(name_index);
     printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
-    if(field_type.c_str() == "I"){
-        lvar.tag = INT;
-        lvar.value.int_value = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back();
-        jvm->put_field(field_name, lvar);
+    if(field_type.compare("I") == 0){
+        FieldValue fvar;
+        this_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop the value
+        lvar = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = INT;
+        fvar.val.btype.val.inteiro = lvar.value.int_value;
+        this_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %d\n", lvar.value.int_value);
     }
     return 3;
 }
@@ -318,8 +326,8 @@ int Interpretador::ldc(){
             //criando instância
             operand.tag = OBJECTTYPE;
             inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
-            inst->field_instances = new Fields_Values;
-            inst->field_instances->push_back(jvm->inicializaFval("L", 0));
+            //inst->field_instances = new Fields_Values;
+            //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
             /*na linha abaixo, colocar o valor que a instância deve receber informado via index.
               Como colocar o valor se ObjectType tem apenas o nome da classe como campo?
               Tem que ser via field_instances, mas para isso tem que se conhecer a organização
@@ -341,8 +349,8 @@ int Interpretador::ldc(){
 
             InstanceClass *inst = jvm->alocarObjeto(className);
             inst->cf = jvm->getClassRef(className);//a instância deve receber referência de onde foi alocado o ClassFile
-            inst->field_instances = new Fields_Values;
-            inst->field_instances->push_back(jvm->inicializaFval("L", 0));
+            //inst->field_instances = new Fields_Values;
+            //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
             /*falta colocar o valor*/
 
 
@@ -390,7 +398,7 @@ int Interpretador::new_op(){
 int Interpretador::invokespecial(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
     uint16_t method_index = operand;
-    string invoking_class, method_name, descriptor;
+    string invoking_class, method_name, descriptor, argtypes;
     ClassFile* cf;
     vector<Local_var> args;
     InstanceClass *inst;
@@ -402,32 +410,24 @@ int Interpretador::invokespecial(){
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
     cf = this->jvm->getClassRef(invoking_class);
-    string argtypes;
 
     // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){
-        argtypes += descriptor[i];
-        cout << argtypes;
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
     this->frame_corrente->operandStack.pop_back();
-    cout << endl;
 
     method_index = this->frame_corrente->cf->findMethod(method_name);//este é o índice no vetor de métodos
 
     //executa este método
-    inst = this->jvm->execStaticMethod(method_index, cf, args);
+    lvar = this->jvm->execStaticMethod(method_index, cf, args);
 
-    // empacota o retorno em uma Local_var
-    lvar.tag = OBJECTTYPE;
-    lvar.value.reference_value->cf = inst->cf;
-    lvar.value.reference_value->field_instances = inst->field_instances;
-
-    // bota o retorno na operand stack
-    this->frame_corrente->operandStack.push_back(lvar);
+    // bota o retorno na operand stack se não tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
 
     //e fim
     return 3;
@@ -439,20 +439,22 @@ int Interpretador::return_op(){
 
 
 int Interpretador::aload_0(){
-    printf("coloquei a primeiro variável na pilha\n");
+    printf("xload_0\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[0]);
     return 1;
 }
 int Interpretador::aload_1(){
-    printf("coloquei a segunda variável na pilha\n");
+    printf("xload_1\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[1]);
     return 1;
 }
 int Interpretador::aload_2(){
+    printf("xload_2\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[2]);
     return 1;
 }
 int Interpretador::aload_3(){
+    printf("xload_3\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[3]);
     return 1;
 }

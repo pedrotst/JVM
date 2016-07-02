@@ -12,16 +12,17 @@ struct FieldValue_s;
 
 typedef enum tag_tipo_e{
     BOOL = 0,
-    INT,
-    CHAR,
-    BYTE,
-    LONGO,
-    PFLUTUANTE,
-    CURTO,
-    DUPLO,
-    BASETYPE,
-    OBJECTTYPE,
-    ARRAYTYPE,
+    INT = 1,
+    CHAR = 2,
+    BYTE = 3,
+    LONGO = 4,
+    PFLUTUANTE = 5,
+    CURTO = 6,
+    DUPLO = 7,
+    BASETYPE = 8,
+    OBJECTTYPE = 9,
+    ARRAYTYPE = 10,
+    VOID_T = 11
 }tag_Tipo;
 
 typedef union base_type_s{
@@ -62,20 +63,20 @@ typedef struct FieldValue_s{
     FieldType val;
 }FieldValue;
 
-//testando
-typedef std::vector<FieldValue> Fields_Values;
 /** \class InstanceClass
 * Esta struct representa o mapeamento entre a instância de uma classe e a referência
 * para esta no vetor de classes carregadas.
 */
-typedef struct instance_class_s {
+class InstanceClass {
+    public:
     ClassFile  *cf;
     /** \var field_instances
      * \brief a instancia basicamente mapeia o nome da field para seu valor
      */
-    //std::map<std::string, FieldValue>  field_instances;
+    std::map<std::string, FieldValue>  field_instances;
+    //InstanceClass();
     //std::vector<FieldValue>  field_instances;
-    Fields_Values  *field_instances;
-}InstanceClass;
+    //Fields_Values  *field_instances;
+};
 
 #endif // HEAP
