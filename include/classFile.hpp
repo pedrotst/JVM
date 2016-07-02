@@ -71,6 +71,15 @@ public:
     */
     string getCpoolNameAndType(int index, string &method_name, string &descriptor);
 
+	/**
+	*   \brief Pega o nome de uma field n na constant pool
+	*/
+    string getFieldName(int n);
+
+	/**
+	*  \brief Resolve o tipo de uma field n na constant pool
+	*/
+    string getFieldType(int n);
 
 
 	/** \brief Procura o método em uma classe.

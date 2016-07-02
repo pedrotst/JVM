@@ -60,6 +60,18 @@ class Jvm{
          */
         ClassFile* getClassRef(std::string className);
 
+        /** \fn ClassFile getClassRef (std::string className)
+         *
+         * \brief Altera o valor de um dado field
+         *
+         * \param field_name nome do field a ser alterado
+         * \param valor para colocar no field
+         *
+         * \return A classfile que de fato representa a estrutura do .class
+         *
+         */
+        void put_field(std::string field_name, Local_var lvar);
+
         /** \fn ClassFile alocarObjeto (std::string className)
          *
          * \brief Carrega a instância de uma classe carregada, alocando
@@ -76,8 +88,8 @@ class Jvm{
         // Em andamento
         //
         // Cria o frame
-        int execStaticMethod(int main_index, ClassFile *classF, vector<Local_var> args);
-        int execVirtualMethod(int main_index, ClassFile *classF);
+        InstanceClass* execStaticMethod(int main_index, ClassFile *classF, vector<Local_var> args);
+        InstanceClass* execVirtualMethod(int main_index, ClassFile *classF);
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 

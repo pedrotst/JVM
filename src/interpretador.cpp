@@ -47,7 +47,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LDC] = &Interpretador::ldc;
 //    pt[LDC_W] = &ldc_w;
 //    pt[LDC2_W] = &ldc2_w;
-//    pt[ILOAD] = &iLoad;
+    pt[ILOAD_0] = &Interpretador::aload_0;
+    pt[ILOAD_1] = &Interpretador::aload_1;
+    pt[ILOAD_2] = &Interpretador::aload_2;
+    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq é a mesma coisa, a diferença é só a tipagem
 //    pt[LLOAD] = &lLoad;
 //    pt[FLOAD] = &fLoad;
 //    pt[DLOAD] = &dLoad;
@@ -194,11 +197,11 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[FRETURN] = &freturn;
 //    pt[DRETURN] = &dreturn;
 //    pt[ARETURN] = &areturn;
-//    pt[RETURN] = &return;
+    pt[RETURN] = &Interpretador::return_op;
 //    pt[GETSTATIC] = &getstatic;
 //    pt[PUTSTATIC] = &putstatic;
 //    pt[GETFIELD] = &getfield;
-//    pt[PUTFIELD] = &putfield;
+    pt[PUTFIELD] = &Interpretador::putfield;
 //    pt[INvOKEvIRTUAL] = &invokevirtual;
     pt[INvOKESPECIAL] = &Interpretador::invokespecial;
 //    pt[INvOKESTATIC] = &invokestatic;
@@ -225,6 +228,28 @@ Interpretador::Interpretador(Jvm *jvm){
     this->instructions = pt;
 }
 
+int Interpretador::putfield(){
+    uint32_t lhs;
+    Local_var op;
+    uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
+    printf("entrou na função putfield\n");
+    string field_name, field_type;
+    Local_var lvar;
+
+    name_index = name_index << 8;
+    name_index |= code_corrente->code[frame_corrente->pc+2];
+    field_name = frame_corrente->cf->getFieldName(name_index);
+    field_type = frame_corrente->cf->getFieldType(name_index);
+    printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+
+    if(field_type.c_str() == "I"){
+        lvar.tag = INT;
+        lvar.value.int_value = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
+        jvm->put_field(field_name, lvar);
+    }
+    return 3;
+}
 //void Interpretador::iadd(op_stack *opStack){
 int Interpretador::iadd(){
 
@@ -287,7 +312,7 @@ int Interpretador::ldc(){
             //cria uma instância de objeto String e coloca a
             //referência dessa instância na pilha
 
-            std::string stringClass("String");
+            std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);
 
             //criando instância
@@ -368,37 +393,58 @@ int Interpretador::invokespecial(){
     string invoking_class, method_name, descriptor;
     ClassFile* cf;
     vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand;
+    method_index = method_index|operand; //este é o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
     cf = this->jvm->getClassRef(invoking_class);
     string argtypes;
 
+    // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){
         argtypes += descriptor[i];
         cout << argtypes;
         args.push_back(this->frame_corrente->operandStack.back());
-        this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
     }
-
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.pop_back();
     cout << endl;
 
-    this->jvm->execStaticMethod(method_index, cf, args);
+    method_index = this->frame_corrente->cf->findMethod(method_name);//este é o índice no vetor de métodos
 
+    //executa este método
+    inst = this->jvm->execStaticMethod(method_index, cf, args);
 
+    // empacota o retorno em uma Local_var
+    lvar.tag = OBJECTTYPE;
+    lvar.value.reference_value->cf = inst->cf;
+    lvar.value.reference_value->field_instances = inst->field_instances;
 
+    // bota o retorno na operand stack
+    this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim
     return 3;
 }
 
+int Interpretador::return_op(){
+    return 1;
+}
+
+
 int Interpretador::aload_0(){
-    printf("coloquei a primeiro variável na pilha");
+    printf("coloquei a primeiro variável na pilha\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[0]);
     return 1;
 }
 int Interpretador::aload_1(){
+    printf("coloquei a segunda variável na pilha\n");
     this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[1]);
     return 1;
 }
@@ -462,6 +508,7 @@ int Interpretador::iconst_5(){
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
+
 //
 //void fadd(jStackFrame &jStack){
 //}

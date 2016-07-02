@@ -164,7 +164,11 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-int Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
+void put_field(std::string field_name, Local_var lvar){
+    this->
+
+}
+InstanceClass* Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
@@ -180,7 +184,8 @@ int Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
-    return 0;
+    this->fStack.pop_back();
+    return inst;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -191,7 +196,7 @@ int Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
  *
  */
 
-int Jvm::execVirtualMethod(int n, ClassFile *classF) {
+InstanceClass* Jvm::execVirtualMethod(int n, ClassFile *classF) {
     uint16_t descriptor_index;
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
@@ -214,5 +219,7 @@ int Jvm::execVirtualMethod(int n, ClassFile *classF) {
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
-    return 0;
+
+    this->fStack.pop_back();
+    return inst;
 }
