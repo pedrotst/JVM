@@ -181,7 +181,7 @@ Local_var Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args
     if(!fStack.back().operandStack.empty())
         lvar = fStack.back().operandStack.back();
     else{
-        printf("o método chamada retornou void\n");
+        printf("o metodo chamado retornou void\n");
         lvar.tag = VOID_T;
         lvar.value.void_v = true;
     }

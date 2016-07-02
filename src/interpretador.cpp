@@ -100,10 +100,10 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DSTORE_1] = &dStore_1;
 //    pt[DSTORE_2] = &dStore_2;
 //    pt[DSTORE_3] = &dStore_3;
-//    pt[ASTORE_0] = &aStore_0;
-//    pt[ASTORE_1] = &aStore_1;
-//    pt[ASTORE_2] = &aStore_2;
-//    pt[ASTORE_3] = &aStore_3;
+    pt[ASTORE_0] = &Interpretador::astore_0;
+    pt[ASTORE_1] = &Interpretador::astore_1;
+    pt[ASTORE_2] = &Interpretador::astore_2;
+    pt[ASTORE_3] = &Interpretador::astore_3;
 //    pt[IASTORE] = &iaStore;
 //    pt[LASTORE] = &laStore;
 //    pt[DASTORE] = &daStore;
@@ -510,6 +510,39 @@ int Interpretador::iconst_5(){
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
+
+int Interpretador::astore_0(){
+    Local_var op;
+    op = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[0] = op;
+    return 1;
+}
+
+int Interpretador::astore_1(){
+    Local_var op;
+    op = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[1] = op;
+    return 1;
+}
+
+int Interpretador::astore_2(){
+    Local_var op;
+    op = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[2] = op;
+    return 1;
+}
+
+int Interpretador::astore_3(){
+    Local_var op;
+    op = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[3] = op;
+    return 1;
+}
+
 
 //
 //void fadd(jStackFrame &jStack){

@@ -66,6 +66,10 @@ class Interpretador{
 		int aload_3();
 		int putfield();
 		int iconst_m1();
+		int astore_0();
+		int astore_1();
+		int astore_2();
+		int astore_3();
 		int iconst_0();
 		int iconst_1();
 		int iconst_2();
