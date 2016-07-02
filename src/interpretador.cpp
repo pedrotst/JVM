@@ -20,6 +20,7 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
+        printf("executando a instrucao at %x\n", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -519,32 +520,41 @@ int Interpretador::iconst_5(){
 
 int Interpretador::astore_0(){
     Local_var op;
+    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[0] = op;
     return 1;
 }
 
 int Interpretador::astore_1(){
     Local_var op;
+    size_t old_size = this->frame_corrente->localVarVector.size();
+
     op = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[1] = op;
     return 1;
 }
 
 int Interpretador::astore_2(){
     Local_var op;
+    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[2] = op;
     return 1;
 }
 
 int Interpretador::astore_3(){
     Local_var op;
+    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[3] = op;
     return 1;
 }
