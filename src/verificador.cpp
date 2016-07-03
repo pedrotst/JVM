@@ -36,7 +36,7 @@ int Verificador::verificaMethods(ClassFile classF){
 
 int Verificador::invokespecial(){
     printf("Invokespecial!\n");
-    return 4;
+    return 3;
 }
 Verificador::Verificador(ClassFile classF){
 
@@ -241,4 +241,5 @@ Verificador::Verificador(ClassFile classF){
     //pt[BREAKPOINT] = &breakpoint;
     //pt[IMPDEP1] = &impdep1;
     //pt[IMPDEP2] = &impdep2;
+    instrucoes = pt;
 }
