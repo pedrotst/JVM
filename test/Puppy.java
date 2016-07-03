@@ -13,6 +13,14 @@ public class Puppy{
        puppyAge = age;
    }
 
+   public void incAge(int inc){
+	puppyAge = puppyAge + 1;
+   }
+
+   public void mulAge(int mul){
+	puppyAge = puppyAge * mul;
+   }
+
    public int getAge( ){
        //System.out.println("Puppy's age is :" + puppyAge );
        return puppyAge;

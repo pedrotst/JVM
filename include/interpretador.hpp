@@ -62,6 +62,12 @@ class Interpretador{
         int iadd();
 		int ladd();
 
+		int isub();
+		int lsub();
+
+		int imul();
+		int lmul();
+
 		int iload();
 		int lload();
 		int fload();
