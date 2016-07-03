@@ -34,7 +34,7 @@ Interpretador::Interpretador(Jvm *jvm){
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
     pt[NOP] = &Interpretador::nop;
-    pt[ACONST_NULL] = &aconst_null;
+    pt[ACONST_NULL] = &Interpretador::aconst_null;
     pt[ICONST_M1] = &Interpretador::iconst_m1;
     pt[ICONST_0] = &Interpretador::iconst_0;
     pt[ICONST_1] = &Interpretador::iconst_1;
