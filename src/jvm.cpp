@@ -19,7 +19,8 @@ int Jvm::run(const char* arq_class_name) {
 
 
     leitorClass_info(&classF, arquivoClass);
-    verificaClass(classF);
+    Verificador verificador(classF);
+    verificador.verificaClass(classF);
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main");
