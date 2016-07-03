@@ -9,6 +9,7 @@
 #include "../include/classFile.hpp"
 
 struct FieldValue_s;
+class InstanceClass;
 
 typedef enum tag_tipo_e{
     BOOL = 0,
@@ -45,7 +46,7 @@ typedef struct BaseType_s{
  * Não esquecer que este classname é o nome completo
 */
 typedef struct ObjectType_s{
-    char *className;
+    InstanceClass *instance;
 }ObjectType;
 
 typedef struct ArrayType_s{

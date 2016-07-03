@@ -34,7 +34,7 @@ Interpretador::Interpretador(Jvm *jvm){
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
     pt[NOP] = &Interpretador::nop;
-    pt[ACONST_NULL] = &aconst_null;
+    pt[ACONST_NULL] = &Interpretador::aconst_null;
     pt[ICONST_M1] = &Interpretador::iconst_m1;
     pt[ICONST_0] = &Interpretador::iconst_0;
     pt[ICONST_1] = &Interpretador::iconst_1;
@@ -216,7 +216,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
     pt[NEW] = &Interpretador::new_op;
 //    pt[NEWARRAY] = &newarray;
-//    pt[ANEWARRAY] = &anewarray;
+    pt[ANEWARRAY] = &Interpretador::anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;
 //    pt[ATHROW] = &athrow;
 //    pt[CHACKCAST] = &checkcast;
@@ -367,6 +367,98 @@ int Interpretador::putfield(){
     }
     return 3;
 }
+
+int Interpretador::anewarray(){
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    int count_operand = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = ARRAYTYPE;
+
+    InstanceClass *instance = new InstanceClass;
+    operand.value.reference_value = instance;
+    //instance->cf = //encontra o classfile daquela classe no vetor de classes carregadas
+    string className;//recebe o nome da classe
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index -1].tag;
+    uint16_t name_index;
+    FieldValue field;
+    switch(tag){
+        case CONSTANT_Class:
+            name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
+            className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
+            for(int i = 0; i < count_operand; i++){
+                    field.tag = OBJECTTYPE;
+                    //field.val.objtype =
+                    //instance->field_instances[className] =
+            }
+            break;
+        case CONSTANT_InterfaceMethodref:
+            for(int i = 0; i < count_operand; i++){
+
+            }
+            break;
+        //case CONSTANT_Array?:
+    }
+    this->frame_corrente->operandStack.push_back(operand);
+    return 3;
+}
+
+int Interpretador::idiv(){
+    uint32_t lhs, rhs;
+    Local_var op;
+    Local_var_Type op_v;
+    printf("Entrou na funcao iadd\n");
+    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    this->frame_corrente->operandStack.pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    op_v.int_value = lhs / rhs;
+    op.value = op_v;
+    op.tag = INT;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+
+int Interpretador::ldiv(){
+    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operação
+    // ..., result            //indica que o resultado vai pro topo da pilha
+    Local_var result[2];
+    uint64_t lhs, rhs, resultado;
+    uint32_t *alocador;
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    //le value2 == rhs
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    rhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //le value 1 == lhs
+    alocador = (uint32_t*) lhs;
+    lhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    resultado = lhs / rhs;
+    alocador = (uint32_t*) result;
+
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+    return 1;
+}
+
 int Interpretador::lmul(){
     //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
     // value1 - value2        //ordem da operação

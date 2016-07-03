@@ -68,6 +68,11 @@ class Interpretador{
 		int imul();
 		int lmul();
 
+		int idiv();
+		int ldiv();
+
+		int anewarray();
+
 		int iload();
 		int lload();
 		int fload();

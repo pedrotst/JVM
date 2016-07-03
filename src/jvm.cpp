@@ -142,8 +142,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
             fval.val.btype = bval;
             break;
         case 'L': // reference
-            oval.className = (char*)calloc(strlen(ftype) - 1, sizeof(char));
-            strcpy(oval.className, ftype+1);
+            oval.instance = new InstanceClass;
             fval.tag = OBJECTTYPE;
             fval.val.objtype = oval;
             break;
