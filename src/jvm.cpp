@@ -8,8 +8,9 @@ int Jvm::run(const char* arq_class_name) {
     ClassFile classF;
     int main_index;
     FILE *arquivoClass;
-    vector<Local_var> args;
-
+    vector<Local_var> args; //coloque a string de argumento aqui
+    Local_var main_str;
+    args.push_back(main_str);
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
         exit(0);
