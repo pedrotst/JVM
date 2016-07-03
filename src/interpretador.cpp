@@ -33,8 +33,8 @@ Interpretador::Interpretador(Jvm *jvm){
     this->jvm = jvm;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
-//    pt[NOP] = &nop;
-//    pt[ACONST_NULL] = &aConst_null;
+    pt[NOP] = &Interpretador::nop;
+    pt[ACONST_NULL] = &aconst_null;
     pt[ICONST_M1] = &Interpretador::iconst_m1;
     pt[ICONST_0] = &Interpretador::iconst_0;
     pt[ICONST_1] = &Interpretador::iconst_1;
@@ -42,15 +42,15 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ICONST_3] = &Interpretador::iconst_3;
     pt[ICONST_4] = &Interpretador::iconst_4;
     pt[ICONST_5] = &Interpretador::iconst_5;
-//    pt[LCONST_0] = &lConst_0;
-//    pt[LCONST_1] = &lConst_1;
+    pt[LCONST_0] = &Interpretador::lconst_0;
+    pt[LCONST_1] = &Interpretador::lconst_1;
 //    pt[FCONST_0] = &fConst_0;
 //    pt[FCONST_1] = &fConst_1;
 //    pt[FCONST_2] = &fConst_2;
 //    pt[DCONST_0] = &dConst_0;
 //    pt[DCONST_1] = &dConst_1;
-//    pt[BIPUSH] = &biPush;
-//    pt[SIPUSH] = &siPush;
+    pt[BIPUSH] = &Interpretador::bipush;
+    pt[SIPUSH] = &Interpretador::sipush;
     pt[LDC] = &Interpretador::ldc;
 //    pt[LDC_W] = &ldc_w;
 //    pt[LDC2_W] = &ldc2_w;
@@ -234,6 +234,34 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
 }
+int Interpretador::aconst_null(){
+    Local_var operand;
+    operand.tag = OBJECTTYPE;
+    operand.value.reference_value = NULL;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
+
+int Interpretador::nop(){
+    return 1;
+}
+
+int Interpretador::sipush(){
+    Local_var operand;
+    operand.tag = CURTO;
+    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand.value.int_value <<= 8;
+    operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    return 3;
+}
+
+int Interpretador::bipush(){
+    Local_var operand;
+    operand.tag = BYTE;//questões conceituais aqui
+    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
+}
 
 int Interpretador::dload(){
     Local_var operand[2];
@@ -285,6 +313,28 @@ int Interpretador::aload(){
     operand = this->frame_corrente->localVarVector[index-1];
     this->frame_corrente->operandStack.push_back(operand);
     return 2;
+}
+
+int Interpretador::lconst_0(){
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[1].tag = LONGO;
+    operand[0].value.long_value = 0;
+    operand[1].value.long_value = 0;
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 1;
+}
+
+int Interpretador::lconst_1(){
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[1].tag = LONGO;
+    operand[0].value.long_value = 1;
+    operand[1].value.long_value = 0;
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 1;
 }
 
 int Interpretador::putfield(){

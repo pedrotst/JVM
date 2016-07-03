@@ -56,6 +56,9 @@ class Interpretador{
         //		void iadd(op_stack *opStack);
         //		int iadd_pusher(char *codeAligned, op_stack *opStack);
         //		void ladd(op_stack *opStack);
+        int nop();
+        int aconst_null();
+
         int iadd();
 		int ladd();
 
@@ -87,6 +90,12 @@ class Interpretador{
 		int iconst_3();
 		int iconst_4();
 		int iconst_5();
+
+        int lconst_0();
+        int lconst_1();
+
+        int bipush();
+        int sipush();
 
 		int dup();
 		int ldc();
