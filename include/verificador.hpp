@@ -1,5 +1,5 @@
 #ifndef VERIFICADOR_HPP_INCLUDED
-#define VERIFICADOR_INCLUDED
+#define VERIFICADOR_HPP_INCLUDED
 
 #include <stdlib.h>
 #include <stdio.h>

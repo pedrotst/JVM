@@ -31,7 +31,7 @@ int Verificador::verificaMethods(ClassFile classF){
             }
         }
     }
-
+    return 0;
 }
 
 int Verificador::invokespecial(){

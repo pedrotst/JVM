@@ -34,7 +34,7 @@ Interpretador::Interpretador(Jvm *jvm){
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
     pt[NOP] = &Interpretador::nop;
-    pt[ACONST_NULL] = &aconst_null;
+    pt[ACONST_NULL] = &Interpretador::aconst_null;
     pt[ICONST_M1] = &Interpretador::iconst_m1;
     pt[ICONST_0] = &Interpretador::iconst_0;
     pt[ICONST_1] = &Interpretador::iconst_1;
@@ -57,7 +57,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_0] = &Interpretador::aload_0;
     pt[ILOAD_1] = &Interpretador::aload_1;
     pt[ILOAD_2] = &Interpretador::aload_2;
-    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq é a mesma coisa, a diferença é só a tipagem
+    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq ï¿½ a mesma coisa, a diferenï¿½a ï¿½ sï¿½ a tipagem
     pt[LLOAD] = &Interpretador::lload;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
@@ -257,7 +257,7 @@ int Interpretador::sipush(){
 
 int Interpretador::bipush(){
     Local_var operand;
-    operand.tag = BYTE;//questões conceituais aqui
+    operand.tag = BYTE;//questï¿½es conceituais aqui
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     this->frame_corrente->operandStack.push_back(operand);
     return 2;
@@ -341,7 +341,7 @@ int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
-    printf("entrou na função putfield\n");
+    printf("entrou na funï¿½ï¿½o putfield\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
@@ -368,8 +368,8 @@ int Interpretador::putfield(){
     return 3;
 }
 int Interpretador::lmul(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -439,8 +439,8 @@ int Interpretador::isub(){
 }
 
 int Interpretador::lsub(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -493,8 +493,8 @@ int Interpretador::iadd(){
 
 
 int Interpretador::ladd(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -548,38 +548,38 @@ int Interpretador::ldc(){
             //this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
-            //cria uma instância de objeto String e coloca a
-            //referência dessa instância na pilha
+            //cria uma instï¿½ncia de objeto String e coloca a
+            //referï¿½ncia dessa instï¿½ncia na pilha
 
             std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);
 
-            //criando instância
+            //criando instï¿½ncia
             operand.tag = OBJECTTYPE;
             inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
             //inst->field_instances = new Fields_Values;
             //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
-            /*na linha abaixo, colocar o valor que a instância deve receber informado via index.
+            /*na linha abaixo, colocar o valor que a instï¿½ncia deve receber informado via index.
               Como colocar o valor se ObjectType tem apenas o nome da classe como campo?
-              Tem que ser via field_instances, mas para isso tem que se conhecer a organização
+              Tem que ser via field_instances, mas para isso tem que se conhecer a organizaï¿½ï¿½o
               interna de String.class*/
 
             //colocar a referencia da string na operand stack
             operand.value.reference_value = inst;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
-            //resolver a classe e colocar a refeência ao class object (value) na operand stack
+            //resolver a classe e colocar a refeï¿½ncia ao class object (value) na operand stack
             operand.tag = OBJECTTYPE;
 
             /*abaixo nao pode ser utilizado getClassName() porque
-              não necessariamente o objeto instanciado será da mesma classe
-              a qual pertence o método em execução
-              (ex: método de Puppy.class pode instanciar Cocô.class)*/
+              nï¿½o necessariamente o objeto instanciado serï¿½ da mesma classe
+              a qual pertence o mï¿½todo em execuï¿½ï¿½o
+              (ex: mï¿½todo de Puppy.class pode instanciar Cocï¿½.class)*/
             uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
             std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
 
             InstanceClass *inst = jvm->alocarObjeto(className);
-            inst->cf = jvm->getClassRef(className);//a instância deve receber referência de onde foi alocado o ClassFile
+            inst->cf = jvm->getClassRef(className);//a instï¿½ncia deve receber referï¿½ncia de onde foi alocado o ClassFile
             //inst->field_instances = new Fields_Values;
             //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
             /*falta colocar o valor*/
@@ -587,7 +587,7 @@ int Interpretador::ldc(){
 
    }else if(tag == CONSTANT_MethodType){
    }else if(tag == CONSTANT_MethodHandle){
-            //resolver o methodType ou methodHandle e colocar na operand stack a referência para a instância resultante de
+            //resolver o methodType ou methodHandle e colocar na operand stack a referï¿½ncia para a instï¿½ncia resultante de
             //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
    }else{
             //exception
@@ -605,7 +605,7 @@ int Interpretador::dup(){
 //void Interpretador::new_op(op_stack *opStack){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instruï¿½ï¿½o; pc+1 ï¿½ o byte seguinte
     uint16_t name_index = operand;
     std::string className;
     Local_var op;
@@ -637,7 +637,7 @@ int Interpretador::invokespecial(){
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este é o indice na constant pool
+    method_index = method_index|operand; //este ï¿½ o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
     cf = this->jvm->getClassRef(invoking_class);
@@ -651,12 +651,12 @@ int Interpretador::invokespecial(){
     args.push_back(this->frame_corrente->operandStack.back());
     this->frame_corrente->operandStack.pop_back();
 
-    method_index = this->frame_corrente->cf->findMethod(method_name);//este é o índice no vetor de métodos
+    method_index = this->frame_corrente->cf->findMethod(method_name);//este ï¿½ o ï¿½ndice no vetor de mï¿½todos
 
-    //executa este método
+    //executa este mï¿½todo
     lvar = this->jvm->execStaticMethod(method_index, cf, args);
 
-    // bota o retorno na operand stack se não tiver retornado void
+    // bota o retorno na operand stack se nï¿½o tiver retornado void
     if(lvar.tag != VOID_T)
         this->frame_corrente->operandStack.push_back(lvar);
 
