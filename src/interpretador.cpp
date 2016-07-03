@@ -58,10 +58,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_1] = &Interpretador::aload_1;
     pt[ILOAD_2] = &Interpretador::aload_2;
     pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq é a mesma coisa, a diferença é só a tipagem
-//    pt[LLOAD] = &lLoad;
-//    pt[FLOAD] = &fLoad;
+    pt[LLOAD] = &Interpretador::lload;
+    pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
-//    pt[ALOAD] = &Interpretador::aload;
+    pt[ALOAD] = &Interpretador::aload;
     pt[ALOAD_0] = &Interpretador::aload_0;
     pt[ALOAD_1] = &Interpretador::aload_1;
     pt[ALOAD_2] = &Interpretador::aload_2;
@@ -235,6 +235,58 @@ Interpretador::Interpretador(Jvm *jvm){
     this->instructions = pt;
 }
 
+int Interpretador::dload(){
+    Local_var operand[2];
+    operand[0].tag = DUPLO;
+    operand[1].tag = DUPLO;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand[0] = this->frame_corrente->localVarVector[index-1];
+    operand[1] = this->frame_corrente->localVarVector[index];
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 2;
+}
+
+int Interpretador::fload(){
+    Local_var operand;
+    operand.tag = PFLUTUANTE;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
+}
+
+int Interpretador::iload(){
+    Local_var operand;
+    operand.tag = INT;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
+}
+
+int Interpretador::lload(){
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[1].tag = LONGO;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand[0] = this->frame_corrente->localVarVector[index-1];
+    operand[1] = this->frame_corrente->localVarVector[index];
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 2;
+
+}
+
+int Interpretador::aload(){
+    Local_var operand;
+    operand.tag = OBJECTTYPE;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
+}
+
 int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
@@ -286,23 +338,27 @@ int Interpretador::iadd(){
     return 1;
 }
 
-/*
+
 int Interpretador::ladd(){
-    uint32_t operand1[2], operand2[2];
-    printf("Entrou na funcao\n");
-    operand1[0] = opStack->back();
-    opStack->pop_back();
-    operand1[1] = opStack->back();
-    opStack->pop_back();
+    Local_var operand1[2], operand2[2], result[2];
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    operand1[0] = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    operand1[1] = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
 
-    operand2[0] = opStack->back();
-    opStack->pop_back();
-    operand2[1] = opStack->back();
-    opStack->pop_back();
+    operand2[0] = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    operand2[1] = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    result[0].value.long_value = operand1[0].value.long_value + operand2[0].value.long_value;
+    result[1].value.long_value = operand1[1].value.long_value + operand2[1].value.long_value;
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+}
 
-    opStack->push_back(operand1[0] + operand2[0]);
-    opStack->push_back(operand1[1] + operand2[1]);
-}*/
 int Interpretador::ldc(){
     printf("Entrei na ldc\n");
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
@@ -320,8 +376,9 @@ int Interpretador::ldc(){
     }else if(tag == CONSTANT_Float){
             //  SEM SUPORTE
             //operand.tag = PFLUTUANTE;
-            //operand.value.float_value.bytes;
+            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
             //colocar o valor na operand stack
+            //this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
             //cria uma instância de objeto String e coloca a

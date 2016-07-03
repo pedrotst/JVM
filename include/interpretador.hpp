@@ -58,24 +58,36 @@ class Interpretador{
         //		void ladd(op_stack *opStack);
         int iadd();
 		int ladd();
+
+		int iload();
+		int lload();
+		int fload();
+		int dload();
+        int aload();
+
 		int return_op();
 		int new_op();
+
 		int aload_0();
 		int aload_1();
 		int aload_2();
 		int aload_3();
+
 		int putfield();
 		int iconst_m1();
+
 		int astore_0();
 		int astore_1();
 		int astore_2();
 		int astore_3();
+
 		int iconst_0();
 		int iconst_1();
 		int iconst_2();
 		int iconst_3();
 		int iconst_4();
 		int iconst_5();
+
 		int dup();
 		int ldc();
 		int invokespecial();

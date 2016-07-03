@@ -17,7 +17,8 @@ typedef union Local_var_Type_u {
 	uint8_t char_value;
 	int16_t short_value;
 	int32_t int_value;
-	int64_t long_value;
+	int32_t long_value;//longs usam dois local_var para cada operando
+	//uint32_t long_value;//
 	InstanceClass*   reference_value;
 	bool  void_v;
 	//returnAddress        returnAddress_value;
