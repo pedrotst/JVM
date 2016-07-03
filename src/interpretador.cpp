@@ -772,18 +772,20 @@ int Interpretador::invokevirtual(){
     method_index = method_index|operand; //este é o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
-    //cf = this->jvm->getClassRef(invoking_class);
 
 
+    cf = this->jvm->getClassRef(invoking_class);
     //precisamos encontrar em qual classF este método foi declarado
     super_name = cf->getClassName(); // começa loop na classe invocadora
     do{
         cf = this->jvm->getClassRef(super_name);
+
         found = cf->findMethod(method_name, descriptor);
         super_name = cf->getSuper();
+        cout << "super name: "<< super_name << endl;
         if(super_name.empty()){// se não possuir super, então o método não existe
             printf("Método passado não existe\n");
-            throw "Método passado não existe";
+            exit(0);
         }
     }while(found == -1);
     printf("encontrei o método, está na classe %s, número %d", cf->getClassName().c_str(), found);

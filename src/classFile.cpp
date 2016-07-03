@@ -1,22 +1,26 @@
 #include "../include/classFile.hpp"
 using namespace std;
+#include <iostream>
 
 string ClassFile::getSource(){
     int index;
+    string buffer;
+
     for(int n=0; n < this->attributes_count; n++){
         attribute_info attributeElement = this->attributes[n];
         index = attributeElement.attribute_name_index_l;
         if(!strcmp(this->constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            return(this->getCpoolUtf8(index));
+            return(this->getCpoolUtf8(index + 1));
         }
     }
-    return NULL;
+    return buffer;
 }
 
 string ClassFile::getClassName(){
+
     string source_name = this->getSource();
-    size_t found = source_name.find_first_of(".java");
+    size_t found = source_name.find(".java");
     return source_name.substr(0, found);
 }
 
@@ -80,11 +84,14 @@ string ClassFile::getFieldType(int n){
 
 string ClassFile::getSuper(){
     int super_index = this->super_class;
+
     string buffer;
     if(super_index == 0)
         return buffer;
-    else
-        return this->getCpoolUtf8(super_index);
+    else{
+        int index = this->constant_pool[super_index - 1].cp_union.constant_class.name_index; // indice do utf8
+        return this->getCpoolUtf8(index);
+    }
 }
 
 

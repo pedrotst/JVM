@@ -10,6 +10,7 @@ int Jvm::run(const char* arq_class_name) {
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
     Local_var main_str;
+
     args.push_back(main_str);
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
@@ -43,13 +44,16 @@ ClassFile* Jvm::getClassRef(string className) {
     // Se a classe não for encontrada no map, o find retorna um iterador para end.
     // Ou seja, caso a classe não for encontrada.
     // Carrega a nova classe.
-    if(this->loadedClasses.find(className) == this->loadedClasses.end()) {
+
+    if(!loadedClasses.count(className)) {
+            cout << className << endl;
         if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
             printf("O arquivo .class nao pode ser aberto.\n");
             exit(0);
         }
         leitorClass_info(classF, arquivoClass);
-        this->loadedClasses[className] = classF;
+        this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
+        fclose(arquivoClass);
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {
