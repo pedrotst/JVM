@@ -1,5 +1,4 @@
 #include "../include/classFile.hpp"
-
 using namespace std;
 
 string ClassFile::getSource(){
@@ -79,22 +78,32 @@ string ClassFile::getFieldType(int n){
     return this->getCpoolUtf8(type_index);
 }
 
+string ClassFile::getSuper(){
+    int super_index = this->super_class;
+    string buffer;
+    if(super_index == 0)
+        return buffer;
+    else
+        return this->getCpoolUtf8(super_index);
+}
+
+
+
 /////////////////////////////////////////////////////////////////////////////
-int ClassFile::findMethod(string method) {
+int ClassFile::findMethod(string method_name, string descriptor) {
 	int i = 0;
-	string method_name;
+	string mname, mdescr;
 	method_info *method_pt = NULL;
-    //printf("Em findMain():\n");
+
 	// Para cada método
 	for (i = 0; i < this->methods_count; i++) {
 		// Pega o método
 		method_pt = &this->methods[i];
 		// Pega o nome do método
-		method_name = this->getName(method_pt->name_index);
-		//printf("Nome do metodo checado: %s\n", method_name);
-		// Retorna index do método, se for o main
-		//printf("Resultado de strcmp(): %d\n", strcmp(method_name, "main"));
-		if (method_name.compare(method) == 0){
+		mname = this->getCpoolUtf8(method_pt->name_index);
+		mdescr = this->getCpoolUtf8(method_pt->descriptor_index);
+
+		if (mname.compare(method_name) == 0 && mdescr.compare(descriptor) == 0){
 			return i;
 		}
 	}
@@ -109,7 +118,7 @@ string ClassFile::getName(int name_index){
 	// Checa se a entrada da constant_pool apontada pelo index é uma string.
 	// Se não for retorna NULL.
       if (this->constant_pool[name_index-1].tag != CONSTANT_Utf8) {
-            printf("O index (da constant_pool) passado não aponta para uma string.\n");
+            printf("O index (da constant_pool) passado não aponta para ua utf8.\n");
             return NULL;
       }
 	// Obtém a string da constant_pool.

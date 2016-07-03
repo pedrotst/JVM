@@ -111,5 +111,6 @@ class Interpretador{
 		int dup();
 		int ldc();
 		int invokespecial();
+		int invokevirtual();
 };
 #endif // INTERPRETADOR_H
