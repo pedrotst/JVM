@@ -41,6 +41,7 @@
 		<Unit filename="include/frame.hpp" />
 		<Unit filename="include/heap.hpp" />
 		<Unit filename="include/interpretador.hpp" />
+		<Unit filename="include/interpreter_op_code.hpp" />
 		<Unit filename="include/jvm.hpp" />
 		<Unit filename="include/leitor.hpp" />
 		<Unit filename="include/little_to_big.hpp" />
@@ -56,6 +57,7 @@
 		<Unit filename="src/exibidor.cpp" />
 		<Unit filename="src/frame.cpp" />
 		<Unit filename="src/interpretador.cpp" />
+		<Unit filename="src/interpreter_op_code.cpp" />
 		<Unit filename="src/jvm.cpp" />
 		<Unit filename="src/leitor.cpp" />
 		<Unit filename="src/little_to_big.cpp" />

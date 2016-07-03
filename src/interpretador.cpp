@@ -319,17 +319,6 @@ int Interpretador::putfield(){
 }
 //void Interpretador::iadd(op_stack *opStack){
 int Interpretador::iadd(){
-
-    uint32_t lhs, rhs;
-    Local_var op;
-    Local_var_Type op_v;
-    printf("Entrou na funcao iadd\n");
-    lhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
-    this->frame_corrente->operandStack.pop_back();
-    rhs = frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    printf("lhs: %d rhs: %d\n", lhs, rhs);
     op_v.int_value = lhs + rhs;
     op.value = op_v;
     op.tag = INT;
@@ -433,6 +422,7 @@ int Interpretador::dup(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
     return 1;//opcode lido
 }
+<<<<<<< 6abd022b4604e75cc5b760867a05b7d0bf56a85f
 
 
 //void Interpretador::new_op(op_stack *opStack){
@@ -620,6 +610,5 @@ int Interpretador::astore_3(){
 //
 //void fadd(jStackFrame &jStack){
 //}
-//
-//void dadd(jStackFrame &jStack){
+////void dadd(jStackFrame &jStack){
 //}

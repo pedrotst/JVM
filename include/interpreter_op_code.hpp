@@ -2,9 +2,10 @@
 #define _INTERPRETER_OP_CODE_HPP
 
 #include <stdint.h>
-#include "../include/opcode.hpp"
 #include <stdio.h>
+#include "../include/opcode.hpp"
+#include "../include/frame.hpp"
 
-int interpreter_op_code(uint8_t opcode);
+int interpreter_code(std::vector<Frame> *jStack/*, heap*/);
 
 #endif //  _INTERPRETER_OP_CODE_HPP

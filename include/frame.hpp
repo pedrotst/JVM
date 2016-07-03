@@ -58,6 +58,7 @@ public:
 
       Frame(){} //Depois esse Construtor deve ser deletado
       Frame(int method_index, ClassFile *cf);
+
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED
