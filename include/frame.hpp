@@ -1,6 +1,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 
+<<<<<<< HEAD
 #include <vector>
 #include <cstdint>
 #include "../include/heap.hpp"
@@ -23,6 +24,11 @@ typedef union Local_var_Type_u {
 	bool  void_v;
 	//returnAddress        returnAddress_value;
 }Local_var_Type;
+=======
+#include<vector>
+#include<cstdint>
+#include "..\include\jvm.hpp"//para operand
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 
 typedef struct local_var_s {
     tag_Tipo tag;
@@ -32,6 +38,7 @@ typedef struct local_var_s {
 //////////////////////////// Class ////////////////////////////
 class Frame{
 public:
+<<<<<<< HEAD
       /** Pilha de operandos.
       * A pilha de operandos começa vazia. Ela é populada ao longo da execução
       * das instruções.
@@ -58,7 +65,26 @@ public:
 
       Frame(){} //Depois esse Construtor deve ser deletado
       Frame(int method_index, ClassFile *cf);
+=======
+    //op_stack *opStack;//pilha de execuчуo interna ao frame
+    std::vector<uint32_t> op_stack;
 
+    //operandStack *opStack;
+    std::vector<operand> operandStack;
+
+    //Vetor de variaveis locais
+    //localVarStack *localVar; //pilha de variaveis locais
+    std::vector<local_var> localVarStack;
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
+
+    //Referência para a ConstantPool
+    cp_info *cpReference;
+
+    //Serve para ler o Code:
+    int pc;
+    int code_length;
+    char *code;
+    Frame();
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED

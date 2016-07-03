@@ -235,6 +235,7 @@ Interpretador::Interpretador(Jvm *jvm){
     this->instructions = pt;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 int Interpretador::dload(){
     Local_var operand[2];
@@ -580,6 +581,8 @@ int Interpretador::astore_1(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
 =======
+=======
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 void Interpretador::iadd(Parametros *param){
     OpStack *opStack = (*OpStack) param[OPSTACK];
     uint32_t lhs, rhs;
@@ -618,6 +621,7 @@ int Interpretador::astore_2(){
     return 1;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 int Interpretador::astore_3(){
     Local_var op;
@@ -651,6 +655,24 @@ void Interpretador::new_op(/*op_stack *opStack*/){//faltam parametros: vetor de 
 //    return k += arg_qnt;
 }
 
+=======
+void Interpretador::new_op(/*op_stack *opStack*/){//faltam parametros: vetor de objetos,
+//    printf("NeW\n");
+//    uint8_t operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1];
+//    buffer = operand;
+//    buffer = buffer<<8;
+//    operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+2];
+//    buffer = buffer|operand;
+//    printf("%d a\n", buffer);
+    cp_info *constantPool;
+    buffer = constantPool[buffer-1].cp_union.constant_class.name_index;
+    char* nomeClasse = constantPool[buffer].cp_union.constant_Utf8;
+    //cria objeto dessa classe
+
+//    return k += arg_qnt;
+}
+
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 //void dadd(jStackFrame &jStack){
 >>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 //}

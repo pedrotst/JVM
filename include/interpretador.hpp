@@ -15,6 +15,7 @@
 
 // Somente uma declaraÃ§Ã£o, para poder compilar.
 class Jvm;
+<<<<<<< HEAD
 
 class Interpretador{
     public:
@@ -37,6 +38,258 @@ class Interpretador{
         Frame *frame_corrente;
         Code_attribute *code_corrente;
         uint16_t descriptor_index;
+=======
+//inicializador do interpretador
+typedef std::vector<void*> Parametros;
+//cada instrução sabe quais posições do vetor deve ler e como interpretar
+//por exemplo
+//parametros.push_back((void*) &heap);
+//parametros.push_back((void*) &opStack);
+typedef enum structs_s{
+    OPSTACK = 0,
+    CPOOL,
+    HEAP
+}Estruturas;
+
+class Interpretador{
+	public:
+		Interpretador(Jvm *jvm);
+		void execute_instruction(int opcode, std::vector<uint32_t> *opStack);
+
+	private:
+		Jvm *jvm;
+		typedef void (Interpretador::*instructionFunction)(Parametros*);
+		std::vector<instructionFunction> instructions;
+
+		//uma das funções do interpretador
+		void iadd(Parametros *param);
+		void ladd(Parametros *param);
+		void new_op(Parametros *param);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+//int iadd(uint8_t*);
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 
 
         /** \fn interpretador execute_instruction (std::string className)
