@@ -37,6 +37,6 @@ public class Puppy{
       //myPuppy.getAge( );
 
       /* You can access instance variable as follows as well */
-      //System.out.println("Variable Value :" + myPuppy.puppyAge );
+      System.out.println("Variable Value :" + myPuppy.puppyAge );
    }
 }
