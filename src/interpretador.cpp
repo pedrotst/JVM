@@ -234,6 +234,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
 }
+<<<<<<< HEAD
 
 int Interpretador::dload(){
     Local_var operand[2];
@@ -578,6 +579,27 @@ int Interpretador::astore_0(){
 int Interpretador::astore_1(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
+=======
+void Interpretador::iadd(Parametros *param){
+    OpStack *opStack = (*OpStack) param[OPSTACK];
+    uint32_t lhs, rhs;
+    printf("Entrou na funcao\n");
+    lhs = opStack->back();
+    opStack->pop_back();
+    rhs = opStack->back();
+    opStack->pop_back();
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    opStack->push_back(lhs + rhs);
+}
+
+void Interpretador::ladd(op_stack *opStack){
+    uint32_t operand1[2], operand2[2];
+    printf("Entrou na funcao\n");
+    operand1[0] = opStack->back();
+    opStack->pop_back();
+    operand1[1] = opStack->back();
+    opStack->pop_back();
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 
     op = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -595,6 +617,7 @@ int Interpretador::astore_2(){
     this->frame_corrente->localVarVector[2] = op;
     return 1;
 }
+<<<<<<< HEAD
 
 int Interpretador::astore_3(){
     Local_var op;
@@ -611,4 +634,23 @@ int Interpretador::astore_3(){
 //void fadd(jStackFrame &jStack){
 //}
 ////void dadd(jStackFrame &jStack){
+=======
+void Interpretador::new_op(/*op_stack *opStack*/){//faltam parametros: vetor de objetos,
+//    printf("NeW\n");
+//    uint8_t operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+1];
+//    buffer = operand;
+//    buffer = buffer<<8;
+//    operand = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+2];
+//    buffer = buffer|operand;
+//    printf("%d a\n", buffer);
+    cp_info *constantPool;
+    buffer = constantPool[buffer-1].cp_union.constant_class.name_index;
+    char* nomeClasse = constantPool[buffer].cp_union.constant_Utf8;
+    //cria objeto dessa classe
+
+//    return k += arg_qnt;
+}
+
+//void dadd(jStackFrame &jStack){
+>>>>>>> 4ae5775c31374efc6b2deface7b50b2bf9f61355
 //}
