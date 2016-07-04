@@ -152,8 +152,8 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
             break;
         case '[': // array
             fval.tag = ARRAYTYPE;
-            aval.field = new std::vector<FieldValue>();
-            aval.field->push_back(this->inicializaFval(ftype + n + 1, n+1));
+            aval.arr = new std::vector<FieldValue>();
+            aval.arr->push_back(this->inicializaFval(ftype + n + 1, n+1));
             fval.val.arrtype = aval;
             break;
     }

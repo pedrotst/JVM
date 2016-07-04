@@ -18,8 +18,10 @@ typedef union Local_var_Type_u {
 	int16_t short_value;
 	int32_t int_value;
 	int32_t long_value;//longs usam dois local_var para cada operando
-	//uint32_t long_value;//
-	InstanceClass*   reference_value;
+	//reference_type pode ser: class type(InstanceClass*), array type (ArrayType*) ou interface type
+	InstanceClass*   reference_value; 	//objectType
+	ArrayType* 		arrayref;			//arrayType
+	//InterfaceType interfaceref;		//?
 	bool  void_v;
 	//returnAddress        returnAddress_value;
 }Local_var_Type;

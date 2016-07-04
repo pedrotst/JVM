@@ -49,8 +49,9 @@ typedef struct ObjectType_s{
     InstanceClass *instance;
 }ObjectType;
 
+typedef std::vector<struct FieldValue_s> arrayref;
 typedef struct ArrayType_s{
-    std::vector<struct FieldValue_s> *field;
+     arrayref *arr;
 }ArrayType;
 
 typedef union FieldType_u{

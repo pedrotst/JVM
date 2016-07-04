@@ -369,31 +369,36 @@ int Interpretador::putfield(){
 }
 
 int Interpretador::anewarray(){
+    //constroi o index
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     index <<= 8;
     index |= this->code_corrente->code[this->frame_corrente->pc+2];
 
+    //prepara o contador do tamanho do array
     int count_operand = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
+    //prepara o operand que vai pra pilha
     Local_var operand;
     operand.tag = ARRAYTYPE;
 
-    InstanceClass *instance = new InstanceClass;
-    operand.value.reference_value = instance;
-    //instance->cf = //encontra o classfile daquela classe no vetor de classes carregadas
+    //operand é de um arrayref
+    ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
+    vetor->arr = new arrayref;
+    operand.value.arrayref = vetor;
+
     string className;//recebe o nome da classe
     cp_tag tag = this->frame_corrente->cf->constant_pool[index -1].tag;
     uint16_t name_index;
-    FieldValue field;
     switch(tag){
         case CONSTANT_Class:
             name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
             for(int i = 0; i < count_operand; i++){
+                    FieldValue field;
                     field.tag = OBJECTTYPE;
-                    field.val.objtype.instance = instance;
-                    instance->field_instances[className] = field;
+                    field.val.objtype.instance = jvm->alocarObjeto(className);
+                    vetor->arr->push_back(*field);
             }
             break;
         case CONSTANT_InterfaceMethodref:
@@ -401,7 +406,6 @@ int Interpretador::anewarray(){
 
             }
             break;
-        //case CONSTANT_Array?:
     }
     this->frame_corrente->operandStack.push_back(operand);
     return 3;
