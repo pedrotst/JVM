@@ -760,6 +760,9 @@ int Interpretador::invokespecial(){
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
     this->frame_corrente->operandStack.pop_back();
 
     method_index = cf->findMethod(method_name, descriptor);//este � o �ndice no vetor de m�todos
@@ -807,9 +810,10 @@ int Interpretador::invokevirtual(){
             exit(0);
         }
     }while(found == -1);
-    printf("encontrei o m�todo, est� na classe %s, n�mero %d", cf->getClassName().c_str(), found);
 
-/*
+    method_index = found;
+    printf("encontrei o m�todo, est� na classe %s, n�mero %d\n", cf->getClassName().c_str(), method_index);
+
     // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
@@ -819,7 +823,8 @@ int Interpretador::invokevirtual(){
     args.push_back(this->frame_corrente->operandStack.back());
     this->frame_corrente->operandStack.pop_back();
 
-    method_index = this->frame_corrente->cf->findMethod(method_name);//este � o �ndice no vetor de m�todos
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
 
     //executa este m�todo
     lvar = this->jvm->execMethod(method_index, cf, args);
@@ -926,6 +931,7 @@ int Interpretador::astore_1(){
     size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
+    cout << "astore_1: " << op.tag << endl;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[1] = op;
