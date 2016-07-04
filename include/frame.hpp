@@ -56,7 +56,6 @@ public:
        */
       int method_index;
 
-      Frame(){} //Depois esse Construtor deve ser deletado
       Frame(int method_index, ClassFile *cf);
 };
 

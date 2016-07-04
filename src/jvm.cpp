@@ -10,6 +10,7 @@ int Jvm::run(const char* arq_class_name) {
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
     Local_var main_str;
+
     args.push_back(main_str);
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
@@ -23,10 +24,10 @@ int Jvm::run(const char* arq_class_name) {
     verificador.verificaClass(classF);
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
-    main_index = classF.findMethod("main");
+    main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
     printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
-        execStaticMethod(main_index, &classF, args);
+        execMethod(main_index, &classF, args);
     }else {
         printf("O arquivo .class nao possui uma main.\n");
         exit(0);
@@ -43,13 +44,16 @@ ClassFile* Jvm::getClassRef(string className) {
     // Se a classe não for encontrada no map, o find retorna um iterador para end.
     // Ou seja, caso a classe não for encontrada.
     // Carrega a nova classe.
-    if(this->loadedClasses.find(className) == this->loadedClasses.end()) {
+
+    if(!loadedClasses.count(className)) {
+            cout << className << endl;
         if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
             printf("O arquivo .class nao pode ser aberto.\n");
             exit(0);
         }
         leitorClass_info(classF, arquivoClass);
-        this->loadedClasses[className] = classF;
+        this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
+        fclose(arquivoClass);
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {
@@ -164,13 +168,15 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-Local_var Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args) {
+Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
     Local_var lvar;
     Local_var_Type lvarval;
-
+    cout << "executar classe : "<< classF->getClassName() << " metodo #" << n << endl;
+    cout << "variaveis da pilha" << endl;
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
+        cout << "var type: " << it->tag << endl;
         frame.localVarVector.push_back(*it);
     }
     this->fStack.push_back(frame);
@@ -191,39 +197,4 @@ Local_var Jvm::execStaticMethod(int n, ClassFile *classF, vector<Local_var> args
     }
     this->fStack.pop_back();
     return lvar;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-/** execMethod é criar o ambiente para que o método possa ser executado:
- * inicializa as informações no frame;
- * encontra e prepara method para execução;
- * encontra o índice do descritor do metodo.
- *
- */
-
-InstanceClass* Jvm::execVirtualMethod(int n, ClassFile *classF) {
-    uint16_t descriptor_index;
-    Frame frame(n, classF);
-    InstanceClass *inst;
-    Local_var lvar;
-    Local_var_Type lvarval;
-
-    /** Insere o this no localVarVector caso método não seja estático*/
-    inst = this->alocarObjeto(classF->getClassName());
-    //insere a instancia na heap para não se perder a referencia
-    //note que a heap é só um monte de objetos largados soltos e perdidos
-    heap.push_back(inst);
-    lvar.tag = OBJECTTYPE;
-    lvarval.reference_value = inst;
-    lvar.value = lvarval;
-    frame.localVarVector.push_back(lvar);
-
-    this->fStack.push_back(frame);
-    printf("Criei um frame\n");
-
-    Interpretador interpreter(this);
-    interpreter.runCode(&frame);
-
-    this->fStack.pop_back();
-    return inst;
 }

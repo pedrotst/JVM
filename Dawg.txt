@@ -1,0 +1,51 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 51
+Constant Pool Count: 13
+Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
+This Class: 2 	<Dawg>
+Super Class: 3 <Animal>
+Interface count: 0
+Fields count: 0
+Methods count: 1
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#3.#10		 // Animal.<init>:(I)V
+#2 = Class		#11		 // Dawg
+#3 = Class		#12		 // Animal
+#4 = Utf8		<init>
+#5 = Utf8		(I)V
+#6 = Utf8		Code
+#7 = Utf8		LineNumberTable
+#8 = Utf8		SourceFile
+#9 = Utf8		Dawg.java
+#10 = NameAndType	#4.#5		<init>:(I)V
+#11 = Utf8		Dawg
+#12 = Utf8		Animal
+
+
+Fields: 
+Methods_count: 1
+Methods: 
+Method: 1
+Name: #4<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (I)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 34
+	 Max Stack: 2, 	 Max Locals: 2, 	 Code Length: 6
+	0:	ALOAD_0	
+	0x1:	ILOAD_1	
+	0x2:	INVOKESPECIAL	 #1 	 //  Animal.<init>:(I)V
+	0x5:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #8
+attribute_length: 2
+Sourcefile_index: #9		//D.java

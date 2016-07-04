@@ -89,8 +89,7 @@ class Jvm{
         // Em andamento
         //
         // Cria o frame
-        Local_var execStaticMethod(int main_index, ClassFile *classF, vector<Local_var> args);
-        InstanceClass* execVirtualMethod(int main_index, ClassFile *classF);
+        Local_var execMethod(int main_index, ClassFile *classF, vector<Local_var> args);
 
         int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
 

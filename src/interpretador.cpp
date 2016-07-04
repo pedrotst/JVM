@@ -13,7 +13,7 @@ int Interpretador::execute_instruction(int opcode){
 
 int Interpretador::runCode(Frame *frame_pt) {
     int n = frame_pt->method_index;
-    //Agora o interpretador sabe sobre o code e sobre o frame. FIM 8D
+
     this->frame_corrente = frame_pt;
     this->code_corrente = frame_pt->cf->getCodeAttr(n);
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
@@ -209,8 +209,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[PUTSTATIC] = &putstatic;
 //    pt[GETFIELD] = &getfield;
     pt[PUTFIELD] = &Interpretador::putfield;
-//    pt[INvOKEvIRTUAL] = &invokevirtual;
-    pt[INvOKESPECIAL] = &Interpretador::invokespecial;
+    pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
+    pt[INVOKESPECIAL] = &Interpretador::invokespecial;
 //    pt[INvOKESTATIC] = &invokestatic;
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
@@ -353,9 +353,9 @@ int Interpretador::putfield(){
 
     if(field_type.compare("I") == 0){
         FieldValue fvar;
-        this_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop the value
         lvar = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop the value
+        this_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop this
 
         //converte local var para fvar
@@ -741,12 +741,15 @@ int Interpretador::invokespecial(){
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
     this->frame_corrente->operandStack.pop_back();
 
-    method_index = this->frame_corrente->cf->findMethod(method_name);//este é o índice no vetor de métodos
+    method_index = cf->findMethod(method_name, descriptor);//este é o índice no vetor de métodos
 
     //executa este método
-    lvar = this->jvm->execStaticMethod(method_index, cf, args);
+    lvar = this->jvm->execMethod(method_index, cf, args);
 
     // bota o retorno na operand stack se não tiver retornado void
     if(lvar.tag != VOID_T)
@@ -755,6 +758,66 @@ int Interpretador::invokespecial(){
     //e fim
     return 3;
 }
+
+
+int Interpretador::invokevirtual(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este é o indice na constant pool
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+    printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+
+
+    cf = this->jvm->getClassRef(invoking_class);
+    //precisamos encontrar em qual classF este método foi declarado
+    super_name = cf->getClassName(); // começa loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        cout << "super name: "<< super_name << endl;
+        if(super_name.empty()){// se não possuir super, então o método não existe
+            printf("Método passado não existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+    method_index = found;
+    printf("encontrei o método, está na classe %s, número %d\n", cf->getClassName().c_str(), method_index);
+
+
+    // pega os argumentos da pilha
+    for (int i=1; i < descriptor.find(")"); i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+    }
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.pop_back();
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+    //executa este método
+    lvar = this->jvm->execMethod(method_index, cf, args);
+
+    // bota o retorno na operand stack se não tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim*/
+    return 3;
+}
+
 
 int Interpretador::return_op(){
     return 1;
@@ -849,6 +912,7 @@ int Interpretador::astore_1(){
     size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
+    cout << "astore_1: " << op.tag << endl;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[1] = op;

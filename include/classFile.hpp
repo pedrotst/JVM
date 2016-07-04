@@ -87,7 +87,14 @@ public:
 	*   \return Se o método for encontrada, retorna o index do método na classe.
     *   Se o método não for encontrada, retorna -1.
 	*/
-	int findMethod(string method);
+	int findMethod(string method_name, string descriptor);
+
+
+	/**
+	*   \return retorna o nome da superclasse
+    *   se for o object retorna string vazia
+	*/
+	string getSuper();
 
 	/** \brief Resolve uma referência para um nome presente na constant_pool.
 	*
