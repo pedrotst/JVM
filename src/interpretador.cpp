@@ -683,26 +683,30 @@ int Interpretador::dup(){
     return 1;//opcode lido
 }
 int Interpretador::dup_x1(){
-    //this->frame_corrente->operandStack.insert();
+    vector<Local_var>::iterator it = this->frame_corrente->operandStack.end();
+    this->frame_corrente->operandStack.insert(it-2, this->frame_corrente->operandStack.back());
 }
 int Interpretador::dup_x2(){
-    //this->frame_corrente->operandStack.insert();
+     vector<Local_var>::iterator it = this->frame_corrente->operandStack.end();
+    this->frame_corrente->operandStack.insert(it-3, this->frame_corrente->operandStack.back());
 }
 
 int Interpretador::dup2(){
     vector<Local_var> *opStack = &this->frame_corrente->operandStack;
     //value2, value1 ->
-    opStack->push_back( opStack->at(opStack->size()-2) );//value2, value1, value2 ->
+    opStack->push_back( opStack->at(opStack->size()-2) );//value1, value2, value1 ->
     opStack->push_back( opStack->at(opStack->size()-2) );//value2, value1, value2, value1 ->
     return 1;//opcode lido
 }
 int Interpretador::dup2_x1(){
-//    this->frame_corrente->operandStack.insert();
-//    this->frame_corrente->operandStack.insert();
+    vector<Local_var>::iterator it = this->frame_corrente->operandStack.end();
+    this->frame_corrente->operandStack.insert(it-3, this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.insert(it-3, this->frame_corrente->operandStack.at(this->frame_corrente->operandStack.size()-2));
 }
 int Interpretador::dup2_x2(){
-//    this->frame_corrente->operandStack.insert();
-//    this->frame_corrente->operandStack.insert();
+vector<Local_var>::iterator it = this->frame_corrente->operandStack.end();
+    this->frame_corrente->operandStack.insert(it-4, this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.insert(it-5, this->frame_corrente->operandStack.at(this->frame_corrente->operandStack.size()-2));
 }
 
 int Interpretador::swap_op(){}
