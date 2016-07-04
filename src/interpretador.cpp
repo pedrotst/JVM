@@ -811,13 +811,13 @@ int Interpretador::invokevirtual(){
         super_name = cf->getSuper();
         cout << "super name: "<< super_name << endl;
         if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
-            printf("M�todo passado n�o existe\n");
+            printf("Metodo passado nao existe\n");
             exit(0);
         }
     }while(found == -1);
 
     method_index = found;
-    printf("encontrei o m�todo, est� na classe %s, n�mero %d\n", cf->getClassName().c_str(), method_index);
+    printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
 
     // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){
