@@ -173,8 +173,10 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Frame frame(n, classF);
     Local_var lvar;
     Local_var_Type lvarval;
-
+    cout << "executar classe : "<< classF->getClassName() << " metodo #" << n << endl;
+    cout << "variaveis da pilha" << endl;
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
+        cout << "var type: " << it->tag << endl;
         frame.localVarVector.push_back(*it);
     }
     this->fStack.push_back(frame);

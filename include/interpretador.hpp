@@ -5,6 +5,7 @@
 //#include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <algorithm>
 
 #define numOpcodes 250
 #include "../include/frame.hpp"
@@ -12,6 +13,7 @@
 #include "../include/jvm.hpp"
 #include "../include/structs.hpp"
 #include "../include/classFile.hpp"
+
 
 // Somente uma declaração, para poder compilar.
 class Jvm;
