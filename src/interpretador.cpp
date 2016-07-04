@@ -236,6 +236,11 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IMPDEP2] = &impdep2;
     this->instructions = pt;
 }
+
+int Interpretador::nop(){
+    return 1;
+}
+
 int Interpretador::aconst_null(){
     Local_var operand;
     operand.tag = OBJECTTYPE;
@@ -244,77 +249,55 @@ int Interpretador::aconst_null(){
     return 1;
 }
 
-int Interpretador::nop(){
+int Interpretador::iconst_m1(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = -1;
+    this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
-
-int Interpretador::sipush(){
-    Local_var operand;
-    operand.tag = CURTO;
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand.value.int_value <<= 8;
-    operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
-    return 3;
+int Interpretador::iconst_0(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 0;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
-
-int Interpretador::bipush(){
-    Local_var operand;
-    operand.tag = BYTE;//quest�es conceituais aqui
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+int Interpretador::iconst_1(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 1;
+    this->frame_corrente->operandStack.push_back(op);
+    printf("joguei o 1 no opstack\n");
+    return 1;
 }
-
-int Interpretador::dload(){
-    Local_var operand[2];
-    operand[0].tag = DUPLO;
-    operand[1].tag = DUPLO;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index-1];
-    operand[1] = this->frame_corrente->localVarVector[index];
-    this->frame_corrente->operandStack.push_back(operand[1]);
-    this->frame_corrente->operandStack.push_back(operand[0]);
-    return 2;
+int Interpretador::iconst_2(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 2;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
-
-int Interpretador::fload(){
-    Local_var operand;
-    operand.tag = PFLUTUANTE;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+int Interpretador::iconst_3(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 3;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
-
-int Interpretador::iload(){
-    Local_var operand;
-    operand.tag = INT;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+int Interpretador::iconst_4(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 4;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
-
-int Interpretador::lload(){
-    Local_var operand[2];
-    operand[0].tag = LONGO;
-    operand[1].tag = LONGO;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index-1];
-    operand[1] = this->frame_corrente->localVarVector[index];
-    this->frame_corrente->operandStack.push_back(operand[1]);
-    this->frame_corrente->operandStack.push_back(operand[0]);
-    return 2;
-
-}
-
-int Interpretador::aload(){
-    Local_var operand;
-    operand.tag = OBJECTTYPE;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+int Interpretador::iconst_5(){
+    Local_var op;
+    op.tag = INT;
+    op.value.int_value = 5;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
 }
 
 int Interpretador::lconst_0(){
@@ -339,307 +322,29 @@ int Interpretador::lconst_1(){
     return 1;
 }
 
-int Interpretador::putfield(){
-    uint32_t lhs;
-    Local_var op;
-    uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
-    printf("entrou na funcao putfield\n");
-    string field_name, field_type;
-    Local_var lvar, this_var;
 
-    name_index = name_index << 8;
-    name_index |= code_corrente->code[frame_corrente->pc+2];
-    field_name = frame_corrente->cf->getFieldName(name_index);
-    field_type = frame_corrente->cf->getFieldType(name_index);
-    printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+//int Interpretador::fconst_0(){}
+//int Interpretador::fconst_1(){}
+//int Interpretador::fconst_2(){}
 
-    if(field_type.compare("I") == 0){
-        FieldValue fvar;
-        lvar = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop the value
-        this_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
+//int Interpretador::dconst_0(){}
+//int Interpretador::dconst_1(){}
 
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = INT;
-        fvar.val.btype.val.inteiro = lvar.value.int_value;
-        this_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", lvar.value.int_value);
-    }
-    return 3;
-}
-
-int Interpretador::anewarray(){
-    //constroi o index
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    index <<= 8;
-    index |= this->code_corrente->code[this->frame_corrente->pc+2];
-
-    //prepara o contador do tamanho do array
-    int count_operand = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    //prepara o operand que vai pra pilha
+int Interpretador::bipush(){
     Local_var operand;
-    operand.tag = ARRAYTYPE;
-
-    //operand � de um arrayref
-    ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
-    vetor->arr = new arrayref;
-    operand.value.arrayref = vetor;
-
-    string className;//recebe o nome da classe
-    cp_tag tag = this->frame_corrente->cf->constant_pool[index -1].tag;
-    uint16_t name_index;
-    switch(tag){
-        case CONSTANT_Class:
-            name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
-            className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
-            //cada item no vetor � a inst�ncia de um objeto
-            for(int i = 0; i < count_operand; i++){
-                    FieldValue field;
-                    field.tag = OBJECTTYPE;
-                    field.val.objtype.instance = jvm->alocarObjeto(className);
-                    vetor->arr->push_back(field);
-            }
-            break;
-        case CONSTANT_InterfaceMethodref:
-            for(int i = 0; i < count_operand; i++){
-
-            }
-            break;
-    }
+    operand.tag = BYTE;//quest�es conceituais aqui
+    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     this->frame_corrente->operandStack.push_back(operand);
+    return 2;
+}
+
+int Interpretador::sipush(){
+    Local_var operand;
+    operand.tag = CURTO;
+    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand.value.int_value <<= 8;
+    operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
     return 3;
-}
-
-// Não foi testada. Não está implementada, porém acho que deve ser uma das últimas.
-// Ela pode chamar diversos códigos para tratar erros. Tudo tem que estar implementado
-// para ela funcionar.
-int Interpretador::athrow() {
-      return 1;
-}
-
-// Não foi testada
-int Interpretador::monitorenter() {
-      return 1;
-}
-
-// Não foi testada
-int Interpretador::monitorexit() {
-      return 1;
-}
-
-int Interpretador::idiv(){
-    uint32_t lhs, rhs;
-    Local_var op;
-    Local_var_Type op_v;
-    printf("Entrou na funcao iadd\n");
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
-    this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs / rhs;
-    op.value = op_v;
-    op.tag = INT;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-
-int Interpretador::ldiv(){
-    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operacao
-    // ..., result            //indica que o resultado vai pro topo da pilha
-    Local_var result[2];
-    uint64_t lhs, rhs, resultado;
-    uint32_t *alocador;
-    result[0].tag = LONGO;
-    result[1].tag = LONGO;
-    printf("Entrou na ladd\n");
-    //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    rhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
-    lhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    resultado = lhs / rhs;
-    alocador = (uint32_t*) result;
-
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[1]);
-    this->frame_corrente->operandStack.push_back(result[0]);
-    return 1;
-}
-
-int Interpretador::lmul(){
-    //..., value1, value2 ->  //indica que value2 est� no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da opera��o
-    // ..., result            //indica que o resultado vai pro topo da pilha
-    Local_var result[2];
-    uint64_t lhs, rhs, resultado;
-    uint32_t *alocador;
-    result[0].tag = LONGO;
-    result[1].tag = LONGO;
-    printf("Entrou na ladd\n");
-    //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    rhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
-    lhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    resultado = lhs * rhs;
-    alocador = (uint32_t*) result;
-
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[1]);
-    this->frame_corrente->operandStack.push_back(result[0]);
-    return 1;
-}
-
-int Interpretador::imul(){
-    uint32_t lhs, rhs;
-    Local_var op;
-    Local_var_Type op_v;
-    printf("Entrou na funcao iadd\n");
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
-    this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs * rhs;
-    op.value = op_v;
-    op.tag = INT;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-
-int Interpretador::isub(){
-
-    uint32_t lhs, rhs;
-    Local_var op;
-    Local_var_Type op_v;
-    printf("Entrou na funcao iadd\n");
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
-    this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs - rhs;
-    op.value = op_v;
-    op.tag = INT;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-
-int Interpretador::lsub(){
-    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operacao
-    // ..., result            //indica que o resultado vai pro topo da pilha
-    Local_var result[2];
-    uint64_t lhs, rhs, resultado;
-    uint32_t *alocador;
-    result[0].tag = LONGO;
-    result[1].tag = LONGO;
-    printf("Entrou na ladd\n");
-    //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    rhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
-    lhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    resultado = lhs - rhs;
-    alocador = (uint32_t*) result;
-
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[1]);
-    this->frame_corrente->operandStack.push_back(result[0]);
-    return 1;
-}
-
-int Interpretador::iadd(){
-
-    uint32_t lhs, rhs;
-    Local_var op;
-    Local_var_Type op_v;
-    printf("Entrou na funcao iadd\n");
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
-    this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs + rhs;
-    op.value = op_v;
-    op.tag = INT;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-
-
-int Interpretador::ladd(){
-    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operacao
-    // ..., result            //indica que o resultado vai pro topo da pilha
-    Local_var result[2];
-    uint64_t lhs, rhs, resultado;
-    uint32_t *alocador;
-    result[0].tag = LONGO;
-    result[1].tag = LONGO;
-    printf("Entrou na ladd\n");
-    //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    rhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
-    lhs = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    resultado = lhs + rhs;
-    alocador = (uint32_t*) result;
-
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[1]);
-    this->frame_corrente->operandStack.push_back(result[0]);
-    return 1;
 }
 
 int Interpretador::ldc(){
@@ -711,142 +416,88 @@ int Interpretador::ldc(){
     return 2;//opcode e byte seguinde lidos
 }
 
-int Interpretador::dup(){
-    printf("Entrei na dup\n");
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
-    return 1;//opcode lido
+//int Interpretador::ldc_w(){}
+//int Interpretador::ldc2_w(){}
+
+int Interpretador::iload(){
+    Local_var operand;
+    operand.tag = INT;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
 }
 
+int Interpretador::lload(){
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[1].tag = LONGO;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand[0] = this->frame_corrente->localVarVector[index-1];
+    operand[1] = this->frame_corrente->localVarVector[index];
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 2;
 
-//void Interpretador::new_op(op_stack *opStack){
-int Interpretador::new_op(){
-    printf("Cheguei na new\n");
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instru��o; pc+1 � o byte seguinte
-    uint16_t name_index = operand;
-    std::string className;
-    Local_var op;
-    Local_var_Type op_val;
-
-    name_index = name_index << 8;
-    operand = code_corrente->code[frame_corrente->pc+2];
-    name_index = name_index|operand;
-    printf("new #%d\n", name_index);
-    className = this->frame_corrente->cf->getCpoolClass(name_index);
-
-    printf("nome da classe: %s\n", className.c_str());
-    op.tag = OBJECTTYPE;
-    op_val.reference_value = jvm->alocarObjeto(className);
-    op.value = op_val;
-    frame_corrente->operandStack.push_back(op);
-    printf("Sai da new\n");
-    return 3; //dois bytes lidos + o opcode
 }
 
-int Interpretador::invokespecial(){
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
-    uint16_t method_index = operand;
-    string invoking_class, method_name, descriptor, argtypes;
-    ClassFile* cf;
-    vector<Local_var> args;
-    InstanceClass *inst;
-    Local_var lvar;
-
-    method_index = method_index << 8;
-    operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este � o indice na constant pool
-    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-    printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
-    cf = this->jvm->getClassRef(invoking_class);
-
-    // pega os argumentos da pilha
-    for (int i=1; i < descriptor.find(")"); i++){
-        args.push_back(this->frame_corrente->operandStack.back());
-        this->frame_corrente->operandStack.pop_back();
-    }
-    // pega a referencia ao objeto da pilha
-    args.push_back(this->frame_corrente->operandStack.back());
-
-    //o vetor ficou invertido, o this tem que ser o primeiro argumento
-    reverse(args.begin(), args.end());
-    this->frame_corrente->operandStack.pop_back();
-
-    method_index = cf->findMethod(method_name, descriptor);//este � o �ndice no vetor de m�todos
-
-    //executa este m�todo
-    lvar = this->jvm->execMethod(method_index, cf, args);
-
-    // bota o retorno na operand stack se n�o tiver retornado void
-    if(lvar.tag != VOID_T)
-        this->frame_corrente->operandStack.push_back(lvar);
-
-    //e fim
-    return 3;
+int Interpretador::fload(){
+    Local_var operand;
+    operand.tag = PFLUTUANTE;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
 }
 
-
-int Interpretador::invokevirtual(){
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
-    uint16_t method_index = operand;
-    string invoking_class, method_name, descriptor, argtypes, super_name;
-    ClassFile* cf;
-    vector<Local_var> args;
-    InstanceClass *inst;
-    Local_var lvar;
-    int found = -1;
-
-    method_index = method_index << 8;
-    operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este � o indice na constant pool
-    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-    printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
-
-
-    cf = this->jvm->getClassRef(invoking_class);
-    //precisamos encontrar em qual classF este m�todo foi declarado
-    super_name = cf->getClassName(); // come�a loop na classe invocadora
-    do{
-        cf = this->jvm->getClassRef(super_name);
-
-        found = cf->findMethod(method_name, descriptor);
-        super_name = cf->getSuper();
-        cout << "super name: "<< super_name << endl;
-        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
-            printf("Metodo passado nao existe\n");
-            exit(0);
-        }
-    }while(found == -1);
-
-    method_index = found;
-    printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
-
-    // pega os argumentos da pilha
-    for (int i=1; i < descriptor.find(")"); i++){
-        args.push_back(this->frame_corrente->operandStack.back());
-        this->frame_corrente->operandStack.pop_back();
-    }
-    // pega a referencia ao objeto da pilha
-    args.push_back(this->frame_corrente->operandStack.back());
-    this->frame_corrente->operandStack.pop_back();
-
-    //o vetor ficou invertido, o this tem que ser o primeiro argumento
-    reverse(args.begin(), args.end());
-
-    //executa este m�todo
-    lvar = this->jvm->execMethod(method_index, cf, args);
-
-    // bota o retorno na operand stack se n�o tiver retornado void
-    if(lvar.tag != VOID_T)
-        this->frame_corrente->operandStack.push_back(lvar);
-
-    //e fim*/
-    return 3;
+int Interpretador::dload(){
+    Local_var operand[2];
+    operand[0].tag = DUPLO;
+    operand[1].tag = DUPLO;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand[0] = this->frame_corrente->localVarVector[index-1];
+    operand[1] = this->frame_corrente->localVarVector[index];
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    return 2;
 }
 
-
-int Interpretador::return_op(){
-    return 1;
+int Interpretador::aload(){
+    Local_var operand;
+    operand.tag = OBJECTTYPE;
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand = this->frame_corrente->localVarVector[index-1];
+    this->frame_corrente->operandStack.push_back(operand);
+    return 2;
 }
 
+int Interpretador::iload_0(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+}
+int Interpretador::iload_1(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+}
+int Interpretador::iload_2(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+}
+int Interpretador::iload_3(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+}
+
+int Interpretador::lload_0(){}
+int Interpretador::lload_1(){}
+int Interpretador::lload_2(){}
+int Interpretador::lload_3(){}
+
+int Interpretador::fload_0(){}
+int Interpretador::fload_1(){}
+int Interpretador::fload_2(){}
+int Interpretador::fload_3(){}
+
+int Interpretador::dload_0(){}
+int Interpretador::dload_1(){}
+int Interpretador::dload_2(){}
+int Interpretador::dload_3(){}
 
 int Interpretador::aload_0(){
     printf("xload_0\n");
@@ -869,57 +520,40 @@ int Interpretador::aload_3(){
     return 1;
 }
 
+int Interpretador::iaload(){}
+int Interpretador::laload(){}
+int Interpretador::faload(){}
+int Interpretador::daload(){}
+int Interpretador::aaload(){}
+int Interpretador::baload(){}
+int Interpretador::caload(){}
+int Interpretador::saload(){}
 
-int Interpretador::iconst_m1(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = -1;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-int Interpretador::iconst_0(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 0;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-int Interpretador::iconst_1(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 1;
-    this->frame_corrente->operandStack.push_back(op);
-    printf("joguei o 1 no opstack\n");
-    return 1;
-}
-int Interpretador::iconst_2(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 2;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-int Interpretador::iconst_3(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 3;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-int Interpretador::iconst_4(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 4;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
-int Interpretador::iconst_5(){
-    Local_var op;
-    op.tag = INT;
-    op.value.int_value = 5;
-    this->frame_corrente->operandStack.push_back(op);
-    return 1;
-}
+int Interpretador::istore(){}
+int Interpretador::lstore(){}
+int Interpretador::fstore(){}
+int Interpretador::dstore(){}
+int Interpretador::astore(){}
+
+int Interpretador::istore_0();
+int Interpretador::istore_1();
+int Interpretador::istore_2();
+int Interpretador::istore_3();
+
+int Interpretador::lstore_0();
+int Interpretador::lstore_1();
+int Interpretador::lstore_2();
+int Interpretador::lstore_3();
+
+int Interpretador::fstore_0();
+int Interpretador::fstore_1();
+int Interpretador::fstore_2();
+int Interpretador::fstore_3();
+
+int Interpretador::dstore_0();
+int Interpretador::dstore_1();
+int Interpretador::dstore_2();
+int Interpretador::dstore_3();
 
 int Interpretador::astore_0(){
     Local_var op;
@@ -963,12 +597,306 @@ int Interpretador::astore_3(){
     return 1;
 }
 
-//
-//void fadd(jStackFrame &jStack){
-//}
-//
-//void dadd(jStackFrame &jStack){
-//}
+int Interpretador::iastore(){}
+int Interpretador::lastore(){}
+int Interpretador::fastore(){}
+int Interpretador::dastore(){}
+int Interpretador::aastore(){}
+int Interpretador::bastore(){}
+int Interpretador::castore(){}
+int Interpretador::sastore(){}
+
+int pop();
+int pop2();
+
+int dup();
+int dup_x1();
+int dup_x2();
+
+int dup2();
+int dup2_x1();
+int dup2_x2();
+
+int swap_op();
+
+int Interpretador::iadd(){
+
+    uint32_t lhs, rhs;
+    Local_var op;
+    Local_var_Type op_v;
+    printf("Entrou na funcao iadd\n");
+    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    this->frame_corrente->operandStack.pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    op_v.int_value = lhs + rhs;
+    op.value = op_v;
+    op.tag = INT;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+
+int Interpretador::ladd(){
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
+    // ..., result            //indica que o resultado vai pro topo da pilha
+    Local_var result[2];
+    uint64_t lhs, rhs, resultado;
+    uint32_t *alocador;
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    //le value2 == rhs
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    rhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //le value 1 == lhs
+    alocador = (uint32_t*) lhs;
+    lhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    resultado = lhs + rhs;
+    alocador = (uint32_t*) result;
+
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+    return 1;
+}
+
+int Interpretador::fadd(){}
+int Interpretador::dadd(){}
+
+int Interpretador::isub(){
+
+    uint32_t lhs, rhs;
+    Local_var op;
+    Local_var_Type op_v;
+    printf("Entrou na funcao iadd\n");
+    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    this->frame_corrente->operandStack.pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    op_v.int_value = lhs - rhs;
+    op.value = op_v;
+    op.tag = INT;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+
+int Interpretador::lsub(){
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
+    // ..., result            //indica que o resultado vai pro topo da pilha
+    Local_var result[2];
+    uint64_t lhs, rhs, resultado;
+    uint32_t *alocador;
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    //le value2 == rhs
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    rhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //le value 1 == lhs
+    alocador = (uint32_t*) lhs;
+    lhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    resultado = lhs - rhs;
+    alocador = (uint32_t*) result;
+
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+    return 1;
+}
+
+int Interpretador::fsub(){}
+int Interpretador::dsub(){}
+
+int Interpretador::imul(){
+    uint32_t lhs, rhs;
+    Local_var op;
+    Local_var_Type op_v;
+    printf("Entrou na funcao iadd\n");
+    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    this->frame_corrente->operandStack.pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    op_v.int_value = lhs * rhs;
+    op.value = op_v;
+    op.tag = INT;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+
+int Interpretador::lmul(){
+    //..., value1, value2 ->  //indica que value2 est� no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da opera��o
+    // ..., result            //indica que o resultado vai pro topo da pilha
+    Local_var result[2];
+    uint64_t lhs, rhs, resultado;
+    uint32_t *alocador;
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    //le value2 == rhs
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    rhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //le value 1 == lhs
+    alocador = (uint32_t*) lhs;
+    lhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    resultado = lhs * rhs;
+    alocador = (uint32_t*) result;
+
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+    return 1;
+}
+
+int Interpretador::fmul(){}
+int Interpretador::dmul(){}
+
+int Interpretador::idiv(){
+    uint32_t lhs, rhs;
+    Local_var op;
+    Local_var_Type op_v;
+    printf("Entrou na funcao iadd\n");
+    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    this->frame_corrente->operandStack.pop_back();
+    lhs = frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    printf("lhs: %d rhs: %d\n", lhs, rhs);
+    op_v.int_value = lhs / rhs;
+    op.value = op_v;
+    op.tag = INT;
+    this->frame_corrente->operandStack.push_back(op);
+    return 1;
+}
+
+int Interpretador::ldiv(){
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
+    // ..., result            //indica que o resultado vai pro topo da pilha
+    Local_var result[2];
+    uint64_t lhs, rhs, resultado;
+    uint32_t *alocador;
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    printf("Entrou na ladd\n");
+    //le value2 == rhs
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    rhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //le value 1 == lhs
+    alocador = (uint32_t*) lhs;
+    lhs = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    resultado = lhs / rhs;
+    alocador = (uint32_t*) result;
+
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+    return 1;
+}
+
+int Interpretador::fdiv(){}
+int Interpretador::ddiv(){}
+
+int Interpretador::irem(){}
+int Interpretador::lrem(){}
+int Interpretador::frem(){}
+int Interpretador::drem(){}
+
+int Interpretador::ineg(){}
+int Interpretador::lneg(){}
+int Interpretador::fneg(){}
+int Interpretador::dneg(){}
+
+int Interpretador::ishl(){}
+int Interpretador::lshl(){}
+
+int Interpretador::ishr(){}
+int Interpretador::lshr(){}
+
+int Interpretador::iushl(){}
+int Interpretador::lushl(){}
+
+int Interpretador::iand(){}
+int Interpretador::land(){}
+
+int Interpretador::ior(){}
+int Interpretador::lor(){}
+
+int Interpretador::ixor(){}
+int Interpretador::lxor(){}
+
+int Interpretador::iinc(){}
+
+int Interpretador::i2l(){}
+int Interpretador::i2f(){}
+int Interpretador::i2d(){}
+
+int Interpretador::l2i(){}
+int Interpretador::l2f(){}
+int Interpretador::l2d(){}
+
+int Interpretador::f2i(){}
+int Interpretador::f2l(){}
+int Interpretador::f2d(){}
+
+int Interpretador::d2i(){}
+int Interpretador::d2l(){}
+int Interpretador::d2f(){}
+
+int Interpretador::i2b(){}
+int Interpretador::i2c(){}
+int Interpretador::i2s(){}
+
+int Interpretador::lcmp(){}
+int Interpretador::fcmpl(){}
+int Interpretador::fcmpg(){}
+
+int Interpretador::dcmpl(){}
+int Interpretador::dcmpg(){}
 
 ////////////////////////// Conditional Branch //////////////////////////
 // Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
@@ -1375,3 +1303,245 @@ int Interpretador::jsr_w() {
 
 ////////////////////////// Compound Conditional Branch //////////////////////////
 // Compound conditional branch: tableswitch, lookupswitch.
+
+
+int Interpretador::putfield(){
+    uint32_t lhs;
+    Local_var op;
+    uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
+    printf("entrou na funcao putfield\n");
+    string field_name, field_type;
+    Local_var lvar, this_var;
+
+    name_index = name_index << 8;
+    name_index |= code_corrente->code[frame_corrente->pc+2];
+    field_name = frame_corrente->cf->getFieldName(name_index);
+    field_type = frame_corrente->cf->getFieldType(name_index);
+    printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+
+    if(field_type.compare("I") == 0){
+        FieldValue fvar;
+        lvar = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop the value
+        this_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = INT;
+        fvar.val.btype.val.inteiro = lvar.value.int_value;
+        this_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %d\n", lvar.value.int_value);
+    }
+    return 3;
+}
+
+int Interpretador::anewarray(){
+    //constroi o index
+    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    //prepara o contador do tamanho do array
+    int count_operand = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //prepara o operand que vai pra pilha
+    Local_var operand;
+    operand.tag = ARRAYTYPE;
+
+    //operand � de um arrayref
+    ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
+    vetor->arr = new arrayref;
+    operand.value.arrayref = vetor;
+
+    string className;//recebe o nome da classe
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index -1].tag;
+    uint16_t name_index;
+    switch(tag){
+        case CONSTANT_Class:
+            name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
+            className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
+            //cada item no vetor � a inst�ncia de um objeto
+            for(int i = 0; i < count_operand; i++){
+                    FieldValue field;
+                    field.tag = OBJECTTYPE;
+                    field.val.objtype.instance = jvm->alocarObjeto(className);
+                    vetor->arr->push_back(field);
+            }
+            break;
+        case CONSTANT_InterfaceMethodref:
+            for(int i = 0; i < count_operand; i++){
+
+            }
+            break;
+    }
+    this->frame_corrente->operandStack.push_back(operand);
+    return 3;
+}
+
+// Não foi testada. Não está implementada, porém acho que deve ser uma das últimas.
+// Ela pode chamar diversos códigos para tratar erros. Tudo tem que estar implementado
+// para ela funcionar.
+int Interpretador::athrow() {
+      return 1;
+}
+
+// Não foi testada
+int Interpretador::monitorenter() {
+      return 1;
+}
+
+// Não foi testada
+int Interpretador::monitorexit() {
+      return 1;
+}
+
+
+
+int Interpretador::dup(){
+    printf("Entrei na dup\n");
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
+    return 1;//opcode lido
+}
+
+int Interpretador::new_op(){
+    printf("Cheguei na new\n");
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instru��o; pc+1 � o byte seguinte
+    uint16_t name_index = operand;
+    std::string className;
+    Local_var op;
+    Local_var_Type op_val;
+
+    name_index = name_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    name_index = name_index|operand;
+    printf("new #%d\n", name_index);
+    className = this->frame_corrente->cf->getCpoolClass(name_index);
+
+    printf("nome da classe: %s\n", className.c_str());
+    op.tag = OBJECTTYPE;
+    op_val.reference_value = jvm->alocarObjeto(className);
+    op.value = op_val;
+    frame_corrente->operandStack.push_back(op);
+    printf("Sai da new\n");
+    return 3; //dois bytes lidos + o opcode
+}
+
+int Interpretador::invokespecial(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes;
+    ClassFile* cf;
+    vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+    printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+    cf = this->jvm->getClassRef(invoking_class);
+
+    // pega os argumentos da pilha
+    for (int i=1; i < descriptor.find(")"); i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+    }
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+    this->frame_corrente->operandStack.pop_back();
+
+    method_index = cf->findMethod(method_name, descriptor);//este � o �ndice no vetor de m�todos
+
+    //executa este m�todo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+
+    // bota o retorno na operand stack se n�o tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim
+    return 3;
+}
+
+
+int Interpretador::invokevirtual(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+    printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+
+
+    cf = this->jvm->getClassRef(invoking_class);
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        cout << "super name: "<< super_name << endl;
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+
+    // pega os argumentos da pilha
+    for (int i=1; i < descriptor.find(")"); i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+    }
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.pop_back();
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+    //executa este m�todo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+
+    // bota o retorno na operand stack se n�o tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim*/
+    return 3;
+}
+
+
+int Interpretador::return_op(){
+    return 1;
+}
+
+
+
+
+
+
+//
+//void fadd(jStackFrame &jStack){
+//}
+//
+//void dadd(jStackFrame &jStack){
+//}
+

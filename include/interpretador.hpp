@@ -61,43 +61,7 @@ class Interpretador{
         int nop();
         int aconst_null();
 
-        int iadd();
-		int ladd();
-
-		int isub();
-		int lsub();
-
-		int imul();
-		int lmul();
-
-		int idiv();
-		int ldiv();
-
-		int anewarray();
-
-		int iload();
-		int lload();
-		int fload();
-		int dload();
-        int aload();
-
-		int return_op();
-		int new_op();
-
-		int aload_0();
-		int aload_1();
-		int aload_2();
-		int aload_3();
-
-		int putfield();
-		int iconst_m1();
-
-		int astore_0();
-		int astore_1();
-		int astore_2();
-		int astore_3();
-
-		int iconst_0();
+        int iconst_0();
 		int iconst_1();
 		int iconst_2();
 		int iconst_3();
@@ -107,40 +71,232 @@ class Interpretador{
         int lconst_0();
         int lconst_1();
 
+        //int fconst_0();
+        //int fconst_1();
+        //int fconst_2();
+
+        //int dconst_0();
+        //int dconst_1();
+
         int bipush();
         int sipush();
 
+        int ldc();
+        //int ldc_w();
+        //int ldc2_w();
+
+        int iload();
+		int lload();
+		int fload();
+		int dload();
+        int aload();
+
+        int iload_0();
+        int iload_1();
+        int iload_2();
+        int iload_3();
+
+        int lload_0();
+        int lload_1();
+        int lload_2();
+        int lload_3();
+
+        int fload_0();
+        int fload_1();
+        int fload_2();
+        int fload_3();
+
+        int dload_0();
+        int dload_1();
+        int dload_2();
+        int dload_3();
+
+        int aload_0();
+		int aload_1();
+		int aload_2();
+		int aload_3();
+
+		int iaload();
+		int laload();
+		int faload();
+		int daload();
+		int aaload();
+		int baload();
+		int caload();
+		int saload();
+
+		int istore();
+		int lstore();
+		int fstore();
+		int dstore();
+		int astore();
+
+        int istore_0();
+		int istore_1();
+		int istore_2();
+		int istore_3();
+
+		int lstore_0();
+		int lstore_1();
+		int lstore_2();
+		int lstore_3();
+
+		int fstore_0();
+		int fstore_1();
+		int fstore_2();
+		int fstore_3();
+
+		int dstore_0();
+		int dstore_1();
+		int dstore_2();
+		int dstore_3();
+
+		int astore_0();
+		int astore_1();
+		int astore_2();
+		int astore_3();
+
+		int iastore();
+		int lastore();
+		int fastore();
+		int dastore();
+		int aastore();
+		int bastore();
+		int castore();
+		int sastore();
+
+		int pop();
+		int pop2();
+
+
 		int dup();
-		int ldc();
+		int dup_x1();
+		int dup_x2();
+
+		int dup2();
+		int dup2_x1();
+		int dup2_x2();
+
+		int swap_op();
+
+        int iadd();
+		int ladd();
+		int fadd();
+		int dadd();
+
+		int isub();
+		int lsub();
+		int fsub();
+		int dsub();
+
+		int imul();
+		int lmul();
+		int fmul();
+		int dmul();
+
+		int idiv();
+		int ldiv();
+        int fdiv();
+        int ddiv();
+
+        int irem();
+        int lrem();
+        int frem();
+        int drem();
+
+        int ineg();
+        int lneg();
+        int fneg();
+        int dneg();
+
+        int ishl();
+        int lshl();
+
+        int ishr();
+        int lshr();
+
+        int iushl();
+        int lushl();
+
+        int iand();
+        int land();
+
+        int ior();
+        int lor();
+
+        int ixor();
+        int lxor();
+
+        int iinc();
+
+        int i2l();
+        int i2f();
+        int i2d();
+
+        int l2i();
+        int l2f();
+        int l2d();
+
+        int f2i();
+        int f2l();
+        int f2d();
+
+        int d2i();
+        int d2l();
+        int d2f();
+
+        int i2b();
+        int i2c();
+        int i2s();
+
+        int lcmp();
+        int fcmpl();
+        int fcmpg();
+
+        int dcmpl();
+        int dcmpg();
+
+        ////////////////////////// Conditional Branch //////////////////////////
+        // Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
+        // if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt, if_icmpge, if_acmpeq, if_acmpne.
+        int ifeq();
+        int ifne();
+        int iflt();
+        int ifle();
+        int ifgt();
+        int ifge();
+        int ifnull();
+        int ifnonnull();
+        int if_icmpeq();
+        int if_icmpne();
+        int if_icmplt();
+        int if_icmple();
+        int if_icmpgt();
+        int if_icmpge();
+        int if_acmpeq();
+        int if_acmpne();
+
+        ////////////////////////// Unconditional Branch //////////////////////////
+        // Unconditional branch: goto, goto_w, jsr, jsr_w, ret.
+        int goto_java();
+        int goto_w();
+
+        int jsr_w();
+        int jsr();
+
+
+		int anewarray();
+
+		int return_op();
+		int new_op();
+
+		int putfield();
+		int iconst_m1();
+
 		int invokespecial();
 		int invokevirtual();
 
-      ////////////////////////// Conditional Branch //////////////////////////
-      // Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
-      // if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt, if_icmpge, if_acmpeq, if_acmpne.
-      int ifeq();
-      int ifne();
-      int iflt();
-      int ifle();
-      int ifgt();
-      int ifge();
-      int ifnull();
-      int ifnonnull();
-      int if_icmpeq();
-      int if_icmpne();
-      int if_icmplt();
-      int if_icmple();
-      int if_icmpgt();
-      int if_icmpge();
-      int if_acmpeq();
-      int if_acmpne();
 
-      ////////////////////////// Unconditional Branch //////////////////////////
-      // Unconditional branch: goto, goto_w, jsr, jsr_w, ret.
-      int goto_java();
-      int goto_w();
-      int jsr();
-      int jsr_w();
 
       ///////////////////// Funções que acho (o Felipe)        /////////////////////
       ///////////////////// que não precisam ser implementadas /////////////////////
