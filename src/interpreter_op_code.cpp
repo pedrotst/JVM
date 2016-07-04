@@ -4,9 +4,9 @@ int interpreter_op_code(uint8_t opcode) {
       int n = 0;
 
       switch (opcode) {
-            case (INvOKEINTERFACE):
+            case (INVOKEINTERFACE):
 
-            case (INvOKEDYNAMIC):
+            case (INVOKEDYNAMIC):
 
             case (GOTO_W):
 
@@ -32,11 +32,11 @@ int interpreter_op_code(uint8_t opcode) {
 
             case (INSTANCEOF):
 
-            case (INvOKESPECIAL):
+            case (INVOKESPECIAL):
 
-            case (INvOKESTATIC):
+            case (INVOKESTATIC):
 
-            case (INvOKEvIRTUAL):
+            case (INVOKEVIRTUAL):
 
             case (LDC2_W):
 

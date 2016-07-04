@@ -20,7 +20,7 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("executando a instrucao at %x\n", this->frame_corrente->pc);
+        printf("executando a instrucao at %llx\n", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -57,7 +57,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_0] = &Interpretador::aload_0;
     pt[ILOAD_1] = &Interpretador::aload_1;
     pt[ILOAD_2] = &Interpretador::aload_2;
-    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq é a mesma coisa, a diferença é só a tipagem
+    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq ï¿½ a mesma coisa, a diferenï¿½a ï¿½ sï¿½ a tipagem
     pt[LLOAD] = &Interpretador::lload;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
@@ -180,21 +180,21 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[FCMPG] = &fcmpg;
 //    pt[DCMPL] = &dcmpl;
 //    pt[DCMPG] = &dcmpg;
-//    pt[IFEQ] = &ifeq;
-//    pt[IFNE] = &ifne;
-//    pt[IFLT] = &iflt;
-//    pt[IFGE] = &ifge;
-//    pt[IFGT] = &ifgt;
-//    pt[IFLT] = &iflt;
-//    pt[IF_ICMPEQ] = &if_icmpeq;
-//    pt[IF_ICMPNE] = &if_icmpne;
-//    pt[IF_ICMPLT] = &if_icmplt;
-//    pt[IF_ICMPGE] = &if_icmpge;
-//    pt[IF_ICMPGT] = &if_cmpgt;
-//    pt[IF_ICMPLE] = &if_cmple;
-//    pt[IF_ACMPEQ] = &if_acmpeq;
-//    pt[IF_ACMPNE] = &if_acmpne;
-//    pt[GOTO] = &goto;
+    pt[IFEQ] = &Interpretador::ifeq;
+    pt[IFNE] = &Interpretador::ifne;
+    pt[IFLT] = &Interpretador::iflt;
+    pt[IFLE] = &Interpretador::ifle;
+    pt[IFGE] = &Interpretador::ifge;
+    pt[IFGT] = &Interpretador::ifgt;
+    pt[IF_ICMPEQ] = &Interpretador::if_icmpeq;
+    pt[IF_ICMPNE] = &Interpretador::if_icmpne;
+    pt[IF_ICMPLT] = &Interpretador::if_icmplt;
+    pt[IF_ICMPLE] = &Interpretador::if_icmple;
+    pt[IF_ICMPGE] = &Interpretador::if_icmpge;
+    pt[IF_ICMPGT] = &Interpretador::if_icmpgt;
+    pt[IF_ACMPEQ] = &Interpretador::if_acmpeq;
+    pt[IF_ACMPNE] = &Interpretador::if_acmpne;
+    pt[GOTO] = &Interpretador::goto_java;
 //    pt[JSR] = &jsr;
 //    pt[RET] = &ret;
 //    pt[TABLESWITCH] = &tableswitch;
@@ -218,15 +218,17 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[NEWARRAY] = &newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;
-//    pt[ATHROW] = &athrow;
+    pt[ATHROW] = &Interpretador::athrow;
 //    pt[CHACKCAST] = &checkcast;
 //    pt[INSTANCEOF] = &instanceof;
-//    pt[MONITORENTER] = &monitorenter;
-//    pt[MONITOREXIT] = &monitorexit;
+      // Utiliizada na println. Tem a ver com threads e por isso acho que nÃ£o deve ser
+      // implementada. Vai ver sÃ³ precisa retornar.
+    pt[MONITORENTER] = &Interpretador::monitorenter;
+    pt[MONITOREXIT] = &Interpretador::monitorexit;
 //    pt[WIDE] = &wide;
 //    pt[MULTIANEWARRAY] = &multianewarray;
-//    pt[IFNULL] = &ifnull;
-//    pt[IFNONNULL] = &ifnonnull;
+    pt[IFNULL] = &Interpretador::ifnull;
+    pt[IFNONNULL] = &Interpretador::ifnonnull;
 //    pt[GOTO_W] = &goto;
 //    pt[JSR_W] = &jsr_w;
 //    pt[BREAKPOINT] = &breakpoint;
@@ -257,7 +259,7 @@ int Interpretador::sipush(){
 
 int Interpretador::bipush(){
     Local_var operand;
-    operand.tag = BYTE;//questões conceituais aqui
+    operand.tag = BYTE;//questï¿½es conceituais aqui
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     this->frame_corrente->operandStack.push_back(operand);
     return 2;
@@ -341,7 +343,7 @@ int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
-    printf("entrou na função putfield\n");
+    printf("entrou na funï¿½ï¿½o putfield\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
@@ -411,6 +413,23 @@ int Interpretador::anewarray(){
     return 3;
 }
 
+// NÃ£o foi testada. NÃ£o estÃ¡ implementada, porÃ©m acho que deve ser uma das Ãºltimas.
+// Ela pode chamar diversos cÃ³digos para tratar erros. Tudo tem que estar implementado
+// para ela funcionar.
+int Interpretador::athrow() {
+      return 1;
+}
+
+// NÃ£o foi testada
+int Interpretador::monitorenter() {
+      return 1;
+}
+
+// NÃ£o foi testada
+int Interpretador::monitorexit() {
+      return 1;
+}
+
 int Interpretador::idiv(){
     uint32_t lhs, rhs;
     Local_var op;
@@ -430,8 +449,8 @@ int Interpretador::idiv(){
 }
 
 int Interpretador::ldiv(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -464,8 +483,8 @@ int Interpretador::ldiv(){
 }
 
 int Interpretador::lmul(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -535,8 +554,8 @@ int Interpretador::isub(){
 }
 
 int Interpretador::lsub(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -589,8 +608,8 @@ int Interpretador::iadd(){
 
 
 int Interpretador::ladd(){
-    //..., value1, value2 ->  //indica que value2 está no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operação
+    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operaï¿½ï¿½o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -644,38 +663,38 @@ int Interpretador::ldc(){
             //this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
-            //cria uma instância de objeto String e coloca a
-            //referência dessa instância na pilha
+            //cria uma instï¿½ncia de objeto String e coloca a
+            //referï¿½ncia dessa instï¿½ncia na pilha
 
             std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);
 
-            //criando instância
+            //criando instï¿½ncia
             operand.tag = OBJECTTYPE;
             inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
             //inst->field_instances = new Fields_Values;
             //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
-            /*na linha abaixo, colocar o valor que a instância deve receber informado via index.
+            /*na linha abaixo, colocar o valor que a instï¿½ncia deve receber informado via index.
               Como colocar o valor se ObjectType tem apenas o nome da classe como campo?
-              Tem que ser via field_instances, mas para isso tem que se conhecer a organização
+              Tem que ser via field_instances, mas para isso tem que se conhecer a organizaï¿½ï¿½o
               interna de String.class*/
 
             //colocar a referencia da string na operand stack
             operand.value.reference_value = inst;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
-            //resolver a classe e colocar a refeência ao class object (value) na operand stack
+            //resolver a classe e colocar a refeï¿½ncia ao class object (value) na operand stack
             operand.tag = OBJECTTYPE;
 
             /*abaixo nao pode ser utilizado getClassName() porque
-              não necessariamente o objeto instanciado será da mesma classe
-              a qual pertence o método em execução
-              (ex: método de Puppy.class pode instanciar Cocô.class)*/
+              nï¿½o necessariamente o objeto instanciado serï¿½ da mesma classe
+              a qual pertence o mï¿½todo em execuï¿½ï¿½o
+              (ex: mï¿½todo de Puppy.class pode instanciar Cocï¿½.class)*/
             uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
             std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
 
             InstanceClass *inst = jvm->alocarObjeto(className);
-            inst->cf = jvm->getClassRef(className);//a instância deve receber referência de onde foi alocado o ClassFile
+            inst->cf = jvm->getClassRef(className);//a instï¿½ncia deve receber referï¿½ncia de onde foi alocado o ClassFile
             //inst->field_instances = new Fields_Values;
             //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
             /*falta colocar o valor*/
@@ -683,7 +702,7 @@ int Interpretador::ldc(){
 
    }else if(tag == CONSTANT_MethodType){
    }else if(tag == CONSTANT_MethodHandle){
-            //resolver o methodType ou methodHandle e colocar na operand stack a referência para a instância resultante de
+            //resolver o methodType ou methodHandle e colocar na operand stack a referï¿½ncia para a instï¿½ncia resultante de
             //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
    }else{
             //exception
@@ -701,7 +720,7 @@ int Interpretador::dup(){
 //void Interpretador::new_op(op_stack *opStack){
 int Interpretador::new_op(){
     printf("Cheguei na new\n");
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instrução; pc+1 é o byte seguinte
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instruï¿½ï¿½o; pc+1 ï¿½ o byte seguinte
     uint16_t name_index = operand;
     std::string className;
     Local_var op;
@@ -733,7 +752,7 @@ int Interpretador::invokespecial(){
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este é o indice na constant pool
+    method_index = method_index|operand; //este ï¿½ o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokespecial #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
     cf = this->jvm->getClassRef(invoking_class);
@@ -750,12 +769,12 @@ int Interpretador::invokespecial(){
     reverse(args.begin(), args.end());
     this->frame_corrente->operandStack.pop_back();
 
-    method_index = cf->findMethod(method_name, descriptor);//este é o índice no vetor de métodos
+    method_index = cf->findMethod(method_name, descriptor);//este ï¿½ o ï¿½ndice no vetor de mï¿½todos
 
-    //executa este método
+    //executa este mï¿½todo
     lvar = this->jvm->execMethod(method_index, cf, args);
 
-    // bota o retorno na operand stack se não tiver retornado void
+    // bota o retorno na operand stack se nï¿½o tiver retornado void
     if(lvar.tag != VOID_T)
         this->frame_corrente->operandStack.push_back(lvar);
 
@@ -776,28 +795,28 @@ int Interpretador::invokevirtual(){
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este é o indice na constant pool
+    method_index = method_index|operand; //este ï¿½ o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
 
     cf = this->jvm->getClassRef(invoking_class);
-    //precisamos encontrar em qual classF este método foi declarado
-    super_name = cf->getClassName(); // começa loop na classe invocadora
+    //precisamos encontrar em qual classF este mï¿½todo foi declarado
+    super_name = cf->getClassName(); // comeï¿½a loop na classe invocadora
     do{
         cf = this->jvm->getClassRef(super_name);
 
         found = cf->findMethod(method_name, descriptor);
         super_name = cf->getSuper();
         cout << "super name: "<< super_name << endl;
-        if(super_name.empty()){// se não possuir super, então o método não existe
-            printf("Método passado não existe\n");
+        if(super_name.empty()){// se nï¿½o possuir super, entï¿½o o mï¿½todo nï¿½o existe
+            printf("Mï¿½todo passado nï¿½o existe\n");
             exit(0);
         }
     }while(found == -1);
-    method_index = found;
-    printf("encontrei o método, está na classe %s, número %d\n", cf->getClassName().c_str(), method_index);
 
+    method_index = found;
+    printf("encontrei o mï¿½todo, estï¿½ na classe %s, nï¿½mero %d\n", cf->getClassName().c_str(), method_index);
 
     // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){
@@ -811,10 +830,10 @@ int Interpretador::invokevirtual(){
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
     reverse(args.begin(), args.end());
 
-    //executa este método
+    //executa este mï¿½todo
     lvar = this->jvm->execMethod(method_index, cf, args);
 
-    // bota o retorno na operand stack se não tiver retornado void
+    // bota o retorno na operand stack se nï¿½o tiver retornado void
     if(lvar.tag != VOID_T)
         this->frame_corrente->operandStack.push_back(lvar);
 
@@ -943,10 +962,415 @@ int Interpretador::astore_3(){
     return 1;
 }
 
-
 //
 //void fadd(jStackFrame &jStack){
 //}
 //
 //void dadd(jStackFrame &jStack){
 //}
+
+////////////////////////// Conditional Branch //////////////////////////
+// Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
+// if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt, if_icmpge, if_acmpeq, if_acmpne.
+
+/////////// ImplementaÃ§Ã£o das if<cond> ///////////
+// Todas elas sÃ£o iguais. SÃ³ muda a comparaÃ§Ã£o.
+
+// NÃ£o foi testada
+int Interpretador::ifeq() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value == 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::ifne() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value != 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::iflt() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value < 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::ifle() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value <= 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::ifgt() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value > 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::ifge() {
+      int32_t value = 0;
+      int16_t offset = 0;
+
+      value = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value >= 0) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+/////////// ImplementaÃ§Ã£o das ifnull e ifnonnull ///////////
+// Todas elas sÃ£o iguais. SÃ³ muda a comparaÃ§Ã£o.
+
+// NÃ£o foi testada
+int Interpretador::ifnull() {
+      int16_t offset = 0;
+      InstanceClass *reference = NULL;
+
+      reference = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (reference == NULL) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::ifnonnull() {
+      int16_t offset = 0;
+      InstanceClass *reference = NULL;
+
+      reference = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (reference != NULL) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+/////////// ImplementaÃ§Ã£o das if_icmp<cond> ///////////
+// Todas elas sÃ£o iguais. SÃ³ muda a comparaÃ§Ã£o.
+
+// NÃ£o foi testada
+int Interpretador::if_icmpeq() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 == value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_icmpne() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 != value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_icmplt() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 < value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_icmple() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 <= value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_icmpgt() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 > value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_icmpge() {
+      int32_t value1 = 0, value2;
+      int16_t offset = 0;
+
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      value2 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 <= value2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+/////////// ImplementaÃ§Ã£o das if_acmp<cond> ///////////
+// Todas elas sÃ£o iguais. SÃ³ muda a comparaÃ§Ã£o.
+
+// NÃ£o foi testada
+int Interpretador::if_acmpeq() {
+      int16_t offset = 0;
+      InstanceClass *reference1 = NULL, *reference2 = NULL;
+
+      reference1 = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      reference2 = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (reference1 == reference2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+// NÃ£o foi testada
+int Interpretador::if_acmpne() {
+      int16_t offset = 0;
+      InstanceClass *reference1 = NULL, *reference2 = NULL;
+
+      reference1 = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      reference2 = frame_corrente->operandStack.back().value.reference_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (reference1 != reference2) {
+            offset = this->code_corrente->code[this->frame_corrente->pc+1];
+            offset <<= 8;
+            offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+            return offset;
+      }
+
+      else
+            return 3;
+}
+
+////////////////////////// Unconditional Branch //////////////////////////
+// Unconditional branch: goto, goto_w, jsr, jsr_w, ret.
+
+// NÃ£o foi testada
+int Interpretador::goto_java() {
+      int16_t offset = 0;
+
+      offset = this->code_corrente->code[this->frame_corrente->pc+1];
+      offset <<= 8;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+      return offset;
+}
+
+// NÃ£o foi testada
+int Interpretador::goto_w() {
+      int32_t offset = 0;
+
+      offset |= this->code_corrente->code[this->frame_corrente->pc+1] << 24 & 0xFF000000;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+2] << 16 & 0x00FF0000;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+3] << 8 & 0x0000FF00;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+4] & 0x000000FF;
+
+      return offset;
+}
+
+// NÃ£o foi testada
+int Interpretador::jsr() {
+      int16_t offset = 0;
+      Local_var operand;
+
+      operand.tag = RETURN_ADDRESS;
+      operand.value.returnAddress_value = this->frame_corrente->pc + 3;
+      this->frame_corrente->operandStack.push_back(operand);
+
+      offset = this->code_corrente->code[this->frame_corrente->pc+1];
+      offset <<= 8;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+      return offset;
+}
+
+// NÃ£o foi testada
+int Interpretador::jsr_w() {
+      int32_t offset = 0;
+      Local_var operand;
+
+      operand.tag = RETURN_ADDRESS;
+      operand.value.returnAddress_value = this->frame_corrente->pc + 5;
+      this->frame_corrente->operandStack.push_back(operand);
+
+      offset |= this->code_corrente->code[this->frame_corrente->pc+1] << 24 & 0xFF000000;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+2] << 16 & 0x00FF0000;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+3] << 8 & 0x0000FF00;
+      offset |= this->code_corrente->code[this->frame_corrente->pc+4] & 0x000000FF;
+
+      return offset;
+}
+
+////////////////////////// Compound Conditional Branch //////////////////////////
+// Compound conditional branch: tableswitch, lookupswitch.

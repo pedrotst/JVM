@@ -36,8 +36,8 @@ string ClassFile::getCpoolMethod(int index, string &invoking_class, string &meth
     int class_index = this->constant_pool[index-1].cp_union.constant_methodref.class_index;
     int type_index = this->constant_pool[index-1].cp_union.constant_methodref.name_and_type_index;
     //printf("/////%d %d///", class_index, type_index);
-    if(this->constant_pool[index-1].tag != CONSTANT_Methodref);
-        //throw "Entrada nao eh uma classe";
+    // if(this->constant_pool[index-1].tag != CONSTANT_Methodref);
+    //     //throw "Entrada nao eh uma classe";
     invoking_class = this->getCpoolClass(class_index);
     this->getCpoolNameAndType(type_index, method_name, descriptor);
     return(this->getCpoolClass(class_index)+"."+this->getCpoolNameAndType(type_index, method_name, descriptor));
@@ -45,8 +45,8 @@ string ClassFile::getCpoolMethod(int index, string &invoking_class, string &meth
 string ClassFile::getCpoolNameAndType(int index, string &method_name, string &descriptor){
     int name_index = this->constant_pool[index-1].cp_union.constant_nameAndType.name_index;
     int descriptor_index= this->constant_pool[index-1].cp_union.constant_nameAndType.descriptor_index;
-    if(this->constant_pool[index-1].tag != CONSTANT_NameAndType);
-        //throw "Entrada nao eh uma name & type";
+    // if(this->constant_pool[index-1].tag != CONSTANT_NameAndType);
+    //     //throw "Entrada nao eh uma name & type";
     method_name = this->getCpoolUtf8(name_index);
     descriptor = this->getCpoolUtf8(descriptor_index);
     return(this->getCpoolUtf8(name_index)+ ":"+ this->getCpoolUtf8(descriptor_index));

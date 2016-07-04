@@ -23,7 +23,7 @@ typedef union Local_var_Type_u {
 	ArrayType* 		arrayref;			//arrayType
 	//InterfaceType interfaceref;		//?
 	bool  void_v;
-	//returnAddress        returnAddress_value;
+	uint64_t        returnAddress_value;
 }Local_var_Type;
 
 typedef struct local_var_s {
@@ -47,7 +47,7 @@ public:
     /** \brief
      *  Código atual sendo executado
      */
-      uint8_t pc;
+	uint64_t pc;
 
 
       /** referencia pra constant pool */
