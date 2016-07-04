@@ -438,7 +438,6 @@ int Interpretador::lload(){
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
     return 2;
-
 }
 
 int Interpretador::fload(){
@@ -473,31 +472,88 @@ int Interpretador::aload(){
 
 int Interpretador::iload_0(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+    return 1;
 }
 int Interpretador::iload_1(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    return 1;
 }
 int Interpretador::iload_2(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    return 1;
 }
 int Interpretador::iload_3(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    return 1;
 }
 
-int Interpretador::lload_0(){}
-int Interpretador::lload_1(){}
-int Interpretador::lload_2(){}
-int Interpretador::lload_3(){}
+int Interpretador::lload_0(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    return 1;
+}
 
-int Interpretador::fload_0(){}
-int Interpretador::fload_1(){}
-int Interpretador::fload_2(){}
-int Interpretador::fload_3(){}
+int Interpretador::lload_1(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    return 1;
+}
 
-int Interpretador::dload_0(){}
-int Interpretador::dload_1(){}
-int Interpretador::dload_2(){}
-int Interpretador::dload_3(){}
+int Interpretador::lload_2(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    return 1;
+}
+
+int Interpretador::lload_3(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
+    return 1;
+}
+
+int Interpretador::fload_0(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+    return 1;
+}
+
+int Interpretador::fload_1(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    return 1;
+}
+
+int Interpretador::fload_2(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    return 1;
+}
+
+int Interpretador::fload_3(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    return 1;
+}
+
+int Interpretador::dload_0(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    return 1;
+}
+
+int Interpretador::dload_1(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    return 1;
+}
+
+int Interpretador::dload_2(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    return 1;
+}
+
+int Interpretador::dload_3(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    return 1;
+}
 
 int Interpretador::aload_0(){
     printf("xload_0\n");
@@ -535,25 +591,25 @@ int Interpretador::fstore(){}
 int Interpretador::dstore(){}
 int Interpretador::astore(){}
 
-int Interpretador::istore_0();
-int Interpretador::istore_1();
-int Interpretador::istore_2();
-int Interpretador::istore_3();
+int Interpretador::istore_0(){}
+int Interpretador::istore_1(){}
+int Interpretador::istore_2(){}
+int Interpretador::istore_3(){}
 
-int Interpretador::lstore_0();
-int Interpretador::lstore_1();
-int Interpretador::lstore_2();
-int Interpretador::lstore_3();
+int Interpretador::lstore_0(){}
+int Interpretador::lstore_1(){}
+int Interpretador::lstore_2(){}
+int Interpretador::lstore_3(){}
 
-int Interpretador::fstore_0();
-int Interpretador::fstore_1();
-int Interpretador::fstore_2();
-int Interpretador::fstore_3();
+int Interpretador::fstore_0(){}
+int Interpretador::fstore_1(){}
+int Interpretador::fstore_2(){}
+int Interpretador::fstore_3(){}
 
-int Interpretador::dstore_0();
-int Interpretador::dstore_1();
-int Interpretador::dstore_2();
-int Interpretador::dstore_3();
+int Interpretador::dstore_0(){}
+int Interpretador::dstore_1(){}
+int Interpretador::dstore_2(){}
+int Interpretador::dstore_3(){}
 
 int Interpretador::astore_0(){
     Local_var op;
@@ -606,18 +662,50 @@ int Interpretador::bastore(){}
 int Interpretador::castore(){}
 int Interpretador::sastore(){}
 
-int pop();
-int pop2();
+int Interpretador::pop(){
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
 
-int dup();
-int dup_x1();
-int dup_x2();
+int Interpretador::pop2(){
+    if(this->frame_corrente->operandStack.back().tag == LONGO ||
+       this->frame_corrente->operandStack.back().tag == DUPLO){
+                this->frame_corrente->operandStack.pop_back();
+                this->frame_corrente->operandStack.pop_back();
+    }else{
+        this->frame_corrente->operandStack.pop_back();
+    }
+    return 1;
+}
 
-int dup2();
-int dup2_x1();
-int dup2_x2();
+int Interpretador::dup(){
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
+    return 1;//opcode lido
+}
+int Interpretador::dup_x1(){
+    //this->frame_corrente->operandStack.insert();
+}
+int Interpretador::dup_x2(){
+    //this->frame_corrente->operandStack.insert();
+}
 
-int swap_op();
+int Interpretador::dup2(){
+    vector<Local_var> *opStack = &this->frame_corrente->operandStack;
+    //value2, value1 ->
+    opStack->push_back( opStack->at(opStack->size()-2) );//value2, value1, value2 ->
+    opStack->push_back( opStack->at(opStack->size()-2) );//value2, value1, value2, value1 ->
+    return 1;//opcode lido
+}
+int Interpretador::dup2_x1(){
+//    this->frame_corrente->operandStack.insert();
+//    this->frame_corrente->operandStack.insert();
+}
+int Interpretador::dup2_x2(){
+//    this->frame_corrente->operandStack.insert();
+//    this->frame_corrente->operandStack.insert();
+}
+
+int Interpretador::swap_op(){}
 
 int Interpretador::iadd(){
 
@@ -1395,14 +1483,6 @@ int Interpretador::monitorenter() {
 // Não foi testada
 int Interpretador::monitorexit() {
       return 1;
-}
-
-
-
-int Interpretador::dup(){
-    printf("Entrei na dup\n");
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
-    return 1;//opcode lido
 }
 
 int Interpretador::new_op(){
