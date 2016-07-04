@@ -392,8 +392,8 @@ int Interpretador::anewarray(){
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
             for(int i = 0; i < count_operand; i++){
                     field.tag = OBJECTTYPE;
-                    //field.val.objtype =
-                    //instance->field_instances[className] =
+                    field.val.objtype.instance = instance;
+                    instance->field_instances[className] = field;
             }
             break;
         case CONSTANT_InterfaceMethodref:
