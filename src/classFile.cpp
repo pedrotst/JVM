@@ -1,23 +1,26 @@
 #include "../include/classFile.hpp"
-
 using namespace std;
+#include <iostream>
 
 string ClassFile::getSource(){
     int index;
+    string buffer;
+
     for(int n=0; n < this->attributes_count; n++){
         attribute_info attributeElement = this->attributes[n];
         index = attributeElement.attribute_name_index_l;
         if(!strcmp(this->constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            return(this->getCpoolUtf8(index));
+            return(this->getCpoolUtf8(index + 1));
         }
     }
-    return NULL;
+    return buffer;
 }
 
 string ClassFile::getClassName(){
+
     string source_name = this->getSource();
-    size_t found = source_name.find_first_of(".java");
+    size_t found = source_name.find(".java");
     return source_name.substr(0, found);
 }
 
@@ -79,22 +82,35 @@ string ClassFile::getFieldType(int n){
     return this->getCpoolUtf8(type_index);
 }
 
+string ClassFile::getSuper(){
+    int super_index = this->super_class;
+
+    string buffer;
+    if(super_index == 0)
+        return buffer;
+    else{
+        int index = this->constant_pool[super_index - 1].cp_union.constant_class.name_index; // indice do utf8
+        return this->getCpoolUtf8(index);
+    }
+}
+
+
+
 /////////////////////////////////////////////////////////////////////////////
-int ClassFile::findMethod(string method) {
+int ClassFile::findMethod(string method_name, string descriptor) {
 	int i = 0;
-	string method_name;
+	string mname, mdescr;
 	method_info *method_pt = NULL;
-    //printf("Em findMain():\n");
+
 	// Para cada método
 	for (i = 0; i < this->methods_count; i++) {
 		// Pega o método
 		method_pt = &this->methods[i];
 		// Pega o nome do método
-		method_name = this->getName(method_pt->name_index);
-		//printf("Nome do metodo checado: %s\n", method_name);
-		// Retorna index do método, se for o main
-		//printf("Resultado de strcmp(): %d\n", strcmp(method_name, "main"));
-		if (method_name.compare(method) == 0){
+		mname = this->getCpoolUtf8(method_pt->name_index);
+		mdescr = this->getCpoolUtf8(method_pt->descriptor_index);
+
+		if (mname.compare(method_name) == 0 && mdescr.compare(descriptor) == 0){
 			return i;
 		}
 	}
@@ -109,7 +125,7 @@ string ClassFile::getName(int name_index){
 	// Checa se a entrada da constant_pool apontada pelo index é uma string.
 	// Se não for retorna NULL.
       if (this->constant_pool[name_index-1].tag != CONSTANT_Utf8) {
-            printf("O index (da constant_pool) passado não aponta para uma string.\n");
+            printf("O index (da constant_pool) passado não aponta para ua utf8.\n");
             return NULL;
       }
 	// Obtém a string da constant_pool.

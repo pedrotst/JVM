@@ -68,6 +68,11 @@ class Interpretador{
 		int imul();
 		int lmul();
 
+		int idiv();
+		int ldiv();
+
+		int anewarray();
+
 		int iload();
 		int lload();
 		int fload();
@@ -106,5 +111,43 @@ class Interpretador{
 		int dup();
 		int ldc();
 		int invokespecial();
+		int invokevirtual();
+
+      ////////////////////////// Conditional Branch //////////////////////////
+      // Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
+      // if_icmpeq, if_icmpne, if_icmplt, if_icmple, if_icmpgt, if_icmpge, if_acmpeq, if_acmpne.
+      int ifeq();
+      int ifne();
+      int iflt();
+      int ifle();
+      int ifgt();
+      int ifge();
+      int ifnull();
+      int ifnonnull();
+      int if_icmpeq();
+      int if_icmpne();
+      int if_icmplt();
+      int if_icmple();
+      int if_icmpgt();
+      int if_icmpge();
+      int if_acmpeq();
+      int if_acmpne();
+
+      ////////////////////////// Unconditional Branch //////////////////////////
+      // Unconditional branch: goto, goto_w, jsr, jsr_w, ret.
+      int goto_java();
+      int goto_w();
+      int jsr();
+      int jsr_w();
+
+      ///////////////////// Funções que acho (o Felipe)        /////////////////////
+      ///////////////////// que não precisam ser implementadas /////////////////////
+      // Essa pode até ser importante, mas acho que deve ficar por último.
+      int athrow();
+      // Relacionada a threads.
+      int monitorenter();
+      // Relacionada a threads.
+      int monitorexit();
+
 };
 #endif // INTERPRETADOR_H

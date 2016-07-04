@@ -100,7 +100,7 @@ void exibeClass(ClassFile classF){
     index = classF.super_class; //indice da classe na cpool
     if(index != 0){
         index = classF.constant_pool[index - 1].cp_union.constant_class.name_index; // indice do utf8
-        printf("Super Class: %d <%s>\n", classF.super_class, classF.getCpoolUtf8(index).c_str());
+        printf("Super Class: %d <%s>\n", classF.super_class, classF.getSuper().c_str());
     }
     printf("Interface count: %d\n",classF.interfaces_count);
     printf("Fields count: %d\n", classF.fields_count);
@@ -352,9 +352,9 @@ void exibeClass(ClassFile classF){
 
             printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
-            printf("Sourcefile_index: #%d\t\t", attributeElement.attribute_union.attr_SourceFile.sourcefile_index);
+            printf("Sourcefile_index: #%d\t\t//%s.java", attributeElement.attribute_union.attr_SourceFile.sourcefile_index, classF.getClassName().c_str());
             //index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            cout << classF.getClassName() << endl;
+            //cout << classF.getClassName() << endl;
 
         }
         if(!strcmp(classF.getCpoolUtf8(index).c_str(), "InnerClasses")) {

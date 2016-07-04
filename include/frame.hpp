@@ -21,7 +21,7 @@ typedef union Local_var_Type_u {
 	//uint32_t long_value;//
 	InstanceClass*   reference_value;
 	bool  void_v;
-	//returnAddress        returnAddress_value;
+	uint64_t        returnAddress_value;
 }Local_var_Type;
 
 typedef struct local_var_s {
@@ -45,7 +45,7 @@ public:
     /** \brief
      *  Código atual sendo executado
      */
-      uint8_t pc;
+	uint64_t pc;
 
 
       /** referencia pra constant pool */
@@ -56,7 +56,6 @@ public:
        */
       int method_index;
 
-      Frame(){} //Depois esse Construtor deve ser deletado
       Frame(int method_index, ClassFile *cf);
 };
 

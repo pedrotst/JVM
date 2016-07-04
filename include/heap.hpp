@@ -1,7 +1,7 @@
 #ifndef HEAP
 #define HEAP
 /** \file heap.hpp
-* Este arquivo trata a documentação 4.3.2
+* Este arquivo trata a documentaï¿½ï¿½o 4.3.2
 */
 #include <map>
 #include <vector>
@@ -9,6 +9,7 @@
 #include "../include/classFile.hpp"
 
 struct FieldValue_s;
+class InstanceClass;
 
 typedef enum tag_tipo_e{
     BOOL = 0,
@@ -22,7 +23,8 @@ typedef enum tag_tipo_e{
     BASETYPE = 8,
     OBJECTTYPE = 9,
     ARRAYTYPE = 10,
-    VOID_T = 11
+    VOID_T = 11,
+    RETURN_ADDRESS = 12
 }tag_Tipo;
 
 typedef union base_type_s{
@@ -42,10 +44,10 @@ typedef struct BaseType_s{
 }BaseType;
 
 /**
- * Não esquecer que este classname é o nome completo
+ * Nï¿½o esquecer que este classname ï¿½ o nome completo
 */
 typedef struct ObjectType_s{
-    char *className;
+    InstanceClass *instance;
 }ObjectType;
 
 typedef struct ArrayType_s{
@@ -64,7 +66,7 @@ typedef struct FieldValue_s{
 }FieldValue;
 
 /** \class InstanceClass
-* Esta struct representa o mapeamento entre a instância de uma classe e a referência
+* Esta struct representa o mapeamento entre a instï¿½ncia de uma classe e a referï¿½ncia
 * para esta no vetor de classes carregadas.
 */
 class InstanceClass {

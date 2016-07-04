@@ -219,7 +219,7 @@ Verificador::Verificador(ClassFile classF){
     //pt[GETFIELD] = &getfield;
     //pt[PUTFIELD] = &Verificador::putfield;
     //pt[INvOKEvIRTUAL] = &invokevirtual;
-    pt[INvOKESPECIAL] = &Verificador::invokespecial;
+    pt[INVOKESPECIAL] = &Verificador::invokespecial;
     //pt[INvOKESTATIC] = &invokestatic;
     //pt[INvOKEINTERFACE] = &invokeinterface;
     //pt[INvOKEDYNAMIC] = &invokedynamic;
