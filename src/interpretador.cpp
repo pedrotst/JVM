@@ -343,7 +343,7 @@ int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];;
-    printf("entrou na funï¿½ï¿½o putfield\n");
+    printf("entrou na funcao putfield\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
@@ -396,11 +396,12 @@ int Interpretador::anewarray(){
         case CONSTANT_Class:
             name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
+            //cada item no vetor é a instância de um objeto
             for(int i = 0; i < count_operand; i++){
                     FieldValue field;
                     field.tag = OBJECTTYPE;
                     field.val.objtype.instance = jvm->alocarObjeto(className);
-                    vetor->arr->push_back(*field);
+                    vetor->arr->push_back(field);
             }
             break;
         case CONSTANT_InterfaceMethodref:
@@ -449,8 +450,8 @@ int Interpretador::idiv(){
 }
 
 int Interpretador::ldiv(){
-    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operaï¿½ï¿½o
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -554,8 +555,8 @@ int Interpretador::isub(){
 }
 
 int Interpretador::lsub(){
-    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operaï¿½ï¿½o
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -608,8 +609,8 @@ int Interpretador::iadd(){
 
 
 int Interpretador::ladd(){
-    //..., value1, value2 ->  //indica que value2 estï¿½ no topo da pilha e logo abaixo value1
-    // value1 - value2        //ordem da operaï¿½ï¿½o
+    //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
+    // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
     uint64_t lhs, rhs, resultado;
@@ -664,7 +665,7 @@ int Interpretador::ldc(){
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
             //cria uma instï¿½ncia de objeto String e coloca a
-            //referï¿½ncia dessa instï¿½ncia na pilha
+            //referencia dessa instancia na pilha
 
             std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);
