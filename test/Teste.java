@@ -5,6 +5,8 @@ public class Teste{
 	float fval;
 	public void setFval(float val){
 		fval = val;
-		fval += 5.0;
-	} 
+	}
+	public void main(String args[]){
+		System.out.println("HelloWorld");
+	}
 }
