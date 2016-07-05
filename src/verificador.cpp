@@ -20,7 +20,7 @@ int Verificador::verificaMethods(ClassFile classF){
                 //printf("\t Code Length: %d\n", code_length);
                 for(int pc = 0; pc < code_length; pc++){
                     uint8_t opcode = classF.methods[i].attributes[j].attribute_union.attr_Code.code[pc];
-                    printf("opcode: %X\n", opcode);
+                    //printf("opcode: %X\n", opcode);
                     if(opcode == 0xB7){
                         (*this.*instrucoes[opcode])();
                     }
@@ -35,7 +35,7 @@ int Verificador::verificaMethods(ClassFile classF){
 }
 
 int Verificador::invokespecial(){
-    printf("Invokespecial!\n");
+    //printf("Invokespecial!\n");
     return 3;
 }
 Verificador::Verificador(ClassFile classF){
