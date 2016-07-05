@@ -54,10 +54,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LDC] = &Interpretador::ldc;
 //    pt[LDC_W] = &ldc_w;
 //    pt[LDC2_W] = &ldc2_w;
-    pt[ILOAD_0] = &Interpretador::aload_0;
-    pt[ILOAD_1] = &Interpretador::aload_1;
-    pt[ILOAD_2] = &Interpretador::aload_2;
-    pt[ILOAD_3] = &Interpretador::aload_3; // vou deixar os mesmos que os iload pq ï¿½ a mesma coisa, a diferenï¿½a ï¿½ sï¿½ a tipagem
+    pt[ILOAD_0] = &Interpretador::iload_0;
+    pt[ILOAD_1] = &Interpretador::iload_1;
+    pt[ILOAD_2] = &Interpretador::iload_2;
+    pt[ILOAD_3] = &Interpretador::iload_3; // vou deixar os mesmos que os iload pq ï¿½ a mesma coisa, a diferenï¿½a ï¿½ sï¿½ a tipagem
     pt[LLOAD] = &Interpretador::lload;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
@@ -470,22 +470,6 @@ int Interpretador::aload(){
     return 2;
 }
 
-int Interpretador::iload_0(){
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
-    return 1;
-}
-int Interpretador::iload_1(){
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
-    return 1;
-}
-int Interpretador::iload_2(){
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
-    return 1;
-}
-int Interpretador::iload_3(){
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
-    return 1;
-}
 
 int Interpretador::lload_0(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -556,23 +540,85 @@ int Interpretador::dload_3(){
 }
 
 int Interpretador::aload_0(){
-    printf("xload_0\n");
-    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[0]);
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    printf("aload_0\n");
+    if(lvar.tag != 9){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
     return 1;
 }
 int Interpretador::aload_1(){
-    printf("xload_1\n");
-    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[1]);
+    Local_var lvar = this->frame_corrente->localVarVector[1];
+    printf("aload_0\n");
+    if(lvar.tag != 9){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
     return 1;
 }
 int Interpretador::aload_2(){
-    printf("xload_2\n");
-    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[2]);
+    Local_var lvar = this->frame_corrente->localVarVector[2];
+    printf("aload_0\n");
+    if(lvar.tag != 9){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
     return 1;
 }
 int Interpretador::aload_3(){
-    printf("xload_3\n");
-    this->frame_corrente->operandStack.push_back(this->frame_corrente->localVarVector[3]);
+    Local_var lvar = this->frame_corrente->localVarVector[3];
+    printf("aload_0\n");
+    if(lvar.tag != 9){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
+    return 1;
+}
+
+
+int Interpretador::iload_0(){
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    printf("aload_0\n");
+    if(lvar.tag != 1){
+        printf("Variavel local carregada não é um inteiro, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
+    return 1;
+}
+int Interpretador::iload_1(){
+    Local_var lvar = this->frame_corrente->localVarVector[1];
+    printf("aload_0\n");
+    if(lvar.tag != 1){
+        printf("Variavel local carregada não é um inteiro, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
+    return 1;
+}
+int Interpretador::iload_2(){
+    Local_var lvar = this->frame_corrente->localVarVector[2];
+    printf("aload_0\n");
+    if(lvar.tag != 1){
+        printf("Variavel local carregada não é um inteiro, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
+    return 1;
+}
+int Interpretador::iload_3(){
+    Local_var lvar = this->frame_corrente->localVarVector[3];
+    printf("aload_0\n");
+    if(lvar.tag != 1){
+        printf("Variavel local carregada não é um inteiro, abortar\n");
+        exit(0);
+    }
+    this->frame_corrente->operandStack.push_back(lvar);
     return 1;
 }
 
@@ -1540,12 +1586,12 @@ int Interpretador::invokespecial(){
     reverse(args.begin(), args.end());
     this->frame_corrente->operandStack.pop_back();
 
-    method_index = cf->findMethod(method_name, descriptor);//este ï¿½ o ï¿½ndice no vetor de mï¿½todos
+    method_index = cf->findMethod(method_name, descriptor);//este e o indice no vetor de metodos
 
     //executa este mï¿½todo
     lvar = this->jvm->execMethod(method_index, cf, args);
 
-    // bota o retorno na operand stack se nï¿½o tiver retornado void
+    // bota o retorno na operand stack se nao tiver retornado void
     if(lvar.tag != VOID_T)
         this->frame_corrente->operandStack.push_back(lvar);
 
@@ -1601,10 +1647,10 @@ int Interpretador::invokevirtual(){
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
     reverse(args.begin(), args.end());
 
-    //executa este mï¿½todo
+    //executa este metodo
     lvar = this->jvm->execMethod(method_index, cf, args);
 
-    // bota o retorno na operand stack se nï¿½o tiver retornado void
+    // bota o retorno na operand stack se nao tiver retornado void
     if(lvar.tag != VOID_T)
         this->frame_corrente->operandStack.push_back(lvar);
 

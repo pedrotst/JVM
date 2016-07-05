@@ -11,7 +11,7 @@ string ClassFile::getSource(){
         index = attributeElement.attribute_name_index_l;
         if(!strcmp(this->constant_pool[index-1].cp_union.constant_Utf8.bytes, "SourceFile")) {
             index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
-            return(this->getCpoolUtf8(index + 1));
+            return(this->getCpoolUtf8(index));
         }
     }
     return buffer;
