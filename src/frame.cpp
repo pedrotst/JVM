@@ -40,7 +40,7 @@ string Local_var::repr(){
         case RETURN_ADDRESS:
             break;
         case STRINGTYPE:
-            break;
+            return *(value.string_value);
     }
 
     string buf;

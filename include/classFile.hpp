@@ -80,6 +80,12 @@ public:
     string getFieldName(int n);
 
 	/**
+	*  \brief Resolve a classe de uma field n na constant pool
+	*/
+    string getFieldClassName(int n);
+
+
+	/**
 	*  \brief Resolve o tipo de uma field n na constant pool
 	*/
     string getFieldType(int n);
