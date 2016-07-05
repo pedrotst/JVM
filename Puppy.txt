@@ -1,7 +1,7 @@
 General Information: 
 Magic: CAFEBABE
 Minor version: 0
-Major version: 51
+Major version: 46
 Constant Pool Count: 31
 Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
 This Class: 6 	<Puppy>
@@ -16,7 +16,7 @@ Constant Pool:
 #2 = Fieldref		#6.#24		 // Puppy.puppyAge:I
 #3 = Class		#25		 // Dawg
 #4 = Methodref		#3.#26		 // Dawg.<init>:(I)V
-#5 = Methodref		#3.#27		 // Dawg.setAge:(I)V
+#5 = Methodref		#3.#27		 // Dawg.getAge:()I
 #6 = Class		#28		 // Puppy
 #7 = Class		#29		 // java/lang/Object
 #8 = Utf8		puppyAge
@@ -38,7 +38,7 @@ Constant Pool:
 #24 = NameAndType	#8.#9		puppyAge:I
 #25 = Utf8		Dawg
 #26 = NameAndType	#10.#11		<init>:(I)V
-#27 = NameAndType	#14.#11		setAge:(I)V
+#27 = NameAndType	#17.#18		getAge:()I
 #28 = Utf8		Puppy
 #29 = Utf8		java/lang/Object
 #30 = Utf8		()V
@@ -145,8 +145,8 @@ Atribute count: 1
 	0x5:	INVOKESPECIAL	 #4 	 //  Dawg.<init>:(I)V
 	0x8:	ASTORE_1	
 	0x9:	ALOAD_1	
-	0xa:	ICONST_2	
-	0xb:	INVOKEVIRTUAL	 #5 	 //  Dawg.setAge:(I)V
+	0xa:	INVOKEVIRTUAL	 #5 	 //  Dawg.getAge:()I
+	0xd:	POP	
 	0xe:	RETURN	
 
 Attributes Count: 1

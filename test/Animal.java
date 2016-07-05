@@ -1,6 +1,9 @@
 public class Animal{
     public int age;
 
+    public Animal(){
+      
+    }
     public Animal(int age){
         this.age = age;
       // This constructor has one parameter, name.

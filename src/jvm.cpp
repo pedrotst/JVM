@@ -186,6 +186,7 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     interpreter.runCode(&frame);
 
     // se a pilha estiver vazia consideramos que ela retornou void
+
     if(!fStack.back().operandStack.empty()){
         lvar = fStack.back().operandStack.back();
         printf("o metodo chamado retornou algo\n");

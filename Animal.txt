@@ -1,37 +1,37 @@
 General Information: 
 Magic: CAFEBABE
 Minor version: 0
-Major version: 51
+Major version: 46
 Constant Pool Count: 21
 Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
 This Class: 3 	<Animal>
 Super Class: 4 <java/lang/Object>
 Interface count: 0
 Fields count: 1
-Methods count: 3
+Methods count: 4
 Attributes count: 1
 
 Constant Pool: 
-#1 = Methodref		#4.#16		 // java/lang/Object.<init>:()V
-#2 = Fieldref		#3.#17		 // Animal.age:I
-#3 = Class		#18		 // Animal
-#4 = Class		#19		 // java/lang/Object
+#1 = Methodref		#4.#17		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#3.#18		 // Animal.age:I
+#3 = Class		#19		 // Animal
+#4 = Class		#20		 // java/lang/Object
 #5 = Utf8		age
 #6 = Utf8		I
 #7 = Utf8		<init>
-#8 = Utf8		(I)V
+#8 = Utf8		()V
 #9 = Utf8		Code
 #10 = Utf8		LineNumberTable
-#11 = Utf8		getAge
-#12 = Utf8		()I
-#13 = Utf8		setAge
-#14 = Utf8		SourceFile
-#15 = Utf8		Animal.java
-#16 = NameAndType	#7.#20		<init>:()V
-#17 = NameAndType	#5.#6		age:I
-#18 = Utf8		Animal
-#19 = Utf8		java/lang/Object
-#20 = Utf8		()V
+#11 = Utf8		(I)V
+#12 = Utf8		getAge
+#13 = Utf8		()I
+#14 = Utf8		setAge
+#15 = Utf8		SourceFile
+#16 = Utf8		Animal.java
+#17 = NameAndType	#7.#8		<init>:()V
+#18 = NameAndType	#5.#6		age:I
+#19 = Utf8		Animal
+#20 = Utf8		java/lang/Object
 
 
 Fields: 
@@ -41,9 +41,22 @@ Name: cp_info#5 <age>
 Descriptor: cp_info#6 <I>
 Attributes Count: 0
 
-Methods_count: 3
+Methods_count: 4
 Methods: 
 Method: 1
+Name: #7<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 33
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 2
 Name: #7<<init>>
 Access Flag: 0x0001[ACC_PUBLIC]
 Descritor: (I)V
@@ -59,8 +72,8 @@ Atribute count: 1
 	0x6:	PUTFIELD	 #2 	 //  Animal.age:I
 	0x9:	RETURN	
 
-Method: 2
-Name: #11<getAge>
+Method: 3
+Name: #12<getAge>
 Access Flag: 0x0001[ACC_PUBLIC]
 Descritor: ()I
 Atribute count: 1
@@ -72,8 +85,8 @@ Atribute count: 1
 	0x1:	GETFIELD	 #2 	 //  Animal.age:I
 	0x4:	IRETURN	
 
-Method: 3
-Name: #13<setAge>
+Method: 4
+Name: #14<setAge>
 Access Flag: 0x0001[ACC_PUBLIC]
 Descritor: (I)V
 Atribute count: 1
@@ -89,6 +102,6 @@ Atribute count: 1
 Attributes Count: 1
 Attribute Length: 2
 Attribute: SourceFile
-attribute_name_index: #14
+attribute_name_index: #15
 attribute_length: 2
-Sourcefile_index: #15		//Anim.java
+Sourcefile_index: #16		//Animal.java
