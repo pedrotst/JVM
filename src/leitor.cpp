@@ -171,13 +171,14 @@ int leituraConstantPool(ClassFile *classF, FILE *arquivoJava){
                 cp_element.tag = CONSTANT_Utf8;
                 cp_element.cp_union.constant_Utf8.tag = CONSTANT_Utf8;
                 cp_element.cp_union.constant_Utf8.length = read_word(arquivoJava);
+                //printf("length: %d\n", cp_element.cp_union.constant_Utf8.length);
 
                 cp_element.cp_union.constant_Utf8.bytes = (char*)malloc((cp_element.cp_union.constant_Utf8.length + 1)*sizeof(char));
                 for (int j = 0; j < cp_element.cp_union.constant_Utf8.length; j++) {
                     cp_element.cp_union.constant_Utf8.bytes[j] = read_byte(arquivoJava);
                 }
                 cp_element.cp_union.constant_Utf8.bytes[cp_element.cp_union.constant_Utf8.length] = '\0';
-
+                //printf("na leitura: %s\n", cp_element.cp_union.constant_Utf8.bytes);
                 classF->constant_pool.push_back(cp_element);
 
                 break;

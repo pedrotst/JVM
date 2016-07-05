@@ -20,7 +20,7 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     uint8_t opcode;
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("executando a instrucao at %llx\n", this->frame_corrente->pc);
+        //printf("executando a instrucao at %llx\n", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -348,13 +348,11 @@ int Interpretador::sipush(){
 }
 
 int Interpretador::ldc(){
-    printf("Entrei na ldc\n");
+    //printf("Entrei na ldc\n");
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
-    printf("Index: %d\n", index);
 
     Local_var operand;
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
-    printf("Tag: %d\n", tag);
     //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
     if(tag == CONSTANT_Integer){
             operand.tag = INT;
@@ -368,7 +366,7 @@ int Interpretador::ldc(){
             //colocar o valor na operand stack
             //this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
-            printf("ldc de String\n");
+            //printf("ldc de String\n");
             //cria uma instancia de objeto String e coloca a
             //referencia dessa instancia na pilha
 
@@ -380,7 +378,7 @@ int Interpretador::ldc(){
 //            inst->cf = jvm->getClassRef(stringClass);
 
             uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
-            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes);
+            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
             //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
 //            FieldValue field;
 //            field.tag = ARRAYTYPE;
@@ -1710,7 +1708,7 @@ int Interpretador::getfield(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
-    printf("entrou na funcao getfield\n");
+    //printf("entrou na funcao getfield\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
@@ -1718,18 +1716,18 @@ int Interpretador::getfield(){
     name_index |= code_corrente->code[frame_corrente->pc+2];
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    printf("getfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+    //printf("getfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
     if(field_type.compare("I") == 0){
         Local_var lvar;
         lvar = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop the value
         if(lvar.tag != 9){
-            printf("Tentativa de acessar um field de algo q nao eh objeto, abortar!");
+            //printf("Tentativa de acessar um field de algo q nao eh objeto, abortar!");
             exit(0);
         }
         FieldValue fvar = lvar.value.reference_value->field_instances[field_name];
-        printf("O valor da field eh: %d\n", fvar.val.btype.val.inteiro);
+        //printf("O valor da field eh: %d\n", fvar.val.btype.val.inteiro);
 
         fvar = lvar.value.reference_value->field_instances[field_name];
         lvar.tag = INT;
@@ -1879,11 +1877,11 @@ int Interpretador::invokevirtual(){
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-    printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+    //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
-       printf(this->frame_corrente->operandStack.back().value.string_value->c_str());
-       return 3;
+        printf("%s\n", this->frame_corrente->operandStack.back().value.string_value->c_str());
+        return 3;
     }
 
 
@@ -1895,7 +1893,7 @@ int Interpretador::invokevirtual(){
 
         found = cf->findMethod(method_name, descriptor);
         super_name = cf->getSuper();
-        cout << "super name: "<< super_name << endl;
+        //cout << "super name: "<< super_name << endl;
         if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
             printf("Metodo passado nao existe\n");
             exit(0);
@@ -1903,7 +1901,7 @@ int Interpretador::invokevirtual(){
     }while(found == -1);
 
     method_index = found;
-    printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
 
     // pega os argumentos da pilha
     for (int i=1; i < descriptor.find(")"); i++){

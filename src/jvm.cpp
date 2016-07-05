@@ -181,14 +181,14 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Frame frame(n, classF);
     Local_var lvar;
     Local_var_Type lvarval;
-    cout << "executar classe: "<< classF->getClassName() << " metodo #" << n << endl;
-    cout << "variaveis da pilha " << endl;
+    //cout << "executar classe: "<< classF->getClassName() << " metodo #" << n << endl;
+    //cout << "variaveis da pilha " << endl;
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
-        cout << "var type: " << it->tag << endl;
+        //cout << "var type: " << it->tag << endl;
         frame.localVarVector.push_back(*it);
     }
     this->fStack.push_back(frame);
-    printf("Criei um frame\n");
+    //printf("Criei um frame\n");
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
@@ -197,10 +197,10 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
 
     if(!fStack.back().operandStack.empty()){
         lvar = fStack.back().operandStack.back();
-        printf("o metodo chamado retornou algo\n");
+        //printf("o metodo chamado retornou algo\n");
     }
     else{
-        printf("o metodo chamado retornou void\n");
+        //printf("o metodo chamado retornou void\n");
         lvar.tag = VOID_T;
         lvar.value.void_v = true;
     }
