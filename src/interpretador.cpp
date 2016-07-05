@@ -20,7 +20,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     uint8_t opcode;
     printf("Estou em interpretador.runCode()\n");
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("pc->code[%l]: ", this->frame_corrente->pc);
+        printf("pc->code[%ld]: ", this->frame_corrente->pc);
 
         opcode = this->code_corrente->code[this->frame_corrente->pc];
 //        if(opcode == INVOKEVIRTUAL){
@@ -2153,7 +2153,6 @@ int Interpretador::getstatic(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
-    printf("entrou na funcao getstatic\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
