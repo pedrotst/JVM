@@ -7,6 +7,7 @@ Frame::Frame(int method_index, ClassFile *cf){
 
 void Frame::printOperandStack(){
     printf("OperandStack:\n");
+    if(operandStack.size() == 0) printf("//vazia//\n");
     for(int i = 0; i < operandStack.size(); i++){
         switch(operandStack[i].tag){
             case BOOL:
@@ -57,8 +58,10 @@ void Frame::printOperandStack(){
 }
 
 void Frame::printLocalVar(){
+    printf("Locar_var:\n");
+    if(localVarVector.size() == 0) printf("//vazia//\n");
     for(int i = 0; i < localVarVector.size(); i++){
-        switch(operandStack[i].tag){
+        switch(localVarVector[i].tag){
             case BOOL:
                 printf("tag: BOOL | val: %d //", this->localVarVector[i].value.boolean_value);
                 break;
