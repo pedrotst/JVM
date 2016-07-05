@@ -372,15 +372,14 @@ int Interpretador::ldc(){
             //cria uma instancia de objeto String e coloca a
             //referencia dessa instancia na pilha
 
-            std::string stringClass("java/lang/String");
-            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
+//            std::string stringClass("java/lang/String");
+//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
 
             operand.tag = STRINGTYPE;
 //            operand.value.reference_value = inst;
 //            inst->cf = jvm->getClassRef(stringClass);
 
             uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
-
             operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes);
             //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
 //            FieldValue field;
