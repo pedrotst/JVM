@@ -1567,11 +1567,11 @@ int Interpretador::putfield(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar.value.long_value;
 
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
+        printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) & lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
         Local_var lvar_upper;
