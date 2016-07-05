@@ -20,7 +20,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     uint8_t opcode;
     printf("Estou em interpretador.runCode()\n");
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("pc->code[%ld]: ", this->frame_corrente->pc);
+        printf("pc->code[%d]: ", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -1893,7 +1893,7 @@ int Interpretador::putstatic(){
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
+        printf("the int passed to the field is: %f\n", (double)lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
     return 3;
 }
@@ -1968,7 +1968,7 @@ int Interpretador::putfield(){
 
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
+        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
     return 3;
 }
