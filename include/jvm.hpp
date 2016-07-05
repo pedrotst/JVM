@@ -42,6 +42,7 @@ class Jvm{
          * \brief Mapeia classname para instancias
          */
         std::vector<InstanceClass*> heap;
+        std::map<std::string, InstanceClass*> staticHeap;
 
         /** \fn JVM()
          *

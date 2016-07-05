@@ -87,6 +87,9 @@ class Interpretador{
 
         int getstatic();
         int getfield();
+
+        int putstatic();
+
         int iload();
 		int lload();
 		int fload();
