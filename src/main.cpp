@@ -31,7 +31,12 @@ int main(int argc, char** argv){
 
     arg1 = ARG1(argc, argv);
     arg2 = ARG2(argc, argv);
-
+    int len = strlen(arg2);
+    //printf("resultado da comparacao (%s,%s): %d\n", arg2+len-6, ".class", strcmp(arg2+len-6, ".class"));
+    if(strcmp(arg2+len-6, ".class")){
+        printf("O arquivo %s nao eh um .class. Encerrando...\n", arg2);
+        exit(0);
+    }
     // Caso o parâmetro passado seja um -r (READ).
     if (!strcmp(arg1, "-r")) {
         // Abre o arquivo
@@ -49,6 +54,7 @@ int main(int argc, char** argv){
 
     // Caso o parâmetro passado seja um -e (EXECUTE).
     else if (!strcmp(arg1, "-e")) {
+        printf("Chamando jvm.run(%s)\n", arg2);
         // Inicializa a jvm para a execução do arquivo class passado (arg2).
         jvm.run(arg2);
     }

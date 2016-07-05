@@ -5,6 +5,7 @@
 using namespace std;
 
 int Jvm::run(const char* arq_class_name) {
+    //printf("Entrou em jvm.run()\n");
     ClassFile classF;
     int main_index;
     FILE *arquivoClass;
@@ -18,14 +19,15 @@ int Jvm::run(const char* arq_class_name) {
     }
 
 
-
+    //printf("Executando leitura do .class\n");
     leitorClass_info(&classF, arquivoClass);
+    //printf("Leitura executada\n");
     Verificador verificador(classF);
     verificador.verificaClass(classF);
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
-    //printf("Valor de main_index: %d\n", main_index);
+    printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
         execMethod(main_index, &classF, args);
     }else {
@@ -177,6 +179,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  */
 
 Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
+    printf("Entrou em execMethod\n");
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
     Local_var lvar;
@@ -188,22 +191,22 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
         frame.localVarVector.push_back(*it);
     }
     this->fStack.push_back(frame);
-    //printf("Criei um frame\n");
+    printf("Criei um frame\n");
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
-
-    // se a pilha estiver vazia consideramos que ela retornou void
-
-    if(!fStack.back().operandStack.empty()){
-        lvar = fStack.back().operandStack.back();
-        //printf("o metodo chamado retornou algo\n");
-    }
-    else{
-        //printf("o metodo chamado retornou void\n");
-        lvar.tag = VOID_T;
-        lvar.value.void_v = true;
-    }
-    this->fStack.pop_back();
+//
+//    // se a pilha estiver vazia consideramos que ela retornou void
+//
+//    if(!fStack.back().operandStack.empty()){
+//        lvar = fStack.back().operandStack.back();
+//        //printf("o metodo chamado retornou algo\n");
+//    }
+//    else{
+//        //printf("o metodo chamado retornou void\n");
+//        lvar.tag = VOID_T;
+//        lvar.value.void_v = true;
+//    }
+//    this->fStack.pop_back();
     return lvar;
 }

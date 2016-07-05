@@ -19,8 +19,9 @@ int Interpretador::runCode(Frame *frame_pt) {
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
 
     uint8_t opcode;
+    printf("Estou em interpretador.runCode()\n");
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        //printf("executando a instrucao at %llx\n", this->frame_corrente->pc);
+        printf("executando a instrucao at %llx\n", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -86,15 +87,15 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[BALOAD] = &baLoad;
 //    pt[CALOAD] = &caLoad;
 //    pt[SALOAD] = &saLoad;
-//    pt[ISTORE] = &iStore;
+    pt[ISTORE] = &Interpretador::istore;
 //    pt[LSTORE] = &lStore;
 //    pt[FSTORE] = &fStore;
 //    pt[DSTORE] = &dStore;
 //    pt[ASTORE] = &aStore;
-//    pt[ISTORE_0] = &iStore_0;
-//    pt[ISTORE_1] = &iStore_1;
-//    pt[ISTORE_2] = &iStore_2;
-//    pt[ISTORE_3] = &iStore_3;
+    pt[ISTORE_0] = &Interpretador::istore_0;
+    pt[ISTORE_1] = &Interpretador::istore_1;
+    pt[ISTORE_2] = &Interpretador::istore_2;
+    pt[ISTORE_3] = &Interpretador::istore_3;
 //    pt[LSTORE_0] = &lStore_0;
 //    pt[LSTORE_1] = &lStore_1;
 //    pt[LSTORE_2] = &lStore_2;
@@ -121,12 +122,12 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[POP] = &Interpretador::pop;
     pt[POP2] = &Interpretador::pop2;
     pt[DUP] = &Interpretador::dup;
-//    pt[DUP_X1] = &dup_x1;
-//    pt[DUP_X2] = &dup_x2;
-//    pt[DUP2] = &dup2;
-//    pt[DUP2_X1] = &dup2_x1;
-//    pt[DUP2_X2] = &dup2_x2;
-//    pt[SWAP] = &swap;
+    pt[DUP_X1] = &Interpretador::dup_x1;
+    pt[DUP_X2] = &Interpretador::dup_x2;
+    pt[DUP2] = &Interpretador::dup2;
+    pt[DUP2_X1] = &Interpretador::dup2_x1;
+    pt[DUP2_X2] = &Interpretador::dup2_x2;
+    pt[SWAP] = &Interpretador::swap_op;
 //    pt[LADD] = &ladd;
 //    pt[FADD] = &fadd;
 //    pt[DADD] = &dadd;
@@ -142,17 +143,17 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[LDIv] = &ldiv;
 //    pt[FDIv] = &fdiv;
 //    pt[DDIv] = &ddiv;
-//    pt[IREM] = &irem;
+    pt[IREM] = &Interpretador::irem;
 //    pt[LREM] = &lrem;
 //    pt[FREM] = &frem;
 //    pt[DREM] = &drem;
-//    pt[INEG] = &ineg;
+    pt[INEG] = &Interpretador::ineg;
 //    pt[LNEG] = &lneg;
 //    pt[FNEG] = &fneg;
 //    pt[DNEG] = &dneg;
-//    pt[ISHL] = &ishl;
+    pt[ISHL] = &Interpretador::ishl;
 //    pt[LSHL] = &lshl;
-//    pt[ISHR] = &ishr;
+    pt[ISHR] = &Interpretador::ishr;
 //    pt[LSHR] = &lshr;
 //    pt[IUSHR] = &iushr;
 //    pt[LUSHR] = &lushr;
@@ -474,14 +475,15 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
+    printf("Executando lload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -578,6 +580,7 @@ int Interpretador::fload_3(){
 }
 
 int Interpretador::dload_0(){
+    printf("Executando dload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != DUP){
         printf("Variavel local carregada não é um double, abortar\n");
@@ -594,6 +597,7 @@ int Interpretador::dload_0(){
 }
 
 int Interpretador::dload_1(){
+    printf("Executando dload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != DUP){
         printf("Variavel local carregada não é um double, abortar\n");
@@ -610,6 +614,7 @@ int Interpretador::dload_1(){
 }
 
 int Interpretador::dload_2(){
+    printf("Executando dload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUP){
         printf("Variavel local carregada não é um double, abortar\n");
@@ -626,6 +631,7 @@ int Interpretador::dload_2(){
 }
 
 int Interpretador::dload_3(){
+    printf("Executando dload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != DUP){
         printf("Variavel local carregada não é um double, abortar\n");
@@ -642,10 +648,11 @@ int Interpretador::dload_3(){
 }
 
 int Interpretador::aload_0(){
+    printf("Executando aload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     printf("aload_0\n");
     if(lvar.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -655,7 +662,7 @@ int Interpretador::aload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
     printf("aload_0\n");
     if(lvar.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -733,16 +740,72 @@ int Interpretador::baload(){}
 int Interpretador::caload(){}
 int Interpretador::saload(){}
 
-int Interpretador::istore(){}
+int Interpretador::istore(){
+    printf("Executando istore\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+    if(this->frame_corrente->localVarVector[local_var_index].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.");
+    }
+    this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    return 2;
+}
 int Interpretador::lstore(){}
 int Interpretador::fstore(){}
 int Interpretador::dstore(){}
 int Interpretador::astore(){}
 
-int Interpretador::istore_0(){}
-int Interpretador::istore_1(){}
-int Interpretador::istore_2(){}
-int Interpretador::istore_3(){}
+int Interpretador::istore_0(){
+    printf("Executando istore_0\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    if(this->frame_corrente->localVarVector[0].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.");
+    }
+    this->frame_corrente->localVarVector[0].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
+int Interpretador::istore_1(){
+    printf("Executando istore_1\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    if(this->frame_corrente->localVarVector[1].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.");
+    }
+    this->frame_corrente->localVarVector[1].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
+int Interpretador::istore_2(){
+    printf("Executando istore_2\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    if(this->frame_corrente->localVarVector[2].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.");
+    }
+    this->frame_corrente->localVarVector[2].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
+int Interpretador::istore_3(){
+    printf("Executando istore_3\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    if(this->frame_corrente->localVarVector[3].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.");
+    }
+    this->frame_corrente->localVarVector[3].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
 
 int Interpretador::lstore_0(){}
 int Interpretador::lstore_1(){}
@@ -1108,8 +1171,16 @@ int Interpretador::fdiv(){}
 int Interpretador::ddiv(){}
 
 int Interpretador::irem(){
+    printf("Executando irem\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo de operando 1 em operandStack diferente do esperado.");
+    }
     uint32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
     uint32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
     Local_var operand;
@@ -1120,6 +1191,7 @@ int Interpretador::irem(){
 }
 
 int Interpretador::lrem(){
+    printf("Executando lrem\n");
     uint64_t rhs, lhs, result;
     uint32_t *alocador;
     alocador = (uint32_t*) &rhs;
@@ -1150,6 +1222,10 @@ int Interpretador::frem(){}
 int Interpretador::drem(){}
 
 int Interpretador::ineg(){//dar pop->push só pra isso é sacanagem
+    printf("Executando ineg\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
     this->frame_corrente->operandStack.back().value.int_value = -this->frame_corrente->operandStack.back().value.int_value;
     return 1;
 }
@@ -1178,16 +1254,76 @@ int Interpretador::lneg(){
 int Interpretador::fneg(){}
 int Interpretador::dneg(){}
 
-int Interpretador::ishl(){}
+int Interpretador::ishl(){
+    printf("Executando ishl\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = INT;
+    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    operand.value.int_value = lhs << rhs;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
 int Interpretador::lshl(){}
 
-int Interpretador::ishr(){}
+int Interpretador::ishr(){
+    printf("Executando ishl\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+    }
+    int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = INT;
+    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    operand.value.int_value = lhs >> rhs;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
 int Interpretador::lshr(){}
 
 int Interpretador::iushl(){}
 int Interpretador::lushl(){}
 
-int Interpretador::iand(){}
+int Interpretador::iand(){
+    printf("Executando iand\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo de operando 1 em operandStack diferente do esperado.");
+    }
+    int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em istore: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
+    int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = lhs & rhs;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
 int Interpretador::land(){}
 
 int Interpretador::ior(){}
