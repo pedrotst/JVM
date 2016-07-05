@@ -2059,8 +2059,49 @@ int Interpretador::putfield(){
 
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+    }
+    return 3;
+}
+
+int Interpretador::getstatic(){
+    uint32_t lhs;
+    Local_var op;
+    uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
+    printf("getstatic\n");
+    string field_name, field_type, class_name;
+    Local_var lvar, this_var;
+
+    name_index = name_index << 8;
+    name_index |= code_corrente->code[frame_corrente->pc+2];
+    class_name = frame_corrente->cf->getFieldClassName(name_index);
+    field_name = frame_corrente->cf->getFieldName(name_index);
+    field_type = frame_corrente->cf->getFieldType(name_index);
+    printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str());
+
+    if(field_type.compare("I") == 0){
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+
+        cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
+
+        lvar.tag = INT;
+        lvar.value.int_value = fvar.val.btype.val.inteiro;
+        this->frame_corrente->operandStack.push_back(lvar);
         printf("the int passed to the field is: %d\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
+
+    if(field_type.substr(0, 1).compare("L") == 0){
+        Local_var lvar;
+
+        cout << "entrei" << endl;
+
+        lvar.tag = STRINGTYPE;
+        lvar.value.string_value = new string(field_type);
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    }
+
     return 3;
 }
 

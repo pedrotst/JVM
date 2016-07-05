@@ -71,6 +71,11 @@ map<string, string> ClassFile::getFieldsNamesTypes(){
     return fbind;
 }
 
+string ClassFile::getFieldClassName(int n){
+    int classIndex = this->constant_pool[n-1].cp_union.constant_fieldref.class_index;
+    return getCpoolClass(classIndex);
+}
+
 string ClassFile::getFieldName(int n){
     int name_type_index = this->constant_pool[n-1].cp_union.constant_fieldref.name_and_type_index;
     int name_index = this->constant_pool[name_type_index - 1].cp_union.constant_nameAndType.name_index;
