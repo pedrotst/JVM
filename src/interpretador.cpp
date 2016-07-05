@@ -1,5 +1,6 @@
 #include "../include/interpretador.hpp"
 
+//------Verificar se faz sentido isso!!----------
 int Interpretador::execute_instruction(int opcode){
     if(opcode <= instructions.size()){
         return (*this.*instructions[opcode])();
@@ -20,7 +21,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     uint8_t opcode;
     printf("Estou em interpretador.runCode()\n");
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("pc->code[%f]: ", (float)this->frame_corrente->pc);
+        printf("pc->code[%l]: ", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -52,8 +53,8 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[BIPUSH] = &Interpretador::bipush;
     pt[SIPUSH] = &Interpretador::sipush;
     pt[LDC] = &Interpretador::ldc;
-//    pt[LDC_W] = &ldc_w;
-//    pt[LDC2_W] = &ldc2_w;
+    pt[LDC_W] = &Interpretador::ldc_w;
+    pt[LDC2_W] = &Interpretador::ldc2_w;
     pt[ILOAD_0] = &Interpretador::iload_0;
     pt[ILOAD_1] = &Interpretador::iload_1;
     pt[ILOAD_2] = &Interpretador::iload_2;
@@ -165,7 +166,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IINC] = &iinc;
 //    pt[I2L] = &i2l;
 //    pt[I2F] = &i2f;
-//    pt[I2D] = &i2d;
+   pt[I2D] = &Interpretador::i2d;
 //    pt[L2I] = &l2i;
 //    pt[L2F] = &l2f;
 //    pt[L2D] = &l2d;
@@ -205,8 +206,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DRETURN] = &dreturn;
 //    pt[ARETURN] = &areturn;
     pt[RETURN] = &Interpretador::return_op;
-    pt[GETSTATIC] = &Interpretador::getstatic;
-    pt[PUTSTATIC] = &Interpretador::putstatic;
+    pt[GETSTATIC] = &Interpretador::getfield;
+    pt[PUTSTATIC] = &Interpretador::putfield;
     pt[GETFIELD] = &Interpretador::getfield;
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
@@ -342,7 +343,7 @@ int Interpretador::lconst_1(){
 //int Interpretador::dconst_1(){}
 
 int Interpretador::bipush(){
-    //o byte é convertido para int, com sinal extendido, e colocado na stack
+    //o byte ï¿½ convertido para int, com sinal extendido, e colocado na stack
     printf("Executando bipush\n");
     Local_var operand;
     operand.tag = INT;//questï¿½es conceituais aqui
@@ -358,6 +359,7 @@ int Interpretador::sipush(){
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     operand.value.int_value <<= 8;
     operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    this->frame_corrente->operandStack.push_back(operand);
     return 3;
 }
 
@@ -385,7 +387,7 @@ int Interpretador::ldc(){
             //referencia dessa instancia na pilha
 
 //            std::string stringClass("java/lang/String");
-//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
+//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instï¿½ncia para java\lang\String
 
             operand.tag = STRINGTYPE;
 //            operand.value.reference_value = inst;
@@ -431,6 +433,123 @@ int Interpretador::ldc(){
     }
     return 2;//opcode e byte seguinde lidos
 }
+
+// NÃ£o foi testada, mas a Ãºnica diferenÃ§a da ldc Ã© que o index dessa sÃ£o 2 bytes.
+// SÃ³ muda o modo de obter o index e o return.
+int Interpretador::ldc_w(){
+    printf("Executando ldc_w\n");
+    uint16_t index = 0;
+    Local_var operand;
+
+    index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
+    //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
+    if(tag == CONSTANT_Integer){
+            operand.tag = INT;
+            operand.value.int_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            this->frame_corrente->operandStack.push_back(operand);
+    }else if(tag == CONSTANT_Float){
+            //  SEM SUPORTE
+            //operand.tag = PFLUTUANTE;
+            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            //this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_String){
+            //printf("ldc de String\n");
+            //cria uma instancia de objeto String e coloca a
+            //referencia dessa instancia na pilha
+
+//            std::string stringClass("java/lang/String");
+//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instï¿½ncia para java\lang\String
+
+            operand.tag = STRINGTYPE;
+//            operand.value.reference_value = inst;
+//            inst->cf = jvm->getClassRef(stringClass);
+
+            uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
+            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
+            //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
+//            FieldValue field;
+//            field.tag = ARRAYTYPE;
+//            field.val.arrtype.arr = new arrayref;
+//            for(int i = 0; i<string_value.size(); i++){
+//                    FieldValue carac;
+//                    carac.tag = BASETYPE;
+//                    carac.val.btype.tag = CHAR;
+//                    carac.val.btype.val.caractere = string_value[i];
+//                    field.val.arrtype.arr->push_back(carac);
+//            }
+//            string val("value");
+//            inst->field_instances[val] = field;
+            this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_Class){
+            operand.tag = OBJECTTYPE;
+
+            /*abaixo nao pode ser utilizado getClassName() porque
+              nao necessariamente o objeto instanciado sera da mesma classe
+              a qual pertence o metodo em execucao
+              (ex: metodo de Puppy.class pode instanciar Coco.class)*/
+            uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
+            std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
+
+            InstanceClass *inst = jvm->alocarObjeto(className);
+            inst->cf = jvm->getClassRef(className);
+
+            operand.value.reference_value = inst;
+            this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_MethodType){
+   }else if(tag == CONSTANT_MethodHandle){
+            //resolver o methodType ou methodHandle e colocar na operand stack a referï¿½ncia para a instï¿½ncia resultante de
+            //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
+   }else{
+            //exception
+    }
+    return 3;//opcode e byte seguinde lidos
+}
+
+// A Ãºnica diferenÃ§a dessa para a ldc_w Ã© que essa carrega 2 bytes ao invÃ©s de 1
+// Os byte sÃ£o colocados na pilha de operandos da seguinte forma:
+// ---- topo da pilha de operandos ----
+// LOW
+// HIGH
+// ---- base da pilha ------
+int Interpretador::ldc2_w(){
+    printf("Executando ldc2_w\n");
+    uint16_t index = 0;
+    Local_var operand_high, operand_low;
+
+    index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
+    //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
+    if(tag == CONSTANT_Long){
+            operand_high.tag = LONGO;
+            operand_low.tag = LONGO;
+            operand_high.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.high_bytes;
+            operand_low.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.low_bytes;
+            //colocar o valor na operand stack
+            this->frame_corrente->operandStack.push_back(operand_high);
+            this->frame_corrente->operandStack.push_back(operand_low);
+
+    }else if(tag == CONSTANT_Double){
+            //  SEM SUPORTE
+            //operand.tag = PFLUTUANTE;
+            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            //this->frame_corrente->operandStack.push_back(operand);
+   }else{
+            //exception
+    }
+
+    return 3;//opcode e byte seguinde lidos
+}
+
 
 //int Interpretador::ldc_w(){}
 //int Interpretador::ldc2_w(){}
@@ -513,12 +632,12 @@ int Interpretador::lload_1(){
     printf("Executando lload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
@@ -530,12 +649,12 @@ int Interpretador::lload_2(){
     printf("Executando lload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
@@ -547,12 +666,12 @@ int Interpretador::lload_3(){
     printf("Executando lload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[4];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada não é um long, abortar\n");
+        printf("Variavel local carregada nao eh um long, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
@@ -564,7 +683,7 @@ int Interpretador::fload_0(){
     printf("Executando fload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != PFLUTUANTE){
-        printf("Variavel local carregada não é um float, abortar\n");
+        printf("Variavel local carregada nao eh um float, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -575,7 +694,7 @@ int Interpretador::fload_1(){
     printf("Executando fload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != PFLUTUANTE){
-        printf("Variavel local carregada não é um float, abortar\n");
+        printf("Variavel local carregada nao eh um float, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
@@ -586,7 +705,7 @@ int Interpretador::fload_2(){
     printf("Executando fload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != PFLUTUANTE){
-        printf("Variavel local carregada não é um float, abortar\n");
+        printf("Variavel local carregada nao eh um float, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
@@ -597,7 +716,7 @@ int Interpretador::fload_3(){
     printf("Executando fload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != PFLUTUANTE){
-        printf("Variavel local carregada não é um float, abortar\n");
+        printf("Variavel local carregada nao eh um float, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
@@ -608,12 +727,12 @@ int Interpretador::dload_0(){
     printf("Executando dload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -625,12 +744,12 @@ int Interpretador::dload_1(){
     printf("Executando dload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
@@ -642,12 +761,12 @@ int Interpretador::dload_2(){
     printf("Executando dload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
@@ -659,12 +778,12 @@ int Interpretador::dload_3(){
     printf("Executando dload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != DUP){
-        printf("Variavel local carregada não é um double, abortar\n");
+        printf("Variavel local carregada nao eh um double, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -696,7 +815,7 @@ int Interpretador::aload_2(){
     printf("Executando aload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -706,7 +825,7 @@ int Interpretador::aload_3(){
     printf("Executando aload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -718,7 +837,7 @@ int Interpretador::iload_0(){
     printf("Executando iload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != INT){
-        printf("Variavel local carregada não é um inteiro, abortar\n");
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -728,8 +847,8 @@ int Interpretador::iload_1(){
     printf("Executando iload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
-        printf("Variavel local carregada não é um inteiro, abortar\n");
-        exit(0);
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
+        //exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
     return 1;
@@ -738,7 +857,7 @@ int Interpretador::iload_2(){
     printf("Executando iload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != INT){
-        printf("Variavel local carregada não é um inteiro, abortar\n");
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -748,7 +867,7 @@ int Interpretador::iload_3(){
     printf("Executando iload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != INT){
-        printf("Variavel local carregada não é um inteiro, abortar\n");
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -852,7 +971,7 @@ int Interpretador::astore_0(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -884,7 +1003,7 @@ int Interpretador::astore_2(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -899,7 +1018,7 @@ int Interpretador::astore_3(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -1257,7 +1376,7 @@ int Interpretador::lrem(){
 int Interpretador::frem(){}
 int Interpretador::drem(){}
 
-int Interpretador::ineg(){//dar pop->push só pra isso é sacanagem
+int Interpretador::ineg(){//dar pop->push sï¿½ pra isso ï¿½ sacanagem
     printf("Executando ineg\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado.");
@@ -1307,7 +1426,7 @@ int Interpretador::ishl(){
 
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    rhs &= 0x0000001f;//shifta usando sï¿½ os 5 ultimos bits desse numero
     operand.value.int_value = lhs << rhs;
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -1330,7 +1449,7 @@ int Interpretador::ishr(){
 
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    rhs &= 0x0000001f;//shifta usando sï¿½ os 5 ultimos bits desse numero
     operand.value.int_value = lhs >> rhs;
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -1373,7 +1492,26 @@ int Interpretador::iinc(){}
 
 int Interpretador::i2l(){}
 int Interpretador::i2f(){}
-int Interpretador::i2d(){}
+int Interpretador::i2d(){
+    printf("Executando i2d\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand1;
+    operand1.tag = DUPLO;
+    operand1.value.double_value = 0;
+    this->frame_corrente->operandStack.push_back(operand1);
+
+    Local_var operand2;
+    operand2.tag = DUPLO;
+    operand1.value.double_value = var;
+    this->frame_corrente->operandStack.push_back(operand1);
+    return 1;
+}
 
 int Interpretador::l2i(){}
 int Interpretador::l2f(){}
@@ -1822,82 +1960,6 @@ int Interpretador::jsr_w() {
 ////////////////////////// Compound Conditional Branch //////////////////////////
 // Compound conditional branch: tableswitch, lookupswitch.
 
-int Interpretador::putstatic(){
-    printf("Executando putstatic\n");
-    uint32_t lhs;
-    Local_var op;
-    uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
-    string field_name, field_type;
-    Local_var lvar, ref_var;
-    FieldValue fvar;
-
-    name_index = name_index << 8;
-    name_index |= code_corrente->code[frame_corrente->pc+2];
-    field_name = frame_corrente->cf->getFieldName(name_index);
-    field_type = frame_corrente->cf->getFieldType(name_index);
-    printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
-
-    lvar = this->frame_corrente->operandStack.back();
-    this->frame_corrente->operandStack.pop_back(); // pop the value
-
-    if(field_type.compare("I") == 0){
-
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = INT;
-        fvar.val.btype.val.inteiro = lvar.value.int_value;
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("o int passado para o field eh: %d\n", lvar.value.int_value);
-    }
-    else if(field_type.compare("Z") == 0){
-
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = BOOL;
-        fvar.val.btype.val.boleano = lvar.value.boolean_value;
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
-    }
-    else if(field_type.compare("C") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // lower
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar.value.long_value;
-
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) & lvar.value.long_value);
-    }
-    else if(field_type.compare("D") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // lower
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
-
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
-    }
-    return 3;
-}
-
 int Interpretador::putfield(){
     printf("Executando putfield\n");
     uint32_t lhs;
@@ -1997,6 +2059,7 @@ int Interpretador::getstatic(){
         lvar.tag = INT;
         lvar.value.int_value = fvar.val.btype.val.inteiro;
         this->frame_corrente->operandStack.push_back(lvar);
+        printf("the int passed to the field is: %d\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
 
     if(field_type.substr(0, 1).compare("L") == 0){
@@ -2063,7 +2126,7 @@ int Interpretador::anewarray(){
     Local_var operand;
     operand.tag = ARRAYTYPE;
 
-    //operand é de um arrayref
+    //operand ï¿½ de um arrayref
     ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
     vetor->arr = new arrayref;
     operand.value.arrayref = vetor;
@@ -2075,7 +2138,7 @@ int Interpretador::anewarray(){
         case CONSTANT_Class:
             name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
-            //cada item no vetor é a instância de um objeto
+            //cada item no vetor ï¿½ a instï¿½ncia de um objeto
             for(int i = 0; i < count_operand; i++){
                     FieldValue field;
                     field.tag = OBJECTTYPE;
@@ -2197,9 +2260,7 @@ int Interpretador::invokevirtual(){
     //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
-        Local_var print_var = this->frame_corrente->operandStack.back();
-        cout << print_var.repr() << endl;
-
+        printf("%s\n", this->frame_corrente->operandStack.back().value.string_value->c_str());
         return 3;
     }
 

@@ -48,8 +48,8 @@ string Local_var::repr(){
 }
 
 Frame::Frame(int method_index, ClassFile *cf){
-    this->method_index = method_index;
-    this->cf = cf;
+	this->method_index = method_index;
+	this->cf = cf;
 }
 void Frame::printOperandStack(){
     for(int i = 0; i < operandStack.size(); i++){

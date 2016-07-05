@@ -55,6 +55,7 @@ ClassFile* Jvm::getClassRef(string className) {
         }
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
+        fclose(arquivoClass);
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {
@@ -66,33 +67,6 @@ ClassFile* Jvm::getClassRef(string className) {
 /////////////////////////////////////////////////////////////////////////////
 //Classe para iniciar instanciacao da classe
 //Se ele o classfile ainda nao foi carregado, ele carrega
-InstanceClass* Jvm::alocarObjetoEstatico(string className){
-    ClassFile *classF;
-    InstanceClass *inst;
-    int found_obj;
-    inst = new InstanceClass();
-
-    // Obtém a referência para a classe. A classe é carrega se necessário.
-
-    cout << "classname do alocar: " << className << endl;
-    inst->cf = classF;
-
-    classF = getClassRef(className);
-    map<string, string> fbinds = classF->getStaticFieldsNamesTypes();
-
-    for(auto const &ent : fbinds) {
-        string fname = ent.first;
-        const char* ftype = ent.second.c_str();
-        cout << fname << " " << ftype[0] << endl;
-
-        FieldValue fval;
-        fval = this->inicializaFval(ftype, 0);
-        inst->field_instances[fname]= fval;
-    }
-    heap.push_back(inst);
-    return inst;
-}
-
 InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile *classF;
     InstanceClass *inst;
@@ -212,29 +186,15 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Local_var_Type lvarval;
     //cout << "executar classe: "<< classF->getClassName() << " metodo #" << n << endl;
     //cout << "variaveis da pilha " << endl;
-    //
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
         //cout << "var type: " << it->tag << endl;
         frame.localVarVector.push_back(*it);
     }
-
-    Interpretador interpreter(this);
-
-    //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
-    int clinitN = classF->findMethod("<clinit>", "()V");
-    if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-        cout << "Clinit encontrado em: " << clinitN << endl;
-        Frame staticFrame(clinitN, classF);
-        string cname = classF->getClassName();
-        this->staticHeap[cname] = alocarObjetoEstatico(cname);
-        interpreter.runCode(&staticFrame);
-    }
-
     this->fStack.push_back(frame);
     printf("Criei um frame\n");
 
+    Interpretador interpreter(this);
     interpreter.runCode(&frame);
-
 
     // se a pilha estiver vazia consideramos que ela retornou void
 
