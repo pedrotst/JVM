@@ -205,8 +205,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DRETURN] = &dreturn;
 //    pt[ARETURN] = &areturn;
     pt[RETURN] = &Interpretador::return_op;
-//    pt[GETSTATIC] = &getstatic;
-//    pt[PUTSTATIC] = &putstatic;
+    pt[GETSTATIC] = &Interpretador::getfield;
+    pt[PUTSTATIC] = &Interpretador::putfield;
     pt[GETFIELD] = &Interpretador::getfield;
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
@@ -375,25 +375,26 @@ int Interpretador::ldc(){
             std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
 
-            operand.tag = OBJECTTYPE;
-            operand.value.reference_value = inst;
-
-            inst->cf = jvm->getClassRef(stringClass);
+            operand.tag = STRINGTYPE;
+//            operand.value.reference_value = inst;
+//            inst->cf = jvm->getClassRef(stringClass);
 
             uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
-            string string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
-            FieldValue field;
-            field.tag = ARRAYTYPE;
-            field.val.arrtype.arr = new arrayref;
-            for(int i = 0; i<string_value.size(); i++){
-                    FieldValue carac;
-                    carac.tag = BASETYPE;
-                    carac.val.btype.tag = CHAR;
-                    carac.val.btype.val.caractere = string_value[i];
-                    field.val.arrtype.arr->push_back(carac);
-            }
-            string val("value");
-            inst->field_instances[val] = field;
+
+            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes);
+            //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
+//            FieldValue field;
+//            field.tag = ARRAYTYPE;
+//            field.val.arrtype.arr = new arrayref;
+//            for(int i = 0; i<string_value.size(); i++){
+//                    FieldValue carac;
+//                    carac.tag = BASETYPE;
+//                    carac.val.btype.tag = CHAR;
+//                    carac.val.btype.val.caractere = string_value[i];
+//                    field.val.arrtype.arr->push_back(carac);
+//            }
+//            string val("value");
+//            inst->field_instances[val] = field;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
             operand.tag = OBJECTTYPE;
@@ -1631,7 +1632,6 @@ int Interpretador::jsr_w() {
 ////////////////////////// Compound Conditional Branch //////////////////////////
 // Compound conditional branch: tableswitch, lookupswitch.
 
-
 int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
@@ -1639,6 +1639,7 @@ int Interpretador::putfield(){
     printf("entrou na funcao putfield\n");
     string field_name, field_type;
     Local_var lvar, ref_var;
+    FieldValue fvar;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -1646,10 +1647,11 @@ int Interpretador::putfield(){
     field_type = frame_corrente->cf->getFieldType(name_index);
     printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back(); // pop the value
+
     if(field_type.compare("I") == 0){
-        FieldValue fvar;
-        lvar = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop the value
+
         ref_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop this
 
@@ -1658,7 +1660,49 @@ int Interpretador::putfield(){
         fvar.val.btype.tag = INT;
         fvar.val.btype.val.inteiro = lvar.value.int_value;
         ref_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", lvar.value.int_value);
+        printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+    }
+    else if(field_type.compare("Z") == 0){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = BOOL;
+        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
+    }
+    else if(field_type.compare("C") == 0){
+        Local_var lvar_upper;
+        lvar_upper = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // lower
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = LONGO;
+        fvar.val.btype.val.longo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
+    }
+    else if(field_type.compare("D") == 0){
+        Local_var lvar_upper;
+        lvar_upper = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // lower
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = DUPLO;
+        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
     return 3;
 }
@@ -1759,7 +1803,6 @@ int Interpretador::monitorexit() {
 }
 
 int Interpretador::new_op(){
-    printf("Cheguei na new\n");
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instruï¿½ï¿½o; pc+1 ï¿½ o byte seguinte
     uint16_t name_index = operand;
     std::string className;
@@ -1769,15 +1812,15 @@ int Interpretador::new_op(){
     name_index = name_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     name_index = name_index|operand;
-    //printf("new #%d\n", name_index);
     className = this->frame_corrente->cf->getCpoolClass(name_index);
 
-    printf("nome da classe: %s\n", className.c_str());
+    printf("new #%d \t// %s\n", name_index, className.c_str());
+    //printf("nome da classe: %s\n", className.c_str());
     op.tag = OBJECTTYPE;
     op_val.reference_value = jvm->alocarObjeto(className);
     op.value = op_val;
     frame_corrente->operandStack.push_back(op);
-    printf("Sai da new\n");
+    //printf("Sai da new\n");
     return 3; //dois bytes lidos + o opcode
 }
 
@@ -1838,6 +1881,11 @@ int Interpretador::invokevirtual(){
     method_index = method_index|operand; //este ï¿½ o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+
+    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+       printf(this->frame_corrente->operandStack.back().value.string_value->c_str());
+       return 3;
+    }
 
 
     cf = this->jvm->getClassRef(invoking_class);
