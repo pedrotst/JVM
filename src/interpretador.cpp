@@ -205,8 +205,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DRETURN] = &dreturn;
 //    pt[ARETURN] = &areturn;
     pt[RETURN] = &Interpretador::return_op;
-//    pt[GETSTATIC] = &getstatic;
-//    pt[PUTSTATIC] = &putstatic;
+    pt[GETSTATIC] = &Interpretador::getfield;
+    pt[PUTSTATIC] = &Interpretador::putfield;
     pt[GETFIELD] = &Interpretador::getfield;
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
