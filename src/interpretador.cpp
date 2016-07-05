@@ -205,8 +205,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DRETURN] = &dreturn;
 //    pt[ARETURN] = &areturn;
     pt[RETURN] = &Interpretador::return_op;
-//    pt[GETSTATIC] = &getstatic;
-//    pt[PUTSTATIC] = &putstatic;
+    pt[GETSTATIC] = &Interpretador::getfield;
+    pt[PUTSTATIC] = &Interpretador::putfield;
     pt[GETFIELD] = &Interpretador::getfield;
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
@@ -1686,7 +1686,6 @@ int Interpretador::monitorexit() {
 }
 
 int Interpretador::new_op(){
-    printf("Cheguei na new\n");
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];//pc aponta para a instru��o; pc+1 � o byte seguinte
     uint16_t name_index = operand;
     std::string className;
@@ -1696,15 +1695,15 @@ int Interpretador::new_op(){
     name_index = name_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     name_index = name_index|operand;
-    //printf("new #%d\n", name_index);
     className = this->frame_corrente->cf->getCpoolClass(name_index);
 
-    printf("nome da classe: %s\n", className.c_str());
+    printf("new #%d \t// %s\n", name_index, className.c_str());
+    //printf("nome da classe: %s\n", className.c_str());
     op.tag = OBJECTTYPE;
     op_val.reference_value = jvm->alocarObjeto(className);
     op.value = op_val;
     frame_corrente->operandStack.push_back(op);
-    printf("Sai da new\n");
+    //printf("Sai da new\n");
     return 3; //dois bytes lidos + o opcode
 }
 

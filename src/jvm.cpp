@@ -68,16 +68,24 @@ ClassFile* Jvm::getClassRef(string className) {
 InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile *classF;
     InstanceClass *inst;
-
+    int found_obj;
     inst = new InstanceClass();
-    //inst->field_instances = new Fields_Values();//(Fields_Values*)malloc(sizeof(Fields_Values));
+
     // Obtém a referência para a classe. A classe é carrega se necessário.
-    classF = getClassRef(className);
 
     inst->cf = classF;
 
-    //cout << "Creating class " << className << endl;
-    map<string, string> fbinds = classF->getFieldsNamesTypes();
+    classF = getClassRef(className);
+    map<string, string> m_buffer = classF->getFieldsNamesTypes();
+    map<string, string> fbinds;
+    string super_name = classF->getClassName(); // começa loop na classe invocadora
+    do{
+        fbinds.insert(m_buffer.begin(), m_buffer.end());
+        classF = getClassRef(super_name);
+        m_buffer = classF->getFieldsNamesTypes();
+        super_name = classF->getSuper();
+    }while(super_name.compare("java/lang/Object") != 0);
+
     for(auto const &ent : fbinds) {
         string fname = ent.first;
         const char* ftype = ent.second.c_str();
