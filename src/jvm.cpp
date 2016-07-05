@@ -195,18 +195,18 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
 
     Interpretador interpreter(this);
     interpreter.runCode(&frame);
-//
-//    // se a pilha estiver vazia consideramos que ela retornou void
-//
-//    if(!fStack.back().operandStack.empty()){
-//        lvar = fStack.back().operandStack.back();
-//        //printf("o metodo chamado retornou algo\n");
-//    }
-//    else{
-//        //printf("o metodo chamado retornou void\n");
-//        lvar.tag = VOID_T;
-//        lvar.value.void_v = true;
-//    }
-//    this->fStack.pop_back();
+
+    // se a pilha estiver vazia consideramos que ela retornou void
+
+    if(!fStack.back().operandStack.empty()){
+        lvar = fStack.back().operandStack.back();
+        //printf("o metodo chamado retornou algo\n");
+    }
+    else{
+        //printf("o metodo chamado retornou void\n");
+        lvar.tag = VOID_T;
+        lvar.value.void_v = true;
+    }
+    this->fStack.pop_back();
     return lvar;
 }

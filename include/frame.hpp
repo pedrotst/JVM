@@ -25,6 +25,8 @@ typedef union Local_var_Type_u {
 	//InterfaceType interfaceref;		//?
 	bool  void_v;
 	uint64_t        returnAddress_value;
+	uint32_t float_value;
+	uint32_t double_value;
 }Local_var_Type;
 
 typedef struct local_var_s {
@@ -60,6 +62,7 @@ public:
       int method_index;
 
       Frame(int method_index, ClassFile *cf);
+      void printOperandStack();
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED
