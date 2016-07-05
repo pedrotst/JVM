@@ -1,0 +1,204 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 71
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 1 	<testeStatic>
+Super Class: 3 <java/lang/Object>
+Interface count: 0
+Fields count: 5
+Methods count: 4
+Attributes count: 1
+
+Constant Pool: 
+#1 = Class		#2		 // testeStatic
+#2 = Utf8		testeStatic
+#3 = Class		#4		 // java/lang/Object
+#4 = Utf8		java/lang/Object
+#5 = Utf8		number
+#6 = Utf8		I
+#7 = Utf8		nome
+#8 = Utf8		Ljava/lang/String;
+#9 = Utf8		td
+#10 = Utf8		D
+#11 = Utf8		tl
+#12 = Utf8		J
+#13 = Utf8		tf
+#14 = Utf8		F
+#15 = Utf8		<clinit>
+#16 = Utf8		()V
+#17 = Utf8		Code
+#18 = Fieldref		#1.#19		 // testeStatic.number:I
+#19 = NameAndType	#5.#6		number:I
+#20 = String		#21		// Teste
+#21 = Utf8		Teste
+#22 = Fieldref		#1.#23		 // testeStatic.nome:Ljava/lang/String;
+#23 = NameAndType	#7.#8		nome:Ljava/lang/String;
+#24 = Double		#1.15084e-204d
+#25 = continuação numerica
+#26 = Fieldref		#1.#27		 // testeStatic.td:D
+#27 = NameAndType	#9.#10		td:D
+#28 = Long		3l
+#29 = continuação numerica
+#30 = Fieldref		#1.#31		 // testeStatic.tl:J
+#31 = NameAndType	#11.#12		tl:J
+#32 = Float		#5.8f
+#33 = Fieldref		#1.#34		 // testeStatic.tf:F
+#34 = NameAndType	#13.#14		tf:F
+#35 = Utf8		LineNumberTable
+#36 = Utf8		<init>
+#37 = Methodref		#3.#38		 // java/lang/Object.<init>:()V
+#38 = NameAndType	#36.#16		<init>:()V
+#39 = Utf8		funfloat
+#40 = Utf8		(FF)F
+#41 = Utf8		main
+#42 = Utf8		([Ljava/lang/String;)V
+#43 = Fieldref		#44.#46		 // java/lang/System.out:Ljava/io/PrintStream;
+#44 = Class		#45		 // java/lang/System
+#45 = Utf8		java/lang/System
+#46 = NameAndType	#47.#48		out:Ljava/io/PrintStream;
+#47 = Utf8		out
+#48 = Utf8		Ljava/io/PrintStream;
+#49 = Methodref		#50.#52		 // java/io/PrintStream.println:(I)V
+#50 = Class		#51		 // java/io/PrintStream
+#51 = Utf8		java/io/PrintStream
+#52 = NameAndType	#53.#54		println:(I)V
+#53 = Utf8		println
+#54 = Utf8		(I)V
+#55 = Methodref		#50.#56		 // java/io/PrintStream.println:(Ljava/lang/String;)V
+#56 = NameAndType	#53.#57		println:(Ljava/lang/String;)V
+#57 = Utf8		(Ljava/lang/String;)V
+#58 = Methodref		#50.#59		 // java/io/PrintStream.println:(D)V
+#59 = NameAndType	#53.#60		println:(D)V
+#60 = Utf8		(D)V
+#61 = Methodref		#50.#62		 // java/io/PrintStream.println:(J)V
+#62 = NameAndType	#53.#63		println:(J)V
+#63 = Utf8		(J)V
+#64 = Methodref		#50.#65		 // java/io/PrintStream.println:(F)V
+#65 = NameAndType	#53.#66		println:(F)V
+#66 = Utf8		(F)V
+#67 = Methodref		#1.#68		 // testeStatic.funfloat:(FF)F
+#68 = NameAndType	#39.#40		funfloat:(FF)F
+#69 = Utf8		SourceFile
+#70 = Utf8		testeStatic.java
+
+
+Fields: 
+Field: 1
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#5 <number>
+Descriptor: cp_info#6 <I>
+Attributes Count: 0
+
+Field: 2
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#7 <nome>
+Descriptor: cp_info#8 <Ljava/lang/String;>
+Attributes Count: 0
+
+Field: 3
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#9 <td>
+Descriptor: cp_info#10 <D>
+Attributes Count: 0
+
+Field: 4
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#11 <tl>
+Descriptor: cp_info#12 <J>
+Attributes Count: 0
+
+Field: 5
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#13 <tf>
+Descriptor: cp_info#14 <F>
+Attributes Count: 0
+
+Methods_count: 4
+Methods: 
+Method: 1
+Name: #15<<clinit>>
+Access Flag: 0x0008[ACC_STATIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 72
+	 Max Stack: 2, 	 Max Locals: 0, 	 Code Length: 28
+	0:	BIPUSH	 #22 	 //  testeStatic.nome:Ljava/lang/String;
+	0x2:	PUTSTATIC	 #18 	 //  testeStatic.number:I
+	0x5:	LDC	 #20 	 //  Teste
+	0x7:	PUTSTATIC	 #22 	 //  testeStatic.nome:Ljava/lang/String;
+	0xa:	LDC2_W	 #24 	 //  
+	0xd:	PUTSTATIC	 #26 	 //  testeStatic.td:D
+	0x10:	LDC2_W	 #28 	 //  
+	0x13:	PUTSTATIC	 #30 	 //  testeStatic.tl:J
+	0x16:	LDC	 #32 	 //  
+	0x18:	PUTSTATIC	 #33 	 //  testeStatic.tf:F
+	0x1b:	RETURN	
+
+Method: 2
+Name: #36<<init>>
+Access Flag: 000000
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #37 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 3
+Name: #39<funfloat>
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Descritor: (FF)F
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 28
+	 Max Stack: 2, 	 Max Locals: 2, 	 Code Length: 4
+	0:	FLOAD_0	
+	0x1:	FLOAD_1	
+	0x2:	FMUL	
+	0x3:	FRETURN	
+
+Method: 4
+Name: #41<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 109
+	 Max Stack: 3, 	 Max Locals: 1, 	 Code Length: 61
+	0:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x3:	GETSTATIC	 #18 	 //  testeStatic.number:I
+	0x6:	INVOKEVIRTUAL	 #49 	 //  java/io/PrintStream.println:(I)V
+	0x9:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0xc:	GETSTATIC	 #22 	 //  testeStatic.nome:Ljava/lang/String;
+	0xf:	INVOKEVIRTUAL	 #55 	 //  java/io/PrintStream.println:(Ljava/lang/String;)V
+	0x12:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x15:	GETSTATIC	 #26 	 //  testeStatic.td:D
+	0x18:	INVOKEVIRTUAL	 #58 	 //  java/io/PrintStream.println:(D)V
+	0x1b:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x1e:	GETSTATIC	 #30 	 //  testeStatic.tl:J
+	0x21:	INVOKEVIRTUAL	 #61 	 //  java/io/PrintStream.println:(J)V
+	0x24:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x27:	GETSTATIC	 #33 	 //  testeStatic.tf:F
+	0x2a:	INVOKEVIRTUAL	 #64 	 //  java/io/PrintStream.println:(F)V
+	0x2d:	GETSTATIC	 #43 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x30:	GETSTATIC	 #33 	 //  testeStatic.tf:F
+	0x33:	GETSTATIC	 #33 	 //  testeStatic.tf:F
+	0x36:	INVOKESTATIC	 #67 	 //  testeStatic.funfloat:(FF)F
+	0x39:	INVOKEVIRTUAL	 #64 	 //  java/io/PrintStream.println:(F)V
+	0x3c:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #69
+attribute_length: 2
+Sourcefile_index: #70		//testeStatic.java
