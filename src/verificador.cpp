@@ -1,7 +1,7 @@
 #include "../include/verificador.hpp"
 
 void Verificador::verificaClass(ClassFile classF){
-    if(classF.major_version >= 46){
+    if(classF.major_version > 46){
         printf("Major version nao aceitavel!\n");
         exit(1);
     }
