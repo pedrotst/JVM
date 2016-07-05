@@ -24,7 +24,8 @@ typedef enum tag_tipo_e{
     OBJECTTYPE = 9,
     ARRAYTYPE = 10,
     VOID_T = 11,
-    RETURN_ADDRESS = 12
+    RETURN_ADDRESS = 12,
+	STRINGTYPE
 }tag_Tipo;
 
 typedef union base_type_s{

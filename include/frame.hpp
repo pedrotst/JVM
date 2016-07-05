@@ -21,6 +21,7 @@ typedef union Local_var_Type_u {
 	//reference_type pode ser: class type(InstanceClass*), array type (ArrayType*) ou interface type
 	InstanceClass*   reference_value; 	//objectType
 	ArrayType* 		arrayref;			//arrayType
+	std::string *string_value;
 	//InterfaceType interfaceref;		//?
 	bool  void_v;
 	uint64_t        returnAddress_value;
