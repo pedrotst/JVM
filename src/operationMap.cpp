@@ -212,7 +212,6 @@ namespace OperationMap{
         op_mapa[0XFF] = "IMPDEP2";
     }
     map<uint8_t, string> op_mapa = create_map();
-
     std::string getOperation(uint8_t opcode){
         return(OperationMap::op_mapa[opcode]);
     }
