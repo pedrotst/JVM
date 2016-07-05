@@ -2147,6 +2147,8 @@ int Interpretador::putfield(){
     }
     return 3;
 }
+
+
 int Interpretador::getstatic(){
     uint32_t lhs;
     Local_var op;
@@ -2183,9 +2185,9 @@ int Interpretador::getstatic(){
         this->frame_corrente->operandStack.push_back(lvar);
 
     }
-
-    return 3;
 }
+
+
 
 int Interpretador::getfield(){
     printf("Executando getfield\n");
