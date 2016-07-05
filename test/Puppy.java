@@ -30,8 +30,9 @@ public class Puppy{
       /* Object creation */
       Dawg myPuppy = new Dawg(1);
 
+      //System.out.println("Variable Value :" + myPuppy.age);
       /* Call class method to set puppy's age */
-      myPuppy.setAge( 2 );
+      myPuppy.getAge();
 
       /* Call another class method to get puppy's age */
       //myPuppy.getAge( );

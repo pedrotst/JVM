@@ -84,7 +84,7 @@ class Interpretador{
         int ldc();
         //int ldc_w();
         //int ldc2_w();
-
+        int getfield();
         int iload();
 		int lload();
 		int fload();
@@ -167,7 +167,6 @@ class Interpretador{
 
 		int pop();
 		int pop2();
-
 
 		int dup();
 		int dup_x1();
@@ -287,6 +286,7 @@ class Interpretador{
 
 		int anewarray();
 
+		int ireturn();
 		int return_op();
 		int new_op();
 
