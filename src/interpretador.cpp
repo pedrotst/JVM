@@ -21,7 +21,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     uint8_t opcode;
     printf("Estou em interpretador.runCode()\n");
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
-        printf("pc->code[%ld]: ", this->frame_corrente->pc);
+        printf("pc->code[%l]: ", this->frame_corrente->pc);
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
@@ -53,8 +53,8 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[BIPUSH] = &Interpretador::bipush;
     pt[SIPUSH] = &Interpretador::sipush;
     pt[LDC] = &Interpretador::ldc;
-//    pt[LDC_W] = &ldc_w;
-//    pt[LDC2_W] = &ldc2_w;
+    pt[LDC_W] = &Interpretador::ldc_w;
+    pt[LDC2_W] = &Interpretador::ldc2_w;
     pt[ILOAD_0] = &Interpretador::iload_0;
     pt[ILOAD_1] = &Interpretador::iload_1;
     pt[ILOAD_2] = &Interpretador::iload_2;
@@ -343,7 +343,7 @@ int Interpretador::lconst_1(){
 //int Interpretador::dconst_1(){}
 
 int Interpretador::bipush(){
-    //o byte é convertido para int, com sinal extendido, e colocado na stack
+    //o byte ï¿½ convertido para int, com sinal extendido, e colocado na stack
     printf("Executando bipush\n");
     Local_var operand;
     operand.tag = INT;//questï¿½es conceituais aqui
@@ -387,7 +387,7 @@ int Interpretador::ldc(){
             //referencia dessa instancia na pilha
 
 //            std::string stringClass("java/lang/String");
-//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
+//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instï¿½ncia para java\lang\String
 
             operand.tag = STRINGTYPE;
 //            operand.value.reference_value = inst;
@@ -433,6 +433,123 @@ int Interpretador::ldc(){
     }
     return 2;//opcode e byte seguinde lidos
 }
+
+// NÃ£o foi testada, mas a Ãºnica diferenÃ§a da ldc Ã© que o index dessa sÃ£o 2 bytes.
+// SÃ³ muda o modo de obter o index e o return.
+int Interpretador::ldc_w(){
+    printf("Executando ldc_w\n");
+    uint16_t index = 0;
+    Local_var operand;
+
+    index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
+    //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
+    if(tag == CONSTANT_Integer){
+            operand.tag = INT;
+            operand.value.int_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            this->frame_corrente->operandStack.push_back(operand);
+    }else if(tag == CONSTANT_Float){
+            //  SEM SUPORTE
+            //operand.tag = PFLUTUANTE;
+            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            //this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_String){
+            //printf("ldc de String\n");
+            //cria uma instancia de objeto String e coloca a
+            //referencia dessa instancia na pilha
+
+//            std::string stringClass("java/lang/String");
+//            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instï¿½ncia para java\lang\String
+
+            operand.tag = STRINGTYPE;
+//            operand.value.reference_value = inst;
+//            inst->cf = jvm->getClassRef(stringClass);
+
+            uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
+            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
+            //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
+//            FieldValue field;
+//            field.tag = ARRAYTYPE;
+//            field.val.arrtype.arr = new arrayref;
+//            for(int i = 0; i<string_value.size(); i++){
+//                    FieldValue carac;
+//                    carac.tag = BASETYPE;
+//                    carac.val.btype.tag = CHAR;
+//                    carac.val.btype.val.caractere = string_value[i];
+//                    field.val.arrtype.arr->push_back(carac);
+//            }
+//            string val("value");
+//            inst->field_instances[val] = field;
+            this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_Class){
+            operand.tag = OBJECTTYPE;
+
+            /*abaixo nao pode ser utilizado getClassName() porque
+              nao necessariamente o objeto instanciado sera da mesma classe
+              a qual pertence o metodo em execucao
+              (ex: metodo de Puppy.class pode instanciar Coco.class)*/
+            uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
+            std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
+
+            InstanceClass *inst = jvm->alocarObjeto(className);
+            inst->cf = jvm->getClassRef(className);
+
+            operand.value.reference_value = inst;
+            this->frame_corrente->operandStack.push_back(operand);
+   }else if(tag == CONSTANT_MethodType){
+   }else if(tag == CONSTANT_MethodHandle){
+            //resolver o methodType ou methodHandle e colocar na operand stack a referï¿½ncia para a instï¿½ncia resultante de
+            //java.lang.invoke.MethodType ou java.lang.invoke.MethodHandle
+   }else{
+            //exception
+    }
+    return 3;//opcode e byte seguinde lidos
+}
+
+// A Ãºnica diferenÃ§a dessa para a ldc_w Ã© que essa carrega 2 bytes ao invÃ©s de 1
+// Os byte sÃ£o colocados na pilha de operandos da seguinte forma:
+// ---- topo da pilha de operandos ----
+// LOW
+// HIGH
+// ---- base da pilha ------
+int Interpretador::ldc2_w(){
+    printf("Executando ldc2_w\n");
+    uint16_t index = 0;
+    Local_var operand_high, operand_low;
+
+    index = this->code_corrente->code[this->frame_corrente->pc+1];
+    index <<= 8;
+    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+
+    cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
+    //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
+    if(tag == CONSTANT_Long){
+            operand_high.tag = LONGO;
+            operand_low.tag = LONGO;
+            operand_high.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.high_bytes;
+            operand_low.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.low_bytes;
+            //colocar o valor na operand stack
+            this->frame_corrente->operandStack.push_back(operand_high);
+            this->frame_corrente->operandStack.push_back(operand_low);
+
+    }else if(tag == CONSTANT_Double){
+            //  SEM SUPORTE
+            //operand.tag = PFLUTUANTE;
+            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
+            //colocar o valor na operand stack
+            //this->frame_corrente->operandStack.push_back(operand);
+   }else{
+            //exception
+    }
+
+    return 3;//opcode e byte seguinde lidos
+}
+
 
 //int Interpretador::ldc_w(){}
 //int Interpretador::ldc2_w(){}
@@ -854,7 +971,7 @@ int Interpretador::astore_0(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -886,7 +1003,7 @@ int Interpretador::astore_2(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -901,7 +1018,7 @@ int Interpretador::astore_3(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada não é uma referencia, abortar\n");
+        printf("Variavel local carregada nï¿½o ï¿½ uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -1259,7 +1376,7 @@ int Interpretador::lrem(){
 int Interpretador::frem(){}
 int Interpretador::drem(){}
 
-int Interpretador::ineg(){//dar pop->push só pra isso é sacanagem
+int Interpretador::ineg(){//dar pop->push sï¿½ pra isso ï¿½ sacanagem
     printf("Executando ineg\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado.");
@@ -1309,7 +1426,7 @@ int Interpretador::ishl(){
 
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    rhs &= 0x0000001f;//shifta usando sï¿½ os 5 ultimos bits desse numero
     operand.value.int_value = lhs << rhs;
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -1332,7 +1449,7 @@ int Interpretador::ishr(){
 
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando só os 5 ultimos bits desse numero
+    rhs &= 0x0000001f;//shifta usando sï¿½ os 5 ultimos bits desse numero
     operand.value.int_value = lhs >> rhs;
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -1968,7 +2085,7 @@ int Interpretador::anewarray(){
     Local_var operand;
     operand.tag = ARRAYTYPE;
 
-    //operand é de um arrayref
+    //operand ï¿½ de um arrayref
     ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
     vetor->arr = new arrayref;
     operand.value.arrayref = vetor;
@@ -1980,7 +2097,7 @@ int Interpretador::anewarray(){
         case CONSTANT_Class:
             name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
-            //cada item no vetor é a instância de um objeto
+            //cada item no vetor ï¿½ a instï¿½ncia de um objeto
             for(int i = 0; i < count_operand; i++){
                     FieldValue field;
                     field.tag = OBJECTTYPE;
