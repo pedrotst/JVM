@@ -369,43 +369,47 @@ int Interpretador::ldc(){
             //this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
             printf("ldc de String\n");
-            //cria uma instï¿½ncia de objeto String e coloca a
+            //cria uma instancia de objeto String e coloca a
             //referencia dessa instancia na pilha
 
             std::string stringClass("java/lang/String");
-            InstanceClass *inst = jvm->alocarObjeto(stringClass);
+            InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
 
-            //criando instï¿½ncia
             operand.tag = OBJECTTYPE;
-            inst->cf = jvm->getClassRef(stringClass);//referencia ao classFile de String
-            //inst->field_instances = new Fields_Values;
-            //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
-            /*na linha abaixo, colocar o valor que a instï¿½ncia deve receber informado via index.
-              Como colocar o valor se ObjectType tem apenas o nome da classe como campo?
-              Tem que ser via field_instances, mas para isso tem que se conhecer a organizaï¿½ï¿½o
-              interna de String.class*/
-
-            //colocar a referencia da string na operand stack
             operand.value.reference_value = inst;
+
+            inst->cf = jvm->getClassRef(stringClass);
+
+            uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
+            string string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
+            FieldValue field;
+            field.tag = ARRAYTYPE;
+            field.val.arrtype.arr = new arrayref;
+            for(int i = 0; i<string_value.size(); i++){
+                    FieldValue carac;
+                    carac.tag = BASETYPE;
+                    carac.val.btype.tag = CHAR;
+                    carac.val.btype.val.caractere = string_value[i];
+                    field.val.arrtype.arr->push_back(carac);
+            }
+            string val("value");
+            inst->field_instances[val] = field;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
-            //resolver a classe e colocar a refeï¿½ncia ao class object (value) na operand stack
             operand.tag = OBJECTTYPE;
 
             /*abaixo nao pode ser utilizado getClassName() porque
-              nï¿½o necessariamente o objeto instanciado serï¿½ da mesma classe
-              a qual pertence o mï¿½todo em execuï¿½ï¿½o
-              (ex: mï¿½todo de Puppy.class pode instanciar Cocï¿½.class)*/
+              nao necessariamente o objeto instanciado sera da mesma classe
+              a qual pertence o metodo em execucao
+              (ex: metodo de Puppy.class pode instanciar Coco.class)*/
             uint16_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_class.name_index;
             std::string className(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
 
             InstanceClass *inst = jvm->alocarObjeto(className);
-            inst->cf = jvm->getClassRef(className);//a instï¿½ncia deve receber referï¿½ncia de onde foi alocado o ClassFile
-            //inst->field_instances = new Fields_Values;
-            //inst->field_instances->push_back(jvm->inicializaFval("L", 0));
-            /*falta colocar o valor*/
+            inst->cf = jvm->getClassRef(className);
 
-
+            operand.value.reference_value = inst;
+            this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_MethodType){
    }else if(tag == CONSTANT_MethodHandle){
             //resolver o methodType ou methodHandle e colocar na operand stack a referï¿½ncia para a instï¿½ncia resultante de
@@ -668,13 +672,8 @@ int Interpretador::pop(){
 }
 
 int Interpretador::pop2(){
-    if(this->frame_corrente->operandStack.back().tag == LONGO ||
-       this->frame_corrente->operandStack.back().tag == DUPLO){
-                this->frame_corrente->operandStack.pop_back();
-                this->frame_corrente->operandStack.pop_back();
-    }else{
-        this->frame_corrente->operandStack.pop_back();
-    }
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
 
