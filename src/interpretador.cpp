@@ -1511,7 +1511,6 @@ int Interpretador::jsr_w() {
 ////////////////////////// Compound Conditional Branch //////////////////////////
 // Compound conditional branch: tableswitch, lookupswitch.
 
-
 int Interpretador::putfield(){
     uint32_t lhs;
     Local_var op;
@@ -1519,6 +1518,7 @@ int Interpretador::putfield(){
     printf("entrou na funcao putfield\n");
     string field_name, field_type;
     Local_var lvar, ref_var;
+    FieldValue fvar;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -1526,10 +1526,11 @@ int Interpretador::putfield(){
     field_type = frame_corrente->cf->getFieldType(name_index);
     printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back(); // pop the value
+
     if(field_type.compare("I") == 0){
-        FieldValue fvar;
-        lvar = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop the value
+
         ref_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop this
 
@@ -1538,7 +1539,49 @@ int Interpretador::putfield(){
         fvar.val.btype.tag = INT;
         fvar.val.btype.val.inteiro = lvar.value.int_value;
         ref_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", lvar.value.int_value);
+        printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+    }
+    else if(field_type.compare("Z") == 0){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = BOOL;
+        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
+    }
+    else if(field_type.compare("C") == 0){
+        Local_var lvar_upper;
+        lvar_upper = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // lower
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = LONGO;
+        fvar.val.btype.val.longo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
+    }
+    else if(field_type.compare("D") == 0){
+        Local_var lvar_upper;
+        lvar_upper = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // lower
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = DUPLO;
+        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+
+
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("the int passed to the field is: %f\n", lvar_upper.value.long_value << 16 && lvar.value.long_value);
     }
     return 3;
 }
