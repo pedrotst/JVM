@@ -477,68 +477,168 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     return 1;
 }
 
 int Interpretador::lload_1(){
+    Local_var lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[2];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     return 1;
 }
 
 int Interpretador::lload_2(){
+    Local_var lvar = this->frame_corrente->localVarVector[2];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[3];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     return 1;
 }
 
 int Interpretador::lload_3(){
+    Local_var lvar = this->frame_corrente->localVarVector[3];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[4];
+    if(lvar.tag != LONGO){
+        printf("Variavel local carregada não é um long, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
     return 1;
 }
 
 int Interpretador::fload_0(){
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    if(lvar.tag != PFLUTUANTE){
+        printf("Variavel local carregada não é um float, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     return 1;
 }
 
 int Interpretador::fload_1(){
+    Local_var lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != PFLUTUANTE){
+        printf("Variavel local carregada não é um float, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     return 1;
 }
 
 int Interpretador::fload_2(){
+    Local_var lvar = this->frame_corrente->localVarVector[2];
+    if(lvar.tag != PFLUTUANTE){
+        printf("Variavel local carregada não é um float, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     return 1;
 }
 
 int Interpretador::fload_3(){
+    Local_var lvar = this->frame_corrente->localVarVector[3];
+    if(lvar.tag != PFLUTUANTE){
+        printf("Variavel local carregada não é um float, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     return 1;
 }
 
 int Interpretador::dload_0(){
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     return 1;
 }
 
 int Interpretador::dload_1(){
+    Local_var lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[2];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     return 1;
 }
 
 int Interpretador::dload_2(){
+    Local_var lvar = this->frame_corrente->localVarVector[2];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[3];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     return 1;
 }
 
 int Interpretador::dload_3(){
+    Local_var lvar = this->frame_corrente->localVarVector[0];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
+    lvar = this->frame_corrente->localVarVector[1];
+    if(lvar.tag != DUP){
+        printf("Variavel local carregada não é um double, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     return 1;
@@ -547,7 +647,7 @@ int Interpretador::dload_3(){
 int Interpretador::aload_0(){
     Local_var lvar = this->frame_corrente->localVarVector[0];
     printf("aload_0\n");
-    if(lvar.tag != 9){
+    if(lvar.tag != OBJECTTYPE){
         printf("Variavel local carregada não é uma referencia, abortar\n");
         exit(0);
     }
@@ -557,7 +657,7 @@ int Interpretador::aload_0(){
 int Interpretador::aload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
     printf("aload_0\n");
-    if(lvar.tag != 9){
+    if(lvar.tag != OBJECTTYPE){
         printf("Variavel local carregada não é uma referencia, abortar\n");
         exit(0);
     }
@@ -567,7 +667,7 @@ int Interpretador::aload_1(){
 int Interpretador::aload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
     printf("aload_0\n");
-    if(lvar.tag != 9){
+    if(lvar.tag != OBJECTTYPE){
         printf("Variavel local carregada não é uma referencia, abortar\n");
         exit(0);
     }
@@ -577,7 +677,7 @@ int Interpretador::aload_2(){
 int Interpretador::aload_3(){
     Local_var lvar = this->frame_corrente->localVarVector[3];
     printf("aload_0\n");
-    if(lvar.tag != 9){
+    if(lvar.tag != OBJECTTYPE){
         printf("Variavel local carregada não é uma referencia, abortar\n");
         exit(0);
     }
@@ -589,7 +689,7 @@ int Interpretador::aload_3(){
 int Interpretador::iload_0(){
     Local_var lvar = this->frame_corrente->localVarVector[0];
     printf("aload_0\n");
-    if(lvar.tag != 1){
+    if(lvar.tag != INT){
         printf("Variavel local carregada não é um inteiro, abortar\n");
         exit(0);
     }
@@ -599,7 +699,7 @@ int Interpretador::iload_0(){
 int Interpretador::iload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
     printf("aload_0\n");
-    if(lvar.tag != 1){
+    if(lvar.tag != INT){
         printf("Variavel local carregada não é um inteiro, abortar\n");
         exit(0);
     }
@@ -609,7 +709,7 @@ int Interpretador::iload_1(){
 int Interpretador::iload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
     printf("aload_0\n");
-    if(lvar.tag != 1){
+    if(lvar.tag != INT){
         printf("Variavel local carregada não é um inteiro, abortar\n");
         exit(0);
     }
@@ -619,7 +719,7 @@ int Interpretador::iload_2(){
 int Interpretador::iload_3(){
     Local_var lvar = this->frame_corrente->localVarVector[3];
     printf("aload_0\n");
-    if(lvar.tag != 1){
+    if(lvar.tag != INT){
         printf("Variavel local carregada não é um inteiro, abortar\n");
         exit(0);
     }
@@ -666,6 +766,10 @@ int Interpretador::astore_0(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
+    if(op.tag != OBJECTTYPE){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[0] = op;
@@ -677,6 +781,10 @@ int Interpretador::astore_1(){
     size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
+    if(op.tag != OBJECTTYPE){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
     cout << "astore_1: " << op.tag << endl;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
@@ -688,6 +796,10 @@ int Interpretador::astore_2(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
+    if(op.tag != OBJECTTYPE){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[2] = op;
@@ -698,6 +810,10 @@ int Interpretador::astore_3(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
+    if(op.tag != OBJECTTYPE){
+        printf("Variavel local carregada não é uma referencia, abortar\n");
+        exit(0);
+    }
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[3] = op;
