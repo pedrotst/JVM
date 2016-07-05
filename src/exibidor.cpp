@@ -352,7 +352,7 @@ void exibeClass(ClassFile classF){
 
             printf("attribute_length: %d\n", attributeElement.attribute_union.attr_SourceFile.attribute_length);
 
-            printf("Sourcefile_index: #%d\t\t//%s.java", attributeElement.attribute_union.attr_SourceFile.sourcefile_index, classF.getClassName().c_str());
+            printf("Sourcefile_index: #%d\t\t//%s.java\n", attributeElement.attribute_union.attr_SourceFile.sourcefile_index, classF.getClassName().c_str());
             //index = attributeElement.attribute_union.attr_SourceFile.sourcefile_index;
             //cout << classF.getClassName() << endl;
 
