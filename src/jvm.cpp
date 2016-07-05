@@ -55,7 +55,6 @@ ClassFile* Jvm::getClassRef(string className) {
         }
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
-        fclose(arquivoClass);
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {
@@ -75,6 +74,7 @@ InstanceClass* Jvm::alocarObjetoEstatico(string className){
 
     // Obtém a referência para a classe. A classe é carrega se necessário.
 
+    cout << "classname do alocar: " << className << endl;
     inst->cf = classF;
 
     classF = getClassRef(className);
