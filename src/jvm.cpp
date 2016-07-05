@@ -25,7 +25,7 @@ int Jvm::run(const char* arq_class_name) {
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
-    printf("Valor de main_index: %d\n", main_index);
+    //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
         execMethod(main_index, &classF, args);
     }else {
@@ -76,7 +76,7 @@ InstanceClass* Jvm::alocarObjeto(string className){
 
     inst->cf = classF;
 
-    cout << "Creating class " << className << endl;
+    //cout << "Creating class " << className << endl;
     map<string, string> fbinds = classF->getFieldsNamesTypes();
     for(auto const &ent : fbinds) {
         string fname = ent.first;
