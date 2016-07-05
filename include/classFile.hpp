@@ -81,6 +81,13 @@ public:
 	*/
     string getFieldType(int n);
 
+    /**
+	*  \brief Resolve o tipo de uma field n na constant pool
+    * a partir do nome da field
+	*/
+    string getFieldType(string fname);
+
+
 
 	/** \brief Procura o método em uma classe.
 	*

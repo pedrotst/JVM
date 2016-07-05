@@ -298,6 +298,10 @@ class Interpretador{
 
 
 
+
+        void valida_tipos_fields(Local_var ref_var, string field_type, string field_name);
+
+
       ///////////////////// Funções que acho (o Felipe)        /////////////////////
       ///////////////////// que não precisam ser implementadas /////////////////////
       // Essa pode até ser importante, mas acho que deve ficar por último.
@@ -306,6 +310,9 @@ class Interpretador{
       int monitorenter();
       // Relacionada a threads.
       int monitorexit();
+
+
+
 
 };
 #endif // INTERPRETADOR_H

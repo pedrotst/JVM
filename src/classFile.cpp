@@ -82,6 +82,16 @@ string ClassFile::getFieldType(int n){
     return this->getCpoolUtf8(type_index);
 }
 
+string ClassFile::getFieldType(string fname){
+    string buffer;
+    for(int i=0; i < this->fields_count; i++){
+        if(fname.compare(this->getFieldName(i)) == 0)
+            return this->getFieldType(i);
+    }
+    return buffer;
+}
+
+
 string ClassFile::getSuper(){
     int super_index = this->super_class;
 
