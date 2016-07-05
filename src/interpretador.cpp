@@ -1978,7 +1978,7 @@ int Interpretador::getstatic(){
     uint32_t lhs;
     Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
-    //printf("entrou na funcao getfield\n");
+    printf("entrou na funcao getstatic\n");
     string field_name, field_type;
     Local_var lvar, this_var;
 
@@ -2191,7 +2191,9 @@ int Interpretador::invokevirtual(){
     //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
-        printf("%s\n", this->frame_corrente->operandStack.back().value.string_value->c_str());
+        Local_var print_var = this->frame_corrente->operandStack.back();
+        cout << print_var.repr() << endl;
+
         return 3;
     }
 

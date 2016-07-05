@@ -1,8 +1,55 @@
 #include "../include/frame.hpp"
 
+using namespace std;
+
+string Local_var::repr(){
+    stringstream converter;
+    switch (this->tag){
+        case BOOL:
+            converter << value.boolean_value;
+            return converter.str();
+        case INT:
+            converter << value.int_value;
+            return converter.str();
+        case CHAR:
+            converter << value.char_value;
+            return converter.str();
+        case BYTE:
+            converter << value.byte_value;
+            return converter.str();
+        case LONGO:
+            converter << value.long_value;
+            return converter.str();
+        case PFLUTUANTE:
+            converter << value.float_value;
+            return converter.str();
+        case CURTO:
+            converter << value.short_value;
+            return converter.str();
+        case DUPLO:
+            converter << value.double_value;
+            return converter.str();
+            break;
+        case BASETYPE:
+            break;
+        case OBJECTTYPE:
+            break;
+        case ARRAYTYPE:
+            break;
+        case VOID_T:
+        case RETURN_ADDRESS:
+            break;
+        case STRINGTYPE:
+            break;
+    }
+
+    string buf;
+    return buf;
+}
+
 Frame::Frame(int method_index, ClassFile *cf){
-	this->method_index = method_index;
-	this->cf = cf;
+    this->method_index = method_index;
+    this->cf = cf;
 }
 void Frame::printOperandStack(){
     for(int i = 0; i < operandStack.size(); i++){
