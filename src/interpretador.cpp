@@ -375,25 +375,26 @@ int Interpretador::ldc(){
             std::string stringClass("java/lang/String");
             InstanceClass *inst = jvm->alocarObjeto(stringClass);//tenho uma instância para java\lang\String
 
-            operand.tag = OBJECTTYPE;
-            operand.value.reference_value = inst;
-
-            inst->cf = jvm->getClassRef(stringClass);
+            operand.tag = STRINGTYPE;
+//            operand.value.reference_value = inst;
+//            inst->cf = jvm->getClassRef(stringClass);
 
             uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
-            string string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
-            FieldValue field;
-            field.tag = ARRAYTYPE;
-            field.val.arrtype.arr = new arrayref;
-            for(int i = 0; i<string_value.size(); i++){
-                    FieldValue carac;
-                    carac.tag = BASETYPE;
-                    carac.val.btype.tag = CHAR;
-                    carac.val.btype.val.caractere = string_value[i];
-                    field.val.arrtype.arr->push_back(carac);
-            }
-            string val("value");
-            inst->field_instances[val] = field;
+
+            operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes);
+            //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
+//            FieldValue field;
+//            field.tag = ARRAYTYPE;
+//            field.val.arrtype.arr = new arrayref;
+//            for(int i = 0; i<string_value.size(); i++){
+//                    FieldValue carac;
+//                    carac.tag = BASETYPE;
+//                    carac.val.btype.tag = CHAR;
+//                    carac.val.btype.val.caractere = string_value[i];
+//                    field.val.arrtype.arr->push_back(carac);
+//            }
+//            string val("value");
+//            inst->field_instances[val] = field;
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
             operand.tag = OBJECTTYPE;
@@ -1722,6 +1723,11 @@ int Interpretador::invokevirtual(){
     method_index = method_index|operand; //este ï¿½ o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+
+    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+       printf(this->frame_corrente->operandStack.back().value.string_value->c_str());
+       return 3;
+    }
 
 
     cf = this->jvm->getClassRef(invoking_class);
