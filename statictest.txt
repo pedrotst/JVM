@@ -1,0 +1,87 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 20
+Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
+This Class: 3 	<Test>
+Super Class: 4 <java/lang/Object>
+Interface count: 0
+Fields count: 1
+Methods count: 3
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#4.#16		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#3.#17		 // Test.a:I
+#3 = Class		#18		 // Test
+#4 = Class		#19		 // java/lang/Object
+#5 = Utf8		a
+#6 = Utf8		I
+#7 = Utf8		<init>
+#8 = Utf8		()V
+#9 = Utf8		Code
+#10 = Utf8		LineNumberTable
+#11 = Utf8		main
+#12 = Utf8		([Ljava/lang/String;)V
+#13 = Utf8		<clinit>
+#14 = Utf8		SourceFile
+#15 = Utf8		Test.java
+#16 = NameAndType	#7.#8		<init>:()V
+#17 = NameAndType	#5.#6		a:I
+#18 = Utf8		Test
+#19 = Utf8		java/lang/Object
+
+
+Fields: 
+Field: 1
+Access Flag: 0x000a[ACC_PRIVATE][ACC_STATIC]
+Name: cp_info#5 <a>
+Descriptor: cp_info#6 <I>
+Attributes Count: 0
+
+Methods_count: 3
+Methods: 
+Method: 1
+Name: #7<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 2
+Name: #11<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 25
+	 Max Stack: 0, 	 Max Locals: 1, 	 Code Length: 1
+	0:	RETURN	
+
+Method: 3
+Name: #13<<clinit>>
+Access Flag: 0x0008[ACC_STATIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 0, 	 Code Length: 5
+	0:	ICONST_3	
+	0x1:	PUTSTATIC	 #2 	 //  Test.a:I
+	0x4:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #14
+attribute_length: 2
+Sourcefile_index: #15		//Test.java
