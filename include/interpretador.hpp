@@ -82,8 +82,9 @@ class Interpretador{
         int sipush();
 
         int ldc();
-        //int ldc_w();
-        //int ldc2_w();
+        int ldc_w();
+        int ldc2_w();
+
         int getstatic();
         int getfield();
         int iload();
@@ -291,7 +292,6 @@ class Interpretador{
 		int return_op();
 		int new_op();
 
-		int putstatic();
 		int putfield();
 		int iconst_m1();
 

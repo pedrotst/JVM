@@ -59,31 +59,14 @@ string ClassFile::getCpoolUtf8(int index){
     return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
 }
 
-map<string, string> ClassFile::getStaticFieldsNamesTypes(){
-    map<string, string> fbind;
-
-    for(int i=0; i < this->fields_count; i++){
-        //soh pega os fields estaticos
-        if(this->fields[i].access_flags && 0x0008 == 0x0008){
-            string fieldName, fieldType;
-            fieldName = this->getCpoolUtf8(this->fields[i].name_index);
-            fieldType = this->getCpoolUtf8(this->fields[i].descriptor_index);
-            fbind[fieldName] = fieldType;
-        }
-    }
-    return fbind;
-}
 map<string, string> ClassFile::getFieldsNamesTypes(){
     map<string, string> fbind;
 
     for(int i=0; i < this->fields_count; i++){
-        //soh pega os fields nao estaticos
-        if(this->fields[i].access_flags && 0x0008 != 0x0008){
-            string fieldName, fieldType;
-            fieldName = this->getCpoolUtf8(this->fields[i].name_index);
-            fieldType = this->getCpoolUtf8(this->fields[i].descriptor_index);
-            fbind[fieldName] = fieldType;
-        }
+        string fieldName, fieldType;
+        fieldName = this->getCpoolUtf8(this->fields[i].name_index);
+        fieldType = this->getCpoolUtf8(this->fields[i].descriptor_index);
+        fbind[fieldName] = fieldType;
     }
     return fbind;
 }

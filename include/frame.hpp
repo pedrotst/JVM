@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <cstdint>
-#include <sstream>
 #include "../include/heap.hpp"
 
 //////////////////////////// Estruturas ////////////////////////////
@@ -30,13 +29,10 @@ typedef union Local_var_Type_u {
 	uint32_t double_value;
 }Local_var_Type;
 
-class Local_var{
-public:
+typedef struct local_var_s {
     tag_Tipo tag;
 	Local_var_Type value;
-    std::string repr();
-        
-};
+}Local_var;
 
 //////////////////////////// Class ////////////////////////////
 class Frame{
