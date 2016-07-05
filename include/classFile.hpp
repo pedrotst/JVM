@@ -33,6 +33,9 @@ public:
 	std::string getCpoolUtf8(int index);
 	//retorna um bind entre o nome e o tipo
 	std::map<std::string, std::string> getFieldsNamesTypes();
+    //
+	//retorna um bind entre o nome e o tipo das classes estaticas
+	std::map<std::string, std::string> getStaticFieldsNamesTypes();
     /** \fn getCpoolClass Busca na Constant Pool o nome da Classe a partir do index
     *
     *   \param index Index utilizado para encontrar o ClassName
