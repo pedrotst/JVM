@@ -104,3 +104,60 @@ void Frame::printOperandStack(){
         }
     }
 }
+
+void Frame::printLocalVar(){
+    printf("Locar_var:\n");
+    if(localVarVector.size() == 0) printf("//vazia//\n");
+    for(int i = 0; i < localVarVector.size(); i++){
+        switch(localVarVector[i].tag){
+            case BOOL:
+                printf("tag: BOOL | val: %d //", this->localVarVector[i].value.boolean_value);
+                break;
+            case INT:
+                printf("tag: INT | val: %d //", this->localVarVector[i].value.int_value);
+                break;
+            case CHAR:
+                printf("tag: CHAR | val: %d //", this->localVarVector[i].value.char_value);
+                break;
+            case BYTE:
+                printf("tag: BYTE | val: %d //", this->localVarVector[i].value.byte_value);
+                break;
+            case LONGO:
+                printf("tag: LONG | val: %d //", this->localVarVector[i].value.long_value);
+                break;
+            case PFLUTUANTE:
+                printf("tag: PF | val: %d //", this->localVarVector[i].value.float_value);
+                break;
+            case CURTO:
+                printf("tag: SHORT | val: %d //", this->localVarVector[i].value.short_value);
+                break;
+            case DUPLO:
+                printf("tag: DOUBLE | val: %d //", this->localVarVector[i].value.double_value);
+                break;
+            case BASETYPE:
+                //printf("tag: BASETYPE | val: %x //", this->localVarVector[i].value.reference_value);
+                printf("tag: BASETYPE");
+                break;
+            case OBJECTTYPE:
+                //printf("tag: OBJECTTYPE | val: %x //", this->localVarVector[i].value.reference_value);
+                printf("tag: OBJECTTYPE");
+                break;
+            case ARRAYTYPE:
+                //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
+                printf("tag: ARRAYTYPE");
+                break;
+            case VOID_T:
+                printf("tag: VOID_T | val: %d //", this->localVarVector[i].value.void_v);
+                break;
+            case RETURN_ADDRESS:
+                //printf("tag: RETURN_ADDRESS | val: %d //", this->localVarVector[i].value.returnAddress_value);
+                printf("tag: RETURN ADDRESS");
+                break;
+            case STRINGTYPE:
+                //printf("tag: STRINGTYPE | val: %x //", this->localVarVector[i].value.string_value);
+                printf("tag: STRINGTYPE");
+                break;
+        }
+    }
+    printf("\n");
+}
