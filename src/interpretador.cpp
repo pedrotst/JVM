@@ -168,9 +168,9 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[IXOR] = &ixor;
 //    pt[LXOR] = &lxor;
 //    pt[IINC] = &iinc;
-//    pt[I2L] = &i2l;
-//    pt[I2F] = &i2f;
-//    pt[I2D] = &i2d;
+    pt[I2L] = &Interpretador::i2l;
+    pt[I2F] = &Interpretador::i2f;
+   pt[I2D] = &Interpretador::i2d;
 //    pt[L2I] = &l2i;
 //    pt[L2F] = &l2f;
 //    pt[L2D] = &l2d;
@@ -178,7 +178,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[D2L] = &d2l;
 //    pt[D2F] = &d2f;
 //    pt[I2B] = &i2b;
-//    pt[I2C] = &i2c;
+    pt[I2C] = &Interpretador::i2c;
 //    pt[I2S] = &i2s;
 //    pt[LCMP] = &lcmp;
 //    pt[FCMPL] = &fcmpl;
@@ -1546,9 +1546,66 @@ int Interpretador::lxor(){}
 
 int Interpretador::iinc(){}
 
-int Interpretador::i2l(){}
-int Interpretador::i2f(){}
-int Interpretador::i2d(){}
+int Interpretador::i2l(){
+    printf("Executando i2l\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2l: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand1;
+    operand1.tag = LONGO;
+    operand1.value.long_value = 0;
+    this->frame_corrente->operandStack.push_back(operand1);
+
+    Local_var operand2;
+    operand2.tag = LONGO;
+    operand1.value.long_value = var;
+    this->frame_corrente->operandStack.push_back(operand2);
+    return 1;
+}
+int Interpretador::i2f(){
+    printf("Executando i2f\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2f: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand1;
+    operand1.tag = PFLUTUANTE;
+    operand1.value.float_value = 0;
+    this->frame_corrente->operandStack.push_back(operand1);
+
+    Local_var operand2;
+    operand2.tag = PFLUTUANTE;
+    operand1.value.float_value = var;
+    this->frame_corrente->operandStack.push_back(operand2);
+    return 1;
+}
+int Interpretador::i2d(){
+    printf("Executando i2d\n");
+    int tag = this->frame_corrente->operandStack.back().tag;
+    if(tag != INT){
+        printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    printf("var = %u\n", var);
+    Local_var operand1;
+    operand1.tag = DUPLO;
+    operand1.value.double_value = 0;
+    this->frame_corrente->operandStack.push_back(operand1);
+
+    Local_var operand2;
+    operand2.tag = DUPLO;
+    operand1.value.double_value = var;
+    this->frame_corrente->operandStack.push_back(operand2);
+    return 1;
+}
 
 int Interpretador::l2i(){}
 int Interpretador::l2f(){}
@@ -1563,7 +1620,30 @@ int Interpretador::d2l(){}
 int Interpretador::d2f(){}
 
 int Interpretador::i2b(){}
-int Interpretador::i2c(){}
+int Interpretador::i2c(){
+    printf("Executando i2c\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    printf("var = %d\n", var);
+    char caracter = (char)var;
+    printf("caracter = %c", caracter);
+    var = (uint32_t)caracter;
+    printf("var = %d", var);
+    Local_var operand1;
+    operand1.tag = CURTO;
+    operand1.value.double_value = 0;
+    this->frame_corrente->operandStack.push_back(operand1);
+
+    Local_var operand2;
+    operand2.tag = DUPLO;
+    operand1.value.double_value = var;
+    this->frame_corrente->operandStack.push_back(operand2);
+    return 1;
+}
 int Interpretador::i2s(){}
 
 int Interpretador::lcmp(){}
