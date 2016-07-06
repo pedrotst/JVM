@@ -821,8 +821,8 @@ int Interpretador::aload_2(){
 int Interpretador::aload_3(){
     printf("Executando aload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
-    if(lvar.tag != OBJECTTYPE){
-        printf("Variavel local carregada n�o � uma referencia, abortar\n");
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
+        printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
