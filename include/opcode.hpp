@@ -33,7 +33,7 @@
 #define  ILOAD_3  0X1D
 #define  LLOAD_0  0X1E
 #define  LLOAD_1  0X1F
-#define  LLOAD_2  0X2
+#define  LLOAD_2  0X20
 #define  LLOAD_3  0X21
 #define  FLOAD_0  0X22
 #define  FLOAD_1  0X23
