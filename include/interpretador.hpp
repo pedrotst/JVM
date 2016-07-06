@@ -298,6 +298,7 @@ class Interpretador{
         int if_acmpne();
 
         int tableswitch();
+        int lookupswitch();
 
         ////////////////////////// Unconditional Branch //////////////////////////
         // Unconditional branch: goto, goto_w, jsr, jsr_w, ret.

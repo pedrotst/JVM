@@ -210,7 +210,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[JSR] = &Interpretador::jsr;//nao foi testada
 //    pt[RET] = &ret;
 //    pt[TABLESWITCH] = &tableswitch;
-//    pt[LOOKUPSWITCH] = &lookupswitch;
+    pt[LOOKUPSWITCH] = &Interpretador::lookupswitch;
     pt[IRETURN] = &Interpretador::ireturn;
 //    pt[LRETURN] = &lreturn;
 //    pt[FRETURN] = &freturn;
@@ -2170,6 +2170,8 @@ int Interpretador::tableswitch(){
         printf("Erro em tableswitch: valor na operandStack diferente de INT!\n");
     }
     int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
     uint8_t resto = this->frame_corrente->pc%4;
     int32_t defaultbytes, lowbytes, highbytes;
     int8_t *alocador;
@@ -2198,6 +2200,40 @@ int Interpretador::tableswitch(){
     }else{
         return offsets[index-lowbytes];
     }
+}
+
+int Interpretador::lookupswitch(){
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em lookupswitch: valor na operandStack diferente de INT!\n");
+    }
+    int32_t key = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    uint8_t resto = this->frame_corrente->pc%4;
+    int32_t defaultbytes, npairs;
+    int8_t *alocador;
+    // 0  1  2  3  4
+    //OP PD PD PD dB1
+    //3 bytes de padding
+    for(int i = 0; i < 4; i++){
+            alocador = (int8_t*) &defaultbytes;
+            alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i ];
+
+            alocador = (int8_t*) &npairs;
+            alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 4];
+    }
+    int32_t match[npairs], offset[npairs];
+    for(int j = 0; j < npairs; j++){
+        for(int i = 0; i < 4; i++){
+                alocador = (int8_t*) match[j];
+                alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 8*j + 8];
+                alocador = (int8_t*) offset[j];
+                alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 8*j + 12];
+        }
+    }
+    for(int i = 0; i < npairs; i++){
+        if(key == match[i]) return offset[i];
+    }
+    return defaultbytes;
 }
 
 int Interpretador::putstatic(){
