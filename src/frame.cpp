@@ -40,7 +40,7 @@ string Local_var::repr(){
         case RETURN_ADDRESS:
             break;
         case STRINGTYPE:
-            return *(value.string_value);
+            return *value.string_value;
     }
 
     string buf;
@@ -103,8 +103,8 @@ void Frame::printOperandStack(){
                 printf("tag: RETURN ADDRESS //");
                 break;
             case STRINGTYPE:
-                //printf("tag: STRINGTYPE | %x", this->operandStack[i].value.string_value);
-                printf("tag: STRINGTYPE //");
+                cout << "tag: STRINGTYPE |  \\" << this->operandStack[i].repr();
+                //printf("tag: STRINGTYPE //");
                 break;
         }
     }
