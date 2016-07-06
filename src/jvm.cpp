@@ -55,7 +55,6 @@ ClassFile* Jvm::getClassRef(string className) {
         }
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
-        fclose(arquivoClass);
     }
     // Se a classe for encontrada retorna uma referência para ela
     else {

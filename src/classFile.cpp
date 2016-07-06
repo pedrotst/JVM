@@ -59,6 +59,14 @@ string ClassFile::getCpoolUtf8(int index){
     return(this->constant_pool[index-1].cp_union.constant_Utf8.bytes);
 }
 
+
+
+string ClassFile::getFieldClassName(int n){
+    int classIndex = this->constant_pool[n-1].cp_union.constant_fieldref.class_index;
+    return getCpoolClass(classIndex);
+}
+
+
 map<string, string> ClassFile::getStaticFieldsNamesTypes(){
     map<string, string> fbind;
 

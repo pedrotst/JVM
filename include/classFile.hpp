@@ -74,6 +74,9 @@ public:
     */
     string getCpoolNameAndType(int index, string &method_name, string &descriptor);
 
+
+    string getFieldClassName(int n);
+
 	/**
 	*   \brief Pega o nome de uma field n na constant pool
 	*/

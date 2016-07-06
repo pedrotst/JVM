@@ -87,6 +87,19 @@ class Jvm{
         InstanceClass* alocarObjeto(std::string className);
 
 
+        /** \fn ClassFile alocarObjetoEstatico (std::string className)
+         *
+         * \brief Carrega a instância de uma classe carregada, alocando
+         * as fields estaticas e instânciando com os valores padrão.
+         *
+         * \param className nome da classe a ser retornada
+         *
+         * \return A referência da instância da classe alocada com valores padrão.
+         *
+         */
+        InstanceClass* alocarObjetoEstatico(std::string className);
+
+
         // Em andamento
         //
         // Cria o frame
