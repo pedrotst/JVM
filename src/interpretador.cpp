@@ -22,8 +22,8 @@ int Interpretador::runCode(Frame *frame_pt) {
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         //if(VERBOSE){
-            //printf("pc->code[%ld]: ", this->frame_corrente->pc);
-            //printf("Executando %s\n",  OperationMap::getOperation((uint8_t)opcode).c_str());
+            printf("pc->code[%ld]: ", this->frame_corrente->pc);
+            printf("Executando %s\n",  OperationMap::getOperation((uint8_t)opcode).c_str());
         //}
         this->frame_corrente->pc += this->execute_instruction(opcode);
         //if(ITERATION){
@@ -174,17 +174,17 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[LOR] = &lor;
     pt[IXOR] = &Interpretador::ixor;
 //    pt[LXOR] = &lxor;
-//    pt[IINC] = &iinc;
+    pt[IINC] = &Interpretador::iinc;
     pt[I2L] = &Interpretador::i2l;
     pt[I2F] = &Interpretador::i2f;
-   pt[I2D] = &Interpretador::i2d;
+    pt[I2D] = &Interpretador::i2d;
 //    pt[L2I] = &l2i;
 //    pt[L2F] = &l2f;
 //    pt[L2D] = &l2d;
 //    pt[D2I] = &d2i;
 //    pt[D2L] = &d2l;
 //    pt[D2F] = &d2f;
-   pt[I2B] = &Interpretador::i2b;
+    pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
     pt[I2S] = &Interpretador::i2s;
 //    pt[LCMP] = &lcmp;
@@ -207,7 +207,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[IF_ACMPEQ] = &Interpretador::if_acmpeq;
     pt[IF_ACMPNE] = &Interpretador::if_acmpne;
     pt[GOTO] = &Interpretador::goto_java;
-//    pt[JSR] = &jsr;
+    pt[JSR] = &Interpretador::jsr;//nao foi testada
 //    pt[RET] = &ret;
 //    pt[TABLESWITCH] = &tableswitch;
 //    pt[LOOKUPSWITCH] = &lookupswitch;
@@ -241,8 +241,8 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[MULTIANEWARRAY] = &multianewarray;
     pt[IFNULL] = &Interpretador::ifnull;
     pt[IFNONNULL] = &Interpretador::ifnonnull;
-//    pt[GOTO_W] = &goto;
-//    pt[JSR_W] = &jsr_w;
+    pt[GOTO_W] = &Interpretador::goto_w;
+    pt[JSR_W] = &Interpretador::jsr_w;//nao foi testada
 //    pt[BREAKPOINT] = &breakpoint;
 //    pt[IMPDEP1] = &impdep1;
 //    pt[IMPDEP2] = &impdep2;
@@ -543,10 +543,6 @@ int Interpretador::iload(){
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand = this->frame_corrente->localVarVector[index-1];
     this->frame_corrente->operandStack.push_back(operand);
-
-    //debug
-    //this->frame_corrente->printOperandStack();
-    //this->frame_corrente->printLocalVar();
     return 2;
 }
 
@@ -813,10 +809,6 @@ int Interpretador::iload_1(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-
-    //debug
-    //this->frame_corrente->printOperandStack();
-    //this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::iload_2(){
@@ -876,10 +868,6 @@ int Interpretador::istore(){
 
     //this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-
-    //debug
-//    this->frame_corrente->printOperandStack();
-//    this->frame_corrente->printLocalVar();
     return 2;
 }
 
@@ -1168,10 +1156,6 @@ int Interpretador::iastore(){
     arrayref *arr = this->frame_corrente->operandStack.back().value.arrayref->arr;
     arr->at(index).val.btype.val.inteiro = val;
     this->frame_corrente->operandStack.pop_back();
-
-    //debug
-//    this->frame_corrente->printOperandStack();
-//    this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::lastore(){}
@@ -1195,10 +1179,6 @@ int Interpretador::pop2(){
 
 int Interpretador::dup(){
     this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
-
-    //debug
-//    this->frame_corrente->printOperandStack();
-//    this->frame_corrente->printLocalVar();
     return 1;//opcode lido
 }
 int Interpretador::dup_x1(){
@@ -1650,7 +1630,13 @@ int Interpretador::ixor(){
 }
 int Interpretador::lxor(){}
 
-int Interpretador::iinc(){}
+int Interpretador::iinc(){
+    uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+    int32_t constante = this->code_corrente->code[this->frame_corrente->pc+2];
+
+    this->frame_corrente->localVarVector[index].value.int_value += constante;
+    return 3;
+}
 
 int Interpretador::i2l(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -2179,6 +2165,41 @@ int Interpretador::jsr_w() {
 ////////////////////////// Compound Conditional Branch //////////////////////////
 // Compound conditional branch: tableswitch, lookupswitch.
 
+int Interpretador::tableswitch(){
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em tableswitch: valor na operandStack diferente de INT!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    uint8_t resto = this->frame_corrente->pc%4;
+    int32_t defaultbytes, lowbytes, highbytes;
+    int8_t *alocador;
+    // 0  1  2  3  4
+    //OP PD PD PD dB1
+    //3 bytes de padding
+    for(int i = 0; i < 4; i++){
+            alocador = (int8_t*) &defaultbytes;
+            alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i ];
+
+            alocador = (int8_t*) &lowbytes;
+            alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 4];
+
+            alocador = (int8_t*) &highbytes;
+            alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 8];
+    }
+    int32_t offsets[highbytes - lowbytes + 1];
+    for(int j = 0; j < highbytes - lowbytes + 1; j++){
+        for(int i = 0; i < 4; i++){
+                alocador = (int8_t*) offsets[j];
+                alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 4*j + 12];
+        }
+    }
+    if(index < lowbytes || index > highbytes){
+        return defaultbytes;
+    }else{
+        return offsets[index-lowbytes];
+    }
+}
+
 int Interpretador::putstatic(){
     uint32_t lhs;
     Local_var op;
@@ -2663,7 +2684,7 @@ int Interpretador::invokestatic(){
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
         runCode(staticFrame);
     }
-
+    printf("invokestatic: passei daqui\n");
     //precisamos encontrar em qual classF este m�todo foi declarado
     super_name = cf->getClassName(); // come�a loop na classe invocadora
     do{

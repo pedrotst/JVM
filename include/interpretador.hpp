@@ -297,6 +297,8 @@ class Interpretador{
         int if_acmpeq();
         int if_acmpne();
 
+        int tableswitch();
+
         ////////////////////////// Unconditional Branch //////////////////////////
         // Unconditional branch: goto, goto_w, jsr, jsr_w, ret.
         int goto_java();

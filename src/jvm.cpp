@@ -48,9 +48,9 @@ ClassFile* Jvm::getClassRef(string className) {
     // Carrega a nova classe.
 
     if(loadedClasses.count(className) != 1) {
-            cout << className << endl;
+            //cout << className << endl;
         if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
-            printf("O arquivo .class nao pode ser aberto.\n");
+            printf("Erro em getClassRef: O arquivo .class nao pode ser aberto.\n");
             exit(0);
         }
         leitorClass_info(classF, arquivoClass);
