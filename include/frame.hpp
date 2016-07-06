@@ -8,10 +8,9 @@
 #include "../include/heap.hpp"
 
 //////////////////////////// Estruturas ////////////////////////////
-/** \class Operand_Type
- * \brief Os tipos float e double não estão presentes porque não vamos dar suporte a
- * ponto flutuante.
- * O tipo void será utilizado para avisar que a função retorna nada
+/** \class Local_var_Type
+ * \brief O tipo void será utilizado para avisar que a função retorna nada
+ * os tipos long e double utilizam duas posicoes na pilha
 */
 typedef union Local_var_Type_u {
 	bool boolean_value;
@@ -19,12 +18,10 @@ typedef union Local_var_Type_u {
 	uint8_t char_value;
 	int16_t short_value;
 	int32_t int_value;
-	int32_t long_value;//longs usam dois local_var para cada operando
-	//reference_type pode ser: class type(InstanceClass*), array type (ArrayType*) ou interface type
-	InstanceClass*   reference_value; 	//objectType
-	ArrayType* 		arrayref;			//arrayType
+	int32_t long_value;
+	InstanceClass*   reference_value;
+	ArrayType* 		arrayref;
 	std::string *string_value;
-	//InterfaceType interfaceref;		//?
 	bool  void_v;
 	uint64_t        returnAddress_value;
 	uint32_t float_value;
@@ -42,23 +39,27 @@ public:
 //////////////////////////// Class ////////////////////////////
 class Frame{
 public:
-      /** Pilha de operandos.
+      /** \var operandStack
+      * \brief Pilha de operandos.
       * A pilha de operandos começa vazia. Ela é populada ao longo da execução
       * das instruções.
       */
       std::vector<Local_var> operandStack;
 
 
-      /** Vetor de variáveis locais. */
+      /** \var localVarVector
+      * \brief Vetor de variáveis locais. */
       std::vector<Local_var> localVarVector;
 
-    /** \brief
+    /** \var pc
+      *\brief
      *  Código atual sendo executado
      */
 	uint64_t pc;
 
 
-      /** referencia pra constant pool */
+      /** \var *cf
+      * \brief referencia pra constant pool */
       ClassFile *cf;
 
       /** \var method_index

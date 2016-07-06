@@ -8,6 +8,10 @@
 #include <exception>
 #include "../include/structs.hpp"
 
+/** \class ClassFile
+* \brief ver https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4
+*/
+
 using namespace std;
 class ClassFile{
 public:
@@ -28,13 +32,31 @@ public:
 	uint16_t attributes_count;
 	std::vector<attribute_info> attributes;
 
+
+	/** \fn getCpoolUtf8
+	* \return retorna o arquivo que gerou esta classe
+	*/
 	std::string getSource();
+
+	/** \fn getClassName
+	* \return retorna o nome desta classe
+	*/
 	std::string getClassName();
+
+	/** \fn getCpoolUtf8
+	* \return retorna o valor da posicao index -1 da constant pool
+	* assume-se que ha um utf8 nesta posicao
+	*/
 	std::string getCpoolUtf8(int index);
-	//retorna um bind entre o nome e o tipo
+	//
+	/** \fn getFieldsNamesTypes
+	* \brief retorna um bind entre o nome e o tipo de todas fields nao estaticas da classe
+	*/
 	std::map<std::string, std::string> getFieldsNamesTypes();
-    //
-	//retorna um bind entre o nome e o tipo das classes estaticas
+
+	/** \fn getFieldsNamesTypes
+	* \brief retorna um bind entre o nome e o tipo de todas fields estaticas da classe
+	*/
 	std::map<std::string, std::string> getStaticFieldsNamesTypes();
     /** \fn getCpoolClass Busca na Constant Pool o nome da Classe a partir do index
     *
@@ -75,19 +97,22 @@ public:
     string getCpoolNameAndType(int index, string &method_name, string &descriptor);
 
 
+    /** \fn getFieldClassName
+	*   \brief Pega o nome da classe de onde a field pertence
+	*/
     string getFieldClassName(int n);
 
-	/**
+	/** \fn getFieldName
 	*   \brief Pega o nome de uma field n na constant pool
 	*/
     string getFieldName(int n);
 
-	/**
+	/** \fn getFieldType(int n)
 	*  \brief Resolve o tipo de uma field n na constant pool
 	*/
     string getFieldType(int n);
 
-    /**
+    /** \fn getFieldType(string fname)
 	*  \brief Resolve o tipo de uma field n na constant pool
     * a partir do nome da field
 	*/
@@ -127,7 +152,7 @@ public:
 
 
 	/**
-	*   \return Retorna true se o método no indice method_index for true
+	*   \return Retorna true se o método no indice method_index for estatico
 	*/
 	bool isStaticMethod(int method_index);
 

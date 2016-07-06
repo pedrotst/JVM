@@ -17,14 +17,32 @@
 
 /**  \class Jvm
  *
- *  \brief Esta é a classe mãe da JVM ela
- *  Ela quem deve encontrar a main da classe inicial e rodar o loop para
- *  rodar os métodos
+ * \brief Esta é a classe mãe da JVM ela
+ * Ela quem deve encontrar a main da classe inicial e rodar o loop para
+ * rodar os métodos.
+ * Ela quem é responsável pela heap, e pela gerencia dos objetos alocados em geral
+ * inclusive os classfile!
+ *
  */
 
 
 class Jvm{
-    public:
+private:
+        /** \fn inicializaFval
+         *
+         * \brief Constroi uma FieldValue com os valores padroes, a maioria zero
+         * ou false para booleanos, ou array com a dimensao certa mas vazio, ou null.
+         *
+         * \param ftype
+         * \param ftype eh o descritor da field
+         * \param n parametro para recursao, chame esta funcao passando como valor inicial sempre zero.
+         *
+         * \return uma FieldValue inicializada
+         *
+         */
+        FieldValue inicializaFval(const char* ftype, int n);
+
+public:
         /** \var fStack
          *
          *  \brief Pilha de execução da jvm. Pilha de frames.
@@ -79,7 +97,7 @@ class Jvm{
          * \brief Carrega a instância de uma classe carregada, alocando
          * as fields e instânciando com os valores padrão.
          *
-         * \param className nome da classe a ser retornada
+         * \param className nome da classe a ser alocada
          *
          * \return A referência da instância da classe alocada com valores padrão.
          *
@@ -92,42 +110,29 @@ class Jvm{
          * \brief Carrega a instância de uma classe carregada, alocando
          * as fields estaticas e instânciando com os valores padrão.
          *
-         * \param className nome da classe a ser retornada
+         * \param className nome da classe a ser alocada
          *
-         * \return A referência da instância da classe alocada com valores padrão.
+         * \return A referência da instância da classe estática alocada com valores padrão.
          *
          */
         InstanceClass* alocarObjetoEstatico(std::string className);
 
+        /** \fn execMethod
+         *
+         * \brief executa o enesimo metodo da classF com argumentos args
+         *
+         * \param method_index o indice do método na classF a ser executado
+         * \param classF é o ponteiro para o ClassFile dono do método a ser executado
+         * \param args são os parametros que serao passado como argumento
+         *
+         * \return o retorno do método empacotado numa Local_var
+         *
+         */
+        Local_var execMethod(int method_index, ClassFile *classF, vector<Local_var> args);
 
-        // Em andamento
-        //
-        // Cria o frame
-        Local_var execMethod(int main_index, ClassFile *classF, vector<Local_var> args);
-
-        int execCode(Code_attribute *code_attr_pt, Frame *frame_pt);
-
-        FieldValue inicializaFval(const char* ftype, int n);
 
 
-        // Em andamento
-        //
-        // Executa as instruções.
-        // interpretador
-        //execCode();
 
-        // Descrição:
-        //    Executa a jvm em si.
-        //    Utiliza grande parte das funções declaradas acima.
-        //
-        //    Etapas:
-        //          * Procura a main.
-        //          * Se houver main, começa a executar.
-        //
-        // Parâmetros:
-        //    *const char arq_class_name: nome do arquivo .class a ser executado.
-        //
-        //
         int run(const char* arq_class_name);
 };
 

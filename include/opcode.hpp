@@ -108,6 +108,12 @@
 #define  IMUL  0X68
 #define  LMUL  0X69
 #define  FMUL  0X6A
+/** \file opcode.hpp
+*   \brief este arquivo define os opcodes como sendo macros, assim podemos
+* referenciar as opcodes de forma mais legivel
+*
+*/
+
 #define  DMUL  0X6B
 #define  IDIV  0X6C
 #define  LDIV  0X6D
