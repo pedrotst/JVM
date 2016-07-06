@@ -850,10 +850,11 @@ int Interpretador::iload_1(){
     printf("Executando iload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
-        printf("Variavel local carregada n�o � um inteiro, abortar\n");
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::iload_2(){
