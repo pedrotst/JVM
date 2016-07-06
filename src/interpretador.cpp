@@ -132,7 +132,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[DUP2_X1] = &Interpretador::dup2_x1;
     pt[DUP2_X2] = &Interpretador::dup2_x2;
     pt[SWAP] = &Interpretador::swap_op;
-//    pt[LADD] = &ladd;
+    pt[LADD] = &Interpretador::ladd;
 //    pt[FADD] = &fadd;
 //    pt[DADD] = &dadd;
     pt[ISUB] = &Interpretador::isub;
@@ -163,9 +163,9 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[LUSHR] = &lushr;
     pt[IAND] = &Interpretador::iand;
 //    pt[LAND] = &land;
-//    pt[IOR] = &ior;
+    pt[IOR] = &Interpretador::ior;
 //    pt[LOR] = &lor;
-//    pt[IXOR] = &ixor;
+    pt[IXOR] = &Interpretador::ixor;
 //    pt[LXOR] = &lxor;
 //    pt[IINC] = &iinc;
     pt[I2L] = &Interpretador::i2l;
@@ -553,6 +553,8 @@ int Interpretador::iload(){
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand = this->frame_corrente->localVarVector[index-1];
     this->frame_corrente->operandStack.push_back(operand);
+    this->frame_corrente->printOperandStack();
+    this->frame_corrente->printLocalVar();
     return 2;
 }
 
@@ -841,6 +843,7 @@ int Interpretador::iload_1(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    this->frame_corrente->printOperandStack();
     this->frame_corrente->printLocalVar();
     return 1;
 }
@@ -1159,7 +1162,7 @@ int Interpretador::astore_3(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
@@ -1309,7 +1312,7 @@ int Interpretador::ladd(){
     this->frame_corrente->operandStack.pop_back();
 
     resultado = lhs + rhs;
-    alocador = (uint32_t*) result;
+    alocador = (uint32_t*) &resultado;
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
@@ -1650,10 +1653,46 @@ int Interpretador::iand(){
 }
 int Interpretador::land(){}
 
-int Interpretador::ior(){}
+int Interpretador::ior(){
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em ior: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
+    int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em ior: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
+    int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = lhs | rhs;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
 int Interpretador::lor(){}
 
-int Interpretador::ixor(){}
+int Interpretador::ixor(){
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em ixor: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
+    int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em ixor: Tipo de operando 2 em operandStack diferente do esperado.");
+    }
+    int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = lhs ^ rhs;
+    this->frame_corrente->operandStack.push_back(operand);
+    return 1;
+}
 int Interpretador::lxor(){}
 
 int Interpretador::iinc(){}
@@ -2384,13 +2423,13 @@ int Interpretador::getstatic(){
     class_name = frame_corrente->cf->getFieldClassName(name_index);
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str());
+    //printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str());
 
     if(field_type.compare("I") == 0){
 
         FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
 
-        cout << "fvar val: " << fvar.val.btype.val.inteiro << endl;
+        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
 
         lvar.tag = INT;
         lvar.value.int_value = fvar.val.btype.val.inteiro;
@@ -2399,6 +2438,7 @@ int Interpretador::getstatic(){
 
     else if(field_type.substr(0, 1).compare("L") == 0){
         Local_var lvar;
+
         lvar.tag = STRINGTYPE;
         if(field_type.compare("Ljava/io/PrintStream;") == 0)
             lvar.value.string_value = new string();//jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
