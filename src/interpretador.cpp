@@ -22,8 +22,8 @@ int Interpretador::runCode(Frame *frame_pt) {
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         //if(VERBOSE){
-            printf("pc->code[%ld]: ", this->frame_corrente->pc);
-            printf("Executando %s\n",  OperationMap::getOperation((uint8_t)opcode).c_str());
+            //printf("pc->code[%ld]: ", this->frame_corrente->pc);
+            //printf("Executando %s\n",  OperationMap::getOperation((uint8_t)opcode).c_str());
         //}
         this->frame_corrente->pc += this->execute_instruction(opcode);
         //if(ITERATION){
