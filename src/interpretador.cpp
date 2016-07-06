@@ -640,15 +640,16 @@ int Interpretador::lload_1(){
 }
 
 int Interpretador::lload_2(){
-    printf("Executando lload_2\n");
+
+    printf("Executando lload_2\n", this->frame_corrente->pc);
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada n�o � um long, abortar\n");
+        printf("Variavel local carregada nao e um long, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
-        printf("Variavel local carregada n�o � um long, abortar\n");
+        printf("Variavel local carregada nao e um long, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
@@ -884,16 +885,20 @@ int Interpretador::istore(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado.\n");
     }
-//    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
-//    if(this->frame_corrente->localVarVector[local_var_index].tag != INT){
-//        printf("Erro em istore: Tipo em Local_var diferente do esperado.\n");
-//    }
+    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+    if(this->frame_corrente->localVarVector[local_var_index].tag != INT){
+        printf("Erro em istore: Tipo em Local_var diferente do esperado.\n");
+    }
     Local_var new_local_var;
     new_local_var.tag = INT;
     new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->localVarVector.push_back(new_local_var);
+
     //this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
+
+    this->frame_corrente->printOperandStack();
+    this->frame_corrente->printLocalVar();
     return 2;
 }
 
