@@ -37,6 +37,7 @@ typedef union base_type_s{
     int64_t         longo;
     int16_t         curto;
     bool            boleano;
+    std::string     *stringue;
 }BaseType_u;
 
 typedef struct BaseType_s{
