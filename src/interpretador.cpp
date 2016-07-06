@@ -912,26 +912,29 @@ int Interpretador::lstore(){
       uint8_t local_var_index = 0;
       vector<Local_var>::iterator it;
 
-      printf("Executando lstore\n");
-      if(this->frame_corrente->operandStack.back().tag != LONGO){
-          printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
-      }
-      local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+      // printf("Executando lstore\n");
+      // if(this->frame_corrente->operandStack.back().tag != LONGO){
+      //     printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
+      // }
+      // local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+      //
+      // it = this->frame_corrente->localVarVector.begin();
+      // it += local_var_index;
+      //
+      // operand_low.tag = LONGO;
+      // operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      // this->frame_corrente->operandStack.pop_back();
+      // this->frame_corrente->localVarVector.insert(it+2, operand_low);
+      //
+      // operand_high.tag = LONGO;
+      // operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      // this->frame_corrente->operandStack.pop_back();
+      // this->frame_corrente->localVarVector.insert(it+1, operand_high);
+      //
+      // this->frame_corrente->printOperandStack();
+      // printf("\n\n\n");
+      // this->frame_corrente->printLocalVar();
 
-      it = this->frame_corrente->localVarVector.begin();
-      it += local_var_index;
-
-      operand_low.tag = LONGO;
-      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector.insert(it+2, operand_low);
-
-      operand_high.tag = LONGO;
-      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector.insert(it+1, operand_high);
-
-      //this->frame_corrente->printOperandStack
       return 2;
 }
 
