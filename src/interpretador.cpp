@@ -1617,7 +1617,7 @@ int Interpretador::i2c(){
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    var =
+
     char caracter = (char)var;
     var = (uint32_t)caracter;
 
