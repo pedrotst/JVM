@@ -209,24 +209,26 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Frame frame(n, classF);
     Local_var lvar;
     Local_var_Type lvarval;
-    //cout << "executar classe: "<< classF->getClassName() << " metodo #" << n << endl;
-    //cout << "variaveis da pilha " << endl;
-    //
-    for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
-        //cout << "var type: " << it->tag << endl;
-        frame.localVarVector.push_back(*it);
-    }
 
+    string cname = classF->getClassName();
     Interpretador interpreter(this);
 
     //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     int clinitN = classF->findMethod("<clinit>", "()V");
+
+    Frame staticFrame(clinitN, classF);
+
     if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
         cout << "Clinit encontrado em: " << clinitN << endl;
-        Frame staticFrame(clinitN, classF);
-        string cname = classF->getClassName();
         this->staticHeap[cname] = alocarObjetoEstatico(cname);
+        cout << "passei" << endl;
         interpreter.runCode(&staticFrame);
+    }
+
+
+    for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
+        //cout << "var type: " << it->tag << endl;
+        frame.localVarVector.push_back(*it);
     }
 
     this->fStack.push_back(frame);

@@ -23,10 +23,7 @@ int Interpretador::runCode(Frame *frame_pt) {
         printf("pc->code[%ld]: ", this->frame_corrente->pc);
 
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-//        if(opcode == INVOKEVIRTUAL){
-//            printf("Sair antes de dar pau\n");
-//            return -1;
-//        }
+
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
     return -1;
