@@ -67,6 +67,7 @@ public:
 
       Frame(int method_index, ClassFile *cf);
       void printOperandStack();
+	void printLocalVar();
 };
 
 #endif // JAVASTACK_FRAME_HPP_INCLUDED
