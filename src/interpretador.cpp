@@ -132,7 +132,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[DUP2_X1] = &Interpretador::dup2_x1;
     pt[DUP2_X2] = &Interpretador::dup2_x2;
     pt[SWAP] = &Interpretador::swap_op;
-//    pt[LADD] = &ladd;
+    pt[LADD] = &Interpretador::ladd;
 //    pt[FADD] = &fadd;
 //    pt[DADD] = &dadd;
     pt[ISUB] = &Interpretador::isub;
@@ -1313,7 +1313,7 @@ int Interpretador::ladd(){
     this->frame_corrente->operandStack.pop_back();
 
     resultado = lhs + rhs;
-    alocador = (uint32_t*) result;
+    alocador = (uint32_t*) &resultado;
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
