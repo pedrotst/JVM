@@ -295,6 +295,8 @@ class Interpretador{
 		int return_op();
 		int new_op();
 
+		int newarray();
+
 		int putfield();
 		int iconst_m1();
 

@@ -113,7 +113,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ASTORE_1] = &Interpretador::astore_1;
     pt[ASTORE_2] = &Interpretador::astore_2;
     pt[ASTORE_3] = &Interpretador::astore_3;
-//    pt[IASTORE] = &iaStore;
+    pt[IASTORE] = &Interpretador::iastore;
 //    pt[LASTORE] = &laStore;
 //    pt[DASTORE] = &daStore;
 //    pt[AASTORE] = &aaStore;
@@ -217,7 +217,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[INvOKEINTERFACE] = &invokeinterface;
 //    pt[INvOKEDYNAMIC] = &invokedynamic;
     pt[NEW] = &Interpretador::new_op;
-//    pt[NEWARRAY] = &newarray;
+    pt[NEWARRAY] = &Interpretador::newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
 //    pt[ARRAYLENGTH] = &arraylength;
     pt[ATHROW] = &Interpretador::athrow;
@@ -1048,7 +1048,7 @@ int Interpretador::astore_2(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada n�o � uma referencia, abortar\n");
+        printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -1063,7 +1063,7 @@ int Interpretador::astore_3(){
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE){
-        printf("Variavel local carregada n�o � uma referencia, abortar\n");
+        printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
@@ -1072,7 +1072,28 @@ int Interpretador::astore_3(){
     return 1;
 }
 
-int Interpretador::iastore(){}
+int Interpretador::iastore(){
+    printf("Executando iastore\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arrayref->arr;
+    arr->at(index).val.btype.val.inteiro = val;
+    this->frame_corrente->operandStack.pop_back();
+    return 1;
+}
 int Interpretador::lastore(){}
 int Interpretador::fastore(){}
 int Interpretador::dastore(){}
@@ -1080,8 +1101,6 @@ int Interpretador::aastore(){}
 int Interpretador::bastore(){}
 int Interpretador::castore(){}
 int Interpretador::sastore(){}
-
-
 
 int Interpretador::pop(){
     printf("Executando pop\n");
@@ -1099,6 +1118,8 @@ int Interpretador::pop2(){
 int Interpretador::dup(){
     printf("Executando dup\n");
     this->frame_corrente->operandStack.push_back( this->frame_corrente->operandStack.back() );
+    this->frame_corrente->printOperandStack();
+    this->frame_corrente->printLocalVar();
     return 1;//opcode lido
 }
 int Interpretador::dup_x1(){
@@ -1481,6 +1502,7 @@ int Interpretador::lshl(){}
 
 int Interpretador::ishr(){
     printf("Executando ishr\n");
+    this->frame_corrente->printLocalVar();
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
@@ -1490,6 +1512,7 @@ int Interpretador::ishr(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
+    // está havendo problema na passagem:   lhs <=== negativo; lhs final sai positivo
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -2384,6 +2407,102 @@ int Interpretador::new_op(){
     frame_corrente->operandStack.push_back(op);
     //printf("Sai da new\n");
     return 3; //dois bytes lidos + o opcode
+}
+typedef enum atype_type_s{
+    T_BOOLEAN = 4,
+    T_CHAR = 5,
+    T_FLOAT = 6,
+    T_DOUBLE = 7,
+    T_BYTE = 8,
+    T_SHORT = 9,
+    T_INT = 10,
+    T_LONG = 11,
+}a_type;
+
+int Interpretador::newarray(){
+    printf("Executando newarray\n");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em newarray: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    int32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+    uint8_t atype = this->code_corrente->code[this->frame_corrente->pc+1];
+
+    ArrayType *arrType = (ArrayType*) malloc(sizeof(ArrayType));
+    arrType->arr = new arrayref;
+    Local_var operand;
+    operand.tag = ARRAYTYPE;
+    operand.value.arrayref = arrType;
+    FieldValue field;
+    switch(atype){
+        case T_BOOLEAN:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = BOOL;
+                    field.val.btype.val.boleano = false;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_CHAR:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = CHAR;
+                    field.val.btype.val.caractere = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_FLOAT:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = PFLUTUANTE;
+                    field.val.btype.val.pFlutuante = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_DOUBLE:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = DUPLO;
+                    field.val.btype.val.duplo = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_BYTE:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = BYTE;
+                    field.val.btype.val.byte = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_SHORT:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = CURTO;
+                    field.val.btype.val.curto = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_INT:
+            for(int i = 0; i < contador; i++ ){
+                    printf("atype: INT\n");
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = INT;
+                    field.val.btype.val.inteiro = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+        case T_LONG:
+            for(int i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = LONGO;
+                    field.val.btype.val.longo = 0;
+                    operand.value.arrayref->arr->push_back(field);
+            }
+            break;
+    }
+    this->frame_corrente->operandStack.push_back(operand);
+    printf("sair do newarray\n");
+    return 2;
 }
 
 int Interpretador::invokespecial(){
