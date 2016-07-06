@@ -61,6 +61,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_2] = &Interpretador::iload_2;
     pt[ILOAD_3] = &Interpretador::iload_3; // vou deixar os mesmos que os iload pq � a mesma coisa, a diferen�a � s� a tipagem
     pt[LLOAD] = &Interpretador::lload;
+    pt[LLOAD_1] = &Interpretador::lload_1;
+    pt[LLOAD_2] = &Interpretador::lload_2;
+    pt[LLOAD_3] = &Interpretador::lload_3;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
     pt[ALOAD] = &Interpretador::aload;
