@@ -1384,13 +1384,13 @@ int Interpretador::ddiv(){}
 int Interpretador::irem(){
     printf("Executando irem\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo de operando 1 em operandStack diferente do esperado.");
+        printf("Erro em irem: Tipo de operando 1 em operandStack diferente do esperado.");
     }
     uint32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo de operando 2 em operandStack diferente do esperado.");
+        printf("Erro em irem: Tipo de operando 2 em operandStack diferente do esperado.");
     }
     uint32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1435,7 +1435,7 @@ int Interpretador::drem(){}
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
     printf("Executando ineg\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ineg: Tipo em operandStack diferente do esperado.");
     }
     this->frame_corrente->operandStack.back().value.int_value = -this->frame_corrente->operandStack.back().value.int_value;
     return 1;
@@ -1469,13 +1469,14 @@ int Interpretador::dneg(){}
 int Interpretador::ishl(){
     printf("Executando ishl\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishl: Tipo em operandStack diferente do esperado:");
+
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishl: Tipo em operandStack diferente do esperado.");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1492,13 +1493,13 @@ int Interpretador::lshl(){}
 int Interpretador::ishr(){
     printf("Executando ishr\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
