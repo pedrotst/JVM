@@ -89,7 +89,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[CALOAD] = &caLoad;
 //    pt[SALOAD] = &saLoad;
     pt[ISTORE] = &Interpretador::istore;
-//    pt[LSTORE] = &lStore;
+    pt[LSTORE] = &Interpretador::lstore;
 //    pt[FSTORE] = &fStore;
 //    pt[DSTORE] = &dStore;
 //    pt[ASTORE] = &aStore;
@@ -97,10 +97,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ISTORE_1] = &Interpretador::istore_1;
     pt[ISTORE_2] = &Interpretador::istore_2;
     pt[ISTORE_3] = &Interpretador::istore_3;
-//    pt[LSTORE_0] = &lStore_0;
-//    pt[LSTORE_1] = &lStore_1;
-//    pt[LSTORE_2] = &lStore_2;
-//    pt[LSTORE_3] = &lStore_3;
+    pt[LSTORE_0] = &Interpretador::lstore_0;
+    pt[LSTORE_1] = &Interpretador::lstore_1;
+    pt[LSTORE_2] = &Interpretador::lstore_2;
+    pt[LSTORE_3] = &Interpretador::lstore_3;
 //    pt[FSTORE_0] = &fStore_0;
 //    pt[FSTORE_1] = &fStore_1;
 //    pt[FSTORE_2] = &fStore_2;
@@ -174,7 +174,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[D2I] = &d2i;
 //    pt[D2L] = &d2l;
 //    pt[D2F] = &d2f;
-//    pt[I2B] = &i2b;
+   pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
 //    pt[I2S] = &i2s;
 //    pt[LCMP] = &lcmp;
@@ -213,9 +213,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
     pt[INVOKESPECIAL] = &Interpretador::invokespecial;
-//    pt[INvOKESTATIC] = &invokestatic;
-//    pt[INvOKEINTERFACE] = &invokeinterface;
-//    pt[INvOKEDYNAMIC] = &invokedynamic;
+    pt[INVOKESTATIC] = &Interpretador::invokestatic;
+//    pt[INVOKEINTERFACE] = &invokeinterface;
+//    pt[INVOKEDYNAMIC] = &invokedynamic;
     pt[NEW] = &Interpretador::new_op;
     pt[NEWARRAY] = &Interpretador::newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
@@ -360,6 +360,7 @@ int Interpretador::sipush(){
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     operand.value.int_value <<= 8;
     operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    this->frame_corrente->operandStack.push_back(operand);
     return 3;
 }
 
@@ -890,37 +891,6 @@ int Interpretador::istore(){
     return 2;
 }
 
-int Interpretador::lstore(){
-      Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
-      vector<Local_var>::iterator it;
-
-      // printf("Executando lstore\n");
-      // if(this->frame_corrente->operandStack.back().tag != LONGO){
-      //     printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
-      // }
-      // local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
-      //
-      // it = this->frame_corrente->localVarVector.begin();
-      // it += local_var_index;
-      //
-      // operand_low.tag = LONGO;
-      // operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      // this->frame_corrente->operandStack.pop_back();
-      // this->frame_corrente->localVarVector.insert(it+2, operand_low);
-      //
-      // operand_high.tag = LONGO;
-      // operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      // this->frame_corrente->operandStack.pop_back();
-      // this->frame_corrente->localVarVector.insert(it+1, operand_high);
-      //
-      // this->frame_corrente->printOperandStack();
-      // printf("\n\n\n");
-      // this->frame_corrente->printLocalVar();
-
-      return 2;
-}
-
 int Interpretador::fstore(){}
 int Interpretador::dstore(){}
 int Interpretador::astore(){}
@@ -995,10 +965,138 @@ int Interpretador::istore_3(){
     return 1;
 }
 
-int Interpretador::lstore_0(){return 1;}
-int Interpretador::lstore_1(){return 1;}
-int Interpretador::lstore_2(){return 1;}
-int Interpretador::lstore_3(){return 1;}
+// Não foi testada
+int Interpretador::lstore(){
+      Local_var operand_high, operand_low;
+      uint8_t local_var_index = 0;
+      vector<Local_var>::iterator it;
+
+      printf("Executando lstore\n");
+      if(this->frame_corrente->operandStack.back().tag != LONGO){
+          printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
+      }
+      local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+
+      if (this->frame_corrente->localVarVector.size() < local_var_index+2)
+            this->frame_corrente->localVarVector.resize(local_var_index+2);
+
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index+1] = operand_low;
+
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index] = operand_high;
+
+      return 2;
+}
+
+// Não foi testada
+int Interpretador::lstore_0(){
+      Local_var operand_high, operand_low;
+      uint8_t local_var_index = 0;
+      vector<Local_var>::iterator it;
+
+      printf("Executando lstore_0\n");
+      if(this->frame_corrente->operandStack.back().tag != LONGO){
+          printf("Erro em lstore_0: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 2)
+            this->frame_corrente->localVarVector.resize(2);
+
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = operand_low;
+
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[0] = operand_high;
+
+      return 1;
+}
+
+int Interpretador::lstore_1(){
+      Local_var operand_high, operand_low;
+      uint8_t local_var_index = 0;
+      vector<Local_var>::iterator it;
+
+      printf("Executando lstore_1\n");
+      if(this->frame_corrente->operandStack.back().tag != LONGO){
+          printf("Erro em lstore_1: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 3)
+            this->frame_corrente->localVarVector.resize(3);
+
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = operand_low;
+
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = operand_high;
+
+      return 1;
+}
+
+int Interpretador::lstore_2(){
+      Local_var operand_high, operand_low;
+      uint8_t local_var_index = 0;
+      vector<Local_var>::iterator it;
+
+      printf("Executando lstore_2\n");
+      if(this->frame_corrente->operandStack.back().tag != LONGO){
+          printf("Erro em lstore_2: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 4)
+            this->frame_corrente->localVarVector.resize(4);
+
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = operand_low;
+
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = operand_high;
+
+      return 1;
+}
+
+int Interpretador::lstore_3(){
+      Local_var operand_high, operand_low;
+      uint8_t local_var_index = 0;
+      vector<Local_var>::iterator it;
+
+      printf("Executando lstore_3\n");
+      if(this->frame_corrente->operandStack.back().tag != LONGO){
+          printf("Erro em lstore_3: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 5)
+            this->frame_corrente->localVarVector.resize(5);
+
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[4] = operand_low;
+
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = operand_high;
+
+      return 1;
+}
 
 int Interpretador::fstore_0(){return 1;}
 int Interpretador::fstore_1(){return 1;}
@@ -1607,7 +1705,6 @@ int Interpretador::i2d(){
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    printf("var = %u\n", var);
     Local_var operand1;
     operand1.tag = DUPLO;
     operand1.value.double_value = 0;
@@ -1632,29 +1729,40 @@ int Interpretador::d2i(){}
 int Interpretador::d2l(){}
 int Interpretador::d2f(){}
 
-int Interpretador::i2b(){}
+int Interpretador::i2b(){
+    printf("Executando i2b\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2b: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    var &= 0xFF;
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
+
+    return 1;
+}
 int Interpretador::i2c(){
     printf("Executando i2c\n");
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado.\n");
+        printf("Erro em i2c: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    printf("var = %d\n", var);
-    char caracter = (char)var;
-    printf("caracter = %c", caracter);
-    var = (uint32_t)caracter;
-    printf("var = %d", var);
-    Local_var operand1;
-    operand1.tag = CURTO;
-    operand1.value.double_value = 0;
-    this->frame_corrente->operandStack.push_back(operand1);
 
-    Local_var operand2;
-    operand2.tag = DUPLO;
-    operand1.value.double_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
+    var &= 0xFF;
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
+
     return 1;
 }
 int Interpretador::i2s(){}
@@ -2547,6 +2655,80 @@ int Interpretador::invokespecial(){
     return 3;
 }
 
+
+int Interpretador::invokestatic(){
+    printf("Executando invokestatic\n");
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+
+    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+        Local_var print_var = this->frame_corrente->operandStack.back();
+        cout << print_var.repr() << endl;
+        return 3;
+    }
+
+
+    cf = this->jvm->getClassRef(invoking_class);
+    Frame *staticFrame;
+
+    if((jvm->staticHeap.count(invoking_class) != 1)){
+        int clinitN = cf->findMethod("<clinit>", "()V");
+        staticFrame = new Frame(clinitN, cf);
+        cout << "Clinit encontrado em: " << clinitN << endl;
+        jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
+        runCode(staticFrame);
+    }
+
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        //cout << "super name: "<< super_name << endl;
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+
+    // pega os argumentos da pilha
+    for (int i=1; i < descriptor.find(")"); i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+    }
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.pop_back();
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+    //executa este metodo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+
+    // bota o retorno na operand stack se nao tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim*/
+    return 3;
+}
 
 int Interpretador::invokevirtual(){
     printf("Executando invokevirtual\n");
