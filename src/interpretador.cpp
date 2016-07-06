@@ -61,6 +61,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_2] = &Interpretador::iload_2;
     pt[ILOAD_3] = &Interpretador::iload_3; // vou deixar os mesmos que os iload pq � a mesma coisa, a diferen�a � s� a tipagem
     pt[LLOAD] = &Interpretador::lload;
+    pt[LLOAD_1] = &Interpretador::lload_1;
+    pt[LLOAD_2] = &Interpretador::lload_2;
+    pt[LLOAD_3] = &Interpretador::lload_3;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
     pt[ALOAD] = &Interpretador::aload;
@@ -176,7 +179,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[D2F] = &d2f;
    pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
-//    pt[I2S] = &i2s;
+    pt[I2S] = &Interpretador::i2s;
 //    pt[LCMP] = &lcmp;
 //    pt[FCMPL] = &fcmpl;
 //    pt[FCMPG] = &fcmpg;
@@ -1190,6 +1193,8 @@ int Interpretador::iastore(){
     arrayref *arr = this->frame_corrente->operandStack.back().value.arrayref->arr;
     arr->at(index).val.btype.val.inteiro = val;
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->printOperandStack();
+    this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::lastore(){}
@@ -1765,7 +1770,24 @@ int Interpretador::i2c(){
 
     return 1;
 }
-int Interpretador::i2s(){}
+int Interpretador::i2s(){
+    printf("Executando i2s\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    var &= 0xFFFF;
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
+
+    return 1;
+}
 
 int Interpretador::lcmp(){}
 int Interpretador::fcmpl(){}
@@ -2592,7 +2614,6 @@ int Interpretador::newarray(){
             break;
         case T_INT:
             for(int i = 0; i < contador; i++ ){
-                    printf("atype: INT\n");
                     field.tag = BASETYPE;
                     field.val.btype.tag = INT;
                     field.val.btype.val.inteiro = 0;
@@ -2609,7 +2630,6 @@ int Interpretador::newarray(){
             break;
     }
     this->frame_corrente->operandStack.push_back(operand);
-    printf("sair do newarray\n");
     return 2;
 }
 
