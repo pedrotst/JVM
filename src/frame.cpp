@@ -88,7 +88,7 @@ void Frame::printOperandStack(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf("tag: ARRAYTYPE[%d] {", this->operandStack[i].value.arrayref->arr->size());
+                printf("tag: ARRAYTYPE[%ld] {", this->operandStack[i].value.arrayref->arr->size());
                 for(int j = 0; j < this->operandStack[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->operandStack[i].value.arrayref->arr->at(j));
                 }
