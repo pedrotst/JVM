@@ -359,10 +359,13 @@ int Interpretador::bipush(){
 int Interpretador::sipush(){
     printf("Executando sipush\n");
     Local_var operand;
-    operand.tag = CURTO;
+    operand.tag = INT;
+    printf("valor lido:%d\n", this->code_corrente->code[this->frame_corrente->pc+1]);
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     operand.value.int_value <<= 8;
     operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    printf("Operand = %d\n", operand.value.int_value);
+    this->frame_corrente->operandStack.push_back(operand);
     return 3;
 }
 
