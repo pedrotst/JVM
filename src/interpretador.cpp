@@ -61,6 +61,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ILOAD_2] = &Interpretador::iload_2;
     pt[ILOAD_3] = &Interpretador::iload_3; // vou deixar os mesmos que os iload pq � a mesma coisa, a diferen�a � s� a tipagem
     pt[LLOAD] = &Interpretador::lload;
+    pt[LLOAD_1] = &Interpretador::lload_1;
+    pt[LLOAD_2] = &Interpretador::lload_2;
+    pt[LLOAD_3] = &Interpretador::lload_3;
     pt[FLOAD] = &Interpretador::fload;
 //    pt[DLOAD] = &dLoad;
     pt[ALOAD] = &Interpretador::aload;
@@ -2730,6 +2733,7 @@ int Interpretador::invokestatic(){
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
     }
@@ -2797,7 +2801,7 @@ int Interpretador::invokevirtual(){
     Local_var lvar;
     int found = -1;
 
-    method_index = method_index << 8;
+    method_index = method_index  << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
@@ -2805,6 +2809,7 @@ int Interpretador::invokevirtual(){
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
     }
