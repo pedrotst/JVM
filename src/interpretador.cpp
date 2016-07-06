@@ -359,12 +359,10 @@ int Interpretador::bipush(){
 int Interpretador::sipush(){
     printf("Executando sipush\n");
     Local_var operand;
-    operand.tag = INT;
-    printf("valor lido:%d\n", this->code_corrente->code[this->frame_corrente->pc+1]);
+    operand.tag = CURTO;
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     operand.value.int_value <<= 8;
     operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
-    printf("Operand = %d\n", operand.value.int_value);
     this->frame_corrente->operandStack.push_back(operand);
     return 3;
 }
@@ -1600,7 +1598,6 @@ int Interpretador::i2d(){
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    printf("var = %u\n", var);
     Local_var operand1;
     operand1.tag = DUPLO;
     operand1.value.double_value = 0;
@@ -1634,11 +1631,10 @@ int Interpretador::i2c(){
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    printf("var = %d\n", var);
+    var =
     char caracter = (char)var;
-    printf("caracter = %c", caracter);
     var = (uint32_t)caracter;
-    printf("var = %d", var);
+
     Local_var operand1;
     operand1.tag = CURTO;
     operand1.value.double_value = 0;
