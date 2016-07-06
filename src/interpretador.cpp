@@ -23,10 +23,7 @@ int Interpretador::runCode(Frame *frame_pt) {
         printf("pc->code[%ld]: ", this->frame_corrente->pc);
 
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-//        if(opcode == INVOKEVIRTUAL){
-//            printf("Sair antes de dar pau\n");
-//            return -1;
-//        }
+
         this->frame_corrente->pc += this->execute_instruction(opcode);
     }
     return -1;
@@ -399,19 +396,7 @@ int Interpretador::ldc(){
 
             uint8_t utf8_index = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_string.string_index;
             operand.value.string_value = new string(this->frame_corrente->cf->constant_pool[utf8_index-1].cp_union.constant_Utf8.bytes);
-            //operand.value.string_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_Utf8.bytes;
-//            FieldValue field;
-//            field.tag = ARRAYTYPE;
-//            field.val.arrtype.arr = new arrayref;
-//            for(int i = 0; i<string_value.size(); i++){
-//                    FieldValue carac;
-//                    carac.tag = BASETYPE;
-//                    carac.val.btype.tag = CHAR;
-//                    carac.val.btype.val.caractere = string_value[i];
-//                    field.val.arrtype.arr->push_back(carac);
-//            }
-//            string val("value");
-//            inst->field_instances[val] = field;
+
             this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_Class){
             operand.tag = OBJECTTYPE;
@@ -1388,13 +1373,13 @@ int Interpretador::ddiv(){}
 int Interpretador::irem(){
     printf("Executando irem\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo de operando 1 em operandStack diferente do esperado.");
+        printf("Erro em irem: Tipo de operando 1 em operandStack diferente do esperado.");
     }
     uint32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo de operando 2 em operandStack diferente do esperado.");
+        printf("Erro em irem: Tipo de operando 2 em operandStack diferente do esperado.");
     }
     uint32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1439,7 +1424,7 @@ int Interpretador::drem(){}
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
     printf("Executando ineg\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ineg: Tipo em operandStack diferente do esperado.");
     }
     this->frame_corrente->operandStack.back().value.int_value = -this->frame_corrente->operandStack.back().value.int_value;
     return 1;
@@ -1473,13 +1458,14 @@ int Interpretador::dneg(){}
 int Interpretador::ishl(){
     printf("Executando ishl\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishl: Tipo em operandStack diferente do esperado:");
+
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishl: Tipo em operandStack diferente do esperado.");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1496,13 +1482,13 @@ int Interpretador::lshl(){}
 int Interpretador::ishr(){
     printf("Executando ishr\n");
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.");
+        printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -2098,10 +2084,6 @@ int Interpretador::putstatic(){
     this->frame_corrente->operandStack.pop_back(); // pop the value
 
     if(field_type.compare("I") == 0){
-
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = INT;
@@ -2111,9 +2093,6 @@ int Interpretador::putstatic(){
         printf("o int passado para o field eh: %d\n", lvar.value.int_value);
     }
     else if(field_type.compare("Z") == 0){
-
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = BOOL;
@@ -2126,31 +2105,41 @@ int Interpretador::putstatic(){
         Local_var lvar_upper;
         lvar_upper = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // lower
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar.value.long_value;
+        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) | lvar.value.long_value;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) & lvar.value.long_value);
+        printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) | lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
         Local_var lvar_upper;
         lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // lower
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
+        this->frame_corrente->operandStack.pop_back();
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
+        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 | lvar.value.long_value;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+        printf("the double passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) | (lvar.value.long_value)));
+    }
+
+    else if(field_type.substr(0, 1).compare("L") == 0){
+        if(lvar.tag != STRINGTYPE)
+            cout << "Tentando fazer putstatic de objeto que nao eh string, :(" << lvar.tag << endl;
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = STRINGTYPE;
+        fvar.val.btype.val.stringue = lvar.value.string_value;
+
+
+        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+        printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
+
     }
     return 3;
 }
@@ -2257,7 +2246,7 @@ int Interpretador::getstatic(){
         this->frame_corrente->operandStack.push_back(lvar);
     }
 
-    if(field_type.substr(0, 1).compare("L") == 0){
+    else if(field_type.substr(0, 1).compare("L") == 0){
         Local_var lvar;
 
         cout << "entrei" << endl;
