@@ -82,13 +82,12 @@ InstanceClass* Jvm::alocarObjetoEstatico(string className){
     for(auto const &ent : fbinds) {
         string fname = ent.first;
         const char* ftype = ent.second.c_str();
-        cout << fname << " " << ftype[0] << endl;
 
         FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
         inst->field_instances[fname]= fval;
     }
-    heap.push_back(inst);
+    staticHeap[className] = inst;
     return inst;
 }
 
@@ -116,7 +115,6 @@ InstanceClass* Jvm::alocarObjeto(string className){
     for(auto const &ent : fbinds) {
         string fname = ent.first;
         const char* ftype = ent.second.c_str();
-        cout << fname << " " << ftype[0] << endl;
 
         FieldValue fval;
         fval = this->inicializaFval(ftype, 0);
@@ -238,8 +236,8 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
 
     // se a pilha estiver vazia consideramos que ela retornou void
 
-    if(!fStack.back().operandStack.empty()){
-        lvar = fStack.back().operandStack.back();
+    if(!frame.operandStack.empty()){
+        lvar = frame.operandStack.back();
         //printf("o metodo chamado retornou algo\n");
     }
     else{

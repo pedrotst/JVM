@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdint>
 #include <sstream>
+#include <iostream>
 #include "../include/heap.hpp"
 
 //////////////////////////// Estruturas ////////////////////////////
