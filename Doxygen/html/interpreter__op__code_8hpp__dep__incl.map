@@ -1,7 +1,7 @@
 <map id="include/interpreter_op_code.hpp" name="include/interpreter_op_code.hpp">
 <area shape="rect" id="node2" href="$jvm_8hpp.html" title="include/jvm.hpp" alt="" coords="257,104,369,131"/>
 <area shape="rect" id="node8" href="$interpreter__op__code_8cpp.html" title="src/interpreter_op\l_code.cpp" alt="" coords="395,97,517,138"/>
-<area shape="rect" id="node3" href="$interpretador_8hpp.html" title="include/interpretador.hpp" alt="" coords="171,187,335,213"/>
+<area shape="rect" id="node3" href="$interpretador_8hpp.html" title="Estruturas de interpretacao dos opcodes. " alt="" coords="171,187,335,213"/>
 <area shape="rect" id="node6" href="$main_8cpp.html" title="src/main.cpp" alt="" coords="337,261,433,288"/>
 <area shape="rect" id="node7" href="$jvm_8cpp.html" title="src/jvm.cpp" alt="" coords="411,187,501,213"/>
 <area shape="rect" id="node4" href="$interpretador_8cpp.html" title="src/interpretador.cpp" alt="" coords="5,261,145,288"/>

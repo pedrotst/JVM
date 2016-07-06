@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include "attributes.hpp"
 
+/** \file structs.hpp
+* \brief arquivo com as estruturas chaves da jvm
+* ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4)
+*/
+
 // Constant poll tags
 typedef enum cp_tag_e {
 	ZERO = 0,
@@ -104,17 +109,6 @@ typedef struct CONSTANT_InvokeDynamic_info_s {
 	uint16_t name_and_type_index;
 } CONSTANT_InvokeDynamic_info;
 
-// typedef struct CONSTANT_ConstantValue_type_s {
-//     uint16_t attribute_name_index;
-//     uint32_t attribute_length;
-//     uint16_t constantvalue_index;
-// }CONSTANT_ConstantValue_type;
-
-// typedef struct CONSTANT_SourceFile_type_s {
-//     uint16_t attribute_name_index;
-//     uint32_t attribute_length;
-//     uint16_t sourcefile_index;
-// }CONSTANT_SourceFile_type;
 
 typedef union cp_info_u {
 	CONSTANT_Class_info 			constant_class;
@@ -133,11 +127,6 @@ typedef union cp_info_u {
 	CONSTANT_InvokeDynamic_info 		constant_invokeDynamic;
 } cpInfo_u;
 
-// typedef union attribute_type_u {
-//     CONSTANT_ConstantValue_type         constant_value;
-//     CONSTANT_SourceFile_type            constant_sourcefile;
-// }attributeType_u;
-
 typedef enum AccessClass {
 	ACC_PUBLIC = 0x0001,
 	ACC_FINAL = 0x0010,
@@ -153,12 +142,6 @@ typedef struct cp_info_s {
 	cp_tag tag;
 	cpInfo_u cp_union;
 } cp_info;
-
-// typedef struct attribute_info_s {
-// 	uint16_t attribute_name_index;
-// 	uint32_t attribute_length;
-// 	attributeType_u attribute_union;
-// } attribute_info;
 
 typedef struct field_info_s {
 	uint16_t access_flags;

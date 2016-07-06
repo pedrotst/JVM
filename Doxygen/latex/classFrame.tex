@@ -11,72 +11,97 @@ Collaboration diagram for Frame\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=180pt]{classFrame__coll__graph}
+\includegraphics[width=234pt]{classFrame__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classFrame_ad2e5946cf41d4817e750500acf05d02b}{Frame} ()
+\hyperlink{classFrame_a0a710d74c28a542687e64715300cb8fb}{Frame} (int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}, \hyperlink{classClassFile}{Class\+File} $\ast$\hyperlink{classFrame_a1adaa34d477660f1e9d45904576eacf2}{cf})
 \item 
-\hyperlink{classFrame_a90798580dd69c6e4b927db8aea2a419e}{Frame} (int \hyperlink{classFrame_a2096ad8a85ebe1c025f9e18a5cc632b9}{max\+\_\+stack}, int \hyperlink{classFrame_a1bcd26b0c048fa4ce6c00c28943d752f}{max\+\_\+locals}, uint16\+\_\+t descriptor\+\_\+index, std\+::vector$<$ \hyperlink{structs_8hpp_a0c0d87e91cda2669bf03488501eccd4d}{cp\+\_\+info} $>$ $\ast$\hyperlink{classFrame_ad26c914060a8faccf9c2231e6ad6a6e1}{constant\+\_\+pool\+\_\+pt})
+void \hyperlink{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}{print\+Operand\+Stack} ()
+\item 
+void \hyperlink{classFrame_ab34a9033d268d94f205721b63101b047}{print\+Local\+Var} ()
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{classFrame_a2096ad8a85ebe1c025f9e18a5cc632b9}{max\+\_\+stack}
-\item 
-int \hyperlink{classFrame_a1bcd26b0c048fa4ce6c00c28943d752f}{max\+\_\+locals}
-\item 
-\hyperlink{frame_8hpp_a27f9a444058fa5dfb484ef1347edd937}{op\+\_\+stack} \hyperlink{classFrame_a9d027e28d71e647569324633e35c0c48}{operand\+Stack}
-\item 
-\hyperlink{frame_8hpp_a9a0de8c9ad8913ba5b76a6ec2f06ab2f}{local\+\_\+var\+\_\+vector} \hyperlink{classFrame_a772f081938798fd4553c7d3300a959fb}{local\+Var\+Vector}
-\item 
-uint8\+\_\+t \hyperlink{classFrame_a7df6af31d1f082ce39f496e1db61c1de}{pc}
-\item 
-std\+::vector$<$ \hyperlink{structs_8hpp_a0c0d87e91cda2669bf03488501eccd4d}{cp\+\_\+info} $>$ $\ast$ \hyperlink{classFrame_ad26c914060a8faccf9c2231e6ad6a6e1}{constant\+\_\+pool\+\_\+pt}
-\end{DoxyCompactItemize}
+std\+::vector$<$ \hyperlink{classLocal__var}{Local\+\_\+var} $>$ \hyperlink{classFrame_ad8d3859aa247f9ea26ed70734dd93141}{operand\+Stack}
+\begin{DoxyCompactList}\small\item\em Pilha de operandos. A pilha de operandos começa vazia. Ela é populada ao longo da execução das instruções. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classLocal__var}{Local\+\_\+var} $>$ \hyperlink{classFrame_ab3b3b8b51af39a6c4b76bc99bffd8808}{local\+Var\+Vector}
+\begin{DoxyCompactList}\small\item\em Vetor de variáveis locais. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classFrame_a65edf2210e6653b9acbdc58240040104}{pc}
+\begin{DoxyCompactList}\small\item\em Código atual sendo executado. \end{DoxyCompactList}\item 
+\hyperlink{classClassFile}{Class\+File} $\ast$ \hyperlink{classFrame_a1adaa34d477660f1e9d45904576eacf2}{cf}
+\begin{DoxyCompactList}\small\item\em referencia pra constant pool \end{DoxyCompactList}\item 
+int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}
+\begin{DoxyCompactList}\small\item\em esta será a variável que identifica qual método da cf estamos rodando \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classFrame_ad2e5946cf41d4817e750500acf05d02b}{\index{Frame@{Frame}!Frame@{Frame}}
+\hypertarget{classFrame_a0a710d74c28a542687e64715300cb8fb}{\index{Frame@{Frame}!Frame@{Frame}}
 \index{Frame@{Frame}!Frame@{Frame}}
 \subsubsection[{Frame}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::\+Frame (
+\begin{DoxyParamCaption}
+\item[{int}]{method\+\_\+index, }
+\item[{{\bf Class\+File} $\ast$}]{cf}
+\end{DoxyParamCaption}
+)}}\label{classFrame_a0a710d74c28a542687e64715300cb8fb}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classFrame_ab34a9033d268d94f205721b63101b047}{\index{Frame@{Frame}!print\+Local\+Var@{print\+Local\+Var}}
+\index{print\+Local\+Var@{print\+Local\+Var}!Frame@{Frame}}
+\subsubsection[{print\+Local\+Var}]{\setlength{\rightskip}{0pt plus 5cm}void Frame\+::print\+Local\+Var (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classFrame_ad2e5946cf41d4817e750500acf05d02b}
-\hypertarget{classFrame_a90798580dd69c6e4b927db8aea2a419e}{\index{Frame@{Frame}!Frame@{Frame}}
-\index{Frame@{Frame}!Frame@{Frame}}
-\subsubsection[{Frame}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::\+Frame (
+)}}\label{classFrame_ab34a9033d268d94f205721b63101b047}
+\hypertarget{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}{\index{Frame@{Frame}!print\+Operand\+Stack@{print\+Operand\+Stack}}
+\index{print\+Operand\+Stack@{print\+Operand\+Stack}!Frame@{Frame}}
+\subsubsection[{print\+Operand\+Stack}]{\setlength{\rightskip}{0pt plus 5cm}void Frame\+::print\+Operand\+Stack (
 \begin{DoxyParamCaption}
-\item[{int}]{max\+\_\+stack, }
-\item[{int}]{max\+\_\+locals, }
-\item[{uint16\+\_\+t}]{descriptor\+\_\+index, }
-\item[{std\+::vector$<$ {\bf cp\+\_\+info} $>$ $\ast$}]{constant\+\_\+pool\+\_\+pt}
+{}
 \end{DoxyParamCaption}
-)}}\label{classFrame_a90798580dd69c6e4b927db8aea2a419e}
+)}}\label{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classFrame_ad26c914060a8faccf9c2231e6ad6a6e1}{\index{Frame@{Frame}!constant\+\_\+pool\+\_\+pt@{constant\+\_\+pool\+\_\+pt}}
-\index{constant\+\_\+pool\+\_\+pt@{constant\+\_\+pool\+\_\+pt}!Frame@{Frame}}
-\subsubsection[{constant\+\_\+pool\+\_\+pt}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf cp\+\_\+info}$>$$\ast$ Frame\+::constant\+\_\+pool\+\_\+pt}}\label{classFrame_ad26c914060a8faccf9c2231e6ad6a6e1}
-\hypertarget{classFrame_a772f081938798fd4553c7d3300a959fb}{\index{Frame@{Frame}!local\+Var\+Vector@{local\+Var\+Vector}}
+\hypertarget{classFrame_a1adaa34d477660f1e9d45904576eacf2}{\index{Frame@{Frame}!cf@{cf}}
+\index{cf@{cf}!Frame@{Frame}}
+\subsubsection[{cf}]{\setlength{\rightskip}{0pt plus 5cm}$\ast$ Frame\+::cf}}\label{classFrame_a1adaa34d477660f1e9d45904576eacf2}
+
+
+referencia pra constant pool 
+
+\hypertarget{classFrame_ab3b3b8b51af39a6c4b76bc99bffd8808}{\index{Frame@{Frame}!local\+Var\+Vector@{local\+Var\+Vector}}
 \index{local\+Var\+Vector@{local\+Var\+Vector}!Frame@{Frame}}
-\subsubsection[{local\+Var\+Vector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf local\+\_\+var\+\_\+vector} Frame\+::local\+Var\+Vector}}\label{classFrame_a772f081938798fd4553c7d3300a959fb}
-\hypertarget{classFrame_a1bcd26b0c048fa4ce6c00c28943d752f}{\index{Frame@{Frame}!max\+\_\+locals@{max\+\_\+locals}}
-\index{max\+\_\+locals@{max\+\_\+locals}!Frame@{Frame}}
-\subsubsection[{max\+\_\+locals}]{\setlength{\rightskip}{0pt plus 5cm}int Frame\+::max\+\_\+locals}}\label{classFrame_a1bcd26b0c048fa4ce6c00c28943d752f}
-\hypertarget{classFrame_a2096ad8a85ebe1c025f9e18a5cc632b9}{\index{Frame@{Frame}!max\+\_\+stack@{max\+\_\+stack}}
-\index{max\+\_\+stack@{max\+\_\+stack}!Frame@{Frame}}
-\subsubsection[{max\+\_\+stack}]{\setlength{\rightskip}{0pt plus 5cm}int Frame\+::max\+\_\+stack}}\label{classFrame_a2096ad8a85ebe1c025f9e18a5cc632b9}
-\hypertarget{classFrame_a9d027e28d71e647569324633e35c0c48}{\index{Frame@{Frame}!operand\+Stack@{operand\+Stack}}
+\subsubsection[{local\+Var\+Vector}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::local\+Var\+Vector}}\label{classFrame_ab3b3b8b51af39a6c4b76bc99bffd8808}
+
+
+Vetor de variáveis locais. 
+
+\hypertarget{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{\index{Frame@{Frame}!method\+\_\+index@{method\+\_\+index}}
+\index{method\+\_\+index@{method\+\_\+index}!Frame@{Frame}}
+\subsubsection[{method\+\_\+index}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::method\+\_\+index}}\label{classFrame_a9a7eb96be80ac389517368b48f88e1f5}
+
+
+esta será a variável que identifica qual método da cf estamos rodando 
+
+\hypertarget{classFrame_ad8d3859aa247f9ea26ed70734dd93141}{\index{Frame@{Frame}!operand\+Stack@{operand\+Stack}}
 \index{operand\+Stack@{operand\+Stack}!Frame@{Frame}}
-\subsubsection[{operand\+Stack}]{\setlength{\rightskip}{0pt plus 5cm}{\bf op\+\_\+stack} Frame\+::operand\+Stack}}\label{classFrame_a9d027e28d71e647569324633e35c0c48}
-\hypertarget{classFrame_a7df6af31d1f082ce39f496e1db61c1de}{\index{Frame@{Frame}!pc@{pc}}
+\subsubsection[{operand\+Stack}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::operand\+Stack}}\label{classFrame_ad8d3859aa247f9ea26ed70734dd93141}
+
+
+Pilha de operandos. A pilha de operandos começa vazia. Ela é populada ao longo da execução das instruções. 
+
+\hypertarget{classFrame_a65edf2210e6653b9acbdc58240040104}{\index{Frame@{Frame}!pc@{pc}}
 \index{pc@{pc}!Frame@{Frame}}
-\subsubsection[{pc}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t Frame\+::pc}}\label{classFrame_a7df6af31d1f082ce39f496e1db61c1de}
+\subsubsection[{pc}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::pc}}\label{classFrame_a65edf2210e6653b9acbdc58240040104}
+
+
+Código atual sendo executado. 
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

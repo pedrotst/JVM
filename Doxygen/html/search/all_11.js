@@ -1,10 +1,25 @@
 var searchData=
 [
-  ['tableswitch',['TABLESWITCH',['../opcode_8hpp.html#a1cdafd6c15f0fd29a71a55b339cf9de6',1,'opcode.hpp']]],
-  ['tag',['tag',['../structoperand__s.html#a3096a61fdc761a5231b863b2945165bb',1,'operand_s::tag()'],['../structlocal__var__s.html#ab6da81466316f0fcec86450b154b2278',1,'local_var_s::tag()'],['../structfield__value__s.html#a4fe2c4d897f539e3b0f3d50ecc5083c1',1,'field_value_s::tag()'],['../structCONSTANT__Class__info__s.html#ae27fd46fb88a7d58404f0d0b29babc3e',1,'CONSTANT_Class_info_s::tag()'],['../structCONSTANT__Fieldref__info__s.html#a87c470bc8260141489d7bde228887b2a',1,'CONSTANT_Fieldref_info_s::tag()'],['../structCONSTANT__Methodref__info__s.html#ac808580c07823c6e5413491b0b297a20',1,'CONSTANT_Methodref_info_s::tag()'],['../structCONSTANT__InterfaceMethodref__info__s.html#a11c19f84f330597406b300345686e89d',1,'CONSTANT_InterfaceMethodref_info_s::tag()'],['../structCONSTANT__String__info__s.html#a63a92aabe2638ad427f912551c99c18a',1,'CONSTANT_String_info_s::tag()'],['../structCONSTANT__Integer__info__s.html#ab64157620cc3546f13d041e230280fb9',1,'CONSTANT_Integer_info_s::tag()'],['../structCONSTANT__Float__info__s.html#a478b54b29def2238db495fd72bd2c983',1,'CONSTANT_Float_info_s::tag()'],['../structCONSTANT__Long__info__s.html#abdc4201e4bf9eac8c7d632983cccedd3',1,'CONSTANT_Long_info_s::tag()'],['../structCONSTANT__Double__info__s.html#ac95905e32467bd7084ab69661f85dc83',1,'CONSTANT_Double_info_s::tag()'],['../structCONSTANT__NameAndType__info__s.html#af1309f9a1be5883b8fd62f0ddb624556',1,'CONSTANT_NameAndType_info_s::tag()'],['../structCONSTANT__Utf8__info__s.html#a7af843af8dd80fb01a548d38aa7cf649',1,'CONSTANT_Utf8_info_s::tag()'],['../structCONSTANT__MethodHandle__info__s.html#ac82e027678357e8dda9d759ea771848d',1,'CONSTANT_MethodHandle_info_s::tag()'],['../structCONSTANT__MethodType__info__s.html#a0218ac52c1a8a8eebd94e09eda7949c6',1,'CONSTANT_MethodType_info_s::tag()'],['../structCONSTANT__InvokeDynamic__info__s.html#a8e871033bfc2900cb240926b90f76449',1,'CONSTANT_InvokeDynamic_info_s::tag()'],['../structcp__info__s.html#a6b3587f422119dbdd9fa778d383c787a',1,'cp_info_s::tag()']]],
-  ['tag_5ftipo',['tag_tipo',['../heap_8hpp.html#a3b72488a4c6c460c12216995bd0c80b8',1,'heap.hpp']]],
-  ['tag_5ftipo_5fe',['tag_tipo_e',['../heap_8hpp.html#ae83508426e652eaafd6ed60af394164e',1,'heap.hpp']]],
-  ['this_5fclass',['this_class',['../classClassFile.html#aa45abc9545fe11fca252d9769b665294',1,'ClassFile']]],
-  ['tions_5fattribute_5fs',['tions_attribute_s',['../structtions__attribute__s.html',1,'']]],
-  ['type_5fs',['type_s',['../uniontype__s.html',1,'']]]
+  ['saload',['saload',['../classInterpretador.html#a6dcc9a17053b2c2f9d4c99a0e41007c5',1,'Interpretador::saload()'],['../opcode_8hpp.html#a0bfbb91d1e8f49e2e891d4fbad95fcb6',1,'SALOAD():&#160;opcode.hpp']]],
+  ['sastore',['sastore',['../classInterpretador.html#a85517a700df4af40fb47536afb184890',1,'Interpretador::sastore()'],['../opcode_8hpp.html#a87d95ff323b2034fe34bf517b1afa6b3',1,'SASTORE():&#160;opcode.hpp']]],
+  ['short_5fvalue',['short_value',['../unionLocal__var__Type__u.html#ac5a77877e9ddb59fe44eb9460facbec0',1,'Local_var_Type_u']]],
+  ['signature_5fattribute',['Signature_attribute',['../attributes_8hpp.html#a12d46a9314a53e714e1adf21f03f05a7',1,'attributes.hpp']]],
+  ['signature_5fattribute_5fs',['Signature_attribute_s',['../structSignature__attribute__s.html',1,'']]],
+  ['signature_5findex',['signature_index',['../structlocal__variable__type__table__info__s.html#a7f6d34460cdca5324e648287fbfc64b3',1,'local_variable_type_table_info_s::signature_index()'],['../structSignature__attribute__s.html#a8c7f7f5f3002f25e5bfa1b637000433d',1,'Signature_attribute_s::signature_index()']]],
+  ['sipush',['sipush',['../classInterpretador.html#ab8539347450d65f7228b87b9c996616a',1,'Interpretador::sipush()'],['../opcode_8hpp.html#af582412bbea0e7f8583b5f8a846b6026',1,'SIPUSH():&#160;opcode.hpp']]],
+  ['sourcefile_5fattribute',['SourceFile_attribute',['../attributes_8hpp.html#a493a40fa668908ed61dbb1f823d213ca',1,'attributes.hpp']]],
+  ['sourcefile_5fattribute_5fs',['SourceFile_attribute_s',['../structSourceFile__attribute__s.html',1,'']]],
+  ['sourcefile_5findex',['sourcefile_index',['../structSourceFile__attribute__s.html#a58a666cf2e0ffd0557d6edc270bf195f',1,'SourceFile_attribute_s']]],
+  ['start_5fpc',['start_pc',['../structexception__table__info__s.html#ae92c43a2d7c711e34fda9bc778e7019c',1,'exception_table_info_s::start_pc()'],['../structline__number__table__info__s.html#ac18154b426adb423127cd7f09c037424',1,'line_number_table_info_s::start_pc()'],['../structlocal__variable__table__info__s.html#a1acd5397525801c3fd91411f647e899c',1,'local_variable_table_info_s::start_pc()'],['../structlocal__variable__type__table__info__s.html#a3c7eafcb1edc9ef0fb4c2f9f48b51847',1,'local_variable_type_table_info_s::start_pc()']]],
+  ['staticheap',['staticHeap',['../classJvm.html#a8852d50533c03dabd4320c27e92d4f1b',1,'Jvm']]],
+  ['string_5findex',['string_index',['../structCONSTANT__String__info__s.html#a9fb8030b5c3bbfca53934e67991399cf',1,'CONSTANT_String_info_s']]],
+  ['string_5fvalue',['string_value',['../unionLocal__var__Type__u.html#ab9de5f06b94aff07f7e6187620c94935',1,'Local_var_Type_u']]],
+  ['stringtype',['STRINGTYPE',['../heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d',1,'heap.hpp']]],
+  ['stringue',['stringue',['../unionbase__type__s.html#ab246b2b35057f95ce992e7083086bae5',1,'base_type_s']]],
+  ['structs_2ehpp',['structs.hpp',['../structs_8hpp.html',1,'']]],
+  ['super_5fclass',['super_class',['../classClassFile.html#aa48f683b6e5b60021410f88a5e831cbe',1,'ClassFile']]],
+  ['swap',['SWAP',['../opcode_8hpp.html#aac9b57651bcead0a7564efe6460e5310',1,'opcode.hpp']]],
+  ['swap_5fop',['swap_op',['../classInterpretador.html#acf650271362390f13092bd75a89f9275',1,'Interpretador']]],
+  ['synthetic_5fattribute',['Synthetic_attribute',['../attributes_8hpp.html#a7dfc4097d3a6cf1ac27bf4ac345e7c99',1,'attributes.hpp']]],
+  ['synthetic_5fattribute_5fs',['Synthetic_attribute_s',['../structSynthetic__attribute__s.html',1,'']]]
 ];

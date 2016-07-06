@@ -1,5 +1,5 @@
 <map id="include/read_methods.hpp" name="include/read_methods.hpp">
-<area shape="rect" id="node2" href="$structs_8hpp.html" title="structs.hpp" alt="" coords="446,155,532,181"/>
+<area shape="rect" id="node2" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="446,155,532,181"/>
 <area shape="rect" id="node6" href="$read__attributes_8hpp.html" title="read_attributes.hpp" alt="" coords="220,80,353,107"/>
 <area shape="rect" id="node5" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="357,237,459,264"/>
 <area shape="rect" id="node10" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="203,155,371,181"/>

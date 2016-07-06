@@ -1,9 +1,13 @@
 \section{Class List}
 Here are the classes, structs, unions and interfaces with brief descriptions\+:\begin{DoxyCompactList}
+\item\contentsline{section}{\hyperlink{structArrayType__s}{Array\+Type\+\_\+s} }{\pageref{structArrayType__s}}{}
 \item\contentsline{section}{\hyperlink{structattribute__info__s}{attribute\+\_\+info\+\_\+s} }{\pageref{structattribute__info__s}}{}
 \item\contentsline{section}{\hyperlink{unionattribute__type__u}{attribute\+\_\+type\+\_\+u} }{\pageref{unionattribute__type__u}}{}
+\item\contentsline{section}{\hyperlink{unionbase__type__s}{base\+\_\+type\+\_\+s} }{\pageref{unionbase__type__s}}{}
+\item\contentsline{section}{\hyperlink{structBaseType__s}{Base\+Type\+\_\+s} }{\pageref{structBaseType__s}}{}
+\item\contentsline{section}{\hyperlink{classclasses__info}{classes\+\_\+info} \\*Definida para ser utilizada no atributo Inner\+Classes\+\_\+attribute }{\pageref{classclasses__info}}{}
 \item\contentsline{section}{\hyperlink{structclasses__info__s}{classes\+\_\+info\+\_\+s} }{\pageref{structclasses__info__s}}{}
-\item\contentsline{section}{\hyperlink{classClassFile}{Class\+File} }{\pageref{classClassFile}}{}
+\item\contentsline{section}{\hyperlink{classClassFile}{Class\+File} \\*Ver \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+4} }{\pageref{classClassFile}}{}
 \item\contentsline{section}{\hyperlink{structCode__attribute__s}{Code\+\_\+attribute\+\_\+s} }{\pageref{structCode__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structCONSTANT__Class__info__s}{C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+Class\+\_\+info\+\_\+s} }{\pageref{structCONSTANT__Class__info__s}}{}
 \item\contentsline{section}{\hyperlink{structCONSTANT__Double__info__s}{C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+Double\+\_\+info\+\_\+s} }{\pageref{structCONSTANT__Double__info__s}}{}
@@ -24,29 +28,36 @@ Here are the classes, structs, unions and interfaces with brief descriptions\+:\
 \item\contentsline{section}{\hyperlink{unioncp__info__u}{cp\+\_\+info\+\_\+u} }{\pageref{unioncp__info__u}}{}
 \item\contentsline{section}{\hyperlink{structDeprecated__attribute__s}{Deprecated\+\_\+attribute\+\_\+s} }{\pageref{structDeprecated__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structEnclosingMethod__attribute__s}{Enclosing\+Method\+\_\+attribute\+\_\+s} }{\pageref{structEnclosingMethod__attribute__s}}{}
+\item\contentsline{section}{\hyperlink{classexception__table__info}{exception\+\_\+table\+\_\+info} \\*Definida para ser utilizada no atributo Code\+\_\+attribute }{\pageref{classexception__table__info}}{}
 \item\contentsline{section}{\hyperlink{structexception__table__info__s}{exception\+\_\+table\+\_\+info\+\_\+s} }{\pageref{structexception__table__info__s}}{}
 \item\contentsline{section}{\hyperlink{structfield__info__s}{field\+\_\+info\+\_\+s} }{\pageref{structfield__info__s}}{}
-\item\contentsline{section}{\hyperlink{structfield__value__s}{field\+\_\+value\+\_\+s} }{\pageref{structfield__value__s}}{}
+\item\contentsline{section}{\hyperlink{unionFieldType__u}{Field\+Type\+\_\+u} }{\pageref{unionFieldType__u}}{}
+\item\contentsline{section}{\hyperlink{classFieldValue}{Field\+Value} \\*Valor empacotado da representacao de uma classe ela pode ser dos tipos Base\+Type, Object\+Type e Array\+Type para mais informacoes visite \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+5} }{\pageref{classFieldValue}}{}
+\item\contentsline{section}{\hyperlink{structFieldValue__s}{Field\+Value\+\_\+s} }{\pageref{structFieldValue__s}}{}
 \item\contentsline{section}{\hyperlink{classFrame}{Frame} }{\pageref{classFrame}}{}
 \item\contentsline{section}{\hyperlink{structInnerClasses__attribute__s}{Inner\+Classes\+\_\+attribute\+\_\+s} }{\pageref{structInnerClasses__attribute__s}}{}
-\item\contentsline{section}{\hyperlink{structinstance__class__u}{instance\+\_\+class\+\_\+u} }{\pageref{structinstance__class__u}}{}
+\item\contentsline{section}{\hyperlink{classInstanceClass}{Instance\+Class} \\*Esta classe eh a instancia fisica de um objeto para isto ela o valor de todos fields dentro de si e um ponteiro para sua classfile para facilitar a manipualacao das referencias }{\pageref{classInstanceClass}}{}
 \item\contentsline{section}{\hyperlink{classInstructionTranslator}{Instruction\+Translator} }{\pageref{classInstructionTranslator}}{}
-\item\contentsline{section}{\hyperlink{classInterpretador}{Interpretador} }{\pageref{classInterpretador}}{}
-\item\contentsline{section}{\hyperlink{classJvm}{Jvm} \\*Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos }{\pageref{classJvm}}{}
+\item\contentsline{section}{\hyperlink{classInterpretador}{Interpretador} \\*Responsavel por receber um frame e rodar as instrucoes contidas ali }{\pageref{classInterpretador}}{}
+\item\contentsline{section}{\hyperlink{classJvm}{Jvm} \\*Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos. Ela quem é responsável pela heap, e pela gerencia dos objetos alocados em geral inclusive os classfile! }{\pageref{classJvm}}{}
+\item\contentsline{section}{\hyperlink{classline__number__table__info}{line\+\_\+number\+\_\+table\+\_\+info} \\*Definida para ser utilizada no atributo Line\+Number\+Table\+\_\+attribute }{\pageref{classline__number__table__info}}{}
 \item\contentsline{section}{\hyperlink{structline__number__table__info__s}{line\+\_\+number\+\_\+table\+\_\+info\+\_\+s} }{\pageref{structline__number__table__info__s}}{}
 \item\contentsline{section}{\hyperlink{structLineNumberTable__attribute__s}{Line\+Number\+Table\+\_\+attribute\+\_\+s} }{\pageref{structLineNumberTable__attribute__s}}{}
-\item\contentsline{section}{\hyperlink{structlocal__var__s}{local\+\_\+var\+\_\+s} }{\pageref{structlocal__var__s}}{}
-\item\contentsline{section}{\hyperlink{unionlocal__var__value__u}{local\+\_\+var\+\_\+value\+\_\+u} }{\pageref{unionlocal__var__value__u}}{}
+\item\contentsline{section}{\hyperlink{classLocal__var}{Local\+\_\+var} }{\pageref{classLocal__var}}{}
+\item\contentsline{section}{\hyperlink{classLocal__var__Type}{Local\+\_\+var\+\_\+\+Type} \\*O tipo void será utilizado para avisar que a função retorna nada os tipos long e double utilizam duas posicoes na pilha }{\pageref{classLocal__var__Type}}{}
+\item\contentsline{section}{\hyperlink{unionLocal__var__Type__u}{Local\+\_\+var\+\_\+\+Type\+\_\+u} }{\pageref{unionLocal__var__Type__u}}{}
+\item\contentsline{section}{\hyperlink{classlocal__variable__table__info}{local\+\_\+variable\+\_\+table\+\_\+info} \\*Definida para ser utilizada no atributo Local\+Variable\+Table\+\_\+attribute }{\pageref{classlocal__variable__table__info}}{}
 \item\contentsline{section}{\hyperlink{structlocal__variable__table__info__s}{local\+\_\+variable\+\_\+table\+\_\+info\+\_\+s} }{\pageref{structlocal__variable__table__info__s}}{}
+\item\contentsline{section}{\hyperlink{classlocal__variable__type__table__info}{local\+\_\+variable\+\_\+type\+\_\+table\+\_\+info} \\*Definida para ser utilizada no atributo Local\+Variable\+Type\+Table\+\_\+attribute }{\pageref{classlocal__variable__type__table__info}}{}
 \item\contentsline{section}{\hyperlink{structlocal__variable__type__table__info__s}{local\+\_\+variable\+\_\+type\+\_\+table\+\_\+info\+\_\+s} }{\pageref{structlocal__variable__type__table__info__s}}{}
 \item\contentsline{section}{\hyperlink{structLocalVariableTable__attribute__s}{Local\+Variable\+Table\+\_\+attribute\+\_\+s} }{\pageref{structLocalVariableTable__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structLocalVariableTypeTable__attribute__s}{Local\+Variable\+Type\+Table\+\_\+attribute\+\_\+s} }{\pageref{structLocalVariableTypeTable__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structmethod__info__s}{method\+\_\+info\+\_\+s} }{\pageref{structmethod__info__s}}{}
-\item\contentsline{section}{\hyperlink{structoperand__s}{operand\+\_\+s} }{\pageref{structoperand__s}}{}
-\item\contentsline{section}{\hyperlink{unionoperand__value__u}{operand\+\_\+value\+\_\+u} }{\pageref{unionoperand__value__u}}{}
+\item\contentsline{section}{\hyperlink{structObjectType__s}{Object\+Type\+\_\+s} }{\pageref{structObjectType__s}}{}
+\item\contentsline{section}{\hyperlink{classOperationMap}{Operation\+Map} \\*Traduz o opcode para string atrav�s da fun��o get\+Operation }{\pageref{classOperationMap}}{}
 \item\contentsline{section}{\hyperlink{structSignature__attribute__s}{Signature\+\_\+attribute\+\_\+s} }{\pageref{structSignature__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structSourceFile__attribute__s}{Source\+File\+\_\+attribute\+\_\+s} }{\pageref{structSourceFile__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structSynthetic__attribute__s}{Synthetic\+\_\+attribute\+\_\+s} }{\pageref{structSynthetic__attribute__s}}{}
 \item\contentsline{section}{\hyperlink{structtions__attribute__s}{tions\+\_\+attribute\+\_\+s} }{\pageref{structtions__attribute__s}}{}
-\item\contentsline{section}{\hyperlink{uniontype__s}{type\+\_\+s} }{\pageref{uniontype__s}}{}
+\item\contentsline{section}{\hyperlink{classVerificador}{Verificador} }{\pageref{classVerificador}}{}
 \end{DoxyCompactList}

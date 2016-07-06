@@ -10,7 +10,7 @@ var searchData=
   ['dcmpl',['DCMPL',['../opcode_8hpp.html#a9b1f4e736ee9f37fb4878f138b8bd693',1,'opcode.hpp']]],
   ['dconst_5f0',['DCONST_0',['../opcode_8hpp.html#a3050a9a9a7425b6267e71303391490a2',1,'opcode.hpp']]],
   ['dconst_5f1',['DCONST_1',['../opcode_8hpp.html#a048556cde25c94ba004ba67c10331bb1',1,'opcode.hpp']]],
-  ['ddiv',['DDIv',['../opcode_8hpp.html#adc78f960d375efcbf7336a09e880ebaf',1,'opcode.hpp']]],
+  ['ddiv',['DDIV',['../opcode_8hpp.html#afaac5aeec994fd1ba74e8b62389a8039',1,'opcode.hpp']]],
   ['dload',['DLOAD',['../opcode_8hpp.html#ac264ddff2dda06da1706e895c7f12ed5',1,'opcode.hpp']]],
   ['dload_5f0',['DLOAD_0',['../opcode_8hpp.html#ab3ec8101e17f298078729ce1e5da4327',1,'opcode.hpp']]],
   ['dload_5f1',['DLOAD_1',['../opcode_8hpp.html#ac5ce26058fc9aa9970e2d3565dd910fc',1,'opcode.hpp']]],

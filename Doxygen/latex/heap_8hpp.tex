@@ -1,8 +1,14 @@
 \hypertarget{heap_8hpp}{\section{include/heap.hpp File Reference}
 \label{heap_8hpp}\index{include/heap.\+hpp@{include/heap.\+hpp}}
 }
+
+
+Este arquivo trata a documentacaoo 4.\+3.\+2 \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+3}.  
+
+
 {\ttfamily \#include $<$map$>$}\\*
 {\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
 {\ttfamily \#include \char`\"{}../include/class\+File.\+hpp\char`\"{}}\\*
 Include dependency graph for heap.\+hpp\+:\nopagebreak
 \begin{figure}[H]
@@ -11,7 +17,8 @@ Include dependency graph for heap.\+hpp\+:\nopagebreak
 \includegraphics[width=350pt]{heap_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,57 +28,95 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-union \hyperlink{uniontype__s}{type\+\_\+s}
+union \hyperlink{unionbase__type__s}{base\+\_\+type\+\_\+s}
 \item 
-struct \hyperlink{structfield__value__s}{field\+\_\+value\+\_\+s}
+struct \hyperlink{structBaseType__s}{Base\+Type\+\_\+s}
 \item 
-struct \hyperlink{structinstance__class__u}{instance\+\_\+class\+\_\+u}
-\end{DoxyCompactItemize}
+struct \hyperlink{structObjectType__s}{Object\+Type\+\_\+s}
+\item 
+struct \hyperlink{structArrayType__s}{Array\+Type\+\_\+s}
+\item 
+union \hyperlink{unionFieldType__u}{Field\+Type\+\_\+u}
+\item 
+struct \hyperlink{structFieldValue__s}{Field\+Value\+\_\+s}
+\item 
+class \hyperlink{classInstanceClass}{Instance\+Class}
+\begin{DoxyCompactList}\small\item\em Esta classe eh a instancia fisica de um objeto para isto ela o valor de todos fields dentro de si e um ponteiro para sua classfile para facilitar a manipualacao das referencias. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef union \hyperlink{uniontype__s}{type\+\_\+s} \hyperlink{heap_8hpp_ae5c0f9a3fc75861baaa7475c345f119d}{field\+\_\+type}
+typedef enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+e} \hyperlink{heap_8hpp_abae472b4761acff5c0e2e945a106d1a0}{tag\+\_\+\+Tipo}
 \item 
-typedef enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+e} \hyperlink{heap_8hpp_a3b72488a4c6c460c12216995bd0c80b8}{tag\+\_\+tipo}
+typedef union \hyperlink{unionbase__type__s}{base\+\_\+type\+\_\+s} \hyperlink{heap_8hpp_a19f79bf7b0c34f691bdd56ae53f83c35}{Base\+Type\+\_\+u}
 \item 
-typedef struct \hyperlink{structfield__value__s}{field\+\_\+value\+\_\+s} \hyperlink{heap_8hpp_a62578fb07ad4db0a96588554c6ed60b2}{field\+\_\+value}
+typedef struct \hyperlink{structBaseType__s}{Base\+Type\+\_\+s} \hyperlink{heap_8hpp_aea58c62b09d898b3bbab32faebe7fbae}{Base\+Type}
 \item 
-typedef struct \hyperlink{structinstance__class__u}{instance\+\_\+class\+\_\+u} \hyperlink{heap_8hpp_a10a6b663306bb9ebfa5959ab91c79eda}{Instance\+Class}
+typedef struct \hyperlink{structObjectType__s}{Object\+Type\+\_\+s} \hyperlink{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}{Object\+Type}
+\item 
+typedef std\+::vector$<$ struct \\*
+\hyperlink{structFieldValue__s}{Field\+Value\+\_\+s} $>$ \hyperlink{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}{arrayref}
+\item 
+typedef struct \hyperlink{structArrayType__s}{Array\+Type\+\_\+s} \hyperlink{heap_8hpp_aa630024ee56aa81525646e18ddf60284}{Array\+Type}
+\item 
+typedef union \hyperlink{unionFieldType__u}{Field\+Type\+\_\+u} \hyperlink{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}{Field\+Type}
+\item 
+typedef struct \hyperlink{structFieldValue__s}{Field\+Value\+\_\+s} \hyperlink{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}{Field\+Value}
 \end{DoxyCompactItemize}
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
 enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+e} \{ \\*
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae663dbb8f8244e122acb5bd6b2c216e1}{B\+O\+O\+L} = 0, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a}{I\+N\+T}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8}{C\+H\+A\+R}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4d284ef7fce553686c054021587a648b}{P\+A\+L\+A\+V\+R\+A}, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a}{I\+N\+T} = 1, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8}{C\+H\+A\+R} = 2, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297}{B\+Y\+T\+E} = 3, 
 \\*
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297}{B\+Y\+T\+E}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea6f1397fe3c92c3c86d199b674d23be39}{L\+O\+N\+G\+O}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eafa6801f41f1d6d13464339d38f1c44c3}{P\+F\+L\+U\+T\+U\+A\+N\+T\+E}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eabe402f6f28e799b7f68b6c2928d0a5fa}{C\+U\+R\+T\+O}, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea6f1397fe3c92c3c86d199b674d23be39}{L\+O\+N\+G\+O} = 4, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eafa6801f41f1d6d13464339d38f1c44c3}{P\+F\+L\+U\+T\+U\+A\+N\+T\+E} = 5, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eabe402f6f28e799b7f68b6c2928d0a5fa}{C\+U\+R\+T\+O} = 6, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea227536a459b4bda01a188a726b75ef67}{D\+U\+P\+L\+O} = 7, 
 \\*
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea227536a459b4bda01a188a726b75ef67}{D\+U\+P\+L\+O}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea8a864f20e6a4907760ae9b1656ce5e6f}{I\+N\+S\+T\+A\+N\+C\+I\+A}, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3b6f0648d01ae2ca895fab81991c5b10}{L\+I\+S\+T\+A}
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eaef271216bfc3a08b536bfc8bcbea92b0}{B\+A\+S\+E\+T\+Y\+P\+E} = 8, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea1dc35745049317b1f7d826b4f14449b4}{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E} = 9, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96}{A\+R\+R\+A\+Y\+T\+Y\+P\+E} = 10, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee}{V\+O\+I\+D\+\_\+\+T} = 11, 
+\\*
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1399f269e3800c5fd2341a1c0eff978}{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S} = 12, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d}{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E}
  \}
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+Este arquivo trata a documentacaoo 4.\+3.\+2 \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+3}. 
+
+
+
 \subsection{Typedef Documentation}
-\hypertarget{heap_8hpp_ae5c0f9a3fc75861baaa7475c345f119d}{\index{heap.\+hpp@{heap.\+hpp}!field\+\_\+type@{field\+\_\+type}}
-\index{field\+\_\+type@{field\+\_\+type}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{field\+\_\+type}]{\setlength{\rightskip}{0pt plus 5cm}typedef union {\bf type\+\_\+s} {\bf field\+\_\+type}}}\label{heap_8hpp_ae5c0f9a3fc75861baaa7475c345f119d}
-\hypertarget{heap_8hpp_a62578fb07ad4db0a96588554c6ed60b2}{\index{heap.\+hpp@{heap.\+hpp}!field\+\_\+value@{field\+\_\+value}}
-\index{field\+\_\+value@{field\+\_\+value}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{field\+\_\+value}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf field\+\_\+value\+\_\+s} {\bf field\+\_\+value}}}\label{heap_8hpp_a62578fb07ad4db0a96588554c6ed60b2}
-\hypertarget{heap_8hpp_a10a6b663306bb9ebfa5959ab91c79eda}{\index{heap.\+hpp@{heap.\+hpp}!Instance\+Class@{Instance\+Class}}
-\index{Instance\+Class@{Instance\+Class}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{Instance\+Class}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf instance\+\_\+class\+\_\+u} {\bf Instance\+Class}}}\label{heap_8hpp_a10a6b663306bb9ebfa5959ab91c79eda}
-\hypertarget{heap_8hpp_a3b72488a4c6c460c12216995bd0c80b8}{\index{heap.\+hpp@{heap.\+hpp}!tag\+\_\+tipo@{tag\+\_\+tipo}}
-\index{tag\+\_\+tipo@{tag\+\_\+tipo}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{tag\+\_\+tipo}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf tag\+\_\+tipo\+\_\+e} {\bf tag\+\_\+tipo}}}\label{heap_8hpp_a3b72488a4c6c460c12216995bd0c80b8}
+\hypertarget{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}{\index{heap.\+hpp@{heap.\+hpp}!arrayref@{arrayref}}
+\index{arrayref@{arrayref}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{arrayref}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::vector$<$struct {\bf Field\+Value\+\_\+s}$>$ {\bf arrayref}}}\label{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}
+\hypertarget{heap_8hpp_aa630024ee56aa81525646e18ddf60284}{\index{heap.\+hpp@{heap.\+hpp}!Array\+Type@{Array\+Type}}
+\index{Array\+Type@{Array\+Type}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Array\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Array\+Type\+\_\+s} {\bf Array\+Type}}}\label{heap_8hpp_aa630024ee56aa81525646e18ddf60284}
+\hypertarget{heap_8hpp_aea58c62b09d898b3bbab32faebe7fbae}{\index{heap.\+hpp@{heap.\+hpp}!Base\+Type@{Base\+Type}}
+\index{Base\+Type@{Base\+Type}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Base\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Base\+Type\+\_\+s} {\bf Base\+Type}}}\label{heap_8hpp_aea58c62b09d898b3bbab32faebe7fbae}
+\hypertarget{heap_8hpp_a19f79bf7b0c34f691bdd56ae53f83c35}{\index{heap.\+hpp@{heap.\+hpp}!Base\+Type\+\_\+u@{Base\+Type\+\_\+u}}
+\index{Base\+Type\+\_\+u@{Base\+Type\+\_\+u}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Base\+Type\+\_\+u}]{\setlength{\rightskip}{0pt plus 5cm}typedef union {\bf base\+\_\+type\+\_\+s} {\bf Base\+Type\+\_\+u}}}\label{heap_8hpp_a19f79bf7b0c34f691bdd56ae53f83c35}
+\hypertarget{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}{\index{heap.\+hpp@{heap.\+hpp}!Field\+Type@{Field\+Type}}
+\index{Field\+Type@{Field\+Type}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Field\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef union {\bf Field\+Type\+\_\+u} {\bf Field\+Type}}}\label{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}
+\hypertarget{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}{\index{heap.\+hpp@{heap.\+hpp}!Field\+Value@{Field\+Value}}
+\index{Field\+Value@{Field\+Value}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Field\+Value}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Field\+Value\+\_\+s} {\bf Field\+Value}}}\label{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}
+\hypertarget{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}{\index{heap.\+hpp@{heap.\+hpp}!Object\+Type@{Object\+Type}}
+\index{Object\+Type@{Object\+Type}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{Object\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Object\+Type\+\_\+s} {\bf Object\+Type}}}\label{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}
+\hypertarget{heap_8hpp_abae472b4761acff5c0e2e945a106d1a0}{\index{heap.\+hpp@{heap.\+hpp}!tag\+\_\+\+Tipo@{tag\+\_\+\+Tipo}}
+\index{tag\+\_\+\+Tipo@{tag\+\_\+\+Tipo}!heap.\+hpp@{heap.\+hpp}}
+\subsubsection[{tag\+\_\+\+Tipo}]{\setlength{\rightskip}{0pt plus 5cm}typedef enum {\bf tag\+\_\+tipo\+\_\+e} {\bf tag\+\_\+\+Tipo}}}\label{heap_8hpp_abae472b4761acff5c0e2e945a106d1a0}
 
 
 \subsection{Enumeration Type Documentation}
@@ -87,8 +132,6 @@ enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+
 \hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a}{I\+N\+T}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a}
 }]\index{C\+H\+A\+R@{C\+H\+A\+R}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!C\+H\+A\+R@{C\+H\+A\+R}}\item[{\em 
 \hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8}{C\+H\+A\+R}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8}
-}]\index{P\+A\+L\+A\+V\+R\+A@{P\+A\+L\+A\+V\+R\+A}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!P\+A\+L\+A\+V\+R\+A@{P\+A\+L\+A\+V\+R\+A}}\item[{\em 
-\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4d284ef7fce553686c054021587a648b}{P\+A\+L\+A\+V\+R\+A}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4d284ef7fce553686c054021587a648b}
 }]\index{B\+Y\+T\+E@{B\+Y\+T\+E}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!B\+Y\+T\+E@{B\+Y\+T\+E}}\item[{\em 
 \hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297}{B\+Y\+T\+E}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297}
 }]\index{L\+O\+N\+G\+O@{L\+O\+N\+G\+O}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!L\+O\+N\+G\+O@{L\+O\+N\+G\+O}}\item[{\em 
@@ -99,9 +142,17 @@ enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+
 \hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eabe402f6f28e799b7f68b6c2928d0a5fa}{C\+U\+R\+T\+O}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eabe402f6f28e799b7f68b6c2928d0a5fa}
 }]\index{D\+U\+P\+L\+O@{D\+U\+P\+L\+O}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!D\+U\+P\+L\+O@{D\+U\+P\+L\+O}}\item[{\em 
 \hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea227536a459b4bda01a188a726b75ef67}{D\+U\+P\+L\+O}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea227536a459b4bda01a188a726b75ef67}
-}]\index{I\+N\+S\+T\+A\+N\+C\+I\+A@{I\+N\+S\+T\+A\+N\+C\+I\+A}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!I\+N\+S\+T\+A\+N\+C\+I\+A@{I\+N\+S\+T\+A\+N\+C\+I\+A}}\item[{\em 
-\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea8a864f20e6a4907760ae9b1656ce5e6f}{I\+N\+S\+T\+A\+N\+C\+I\+A}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea8a864f20e6a4907760ae9b1656ce5e6f}
-}]\index{L\+I\+S\+T\+A@{L\+I\+S\+T\+A}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!L\+I\+S\+T\+A@{L\+I\+S\+T\+A}}\item[{\em 
-\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3b6f0648d01ae2ca895fab81991c5b10}{L\+I\+S\+T\+A}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3b6f0648d01ae2ca895fab81991c5b10}
+}]\index{B\+A\+S\+E\+T\+Y\+P\+E@{B\+A\+S\+E\+T\+Y\+P\+E}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!B\+A\+S\+E\+T\+Y\+P\+E@{B\+A\+S\+E\+T\+Y\+P\+E}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eaef271216bfc3a08b536bfc8bcbea92b0}{B\+A\+S\+E\+T\+Y\+P\+E}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eaef271216bfc3a08b536bfc8bcbea92b0}
+}]\index{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E@{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!O\+B\+J\+E\+C\+T\+T\+Y\+P\+E@{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea1dc35745049317b1f7d826b4f14449b4}{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea1dc35745049317b1f7d826b4f14449b4}
+}]\index{A\+R\+R\+A\+Y\+T\+Y\+P\+E@{A\+R\+R\+A\+Y\+T\+Y\+P\+E}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!A\+R\+R\+A\+Y\+T\+Y\+P\+E@{A\+R\+R\+A\+Y\+T\+Y\+P\+E}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96}{A\+R\+R\+A\+Y\+T\+Y\+P\+E}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96}
+}]\index{V\+O\+I\+D\+\_\+\+T@{V\+O\+I\+D\+\_\+\+T}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!V\+O\+I\+D\+\_\+\+T@{V\+O\+I\+D\+\_\+\+T}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee}{V\+O\+I\+D\+\_\+\+T}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee}
+}]\index{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S@{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S@{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1399f269e3800c5fd2341a1c0eff978}{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1399f269e3800c5fd2341a1c0eff978}
+}]\index{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E@{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E}!heap.\+hpp@{heap.\+hpp}}\index{heap.\+hpp@{heap.\+hpp}!S\+T\+R\+I\+N\+G\+T\+Y\+P\+E@{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E}}\item[{\em 
+\hypertarget{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d}{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E}\label{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d}
 }]\end{description}
 \end{Desc}

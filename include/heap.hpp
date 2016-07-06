@@ -1,7 +1,8 @@
 #ifndef HEAP
 #define HEAP
 /** \file heap.hpp
-* Este arquivo trata a documenta��o 4.3.2
+* \brief Este arquivo trata a documentacaoo 4.3.2
+* https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3
 */
 #include <map>
 #include <vector>
@@ -45,9 +46,7 @@ typedef struct BaseType_s{
     BaseType_u  val;
 }BaseType;
 
-/**
- * N�o esquecer que este classname � o nome completo
-*/
+
 typedef struct ObjectType_s{
     InstanceClass *instance;
 }ObjectType;
@@ -63,25 +62,29 @@ typedef union FieldType_u{
     ArrayType  arrtype;
 }FieldType;
 
+/** \class FieldValue
+* \brief Valor empacotado da representacao de uma classe
+* ela pode ser dos tipos BaseType, ObjectType e ArrayType
+* para mais informacoes visite https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5
+*/
 typedef struct FieldValue_s{
     tag_Tipo  tag;
     FieldType val;
 }FieldValue;
 
 /** \class InstanceClass
-* Esta struct representa o mapeamento entre a inst�ncia de uma classe e a refer�ncia
-* para esta no vetor de classes carregadas.
+* \brief Esta classe eh a instancia fisica de um objeto
+* para isto ela o valor de todos fields dentro de si
+* e um ponteiro para sua classfile para facilitar a manipualacao das referencias
 */
 class InstanceClass {
-    public:
+public:
     ClassFile  *cf;
+
     /** \var field_instances
      * \brief a instancia basicamente mapeia o nome da field para seu valor
      */
     std::map<std::string, FieldValue>  field_instances;
-    //InstanceClass();
-    //std::vector<FieldValue>  field_instances;
-    //Fields_Values  *field_instances;
 };
 
 #endif // HEAP

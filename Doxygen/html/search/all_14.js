@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zero',['ZERO',['../structs_8hpp.html#a37862baece8ccb9bbc11b39571e672f1ae117e3533122c80b262257b49b21cddf',1,'structs.hpp']]]
+  ['wide',['WIDE',['../opcode_8hpp.html#aa88400ec102cd1e2e36de0eb301de232',1,'opcode.hpp']]]
 ];

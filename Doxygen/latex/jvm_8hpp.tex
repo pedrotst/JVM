@@ -11,14 +11,17 @@
 {\ttfamily \#include \char`\"{}../include/class\+File.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/op\+\_\+instrucs.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/interpreter\+\_\+op\+\_\+code.\+hpp\char`\"{}}\\*
-Include dependency graph for jvm.\+hpp\+:\nopagebreak
+{\ttfamily \#include \char`\"{}../include/verificador.\+hpp\char`\"{}}\\*
+Include dependency graph for jvm.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{jvm_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -29,4 +32,4 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classJvm}{Jvm}
-\begin{DoxyCompactList}\small\item\em Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Esta é a classe mãe da J\+V\+M ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos. Ela quem é responsável pela heap, e pela gerencia dos objetos alocados em geral inclusive os classfile! \end{DoxyCompactList}\end{DoxyCompactItemize}
