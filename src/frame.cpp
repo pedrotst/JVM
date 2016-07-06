@@ -52,6 +52,7 @@ Frame::Frame(int method_index, ClassFile *cf){
 	this->cf = cf;
 }
 void Frame::printOperandStack(){
+    printf("OperandStack:\n");
     for(int i = 0; i < operandStack.size(); i++){
         switch(operandStack[i].tag){
             case BOOL:
@@ -149,7 +150,11 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf("tag: ARRAYTYPE");
+                printf("tag: ARRAYTYPE[%ld] {", this->localVarVector[i].value.arrayref->arr->size());
+                for(int j = 0; j < this->localVarVector[i].value.arrayref->arr->size(); j++){
+                    printf("%d,", this->localVarVector[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
+                }
+                printf("} //");
                 break;
             case VOID_T:
                 printf("tag: VOID_T | val: %d //", this->localVarVector[i].value.void_v);
