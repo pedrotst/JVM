@@ -1,0 +1,106 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 26
+Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
+This Class: 4 	<teste>
+Super Class: 5 <java/lang/Object>
+Interface count: 0
+Fields count: 0
+Methods count: 2
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#5.#13		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#14.#15		 // java/lang/System.out:Ljava/io/PrintStream;
+#3 = Methodref		#16.#17		 // java/io/PrintStream.println:(I)V
+#4 = Class		#18		 // teste
+#5 = Class		#19		 // java/lang/Object
+#6 = Utf8		<init>
+#7 = Utf8		()V
+#8 = Utf8		Code
+#9 = Utf8		LineNumberTable
+#10 = Utf8		main
+#11 = Utf8		SourceFile
+#12 = Utf8		teste.java
+#13 = NameAndType	#6.#7		<init>:()V
+#14 = Class		#20		 // java/lang/System
+#15 = NameAndType	#21.#22		out:Ljava/io/PrintStream;
+#16 = Class		#23		 // java/io/PrintStream
+#17 = NameAndType	#24.#25		println:(I)V
+#18 = Utf8		teste
+#19 = Utf8		java/lang/Object
+#20 = Utf8		java/lang/System
+#21 = Utf8		out
+#22 = Utf8		Ljava/io/PrintStream;
+#23 = Utf8		java/io/PrintStream
+#24 = Utf8		println
+#25 = Utf8		(I)V
+
+
+Fields: 
+Methods_count: 2
+Methods: 
+Method: 1
+Name: #6<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 2
+Name: #10<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 137
+	 Max Stack: 2, 	 Max Locals: 4, 	 Code Length: 65
+	0:	ICONST_1	
+	0x1:	ISTORE_0	
+	0x2:	ICONST_2	
+	0x3:	ISTORE_1	
+	0x4:	ICONST_3	
+	0x5:	ISTORE_2	
+	0x6:	ICONST_4	
+	0x7:	ISTORE_3	
+	0x8:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0xb:	ILOAD_0	
+	0xc:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0xf:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x12:	ILOAD_1	
+	0x13:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x16:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x19:	ILOAD_2	
+	0x1a:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x1d:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x20:	ILOAD_3	
+	0x21:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x24:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x27:	ILOAD_0	
+	0x28:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x2b:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x2e:	ILOAD_1	
+	0x2f:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x32:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x35:	ILOAD_2	
+	0x36:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x39:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x3c:	ILOAD_3	
+	0x3d:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(I)V
+	0x40:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #11
+attribute_length: 2
+Sourcefile_index: #12		//teste.java

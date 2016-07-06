@@ -28,6 +28,9 @@ int Jvm::run(const char* arq_class_name) {
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
+    if(main_index == -1){
+        main_index = classF.findMethod("main", "()V");
+    }
     //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
         execMethod(main_index, &classF, args);
