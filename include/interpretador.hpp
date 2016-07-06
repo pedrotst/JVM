@@ -88,12 +88,12 @@ class Interpretador{
         int lconst_0();
         int lconst_1();
 
-        //int fconst_0();
-        //int fconst_1();
-        //int fconst_2();
+        int fconst_0();//ni
+        int fconst_1();//ni
+        int fconst_2();//ni
 
-        //int dconst_0();
-        //int dconst_1();
+        int dconst_0();//ni
+        int dconst_1();//ni
 
         int bipush();
         int sipush();

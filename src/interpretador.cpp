@@ -52,11 +52,11 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ICONST_5] = &Interpretador::iconst_5;
     pt[LCONST_0] = &Interpretador::lconst_0;
     pt[LCONST_1] = &Interpretador::lconst_1;
-//    pt[FCONST_0] = &fConst_0;
-//    pt[FCONST_1] = &fConst_1;
-//    pt[FCONST_2] = &fConst_2;
-//    pt[DCONST_0] = &dConst_0;
-//    pt[DCONST_1] = &dConst_1;
+    pt[FCONST_0] = &Interpretador::fconst_0;//ni
+    pt[FCONST_1] = &Interpretador::fconst_1;//ni
+    pt[FCONST_2] = &Interpretador::fconst_2;//ni
+    pt[DCONST_0] = &Interpretador::dconst_0;//ni
+    pt[DCONST_1] = &Interpretador::dconst_1;//ni
     pt[BIPUSH] = &Interpretador::bipush;
     pt[SIPUSH] = &Interpretador::sipush;
     pt[LDC] = &Interpretador::ldc;
@@ -72,33 +72,33 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LLOAD_2] = &Interpretador::lload_2;
     pt[LLOAD_3] = &Interpretador::lload_3;
     pt[FLOAD] = &Interpretador::fload;
-//    pt[DLOAD] = &dLoad;
+    pt[DLOAD] = &Interpretador::dload;//ni
     pt[ALOAD] = &Interpretador::aload;
     pt[ALOAD_0] = &Interpretador::aload_0;
     pt[ALOAD_1] = &Interpretador::aload_1;
     pt[ALOAD_2] = &Interpretador::aload_2;
     pt[ALOAD_3] = &Interpretador::aload_3;
-//    pt[FLOAD_0] = &fLoad_0;
-//    pt[FLOAD_1] = &fLoad_1;
-//    pt[FLOAD_2] = &fLoad_2;
-//    pt[FLOAD_3] = &fLoad_3;
-//    pt[DLOAD_0] = &dLoad_0;
-//    pt[DLOAD_1] = &dLoad_1;
-//    pt[DLOAD_2] = &dLoad_2;
-//    pt[DLOAD_3] = &dLoad_3;
+    pt[FLOAD_0] = &Interpretador::fload_0;//ni
+    pt[FLOAD_1] = &Interpretador::fload_1;//ni
+    pt[FLOAD_2] = &Interpretador::fload_2;//ni
+    pt[FLOAD_3] = &Interpretador::fload_3;//ni
+    pt[DLOAD_0] = &Interpretador::dload_0;//ni
+    pt[DLOAD_1] = &Interpretador::dload_1;//ni
+    pt[DLOAD_2] = &Interpretador::dload_2;//ni
+    pt[DLOAD_3] = &Interpretador::dload_3;//ni
     pt[IALOAD] = &Interpretador::iaload;
-//    pt[LALOAD] = &laLoad;
-//    pt[FALOAD] = &faLoad;
-//    pt[DALOAD] = &daLoad;
-//    pt[AALOAD] = &aaLoad;
-//    pt[BALOAD] = &baLoad;
-//    pt[CALOAD] = &caLoad;
-//    pt[SALOAD] = &saLoad;
+    pt[LALOAD] = &Interpretador::laload;//ni
+    pt[FALOAD] = &Interpretador::faload;//ni
+    pt[DALOAD] = &Interpretador::daload;//ni
+    pt[AALOAD] = &Interpretador::aaload;//ni
+    pt[BALOAD] = &Interpretador::baload;//ni
+    pt[CALOAD] = &Interpretador::caload;//ni
+    pt[SALOAD] = &Interpretador::saload;//ni
     pt[ISTORE] = &Interpretador::istore;
     pt[LSTORE] = &Interpretador::lstore;
-//    pt[FSTORE] = &fStore;
-//    pt[DSTORE] = &dStore;
-//    pt[ASTORE] = &aStore;
+//    pt[FSTORE] = &fStore;//ni
+//    pt[DSTORE] = &dStore;//ni
+//    pt[ASTORE] = &aStore;//ni
     pt[ISTORE_0] = &Interpretador::istore_0;
     pt[ISTORE_1] = &Interpretador::istore_1;
     pt[ISTORE_2] = &Interpretador::istore_2;
@@ -107,25 +107,25 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LSTORE_1] = &Interpretador::lstore_1;
     pt[LSTORE_2] = &Interpretador::lstore_2;
     pt[LSTORE_3] = &Interpretador::lstore_3;
-//    pt[FSTORE_0] = &fStore_0;
-//    pt[FSTORE_1] = &fStore_1;
-//    pt[FSTORE_2] = &fStore_2;
-//    pt[FSTORE_3] = &fStore_3;
-//    pt[DSTORE_0] = &dStore_0;
-//    pt[DSTORE_1] = &dStore_1;
-//    pt[DSTORE_2] = &dStore_2;
-//    pt[DSTORE_3] = &dStore_3;
+//    pt[FSTORE_0] = &fStore_0;//ni
+//    pt[FSTORE_1] = &fStore_1;//ni
+//    pt[FSTORE_2] = &fStore_2;//ni
+//    pt[FSTORE_3] = &fStore_3;//ni
+//    pt[DSTORE_0] = &dStore_0;//ni
+//    pt[DSTORE_1] = &dStore_1;//ni
+//    pt[DSTORE_2] = &dStore_2;//ni
+//    pt[DSTORE_3] = &dStore_3;//ni
     pt[ASTORE_0] = &Interpretador::astore_0;
     pt[ASTORE_1] = &Interpretador::astore_1;
     pt[ASTORE_2] = &Interpretador::astore_2;
     pt[ASTORE_3] = &Interpretador::astore_3;
     pt[IASTORE] = &Interpretador::iastore;
-//    pt[LASTORE] = &laStore;
-//    pt[DASTORE] = &daStore;
-//    pt[AASTORE] = &aaStore;
-//    pt[BASTORE] = &baStore;
-//    pt[CASTORE] = &caStore;
-//    pt[SASTORE] = &saStore;
+//    pt[LASTORE] = &laStore;//ni
+//    pt[DASTORE] = &daStore;//ni
+//    pt[AASTORE] = &aaStore;//ni
+//    pt[BASTORE] = &baStore;//ni
+//    pt[CASTORE] = &caStore;//ni
+//    pt[SASTORE] = &saStore;//ni
     pt[POP] = &Interpretador::pop;
     pt[POP2] = &Interpretador::pop2;
     pt[DUP] = &Interpretador::dup;
@@ -136,58 +136,58 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[DUP2_X2] = &Interpretador::dup2_x2;
     pt[SWAP] = &Interpretador::swap_op;
     pt[LADD] = &Interpretador::ladd;
-//    pt[FADD] = &fadd;
-//    pt[DADD] = &dadd;
+//    pt[FADD] = &fadd;//ni
+//    pt[DADD] = &dadd;//ni
     pt[ISUB] = &Interpretador::isub;
     pt[LSUB] = &Interpretador::lsub;
-//    pt[FSUB] = &fsub;
-//    pt[DSUB] = &dsub;
+//    pt[FSUB] = &fsub;//ni
+//    pt[DSUB] = &dsub;//ni
     pt[IMUL] = &Interpretador::imul;
     pt[LMUL] = &Interpretador::lmul;
-//    pt[FMUL] = &fmul;
-//    pt[DMUL] = &dmul;
+//    pt[FMUL] = &fmul;//ni
+//    pt[DMUL] = &dmul;//ni
     pt[IDIV] = &Interpretador::idiv;
-//    pt[LDIv] = &ldiv;
-//    pt[FDIv] = &fdiv;
-//    pt[DDIv] = &ddiv;
+//    pt[LDIv] = &ldiv;//ni
+//    pt[FDIv] = &fdiv;//ni
+//    pt[DDIv] = &ddiv;//ni
     pt[IREM] = &Interpretador::irem;
-//    pt[LREM] = &lrem;
-//    pt[FREM] = &frem;
-//    pt[DREM] = &drem;
+//    pt[LREM] = &lrem;//ni
+//    pt[FREM] = &frem;//ni
+//    pt[DREM] = &drem;//ni
     pt[INEG] = &Interpretador::ineg;
-//    pt[LNEG] = &lneg;
-//    pt[FNEG] = &fneg;
-//    pt[DNEG] = &dneg;
+//    pt[LNEG] = &lneg;//ni
+//    pt[FNEG] = &fneg;//ni
+//    pt[DNEG] = &dneg;//ni
     pt[ISHL] = &Interpretador::ishl;
-//    pt[LSHL] = &lshl;
+//    pt[LSHL] = &lshl;//ni
     pt[ISHR] = &Interpretador::ishr;
-//    pt[LSHR] = &lshr;
-//    pt[IUSHR] = &iushr;
-//    pt[LUSHR] = &lushr;
+//    pt[LSHR] = &lshr;//ni
+//    pt[IUSHR] = &iushr;//ni
+//    pt[LUSHR] = &lushr;//ni
     pt[IAND] = &Interpretador::iand;
-//    pt[LAND] = &land;
+//    pt[LAND] = &land;//ni
     pt[IOR] = &Interpretador::ior;
-//    pt[LOR] = &lor;
+//    pt[LOR] = &lor;//ni
     pt[IXOR] = &Interpretador::ixor;
-//    pt[LXOR] = &lxor;
+//    pt[LXOR] = &lxor;//ni
     pt[IINC] = &Interpretador::iinc;
     pt[I2L] = &Interpretador::i2l;
     pt[I2F] = &Interpretador::i2f;
     pt[I2D] = &Interpretador::i2d;
-//    pt[L2I] = &l2i;
-//    pt[L2F] = &l2f;
-//    pt[L2D] = &l2d;
-//    pt[D2I] = &d2i;
-//    pt[D2L] = &d2l;
-//    pt[D2F] = &d2f;
+//    pt[L2I] = &l2i;//ni
+//    pt[L2F] = &l2f;//ni
+//    pt[L2D] = &l2d;//ni
+//    pt[D2I] = &d2i;//ni
+//    pt[D2L] = &d2l;//ni
+//    pt[D2F] = &d2f;//ni
     pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
     pt[I2S] = &Interpretador::i2s;
-//    pt[LCMP] = &lcmp;
-//    pt[FCMPL] = &fcmpl;
-//    pt[FCMPG] = &fcmpg;
-//    pt[DCMPL] = &dcmpl;
-//    pt[DCMPG] = &dcmpg;
+//    pt[LCMP] = &lcmp;//ni
+//    pt[FCMPL] = &fcmpl;//ni
+//    pt[FCMPG] = &fcmpg;//ni
+//    pt[DCMPL] = &dcmpl;//ni
+//    pt[DCMPG] = &dcmpg;//ni
     pt[IFEQ] = &Interpretador::ifeq;
     pt[IFNE] = &Interpretador::ifne;
     pt[IFLT] = &Interpretador::iflt;
@@ -204,14 +204,14 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[IF_ACMPNE] = &Interpretador::if_acmpne;
     pt[GOTO] = &Interpretador::goto_java;
     pt[JSR] = &Interpretador::jsr;//nao foi testada
-//    pt[RET] = &ret;
+//    pt[RET] = &ret;//ni
     pt[TABLESWITCH] = &Interpretador::tableswitch;
     pt[LOOKUPSWITCH] = &Interpretador::lookupswitch;
     pt[IRETURN] = &Interpretador::ireturn;
-//    pt[LRETURN] = &lreturn;
-//    pt[FRETURN] = &freturn;
-//    pt[DRETURN] = &dreturn;
-//    pt[ARETURN] = &areturn;
+//    pt[LRETURN] = &lreturn;//ni
+//    pt[FRETURN] = &freturn;//ni
+//    pt[DRETURN] = &dreturn;//ni
+//    pt[ARETURN] = &areturn;//ni
     pt[RETURN] = &Interpretador::return_op;
     pt[GETSTATIC] = &Interpretador::getstatic;
     pt[PUTSTATIC] = &Interpretador::putstatic;
@@ -220,28 +220,28 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
     pt[INVOKESPECIAL] = &Interpretador::invokespecial;
     pt[INVOKESTATIC] = &Interpretador::invokestatic;
-//    pt[INVOKEINTERFACE] = &invokeinterface;
-//    pt[INVOKEDYNAMIC] = &invokedynamic;
+//    pt[INVOKEINTERFACE] = &invokeinterface;//ni
+//    pt[INVOKEDYNAMIC] = &invokedynamic;//ni
     pt[NEW] = &Interpretador::new_op;
     pt[NEWARRAY] = &Interpretador::newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
-//    pt[ARRAYLENGTH] = &arraylength;
+//    pt[ARRAYLENGTH] = &arraylength;//ni
     pt[ATHROW] = &Interpretador::athrow;
-//    pt[CHACKCAST] = &checkcast;
-//    pt[INSTANCEOF] = &instanceof;
+//    pt[CHACKCAST] = &checkcast;//ni
+//    pt[INSTANCEOF] = &instanceof;//ni
       // Utiliizada na println. Tem a ver com threads e por isso acho que não deve ser
       // implementada. Vai ver só precisa retornar.
     pt[MONITORENTER] = &Interpretador::monitorenter;
     pt[MONITOREXIT] = &Interpretador::monitorexit;
-//    pt[WIDE] = &wide;
-//    pt[MULTIANEWARRAY] = &multianewarray;
+//    pt[WIDE] = &wide;//ni
+//    pt[MULTIANEWARRAY] = &multianewarray;//ni
     pt[IFNULL] = &Interpretador::ifnull;
     pt[IFNONNULL] = &Interpretador::ifnonnull;
     pt[GOTO_W] = &Interpretador::goto_w;
     pt[JSR_W] = &Interpretador::jsr_w;//nao foi testada
-//    pt[BREAKPOINT] = &breakpoint;
-//    pt[IMPDEP1] = &impdep1;
-//    pt[IMPDEP2] = &impdep2;
+//    pt[BREAKPOINT] = &breakpoint;//ni
+//    pt[IMPDEP1] = &impdep1;//ni
+//    pt[IMPDEP2] = &impdep2;//ni
     this->instructions = pt;
 }
 
@@ -331,12 +331,12 @@ int Interpretador::lconst_1(){
 }
 
 
-//int Interpretador::fconst_0(){}
-//int Interpretador::fconst_1(){}
-//int Interpretador::fconst_2(){}
+int Interpretador::fconst_0(){return 1;}
+int Interpretador::fconst_1(){return 1;}
+int Interpretador::fconst_2(){return 1;}
 
-//int Interpretador::dconst_0(){}
-//int Interpretador::dconst_1(){}
+int Interpretador::dconst_0(){return 1;}
+int Interpretador::dconst_1(){return 1;}
 
 int Interpretador::bipush(){
     //o byte eh convertido para int, com sinal extendido, e colocado na stack
@@ -841,13 +841,13 @@ int Interpretador::iaload(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::laload(){}
-int Interpretador::faload(){}
-int Interpretador::daload(){}
-int Interpretador::aaload(){}
-int Interpretador::baload(){}
-int Interpretador::caload(){}
-int Interpretador::saload(){}
+int Interpretador::laload(){return 1;}
+int Interpretador::faload(){return 1;}
+int Interpretador::daload(){return 1;}
+int Interpretador::aaload(){return 1;}
+int Interpretador::baload(){return 1;}
+int Interpretador::caload(){return 1;}
+int Interpretador::saload(){return 1;}
 
 int Interpretador::istore(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -867,9 +867,9 @@ int Interpretador::istore(){
     return 2;
 }
 
-int Interpretador::fstore(){}
-int Interpretador::dstore(){}
-int Interpretador::astore(){}
+int Interpretador::fstore(){return 2;}
+int Interpretador::dstore(){return 2;}
+int Interpretador::astore(){return 2;}
 
 int Interpretador::istore_0(){
     if(this->frame_corrente->operandStack.back().tag != INT){

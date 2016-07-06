@@ -14,7 +14,7 @@ int Jvm::run(const char* arq_class_name) {
 
     args.push_back(main_str);
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
-        printf("O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
+        printf("Erro em jvm.run: O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
         exit(0);
     }
 
