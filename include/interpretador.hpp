@@ -13,28 +13,43 @@
 #include "../include/jvm.hpp"
 #include "../include/structs.hpp"
 #include "../include/classFile.hpp"
+/** \file interpretador.hpp
+*   \brief Estruturas de interpretacao dos opcodes
+*/
 
-
-// Somente uma declaração, para poder compilar.
 class Jvm;
 
+/** \class Interpretador
+*   \brief Responsavel por receber um frame e rodar as instrucoes contidas ali
+*/
 class Interpretador{
     public:
+        /** \fn Interpretador
+        *   \param Jvm Recebe a jvm que esta sendo executada como argumento
+        *   para poder ter acesso as estruturas de runtime, tais como
+        *   vetor de classes alocadas, heap, heapstatica, etc
+        */
         Interpretador(Jvm *jvm);
 
         /** \fn runcode
+         *  \brief esta eh a funcao chave que sera chamada pela jvm
+         *  \param *frame_pt ponteiro para o frame sendo executado
          *
-         *  \param ponteiro para o frame sendo executado
          */
         int runCode(Frame *frame_pt);
     private:
+        /**   \var *jvm Recebe a jvm que esta sendo executada como argumento
+        *       para poder ter acesso as estruturas de runtime, tais como
+        *    vetor de classes alocadas, heap, heapstatica, etc
+        */
         Jvm *jvm;
 
-        /** \var *cf
-         *  \brief Decidimos que o interpretador tem acesso ao classfile inteiro
-         */
-        //typedef void (Interpretador::*instructionFunction)(op_stack*);
         typedef int (Interpretador::*instructionFunction)();
+        /** \var instructions
+         *  \brief Vetor com todas funcoes implementadas, elas estao alinhadas pelo seu opcode
+         * no entanto devem ser chamadas pela \ref execute_instruction
+         *
+         */
         std::vector<instructionFunction> instructions;//instruções
         Frame *frame_corrente;
         Code_attribute *code_corrente;

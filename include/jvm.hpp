@@ -70,7 +70,7 @@ public:
 
         /** \fn ClassFile getClassRef (std::string className)
          *
-         * \brief Obtém uma referência para uma classe carregada. A classe é
+         * \brief Obtém uma referencia para uma classe carregada. A classe é
          * carregada, caso já não estiver.
          *
          * \param className nome da classe a ser retornada
@@ -94,12 +94,12 @@ public:
 
         /** \fn ClassFile alocarObjeto (std::string className)
          *
-         * \brief Carrega a instância de uma classe carregada, alocando
-         * as fields e instânciando com os valores padrão.
+         * \brief Carrega a instancia de uma classe carregada, alocando
+         * as fields e instanciando com os valores padrão.
          *
          * \param className nome da classe a ser alocada
          *
-         * \return A referência da instância da classe alocada com valores padrão.
+         * \return A referência da instancia da classe alocada com valores padrao.
          *
          */
         InstanceClass* alocarObjeto(std::string className);
@@ -112,7 +112,7 @@ public:
          *
          * \param className nome da classe a ser alocada
          *
-         * \return A referência da instância da classe estática alocada com valores padrão.
+         * \return A referencia da instância da classe estatica alocada com valores padrao.
          *
          */
         InstanceClass* alocarObjetoEstatico(std::string className);
@@ -125,7 +125,7 @@ public:
          * \param classF é o ponteiro para o ClassFile dono do método a ser executado
          * \param args são os parametros que serao passado como argumento
          *
-         * \return o retorno do método empacotado numa Local_var
+         * \return o retorno do metodo empacotado numa Local_var
          *
          */
         Local_var execMethod(int method_index, ClassFile *classF, vector<Local_var> args);

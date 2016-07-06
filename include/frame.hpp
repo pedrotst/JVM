@@ -6,7 +6,9 @@
 #include <sstream>
 #include <iostream>
 #include "../include/heap.hpp"
-
+/** \file frame.hpp
+ * \brief Define estruturas relacionados aos frames de execucao
+*/
 //////////////////////////// Estruturas ////////////////////////////
 /** \class Local_var_Type
  * \brief O tipo void será utilizado para avisar que a função retorna nada
@@ -28,10 +30,19 @@ typedef union Local_var_Type_u {
 	uint32_t double_value;
 }Local_var_Type;
 
+
+/** \var Local_var
+* \brief sao as variaveis utilizadas dentro do frame
+* tanto pelo vetor de variaveis locais como pela pilha de operandos
+*
+*/
 class Local_var{
 public:
     tag_Tipo tag;
 	Local_var_Type value;
+	/** \fn repr
+	* \return retorna a representacao de uma local_var em String
+	*/
     std::string repr();
 
 };

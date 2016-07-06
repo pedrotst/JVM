@@ -33,7 +33,7 @@ public:
 	std::vector<attribute_info> attributes;
 
 
-	/** \fn getCpoolUtf8
+	/** \fn getSource
 	* \return retorna o arquivo que gerou esta classe
 	*/
 	std::string getSource();
@@ -54,10 +54,13 @@ public:
 	*/
 	std::map<std::string, std::string> getFieldsNamesTypes();
 
-	/** \fn getFieldsNamesTypes
+	/** \fn getStaticFieldsNamesTypes
 	* \brief retorna um bind entre o nome e o tipo de todas fields estaticas da classe
 	*/
 	std::map<std::string, std::string> getStaticFieldsNamesTypes();
+
+
+
     /** \fn getCpoolClass Busca na Constant Pool o nome da Classe a partir do index
     *
     *   \param index Index utilizado para encontrar o ClassName

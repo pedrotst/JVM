@@ -14,6 +14,9 @@
 #include "../include/op_instrucs.hpp"
 #include "../include/operationMap.hpp"
 
+/** \file exibidor.hpp
+*   \brief responsavel pela exibicao textual do .class
+*/
 
 void exibeClass(ClassFile classF);
 void print_comment(std::vector<cp_info_s> c, int n);
