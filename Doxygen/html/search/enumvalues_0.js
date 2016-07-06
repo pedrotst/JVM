@@ -7,5 +7,6 @@ var searchData=
   ['acc_5finterface',['ACC_INTERFACE',['../structs_8hpp.html#a63ecb09c906a982ee9d7426d6cc2b119a6d061156e0c1a7d2fd2612cdfc22cc9e',1,'structs.hpp']]],
   ['acc_5fpublic',['ACC_PUBLIC',['../structs_8hpp.html#a63ecb09c906a982ee9d7426d6cc2b119ad6addf2497a04181c180bee6a0fc98d7',1,'structs.hpp']]],
   ['acc_5fsuper',['ACC_SUPER',['../structs_8hpp.html#a63ecb09c906a982ee9d7426d6cc2b119a59ef122665d2a44976860b18e074e8a2',1,'structs.hpp']]],
-  ['acc_5fsynthetic',['ACC_SYNTHETIC',['../structs_8hpp.html#a63ecb09c906a982ee9d7426d6cc2b119a980b3db8759afd4fd626103668481058',1,'structs.hpp']]]
+  ['acc_5fsynthetic',['ACC_SYNTHETIC',['../structs_8hpp.html#a63ecb09c906a982ee9d7426d6cc2b119a980b3db8759afd4fd626103668481058',1,'structs.hpp']]],
+  ['arraytype',['ARRAYTYPE',['../heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96',1,'heap.hpp']]]
 ];

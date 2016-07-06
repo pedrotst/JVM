@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['tions_5fattribute_5fs',['tions_attribute_s',['../structtions__attribute__s.html',1,'']]],
-  ['type_5fs',['type_s',['../uniontype__s.html',1,'']]]
+  ['signature_5fattribute_5fs',['Signature_attribute_s',['../structSignature__attribute__s.html',1,'']]],
+  ['sourcefile_5fattribute_5fs',['SourceFile_attribute_s',['../structSourceFile__attribute__s.html',1,'']]],
+  ['synthetic_5fattribute_5fs',['Synthetic_attribute_s',['../structSynthetic__attribute__s.html',1,'']]]
 ];

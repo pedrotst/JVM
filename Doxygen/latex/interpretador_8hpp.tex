@@ -1,13 +1,22 @@
 \hypertarget{interpretador_8hpp}{\section{include/interpretador.hpp File Reference}
 \label{interpretador_8hpp}\index{include/interpretador.\+hpp@{include/interpretador.\+hpp}}
 }
+
+
+Estruturas de interpretacao dos opcodes.  
+
+
 {\ttfamily \#include $<$cstdint$>$}\\*
 {\ttfamily \#include $<$stdio.\+h$>$}\\*
 {\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
 {\ttfamily \#include \char`\"{}../include/frame.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/opcode.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/jvm.\+hpp\char`\"{}}\\*
-Include dependency graph for interpretador.\+hpp\+:\nopagebreak
+{\ttfamily \#include \char`\"{}../include/structs.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../include/class\+File.\+hpp\char`\"{}}\\*
+Include dependency graph for interpretador.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -25,12 +34,17 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classInterpretador}{Interpretador}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Responsavel por receber um frame e rodar as instrucoes contidas ali. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{interpretador_8hpp_ac0dea6770549fe97ecf21cf2f923d7fb}{num\+Opcodes}~250
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Estruturas de interpretacao dos opcodes. 
+
 
 
 \subsection{Macro Definition Documentation}

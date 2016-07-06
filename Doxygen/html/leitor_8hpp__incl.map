@@ -1,5 +1,5 @@
 <map id="include/leitor.hpp" name="include/leitor.hpp">
-<area shape="rect" id="node7" href="$structs_8hpp.html" title="../include/structs.hpp" alt="" coords="109,229,253,256"/>
+<area shape="rect" id="node7" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="109,229,253,256"/>
 <area shape="rect" id="node9" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="205,312,306,339"/>
 <area shape="rect" id="node10" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="656,155,812,181"/>
 <area shape="rect" id="node14" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="467,305,588,346"/>

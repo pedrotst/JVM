@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['findmain',['findMain',['../classClassFile.html#ab67b335ccd0e88ddb3b8ab99a602b8ea',1,'ClassFile']]],
-  ['frame',['Frame',['../classFrame.html#ad2e5946cf41d4817e750500acf05d02b',1,'Frame::Frame()'],['../classFrame.html#a90798580dd69c6e4b927db8aea2a419e',1,'Frame::Frame(int max_stack, int max_locals, uint16_t descriptor_index, std::vector&lt; cp_info &gt; *constant_pool_pt)']]]
+  ['caload',['caload',['../classInterpretador.html#a87ec73f5fc35016e11b0b58fd9ec6044',1,'Interpretador']]],
+  ['castore',['castore',['../classInterpretador.html#a2c4715f0705d200e1f5873e0a18bba36',1,'Interpretador']]],
+  ['create_5fmap',['create_map',['../namespaceOperationMap.html#a0413bfd4f988182beba0ff6259b0ee95',1,'OperationMap::create_map()'],['../namespaceOperationMap.html#a2e3b57064aec19d39f33b0e11925cf80',1,'OperationMap::create_map(map&lt; uint8_t, string &gt; &amp;op_mapa)']]]
 ];

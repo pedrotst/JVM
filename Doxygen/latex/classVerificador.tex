@@ -1,0 +1,314 @@
+\hypertarget{classVerificador}{\section{Verificador Class Reference}
+\label{classVerificador}\index{Verificador@{Verificador}}
+}
+
+
+{\ttfamily \#include $<$verificador.\+hpp$>$}
+
+
+
+Collaboration diagram for Verificador\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{classVerificador__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classVerificador_ac51211fc9ca6bc4f6458689d297fd975}{Verificador} (\hyperlink{classClassFile}{Class\+File} class\+F)
+\item 
+void \hyperlink{classVerificador_a2733fc90d16afa8273cd09b0d3a34f91}{verifica\+Class} (\hyperlink{classClassFile}{Class\+File} class\+F)
+\begin{DoxyCompactList}\small\item\em Verifica se a class file está consistente realizando checagem de tipo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef int(Verificador\+::$\ast$ \hyperlink{classVerificador_a2a64056e6634e64f586f2788b5685e5c}{funcao\+Instrucao} )()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classVerificador_a025ec61668a0fbe315b6318c61aa2460}{verifica\+Methods} (\hyperlink{classClassFile}{Class\+File} class\+F)
+\begin{DoxyCompactList}\small\item\em Verifica as instruções dos métodos. \end{DoxyCompactList}\item 
+int \hyperlink{classVerificador_aa67ba73d0f0df6286f65e45a78f8a3e5}{iadd} ()
+\item 
+int \hyperlink{classVerificador_a118c57abe0716ec633de37977677f51e}{ladd} ()
+\item 
+int \hyperlink{classVerificador_a196dbc5d4fdfbdf4f55a511f883e477b}{return\+\_\+op} ()
+\item 
+int \hyperlink{classVerificador_a4e5b8d6eeedff3ae91ec74a53ffb1cff}{new\+\_\+op} ()
+\item 
+int \hyperlink{classVerificador_aa9f6694a5b737841c91f034a6496a1ae}{aload\+\_\+0} ()
+\item 
+int \hyperlink{classVerificador_ae36056fb3152a532ddea76e576a1b7f1}{aload\+\_\+1} ()
+\item 
+int \hyperlink{classVerificador_a61eaaf6714bacd93a2d76e61db2b3550}{aload\+\_\+2} ()
+\item 
+int \hyperlink{classVerificador_a3a3c7f78a3d7fafbc0ab4736ef83753f}{aload\+\_\+3} ()
+\item 
+int \hyperlink{classVerificador_ae0a45c6f991ec71424e25015b48f2667}{putfield} ()
+\item 
+int \hyperlink{classVerificador_a3fd3e7ee5dc1e62ec16793b9d4134a60}{iconst\+\_\+m1} ()
+\item 
+int \hyperlink{classVerificador_ac421525ab4efa0a7ffc769e4ddb5c3b9}{astore\+\_\+0} ()
+\item 
+int \hyperlink{classVerificador_af4f04c7e7c4d10792fa4006e09e4e6a9}{astore\+\_\+1} ()
+\item 
+int \hyperlink{classVerificador_a47b59c3ef835fa61de878013a96d6f90}{astore\+\_\+2} ()
+\item 
+int \hyperlink{classVerificador_af5c7c091ff6533f4a3895f889fd292ca}{astore\+\_\+3} ()
+\item 
+int \hyperlink{classVerificador_ae6ddd2604943570bb21aad6b1f7b4b0d}{iconst\+\_\+0} ()
+\item 
+int \hyperlink{classVerificador_a7afc5ad8d65b0cf65ea1019f2f27377d}{iconst\+\_\+1} ()
+\item 
+int \hyperlink{classVerificador_a41d3ffc0c4844d826a90dcb504f8c01f}{iconst\+\_\+2} ()
+\item 
+int \hyperlink{classVerificador_a93937f29a122eac18e14a7fdd1dba7a6}{iconst\+\_\+3} ()
+\item 
+int \hyperlink{classVerificador_a1ec75b8ffee7f0e8695746f383822dd8}{iconst\+\_\+4} ()
+\item 
+int \hyperlink{classVerificador_afde3639a904bb7cea0801670e5c49088}{iconst\+\_\+5} ()
+\item 
+int \hyperlink{classVerificador_aeca4a45fdd5405f28ffe5d5e0770b2ab}{dup} ()
+\item 
+int \hyperlink{classVerificador_a300fe66b804f4253d90cf9a04da72540}{ldc} ()
+\item 
+int \hyperlink{classVerificador_add384ff8a5fb6c71fee4c7cb74b5cc1b}{invokespecial} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classVerificador_a2a64056e6634e64f586f2788b5685e5c}{funcao\+Instrucao} $>$ \hyperlink{classVerificador_a54353413a8f54a75a66cbd25f1b0624c}{instrucoes}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classVerificador_a2a64056e6634e64f586f2788b5685e5c}{\index{Verificador@{Verificador}!funcao\+Instrucao@{funcao\+Instrucao}}
+\index{funcao\+Instrucao@{funcao\+Instrucao}!Verificador@{Verificador}}
+\subsubsection[{funcao\+Instrucao}]{\setlength{\rightskip}{0pt plus 5cm}typedef int(Verificador\+::$\ast$ Verificador\+::funcao\+Instrucao)()\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a2a64056e6634e64f586f2788b5685e5c}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classVerificador_ac51211fc9ca6bc4f6458689d297fd975}{\index{Verificador@{Verificador}!Verificador@{Verificador}}
+\index{Verificador@{Verificador}!Verificador@{Verificador}}
+\subsubsection[{Verificador}]{\setlength{\rightskip}{0pt plus 5cm}Verificador\+::\+Verificador (
+\begin{DoxyParamCaption}
+\item[{{\bf Class\+File}}]{class\+F}
+\end{DoxyParamCaption}
+)}}\label{classVerificador_ac51211fc9ca6bc4f6458689d297fd975}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classVerificador_aa9f6694a5b737841c91f034a6496a1ae}{\index{Verificador@{Verificador}!aload\+\_\+0@{aload\+\_\+0}}
+\index{aload\+\_\+0@{aload\+\_\+0}!Verificador@{Verificador}}
+\subsubsection[{aload\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::aload\+\_\+0 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_aa9f6694a5b737841c91f034a6496a1ae}
+\hypertarget{classVerificador_ae36056fb3152a532ddea76e576a1b7f1}{\index{Verificador@{Verificador}!aload\+\_\+1@{aload\+\_\+1}}
+\index{aload\+\_\+1@{aload\+\_\+1}!Verificador@{Verificador}}
+\subsubsection[{aload\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::aload\+\_\+1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_ae36056fb3152a532ddea76e576a1b7f1}
+\hypertarget{classVerificador_a61eaaf6714bacd93a2d76e61db2b3550}{\index{Verificador@{Verificador}!aload\+\_\+2@{aload\+\_\+2}}
+\index{aload\+\_\+2@{aload\+\_\+2}!Verificador@{Verificador}}
+\subsubsection[{aload\+\_\+2}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::aload\+\_\+2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a61eaaf6714bacd93a2d76e61db2b3550}
+\hypertarget{classVerificador_a3a3c7f78a3d7fafbc0ab4736ef83753f}{\index{Verificador@{Verificador}!aload\+\_\+3@{aload\+\_\+3}}
+\index{aload\+\_\+3@{aload\+\_\+3}!Verificador@{Verificador}}
+\subsubsection[{aload\+\_\+3}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::aload\+\_\+3 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a3a3c7f78a3d7fafbc0ab4736ef83753f}
+\hypertarget{classVerificador_ac421525ab4efa0a7ffc769e4ddb5c3b9}{\index{Verificador@{Verificador}!astore\+\_\+0@{astore\+\_\+0}}
+\index{astore\+\_\+0@{astore\+\_\+0}!Verificador@{Verificador}}
+\subsubsection[{astore\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::astore\+\_\+0 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_ac421525ab4efa0a7ffc769e4ddb5c3b9}
+\hypertarget{classVerificador_af4f04c7e7c4d10792fa4006e09e4e6a9}{\index{Verificador@{Verificador}!astore\+\_\+1@{astore\+\_\+1}}
+\index{astore\+\_\+1@{astore\+\_\+1}!Verificador@{Verificador}}
+\subsubsection[{astore\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::astore\+\_\+1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_af4f04c7e7c4d10792fa4006e09e4e6a9}
+\hypertarget{classVerificador_a47b59c3ef835fa61de878013a96d6f90}{\index{Verificador@{Verificador}!astore\+\_\+2@{astore\+\_\+2}}
+\index{astore\+\_\+2@{astore\+\_\+2}!Verificador@{Verificador}}
+\subsubsection[{astore\+\_\+2}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::astore\+\_\+2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a47b59c3ef835fa61de878013a96d6f90}
+\hypertarget{classVerificador_af5c7c091ff6533f4a3895f889fd292ca}{\index{Verificador@{Verificador}!astore\+\_\+3@{astore\+\_\+3}}
+\index{astore\+\_\+3@{astore\+\_\+3}!Verificador@{Verificador}}
+\subsubsection[{astore\+\_\+3}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::astore\+\_\+3 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_af5c7c091ff6533f4a3895f889fd292ca}
+\hypertarget{classVerificador_aeca4a45fdd5405f28ffe5d5e0770b2ab}{\index{Verificador@{Verificador}!dup@{dup}}
+\index{dup@{dup}!Verificador@{Verificador}}
+\subsubsection[{dup}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::dup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_aeca4a45fdd5405f28ffe5d5e0770b2ab}
+\hypertarget{classVerificador_aa67ba73d0f0df6286f65e45a78f8a3e5}{\index{Verificador@{Verificador}!iadd@{iadd}}
+\index{iadd@{iadd}!Verificador@{Verificador}}
+\subsubsection[{iadd}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iadd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_aa67ba73d0f0df6286f65e45a78f8a3e5}
+\hypertarget{classVerificador_ae6ddd2604943570bb21aad6b1f7b4b0d}{\index{Verificador@{Verificador}!iconst\+\_\+0@{iconst\+\_\+0}}
+\index{iconst\+\_\+0@{iconst\+\_\+0}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+0 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_ae6ddd2604943570bb21aad6b1f7b4b0d}
+\hypertarget{classVerificador_a7afc5ad8d65b0cf65ea1019f2f27377d}{\index{Verificador@{Verificador}!iconst\+\_\+1@{iconst\+\_\+1}}
+\index{iconst\+\_\+1@{iconst\+\_\+1}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a7afc5ad8d65b0cf65ea1019f2f27377d}
+\hypertarget{classVerificador_a41d3ffc0c4844d826a90dcb504f8c01f}{\index{Verificador@{Verificador}!iconst\+\_\+2@{iconst\+\_\+2}}
+\index{iconst\+\_\+2@{iconst\+\_\+2}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+2}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a41d3ffc0c4844d826a90dcb504f8c01f}
+\hypertarget{classVerificador_a93937f29a122eac18e14a7fdd1dba7a6}{\index{Verificador@{Verificador}!iconst\+\_\+3@{iconst\+\_\+3}}
+\index{iconst\+\_\+3@{iconst\+\_\+3}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+3}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+3 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a93937f29a122eac18e14a7fdd1dba7a6}
+\hypertarget{classVerificador_a1ec75b8ffee7f0e8695746f383822dd8}{\index{Verificador@{Verificador}!iconst\+\_\+4@{iconst\+\_\+4}}
+\index{iconst\+\_\+4@{iconst\+\_\+4}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+4}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+4 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a1ec75b8ffee7f0e8695746f383822dd8}
+\hypertarget{classVerificador_afde3639a904bb7cea0801670e5c49088}{\index{Verificador@{Verificador}!iconst\+\_\+5@{iconst\+\_\+5}}
+\index{iconst\+\_\+5@{iconst\+\_\+5}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+5}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+5 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_afde3639a904bb7cea0801670e5c49088}
+\hypertarget{classVerificador_a3fd3e7ee5dc1e62ec16793b9d4134a60}{\index{Verificador@{Verificador}!iconst\+\_\+m1@{iconst\+\_\+m1}}
+\index{iconst\+\_\+m1@{iconst\+\_\+m1}!Verificador@{Verificador}}
+\subsubsection[{iconst\+\_\+m1}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::iconst\+\_\+m1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a3fd3e7ee5dc1e62ec16793b9d4134a60}
+\hypertarget{classVerificador_add384ff8a5fb6c71fee4c7cb74b5cc1b}{\index{Verificador@{Verificador}!invokespecial@{invokespecial}}
+\index{invokespecial@{invokespecial}!Verificador@{Verificador}}
+\subsubsection[{invokespecial}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::invokespecial (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_add384ff8a5fb6c71fee4c7cb74b5cc1b}
+\hypertarget{classVerificador_a118c57abe0716ec633de37977677f51e}{\index{Verificador@{Verificador}!ladd@{ladd}}
+\index{ladd@{ladd}!Verificador@{Verificador}}
+\subsubsection[{ladd}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::ladd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a118c57abe0716ec633de37977677f51e}
+\hypertarget{classVerificador_a300fe66b804f4253d90cf9a04da72540}{\index{Verificador@{Verificador}!ldc@{ldc}}
+\index{ldc@{ldc}!Verificador@{Verificador}}
+\subsubsection[{ldc}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::ldc (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a300fe66b804f4253d90cf9a04da72540}
+\hypertarget{classVerificador_a4e5b8d6eeedff3ae91ec74a53ffb1cff}{\index{Verificador@{Verificador}!new\+\_\+op@{new\+\_\+op}}
+\index{new\+\_\+op@{new\+\_\+op}!Verificador@{Verificador}}
+\subsubsection[{new\+\_\+op}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::new\+\_\+op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a4e5b8d6eeedff3ae91ec74a53ffb1cff}
+\hypertarget{classVerificador_ae0a45c6f991ec71424e25015b48f2667}{\index{Verificador@{Verificador}!putfield@{putfield}}
+\index{putfield@{putfield}!Verificador@{Verificador}}
+\subsubsection[{putfield}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::putfield (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_ae0a45c6f991ec71424e25015b48f2667}
+\hypertarget{classVerificador_a196dbc5d4fdfbdf4f55a511f883e477b}{\index{Verificador@{Verificador}!return\+\_\+op@{return\+\_\+op}}
+\index{return\+\_\+op@{return\+\_\+op}!Verificador@{Verificador}}
+\subsubsection[{return\+\_\+op}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::return\+\_\+op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a196dbc5d4fdfbdf4f55a511f883e477b}
+\hypertarget{classVerificador_a2733fc90d16afa8273cd09b0d3a34f91}{\index{Verificador@{Verificador}!verifica\+Class@{verifica\+Class}}
+\index{verifica\+Class@{verifica\+Class}!Verificador@{Verificador}}
+\subsubsection[{verifica\+Class}]{\setlength{\rightskip}{0pt plus 5cm}void Verificador\+::verifica\+Class (
+\begin{DoxyParamCaption}
+\item[{{\bf Class\+File}}]{class\+F}
+\end{DoxyParamCaption}
+)}}\label{classVerificador_a2733fc90d16afa8273cd09b0d3a34f91}
+
+
+Verifica se a class file está consistente realizando checagem de tipo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\+F} & estrutura class file a ser checada\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{classVerificador_a025ec61668a0fbe315b6318c61aa2460}{\index{Verificador@{Verificador}!verifica\+Methods@{verifica\+Methods}}
+\index{verifica\+Methods@{verifica\+Methods}!Verificador@{Verificador}}
+\subsubsection[{verifica\+Methods}]{\setlength{\rightskip}{0pt plus 5cm}int Verificador\+::verifica\+Methods (
+\begin{DoxyParamCaption}
+\item[{{\bf Class\+File}}]{class\+F}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a025ec61668a0fbe315b6318c61aa2460}
+
+
+Verifica as instruções dos métodos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\+F} & estrutura class file que contém os métodos a serem checados\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classVerificador_a54353413a8f54a75a66cbd25f1b0624c}{\index{Verificador@{Verificador}!instrucoes@{instrucoes}}
+\index{instrucoes@{instrucoes}!Verificador@{Verificador}}
+\subsubsection[{instrucoes}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf funcao\+Instrucao}$>$ Verificador\+::instrucoes\hspace{0.3cm}{\ttfamily [private]}}}\label{classVerificador_a54353413a8f54a75a66cbd25f1b0624c}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{verificador_8hpp}{verificador.\+hpp}\item 
+src/\hyperlink{verificador_8cpp}{verificador.\+cpp}\end{DoxyCompactItemize}

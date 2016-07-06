@@ -3,6 +3,11 @@
 }
 
 
+ver \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+4}  
+
+
+
+
 {\ttfamily \#include $<$class\+File.\+hpp$>$}
 
 
@@ -11,7 +16,7 @@ Collaboration diagram for Class\+File\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=210pt]{classClassFile__coll__graph}
+\includegraphics[width=234pt]{classClassFile__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -25,12 +30,33 @@ std\+::string \hyperlink{classClassFile_a917fdac173079a7eebacb22b728f295d}{get\+
 \item 
 std\+::map$<$ std\+::string, \\*
 std\+::string $>$ \hyperlink{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}{get\+Fields\+Names\+Types} ()
+\begin{DoxyCompactList}\small\item\em retorna um bind entre o nome e o tipo de todas fields nao estaticas da classe \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, \\*
+std\+::string $>$ \hyperlink{classClassFile_ad63127cb4ef56f97cffc2cb875a1d144}{get\+Static\+Fields\+Names\+Types} ()
+\begin{DoxyCompactList}\small\item\em retorna um bind entre o nome e o tipo de todas fields estaticas da classe \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_a5fc6d3752ad2616f5e7bcb8402e93c7a}{get\+Cpool\+Class} (int index)
+\begin{DoxyCompactList}\small\item\em Busca na Constant Pool o nome e o tipo do método a partir do index. \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_ae9258a6814dde7cf8e0be3f3c6533fa1}{get\+Cpool\+Method} (int index, string \&invoking\+\_\+class, string \&method\+\_\+name, string \&descriptor)
 \item 
-int \hyperlink{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}{find\+Main} ()
+string \hyperlink{classClassFile_a5d47b42f630f4e1710cdd1155168f598}{get\+Cpool\+Name\+And\+Type} (int index, string \&method\+\_\+name, string \&descriptor)
 \item 
-char $\ast$ \hyperlink{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}{get\+Name} (int name\+\_\+index)
+string \hyperlink{classClassFile_a6088b3d4e2980da3f62d36c647f5867a}{get\+Field\+Class\+Name} (int n)
+\begin{DoxyCompactList}\small\item\em Pega o nome da classe de onde a field pertence. \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_aa502c698d9ba9e511d59b7667c4c7f20}{get\+Field\+Name} (int n)
+\begin{DoxyCompactList}\small\item\em Pega o nome de uma field n na constant pool. \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_a6ad7cafd53e2847bd29893ef197f16f2}{get\+Field\+Type} (int n)
+\begin{DoxyCompactList}\small\item\em Resolve o tipo de uma field n na constant pool. \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_a87ec0023567d146ba4569016d1247e86}{get\+Field\+Type} (string fname)
+\begin{DoxyCompactList}\small\item\em Resolve o tipo de uma field n na constant pool a partir do nome da field. \end{DoxyCompactList}\item 
+int \hyperlink{classClassFile_a6287b244d8c558716150cb3bd799af6f}{find\+Method} (string method\+\_\+name, string descriptor)
+\begin{DoxyCompactList}\small\item\em Procura o método em uma classe. \end{DoxyCompactList}\item 
+string \hyperlink{classClassFile_a140efaffe0358589f5b40e13c5ef807c}{get\+Super} ()
 \item 
-\hyperlink{attributes_8hpp_ad1d2692bc09d9023430faad186e7647e}{Code\+\_\+attribute} $\ast$ \hyperlink{classClassFile_a3c6a5ced9d8616700fa2eef615489724}{get\+Code\+Attr} (\hyperlink{structs_8hpp_a6cbc7230791f4ca5e82816e58baeeacc}{method\+\_\+info} $\ast$method)
+string \hyperlink{classClassFile_a597f16f2884e82ac447d079c6ae3ce76}{get\+Name} (int name\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Resolve uma referência para um nome presente na constant\+\_\+pool. \end{DoxyCompactList}\item 
+\hyperlink{attributes_8hpp_ad1d2692bc09d9023430faad186e7647e}{Code\+\_\+attribute} $\ast$ \hyperlink{classClassFile_a44dc4dbf9a22d416a9c0b8a55c997523}{get\+Code\+Attr} (int m\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Retorna o atributo Code de um dos métodos da classe. \end{DoxyCompactList}\item 
+bool \hyperlink{classClassFile_af4cd0b727cd13354028f1c9d02a53519}{is\+Static\+Method} (int method\+\_\+index)
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -69,14 +95,25 @@ std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{a
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+ver \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+4} 
+
 \subsection{Member Function Documentation}
-\hypertarget{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}{\index{Class\+File@{Class\+File}!find\+Main@{find\+Main}}
-\index{find\+Main@{find\+Main}!Class\+File@{Class\+File}}
-\subsubsection[{find\+Main}]{\setlength{\rightskip}{0pt plus 5cm}int Class\+File\+::find\+Main (
+\hypertarget{classClassFile_a6287b244d8c558716150cb3bd799af6f}{\index{Class\+File@{Class\+File}!find\+Method@{find\+Method}}
+\index{find\+Method@{find\+Method}!Class\+File@{Class\+File}}
+\subsubsection[{find\+Method}]{\setlength{\rightskip}{0pt plus 5cm}int Class\+File\+::find\+Method (
 \begin{DoxyParamCaption}
-{}
+\item[{string}]{method\+\_\+name, }
+\item[{string}]{descriptor}
 \end{DoxyParamCaption}
-)}}\label{classClassFile_ab67b335ccd0e88ddb3b8ab99a602b8ea}
+)}}\label{classClassFile_a6287b244d8c558716150cb3bd799af6f}
+
+
+Procura o método em uma classe. 
+
+\begin{DoxyReturn}{Returns}
+Se o método for encontrada, retorna o index do método na classe. Se o método não for encontrada, retorna -\/1. 
+\end{DoxyReturn}
 \hypertarget{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}{\index{Class\+File@{Class\+File}!get\+Class\+Name@{get\+Class\+Name}}
 \index{get\+Class\+Name@{get\+Class\+Name}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Class\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Class\+Name (
@@ -84,13 +121,72 @@ std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{a
 {}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}
-\hypertarget{classClassFile_a3c6a5ced9d8616700fa2eef615489724}{\index{Class\+File@{Class\+File}!get\+Code\+Attr@{get\+Code\+Attr}}
+\begin{DoxyReturn}{Returns}
+retorna o nome desta classe 
+\end{DoxyReturn}
+\hypertarget{classClassFile_a44dc4dbf9a22d416a9c0b8a55c997523}{\index{Class\+File@{Class\+File}!get\+Code\+Attr@{get\+Code\+Attr}}
 \index{get\+Code\+Attr@{get\+Code\+Attr}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Code\+Attr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Code\+\_\+attribute} $\ast$ Class\+File\+::get\+Code\+Attr (
 \begin{DoxyParamCaption}
-\item[{{\bf method\+\_\+info} $\ast$}]{method}
+\item[{int}]{m\+\_\+index}
 \end{DoxyParamCaption}
-)}}\label{classClassFile_a3c6a5ced9d8616700fa2eef615489724}
+)}}\label{classClassFile_a44dc4dbf9a22d416a9c0b8a55c997523}
+
+
+Retorna o atributo Code de um dos métodos da classe. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method\+\_\+info} & indice do método que se quer o code attribute\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retorna um ponteiro para o atributo Code do método. Se o método não possuir um atributo code, retorna N\+U\+L\+L. 
+\end{DoxyReturn}
+\hypertarget{classClassFile_a5fc6d3752ad2616f5e7bcb8402e93c7a}{\index{Class\+File@{Class\+File}!get\+Cpool\+Class@{get\+Cpool\+Class}}
+\index{get\+Cpool\+Class@{get\+Cpool\+Class}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Cpool\+Class}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Class (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a5fc6d3752ad2616f5e7bcb8402e93c7a}
+
+
+Busca na Constant Pool o nome e o tipo do método a partir do index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Index utilizado para encontrar o método \\
+\hline
+{\em invoking\+\_\+class} & referencia para string onde será escrito o nome da classe a ser invocada \\
+\hline
+{\em method\+\_\+name} & referencia para string onde será escrito o nome do método \\
+\hline
+{\em descriptor} & referencia para string onde será escrito o descritor do método\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retorna o nome o nome e o tipo de retorno da classe no formato invoking\+\_\+class.\+nome\+:tipo 
+\end{DoxyReturn}
+\hypertarget{classClassFile_ae9258a6814dde7cf8e0be3f3c6533fa1}{\index{Class\+File@{Class\+File}!get\+Cpool\+Method@{get\+Cpool\+Method}}
+\index{get\+Cpool\+Method@{get\+Cpool\+Method}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Cpool\+Method}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Method (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{string \&}]{invoking\+\_\+class, }
+\item[{string \&}]{method\+\_\+name, }
+\item[{string \&}]{descriptor}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_ae9258a6814dde7cf8e0be3f3c6533fa1}
+\hypertarget{classClassFile_a5d47b42f630f4e1710cdd1155168f598}{\index{Class\+File@{Class\+File}!get\+Cpool\+Name\+And\+Type@{get\+Cpool\+Name\+And\+Type}}
+\index{get\+Cpool\+Name\+And\+Type@{get\+Cpool\+Name\+And\+Type}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Cpool\+Name\+And\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Name\+And\+Type (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{string \&}]{method\+\_\+name, }
+\item[{string \&}]{descriptor}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a5d47b42f630f4e1710cdd1155168f598}
 \hypertarget{classClassFile_a917fdac173079a7eebacb22b728f295d}{\index{Class\+File@{Class\+File}!get\+Cpool\+Utf8@{get\+Cpool\+Utf8}}
 \index{get\+Cpool\+Utf8@{get\+Cpool\+Utf8}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Cpool\+Utf8}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Utf8 (
@@ -98,6 +194,31 @@ std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{a
 \item[{int}]{index}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_a917fdac173079a7eebacb22b728f295d}
+\begin{DoxyReturn}{Returns}
+retorna o valor da posicao index -\/1 da constant pool assume-\/se que ha um utf8 nesta posicao 
+\end{DoxyReturn}
+\hypertarget{classClassFile_a6088b3d4e2980da3f62d36c647f5867a}{\index{Class\+File@{Class\+File}!get\+Field\+Class\+Name@{get\+Field\+Class\+Name}}
+\index{get\+Field\+Class\+Name@{get\+Field\+Class\+Name}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Field\+Class\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Field\+Class\+Name (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a6088b3d4e2980da3f62d36c647f5867a}
+
+
+Pega o nome da classe de onde a field pertence. 
+
+\hypertarget{classClassFile_aa502c698d9ba9e511d59b7667c4c7f20}{\index{Class\+File@{Class\+File}!get\+Field\+Name@{get\+Field\+Name}}
+\index{get\+Field\+Name@{get\+Field\+Name}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Field\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Field\+Name (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_aa502c698d9ba9e511d59b7667c4c7f20}
+
+
+Pega o nome de uma field n na constant pool. 
+
 \hypertarget{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}{\index{Class\+File@{Class\+File}!get\+Fields\+Names\+Types@{get\+Fields\+Names\+Types}}
 \index{get\+Fields\+Names\+Types@{get\+Fields\+Names\+Types}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Fields\+Names\+Types}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ string, string $>$ Class\+File\+::get\+Fields\+Names\+Types (
@@ -105,13 +226,51 @@ std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{a
 {}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_aa791a7b86ab130ba6ba28d6d71f2c70c}
-\hypertarget{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}{\index{Class\+File@{Class\+File}!get\+Name@{get\+Name}}
+
+
+retorna um bind entre o nome e o tipo de todas fields nao estaticas da classe 
+
+\hypertarget{classClassFile_a6ad7cafd53e2847bd29893ef197f16f2}{\index{Class\+File@{Class\+File}!get\+Field\+Type@{get\+Field\+Type}}
+\index{get\+Field\+Type@{get\+Field\+Type}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Field\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Field\+Type (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a6ad7cafd53e2847bd29893ef197f16f2}
+
+
+Resolve o tipo de uma field n na constant pool. 
+
+\hypertarget{classClassFile_a87ec0023567d146ba4569016d1247e86}{\index{Class\+File@{Class\+File}!get\+Field\+Type@{get\+Field\+Type}}
+\index{get\+Field\+Type@{get\+Field\+Type}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Field\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Field\+Type (
+\begin{DoxyParamCaption}
+\item[{string}]{fname}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a87ec0023567d146ba4569016d1247e86}
+
+
+Resolve o tipo de uma field n na constant pool a partir do nome da field. 
+
+\hypertarget{classClassFile_a597f16f2884e82ac447d079c6ae3ce76}{\index{Class\+File@{Class\+File}!get\+Name@{get\+Name}}
 \index{get\+Name@{get\+Name}!Class\+File@{Class\+File}}
-\subsubsection[{get\+Name}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ Class\+File\+::get\+Name (
+\subsubsection[{get\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Name (
 \begin{DoxyParamCaption}
 \item[{int}]{name\+\_\+index}
 \end{DoxyParamCaption}
-)}}\label{classClassFile_a4d350fc2fcad87ab085c795adef1fe12}
+)}}\label{classClassFile_a597f16f2884e82ac447d079c6ae3ce76}
+
+
+Resolve uma referência para um nome presente na constant\+\_\+pool. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & name\+\_\+index\+: Um index da constant\+\_\+pool.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Se o index apontar para uma string, retorna a string. Se o index não apontar para uma string, retorna N\+U\+L\+L. 
+\end{DoxyReturn}
 \hypertarget{classClassFile_a327e97890dd251532d064da9aa61deeb}{\index{Class\+File@{Class\+File}!get\+Source@{get\+Source}}
 \index{get\+Source@{get\+Source}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Source}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Source (
@@ -119,6 +278,40 @@ std\+::vector$<$ \hyperlink{attributes_8hpp_a7af51299ff517acce960ac87c9db9899}{a
 {}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_a327e97890dd251532d064da9aa61deeb}
+\begin{DoxyReturn}{Returns}
+retorna o arquivo que gerou esta classe 
+\end{DoxyReturn}
+\hypertarget{classClassFile_ad63127cb4ef56f97cffc2cb875a1d144}{\index{Class\+File@{Class\+File}!get\+Static\+Fields\+Names\+Types@{get\+Static\+Fields\+Names\+Types}}
+\index{get\+Static\+Fields\+Names\+Types@{get\+Static\+Fields\+Names\+Types}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Static\+Fields\+Names\+Types}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ string, string $>$ Class\+File\+::get\+Static\+Fields\+Names\+Types (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_ad63127cb4ef56f97cffc2cb875a1d144}
+
+
+retorna um bind entre o nome e o tipo de todas fields estaticas da classe 
+
+\hypertarget{classClassFile_a140efaffe0358589f5b40e13c5ef807c}{\index{Class\+File@{Class\+File}!get\+Super@{get\+Super}}
+\index{get\+Super@{get\+Super}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Super}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Super (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a140efaffe0358589f5b40e13c5ef807c}
+\begin{DoxyReturn}{Returns}
+retorna o nome da superclasse se for o object retorna string vazia 
+\end{DoxyReturn}
+\hypertarget{classClassFile_af4cd0b727cd13354028f1c9d02a53519}{\index{Class\+File@{Class\+File}!is\+Static\+Method@{is\+Static\+Method}}
+\index{is\+Static\+Method@{is\+Static\+Method}!Class\+File@{Class\+File}}
+\subsubsection[{is\+Static\+Method}]{\setlength{\rightskip}{0pt plus 5cm}bool Class\+File\+::is\+Static\+Method (
+\begin{DoxyParamCaption}
+\item[{int}]{method\+\_\+index}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_af4cd0b727cd13354028f1c9d02a53519}
+\begin{DoxyReturn}{Returns}
+Retorna true se o método no indice method\+\_\+index for estatico 
+\end{DoxyReturn}
 
 
 \subsection{Member Data Documentation}

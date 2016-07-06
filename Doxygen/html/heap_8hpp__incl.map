@@ -1,5 +1,5 @@
 <map id="include/heap.hpp" name="include/heap.hpp">
-<area shape="rect" id="node4" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="153,80,308,107"/>
-<area shape="rect" id="node9" href="$structs_8hpp.html" title="../include/structs.hpp" alt="" coords="295,155,439,181"/>
-<area shape="rect" id="node11" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="272,229,373,256"/>
+<area shape="rect" id="node5" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="140,80,296,107"/>
+<area shape="rect" id="node9" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="370,155,514,181"/>
+<area shape="rect" id="node11" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="348,229,449,256"/>
 </map>
