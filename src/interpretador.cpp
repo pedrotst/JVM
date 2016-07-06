@@ -2185,6 +2185,7 @@ int Interpretador::getstatic(){
         this->frame_corrente->operandStack.push_back(lvar);
 
     }
+    return 3;
 }
 
 
