@@ -1190,6 +1190,8 @@ int Interpretador::iastore(){
     arrayref *arr = this->frame_corrente->operandStack.back().value.arrayref->arr;
     arr->at(index).val.btype.val.inteiro = val;
     this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->printOperandStack();
+    this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::lastore(){}
@@ -2592,7 +2594,6 @@ int Interpretador::newarray(){
             break;
         case T_INT:
             for(int i = 0; i < contador; i++ ){
-                    printf("atype: INT\n");
                     field.tag = BASETYPE;
                     field.val.btype.tag = INT;
                     field.val.btype.val.inteiro = 0;
@@ -2609,7 +2610,6 @@ int Interpretador::newarray(){
             break;
     }
     this->frame_corrente->operandStack.push_back(operand);
-    printf("sair do newarray\n");
     return 2;
 }
 
