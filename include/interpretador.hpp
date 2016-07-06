@@ -339,6 +339,24 @@ class Interpretador{
       // Relacionada a threads.
       int monitorexit();
 
+      int iushr();
+      int lushr();
+      int ret();
+      int lreturn();
+      int freturn();
+      int dreturn();
+      int areturn();
+      int invokeinterface();
+      int invokedynamic();
+      int arraylength();
+      int checkcast();
+      int wide();
+      int multianewarray();
+      int breakpoint();
+      int impdep1();
+      int impdep2();
+      int instanceof();
+
 
 
 
