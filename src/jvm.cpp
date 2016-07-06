@@ -24,6 +24,7 @@ int Jvm::run(const char* arq_class_name) {
     //printf("Leitura executada\n");
     Verificador verificador(classF);
     verificador.verificaClass(classF);
+
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
@@ -48,15 +49,13 @@ ClassFile* Jvm::getClassRef(string className) {
     // Carrega a nova classe.
 
     if(loadedClasses.count(className) != 1) {
-            //cout << className << endl;
         if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
-            printf("Erro em getClassRef: O arquivo .class nao pode ser aberto.\n");
+            printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
             exit(0);
         }
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
     }
-    // Se a classe for encontrada retorna uma referência para ela
     else {
         classF = this->loadedClasses[className];
     }

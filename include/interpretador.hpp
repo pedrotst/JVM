@@ -14,6 +14,7 @@
 #include "../include/structs.hpp"
 #include "../include/classFile.hpp"
 #include "../include/operationMap.hpp"
+#include "../include/debug.hpp"
 
 /** \file interpretador.hpp
 *   \brief Estruturas de interpretacao dos opcodes

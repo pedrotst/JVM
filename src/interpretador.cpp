@@ -1,4 +1,7 @@
+#define DEBUG
+
 #include "../include/interpretador.hpp"
+
 
 int Interpretador::execute_instruction(int opcode){
     if(instructions[opcode] != NULL){
@@ -22,8 +25,8 @@ int Interpretador::runCode(Frame *frame_pt) {
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         //if(VERBOSE){
-            printf("pc->code[%ld]: ", this->frame_corrente->pc);
-            printf("Executando %s\n",  OperationMap::getOperation((uint8_t)opcode).c_str());
+            DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: ");
+            DEBUG_PRINT("Executando " << OperationMap::getOperation((uint8_t)opcode));
         //}
         this->frame_corrente->pc += this->execute_instruction(opcode);
         //if(ITERATION){
@@ -967,7 +970,6 @@ int Interpretador::lstore(){
 // Não foi testada
 int Interpretador::lstore_0(){
       Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
       vector<Local_var>::iterator it;
 
       if(this->frame_corrente->operandStack.back().tag != LONGO){
@@ -992,7 +994,6 @@ int Interpretador::lstore_0(){
 
 int Interpretador::lstore_1(){
       Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
       vector<Local_var>::iterator it;
 
       if(this->frame_corrente->operandStack.back().tag != LONGO){
@@ -1017,7 +1018,6 @@ int Interpretador::lstore_1(){
 
 int Interpretador::lstore_2(){
       Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
       vector<Local_var>::iterator it;
 
       if(this->frame_corrente->operandStack.back().tag != LONGO){
@@ -1042,7 +1042,6 @@ int Interpretador::lstore_2(){
 
 int Interpretador::lstore_3(){
       Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
       vector<Local_var>::iterator it;
 
       if(this->frame_corrente->operandStack.back().tag != LONGO){
@@ -1266,8 +1265,8 @@ int Interpretador::ladd(){
     return 1;
 }
 
-int Interpretador::fadd(){}
-int Interpretador::dadd(){}
+int Interpretador::fadd(){return 1;}
+int Interpretador::dadd(){return 1;}
 
 int Interpretador::isub(){
     uint32_t lhs, rhs;
@@ -1319,8 +1318,8 @@ int Interpretador::lsub(){
     return 1;
 }
 
-int Interpretador::fsub(){}
-int Interpretador::dsub(){}
+int Interpretador::fsub(){return 1;}
+int Interpretador::dsub(){return 1;}
 
 int Interpretador::imul(){
     uint32_t lhs, rhs;
@@ -1374,8 +1373,8 @@ int Interpretador::lmul(){
     return 1;
 }
 
-int Interpretador::fmul(){}
-int Interpretador::dmul(){}
+int Interpretador::fmul(){return 1;}
+int Interpretador::dmul(){return 1;}
 
 int Interpretador::idiv(){
     uint32_t lhs, rhs;
@@ -1429,8 +1428,8 @@ int Interpretador::ldiv(){
     return 1;
 }
 
-int Interpretador::fdiv(){}
-int Interpretador::ddiv(){}
+int Interpretador::fdiv(){return 1;}
+int Interpretador::ddiv(){return 1;}
 
 int Interpretador::irem(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1478,8 +1477,8 @@ int Interpretador::lrem(){
     this->frame_corrente->operandStack.push_back(operand[1]);
     return 1;
 }
-int Interpretador::frem(){}
-int Interpretador::drem(){}
+int Interpretador::frem(){return 1;}
+int Interpretador::drem(){return 1;}
 
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1510,8 +1509,8 @@ int Interpretador::lneg(){
     return 1;
 }
 
-int Interpretador::fneg(){}
-int Interpretador::dneg(){}
+int Interpretador::fneg(){return 1;}
+int Interpretador::dneg(){return 1;}
 
 int Interpretador::ishl(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1558,10 +1557,10 @@ int Interpretador::ishr(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lshr(){}
+int Interpretador::lshr(){return 1;}
 
-int Interpretador::iushl(){}
-int Interpretador::lushl(){}
+int Interpretador::iushl(){return 1;}
+int Interpretador::lushl(){return 1;}
 
 int Interpretador::iand(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -2716,7 +2715,7 @@ int Interpretador::invokestatic(){
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
         runCode(staticFrame);
     }
-    printf("invokestatic: passei daqui\n");
+    DEBUG_PRINT(("invokestatic: passei daqui\n"));
     //precisamos encontrar em qual classF este m�todo foi declarado
     super_name = cf->getClassName(); // come�a loop na classe invocadora
     do{

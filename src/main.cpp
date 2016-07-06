@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <map>
+
+
+#include "../include/debug.hpp"
 #include "../include/leitor.hpp"
 #include "../include/exibidor.hpp"
 #include "../include/frame.hpp"
@@ -13,10 +16,12 @@
 
 #define ARG2(ac, av) (ac > 2 ? av[2] : "")
 
+
+
 const char *help = "\nSintaxe:\n\
                     jvm -h Exibe o menu de ajuda.\n\
                     \n\
-                    jvm { -r | -e } {nome_arquivo_class}\n\
+                    jvm { -r | -e} {nome_arquivo_class}\n\
                     \n\
                     -r : read. Le o arquivo .class passado e o exibe na tela, assim como o javap -v.\n\
                     \n\
@@ -54,7 +59,6 @@ int main(int argc, char** argv){
 
     // Caso o parâmetro passado seja um -e (EXECUTE).
     else if (!strcmp(arg1, "-e")) {
-        //printf("Chamando jvm.run(%s)\n", arg2);
         // Inicializa a jvm para a execução do arquivo class passado (arg2).
         jvm.run(arg2);
     }

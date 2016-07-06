@@ -14,7 +14,6 @@
 #include "../include/read_bytes.hpp"
 #include "../include/read_attributes.hpp"
 #include "../include/read_methods.hpp"
-#define ByteCode "Puppy.class"
 #define FileNameLen 30 //define o tamanho da string em abreArquivo
 
 FILE* abreArqLinhaComando(int argc, char** argv);

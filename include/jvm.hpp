@@ -14,6 +14,7 @@
 #include "../include/op_instrucs.hpp"
 #include "../include/interpreter_op_code.hpp"
 #include "../include/verificador.hpp"
+#include "../include/debug.hpp"
 
 /**  \class Jvm
  *
