@@ -174,7 +174,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[D2I] = &d2i;
 //    pt[D2L] = &d2l;
 //    pt[D2F] = &d2f;
-//    pt[I2B] = &i2b;
+   pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
 //    pt[I2S] = &i2s;
 //    pt[LCMP] = &lcmp;
@@ -1608,28 +1608,40 @@ int Interpretador::d2i(){}
 int Interpretador::d2l(){}
 int Interpretador::d2f(){}
 
-int Interpretador::i2b(){}
-int Interpretador::i2c(){
-    printf("Executando i2c\n");
+int Interpretador::i2b(){
+    printf("Executando i2b\n");
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado.\n");
+        printf("Erro em i2b: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
     uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    char caracter = (char)var;
-    var = (uint32_t)caracter;
+    var &= 0xFF;
 
-    Local_var operand1;
-    operand1.tag = CURTO;
-    operand1.value.double_value = 0;
-    this->frame_corrente->operandStack.push_back(operand1);
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
 
-    Local_var operand2;
-    operand2.tag = DUPLO;
-    operand1.value.double_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
+    return 1;
+}
+int Interpretador::i2c(){
+    printf("Executando i2c\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2c: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    var &= 0xFF;
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
+
     return 1;
 }
 int Interpretador::i2s(){}
