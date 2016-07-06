@@ -2674,6 +2674,7 @@ int Interpretador::invokestatic(){
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
     }
@@ -2741,7 +2742,7 @@ int Interpretador::invokevirtual(){
     Local_var lvar;
     int found = -1;
 
-    method_index = method_index << 8;
+    method_index = method_index  << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
@@ -2749,6 +2750,7 @@ int Interpretador::invokevirtual(){
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
     }
