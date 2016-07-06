@@ -27,7 +27,7 @@ int Jvm::run(const char* arq_class_name) {
     // Procura o método main na primeira classe carregada. Se não encontrar,
     // a execução é finalizada. Se encontrar, começa a execução.
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
-    printf("Valor de main_index: %d\n", main_index);
+    //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
         execMethod(main_index, &classF, args);
     }else {
@@ -202,7 +202,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  */
 
 Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
-    printf("Entrou em execMethod\n");
+    //printf("Entrou em execMethod\n");
     Code_attribute *code_attr_pt = NULL;
     Frame frame(n, classF);
     Local_var lvar;
@@ -217,7 +217,7 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     Frame staticFrame(clinitN, classF);
 
     if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-        cout << "Clinit encontrado em: " << clinitN << endl;
+        //cout << "Clinit encontrado em: " << clinitN << endl;
         this->staticHeap[cname] = alocarObjetoEstatico(cname);
         interpreter.runCode(&staticFrame);
     }
@@ -229,7 +229,7 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     }
 
     this->fStack.push_back(frame);
-    printf("Criei um frame\n");
+    //printf("Criei um frame\n");
 
     interpreter.runCode(&frame);
 

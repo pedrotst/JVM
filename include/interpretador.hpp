@@ -13,6 +13,7 @@
 #include "../include/jvm.hpp"
 #include "../include/structs.hpp"
 #include "../include/classFile.hpp"
+#include "../include/operationMap.hpp"
 
 
 // Somente uma declaração, para poder compilar.

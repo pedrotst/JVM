@@ -14,7 +14,7 @@ public class int_logico{
 		System.out.println(a^b); /*Tem que dar 3*/
 		
 		/*icmp*/
-		if(a>b) System.out.println(a);
+		if(a>b) System.out.println(a);//nao processou essa linha
 		if(b<a) System.out.println(b);
 		if(b!=a) System.out.println("a diferente de b");	
 		

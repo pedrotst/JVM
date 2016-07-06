@@ -54,7 +54,7 @@ int main(int argc, char** argv){
 
     // Caso o parâmetro passado seja um -e (EXECUTE).
     else if (!strcmp(arg1, "-e")) {
-        printf("Chamando jvm.run(%s)\n", arg2);
+        //printf("Chamando jvm.run(%s)\n", arg2);
         // Inicializa a jvm para a execução do arquivo class passado (arg2).
         jvm.run(arg2);
     }
