@@ -1,12 +1,12 @@
 #include "../include/interpretador.hpp"
 
 int Interpretador::execute_instruction(int opcode){
-    if(opcode <= instructions.size()){
+    if(instructions[opcode] != NULL){
         return (*this.*instructions[opcode])();
     }
     else{
         printf("Instrucao nao especificada!\n");
-        exit(-1);
+        return 1;
     }
 }
 
@@ -834,8 +834,7 @@ int Interpretador::iload_0(){
     printf("Executando iload_0\n");
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != INT){
-        printf("Variavel local carregada n�o � um inteiro, abortar\n");
-        exit(0);
+        printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
     return 1;
@@ -844,8 +843,7 @@ int Interpretador::iload_1(){
     printf("Executando iload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
-        printf("Variavel local carregada nao eh um inteiro, abortar\n");
-        exit(0);
+        printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
     this->frame_corrente->printOperandStack();
@@ -856,8 +854,7 @@ int Interpretador::iload_2(){
     printf("Executando iload_2\n");
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != INT){
-        printf("Variavel local carregada nao e um inteiro, abortar\n");
-        exit(0);
+        printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
     return 1;
@@ -866,8 +863,7 @@ int Interpretador::iload_3(){
     printf("Executando iload_3\n");
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != INT){
-        printf("Variavel local carregada n�o � um inteiro, abortar\n");
-        exit(0);
+        printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
     return 1;
@@ -2450,13 +2446,18 @@ int Interpretador::getstatic(){
     else if(field_type.substr(0, 1).compare("L") == 0){
         Local_var lvar;
 
-        //cout << "entrei" << endl;
-
         lvar.tag = STRINGTYPE;
-        lvar.value.string_value = new string(field_type);
+        if(field_type.compare("Ljava/io/PrintStream;") == 0)
+            lvar.value.string_value = new string();//jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
+        else{
+            lvar.value.string_value = jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
+
+            cout << "Valor do field: " << jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue << endl;
+        }
         this->frame_corrente->operandStack.push_back(lvar);
 
     }
+
     return 3;
 }
 
@@ -2737,6 +2738,7 @@ int Interpretador::invokestatic(){
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+    printf("invokestatic #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
@@ -2764,7 +2766,6 @@ int Interpretador::invokestatic(){
 
         found = cf->findMethod(method_name, descriptor);
         super_name = cf->getSuper();
-        //cout << "super name: "<< super_name << endl;
         if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
             printf("Metodo passado nao existe\n");
             exit(0);
@@ -2779,9 +2780,6 @@ int Interpretador::invokestatic(){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
     }
-    // pega a referencia ao objeto da pilha
-    args.push_back(this->frame_corrente->operandStack.back());
-    this->frame_corrente->operandStack.pop_back();
 
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
     reverse(args.begin(), args.end());
@@ -2812,10 +2810,12 @@ int Interpretador::invokevirtual(){
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-    //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
+    printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
+        //this->frame_corrente->printOperandStack();
+        this->frame_corrente->operandStack.pop_back();
         this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
@@ -2872,14 +2872,12 @@ int Interpretador::return_op(){
 int Interpretador::ireturn(){
     printf("Executando ireturn\n");
     if (this->frame_corrente->operandStack.size() != 1){
-        printf("Funcao com defeito de retorno, abortar\n");
-        exit(0);
+        printf("Funcao com defeito de retorno,\n");
     }
     Local_var lvar = this->frame_corrente->operandStack.back();
 
     if(lvar.tag != 1){
-        printf("Funcao nao retornou um inteiro, abortar\n");
-        exit(0);
+        printf("Funcao nao retornou um inteiro\n");
     }
 
     return 1;
