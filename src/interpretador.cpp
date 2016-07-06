@@ -213,9 +213,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[PUTFIELD] = &Interpretador::putfield;
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
     pt[INVOKESPECIAL] = &Interpretador::invokespecial;
-//    pt[INvOKESTATIC] = &invokestatic;
-//    pt[INvOKEINTERFACE] = &invokeinterface;
-//    pt[INvOKEDYNAMIC] = &invokedynamic;
+    pt[INVOKESTATIC] = &Interpretador::invokestatic;
+//    pt[INVOKEINTERFACE] = &invokeinterface;
+//    pt[INVOKEDYNAMIC] = &invokedynamic;
     pt[NEW] = &Interpretador::new_op;
 //    pt[NEWARRAY] = &newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
@@ -836,10 +836,11 @@ int Interpretador::iload_1(){
     printf("Executando iload_1\n");
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
-        printf("Variavel local carregada n�o � um inteiro, abortar\n");
+        printf("Variavel local carregada nao eh um inteiro, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    this->frame_corrente->printLocalVar();
     return 1;
 }
 int Interpretador::iload_2(){
@@ -2438,6 +2439,80 @@ int Interpretador::invokespecial(){
     return 3;
 }
 
+
+int Interpretador::invokestatic(){
+    printf("Executando invokestatic\n");
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    InstanceClass *inst;
+    Local_var lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+    this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
+
+    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+        Local_var print_var = this->frame_corrente->operandStack.back();
+        cout << print_var.repr() << endl;
+        return 3;
+    }
+
+    
+    cf = this->jvm->getClassRef(invoking_class);
+    Frame *staticFrame;
+
+    if((jvm->staticHeap.count(invoking_class) != 1)){
+        int clinitN = cf->findMethod("<clinit>", "()V");
+        staticFrame = new Frame(clinitN, cf);
+        cout << "Clinit encontrado em: " << clinitN << endl;
+        jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
+        runCode(staticFrame);
+    }
+
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        //cout << "super name: "<< super_name << endl;
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+
+    // pega os argumentos da pilha
+    for (int i=1; i < descriptor.find(")"); i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+    }
+    // pega a referencia ao objeto da pilha
+    args.push_back(this->frame_corrente->operandStack.back());
+    this->frame_corrente->operandStack.pop_back();
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+    //executa este metodo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+
+    // bota o retorno na operand stack se nao tiver retornado void
+    if(lvar.tag != VOID_T)
+        this->frame_corrente->operandStack.push_back(lvar);
+
+    //e fim*/
+    return 3;
+}
 
 int Interpretador::invokevirtual(){
     printf("Executando invokevirtual\n");
