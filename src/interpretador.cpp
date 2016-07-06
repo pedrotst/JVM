@@ -176,7 +176,7 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[D2F] = &d2f;
    pt[I2B] = &Interpretador::i2b;
     pt[I2C] = &Interpretador::i2c;
-//    pt[I2S] = &i2s;
+    pt[I2S] = &Interpretador::i2s;
 //    pt[LCMP] = &lcmp;
 //    pt[FCMPL] = &fcmpl;
 //    pt[FCMPG] = &fcmpg;
@@ -1767,7 +1767,24 @@ int Interpretador::i2c(){
 
     return 1;
 }
-int Interpretador::i2s(){}
+int Interpretador::i2s(){
+    printf("Executando i2s\n");
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    var &= 0xFFFF;
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.char_value = var;
+    this->frame_corrente->operandStack.push_back(operand);
+
+    return 1;
+}
 
 int Interpretador::lcmp(){}
 int Interpretador::fcmpl(){}
