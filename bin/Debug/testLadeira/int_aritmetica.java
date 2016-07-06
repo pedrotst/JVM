@@ -17,8 +17,8 @@ public class int_aritmetica{
 		System.out.println(a<<2);
 		System.out.println(a>>2);
 		a=-100;
-		System.out.println(a>>2);
-		a=-1>>>2;
+		System.out.println(a>>2);//-25, erro na ishr
+		a=-1>>>2;//zero right shift
 		System.out.println(a);
 		
 		
