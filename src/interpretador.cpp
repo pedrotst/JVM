@@ -86,10 +86,6 @@ Interpretador::Interpretador(Jvm *jvm){
 //    pt[DLOAD_1] = &dLoad_1;
 //    pt[DLOAD_2] = &dLoad_2;
 //    pt[DLOAD_3] = &dLoad_3;
-//    pt[ALOAD_0] = &aLoad_0;
-//    pt[ALOAD_1] = &aLoad_1;
-//    pt[ALOAD_2] = &aLoad_2;
-//    pt[ALOAD_3] = &aLoad_3;
     pt[IALOAD] = &Interpretador::iaload;
 //    pt[LALOAD] = &laLoad;
 //    pt[FALOAD] = &faLoad;
@@ -209,7 +205,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[GOTO] = &Interpretador::goto_java;
     pt[JSR] = &Interpretador::jsr;//nao foi testada
 //    pt[RET] = &ret;
-//    pt[TABLESWITCH] = &tableswitch;
+    pt[TABLESWITCH] = &Interpretador::tableswitch;
     pt[LOOKUPSWITCH] = &Interpretador::lookupswitch;
     pt[IRETURN] = &Interpretador::ireturn;
 //    pt[LRETURN] = &lreturn;
