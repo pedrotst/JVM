@@ -300,6 +300,7 @@ class Interpretador{
 
 		int invokespecial();
 		int invokevirtual();
+        int invokestatic();
 
 
 

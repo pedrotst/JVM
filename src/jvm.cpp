@@ -221,7 +221,6 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
         cout << "Clinit encontrado em: " << clinitN << endl;
         this->staticHeap[cname] = alocarObjetoEstatico(cname);
-        cout << "passei" << endl;
         interpreter.runCode(&staticFrame);
     }
 
