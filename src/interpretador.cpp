@@ -3,14 +3,15 @@
 #include "../include/interpretador.hpp"
 
 /**
-*PARA UTILIZAR AS FUCOES DE DEBUG:
+*   PARA UTILIZAR AS FUCOES DE DEBUG:
+*
 *   DEBUG_PRINT("mesagem" << variavel << "mais msgs");
 *   eh compilado para cout << "mensagem" << variavel << "mais msgs"
 *   caso esteja em modo debug
 *
 *   DEBUG_ONLY(funcao_qualquer()); eh compilado para funcao_qualquer();
 *
-*   bom para chamar o print da pilha de operandos:
+*   Para chamar o print da pilha de operandos utilize o seguinte:
 *   DEBUG_ONLY(frame_corrente->printOperandStack());
 */
 
