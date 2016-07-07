@@ -3133,3 +3133,8 @@ int Interpretador::impdep2(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
+
+#ifdef Debug
+#undef Debug
+#endif

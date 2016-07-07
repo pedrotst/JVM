@@ -23,7 +23,7 @@ int Jvm::run(const char* arq_class_name) {
 
 
     this->classpath = getClassPath(arq_class_name); //esta funcao esta no leitor.cpp
-    DEBUG_PRINT(classpath);
+
     leitorClass_info(&classF, arquivoClass);
 
     Verificador verificador(classF);
@@ -258,3 +258,7 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
     return ret_var;
 }
+
+#ifdef Debug
+#undef Debug
+#endif
