@@ -44,6 +44,15 @@ int Interpretador::runCode(Frame *frame_pt) {
     return 0;
 }
 
+uint16_t Interpretador::read_code_word(const char *code, uint64_t pc) {
+      uint16_t word = 0;
+
+      word = code[pc];
+      word <<= 8;
+      word |= code[pc+1];
+
+      return word;
+}
 
 Interpretador::Interpretador(Jvm *jvm){
 
@@ -434,9 +443,7 @@ int Interpretador::ldc_w(){
     uint16_t index = 0;
     Local_var operand;
 
-    index = this->code_corrente->code[this->frame_corrente->pc+1];
-    index <<= 8;
-    index |= this->code_corrente->code[this->frame_corrente->pc+2];
+    index = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
 
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
 

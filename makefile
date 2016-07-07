@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -I./include/ -g -std=c++11
+CFLAGS = -I./include/ -g -std=c++11 -Wall
 
 ########################## Geracao dos executaveis ##########################
 jvm: classFile.o interpreter_op_code.o leitor.o little_to_big.o read_bytes.o exibidor.o read_attributes.o read_methods.o print_code.o interpretador.o frame.o jvm.o main.o verificador.o moveobj
