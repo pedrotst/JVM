@@ -2,6 +2,17 @@
 
 #include "../include/interpretador.hpp"
 
+/**
+*PARA UTILIZAR AS FUCOES DE DEBUG:
+*   DEBUG_PRINT("mesagem" << variavel << "mais msgs");
+*   eh compilado para cout << "mensagem" << variavel << "mais msgs"
+*   caso esteja em modo debug
+*
+*   DEBUG_ONLY(funcao_qualquer()); eh compilado para funcao_qualquer();
+*
+*   bom para chamar o print da pilha de operandos:
+*   DEBUG_ONLY(frame_corrente->printOperandStack());
+*/
 
 int Interpretador::execute_instruction(int opcode){
     if(instructions[opcode] != NULL){
@@ -1328,7 +1339,7 @@ int Interpretador::lsub(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;;
+    uint64_t lhs, rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
@@ -1468,7 +1479,6 @@ int Interpretador::ldiv(){
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
-    resultado = lhs / rhs;
     alocador = (uint32_t*) result;
 
     result[0].value.long_value = *alocador;//mais significativo
