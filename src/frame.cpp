@@ -90,7 +90,7 @@ void Frame::printOperandStack(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf("tag: ARRAYTYPE[%zu] {", this->operandStack[i].value.arrayref->arr->size());
+                printf("tag: ARRAYTYPE[%d] {", this->operandStack[i].value.arrayref->arr->size());
                 for(int j = 0; j < (int)this->operandStack[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->operandStack[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
@@ -104,7 +104,7 @@ void Frame::printOperandStack(){
                 printf("tag: RETURN ADDRESS //");
                 break;
             case STRINGTYPE:
-                cout << "tag: STRINGTYPE |  \\" << this->operandStack[i].repr();
+                printf("tag: STRINGTYPE: {""%s""} //", this->localVarVector[i].value.string_value->c_str());
                 //printf("tag: STRINGTYPE //");
                 break;
         }
@@ -151,7 +151,7 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf("tag: ARRAYTYPE[%zu] {", this->localVarVector[i].value.arrayref->arr->size());
+                printf("tag: ARRAYTYPE[%d] {", this->localVarVector[i].value.arrayref->arr->size());
                 for(int j = 0; j < (int)this->localVarVector[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->localVarVector[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
@@ -166,7 +166,7 @@ void Frame::printLocalVar(){
                 break;
             case STRINGTYPE:
                 //printf("tag: STRINGTYPE | val: %x //", this->localVarVector[i].value.string_value);
-                printf("tag: STRINGTYPE");
+                printf("tag: STRINGTYPE: {""%s""} //", this->localVarVector[i].value.string_value->c_str());
                 break;
         }
     }

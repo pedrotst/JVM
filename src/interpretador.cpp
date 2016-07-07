@@ -1649,7 +1649,8 @@ int Interpretador::lshl(){
 }
 
 int Interpretador::ishr(){
-    this->frame_corrente->printLocalVar();
+    DEBUG_ONLY(this->frame_corrente->printLocalVar());
+    DEBUG_ONLY(this->frame_corrente->printOperandStack());
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
@@ -1662,11 +1663,13 @@ int Interpretador::ishr(){
     // está havendo problema na passagem:   lhs <=== negativo; lhs final sai positivo
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-
+    DEBUG_PRINT("int32_t lhs: " << lhs << " int32_t rhs: " << rhs);
+    DEBUG_ONLY(this->frame_corrente->printOperandStack());
     Local_var operand;
     operand.tag = INT;
     rhs &= 0x0000001f;//shifta usando s� os 5 ultimos bits desse numero
     operand.value.int_value = lhs >> rhs;
+    DEBUG_PRINT("int32_t value: " << operand.value.int_value);
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
