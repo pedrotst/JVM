@@ -671,12 +671,12 @@ int Interpretador::fload_3(){
 
 int Interpretador::dload_0(){
     Local_var lvar = this->frame_corrente->localVarVector[0];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[1];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
@@ -687,12 +687,12 @@ int Interpretador::dload_0(){
 
 int Interpretador::dload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[2];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
@@ -703,12 +703,12 @@ int Interpretador::dload_1(){
 
 int Interpretador::dload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
@@ -719,12 +719,12 @@ int Interpretador::dload_2(){
 
 int Interpretador::dload_3(){
     Local_var lvar = this->frame_corrente->localVarVector[3];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
     lvar = this->frame_corrente->localVarVector[4];
-    if(lvar.tag != DUP){
+    if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
@@ -2328,7 +2328,7 @@ int Interpretador::tableswitch(){
     int32_t offsets[highbytes - lowbytes + 1];
     for(int j = 0; j < highbytes - lowbytes + 1; j++){
         for(int i = 0; i < 4; i++){
-                alocador = (int8_t*) offsets[j];
+                alocador = (int8_t*) &offsets[j];
                 alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 4*j + 12];
         }
     }
@@ -2361,9 +2361,9 @@ int Interpretador::lookupswitch(){
     int32_t match[npairs], offset[npairs];
     for(int j = 0; j < npairs; j++){
         for(int i = 0; i < 4; i++){
-                alocador = (int8_t*) match[j];
+                alocador = (int8_t*) &match[j];
                 alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 8*j + 8];
-                alocador = (int8_t*) offset[j];
+                alocador = (int8_t*) &offset[j];
                 alocador[i] = this->code_corrente->code[this->frame_corrente->pc + (4-resto) + i + 8*j + 12];
         }
     }

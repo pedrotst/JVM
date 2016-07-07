@@ -209,6 +209,8 @@ namespace OperationMap{
         op_mapa[0XCA] = "BREAKPOINT";
         op_mapa[0XFE] = "IMPDEP1";
         op_mapa[0XFF] = "IMPDEP2";
+
+        return true;
     }
 
     static map<uint8_t, string> op_mapa;
