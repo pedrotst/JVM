@@ -1,8 +1,6 @@
 #include "../include/interpreter_op_code.hpp"
 
 int interpreter_op_code(uint8_t opcode) {
-      int n = 0;
-
       switch (opcode) {
             case (INVOKEINTERFACE):
 
