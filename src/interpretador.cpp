@@ -21,18 +21,13 @@ int Interpretador::runCode(Frame *frame_pt) {
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
 
     uint8_t opcode;
-    //printf("Estou em interpretador.runCode()\n");
+
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        //if(VERBOSE){
-            DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
-        //}
+        DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
+
         this->frame_corrente->pc += this->execute_instruction(opcode);
-        //if(ITERATION){
-            //this->frame_corrente->printOperandStack();
-            //this->frame_corrente->printLocalVar();
-            //printf("\n");
-        //}
+
     }
     return 0;
 }

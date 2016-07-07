@@ -52,7 +52,7 @@ public:
 
         /** \var std::map<std::string, ClassFile> loadedClasses
          *
-         * \brief Vetor de classes carregadas.
+         * \brief mapa de classes carregadas.
          */
         std::map<std::string, ClassFile*> loadedClasses;
 

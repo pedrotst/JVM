@@ -12,7 +12,6 @@ int Jvm::run(const char* arq_class_name) {
     vector<Local_var> args; //coloque a string de argumento aqui
     Local_var main_str;
 
-    args.push_back(main_str);
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("Erro em jvm.run: O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
         exit(0);
@@ -30,6 +29,9 @@ int Jvm::run(const char* arq_class_name) {
     main_index = classF.findMethod("main", "([Ljava/lang/String;)V");
     if(main_index == -1){
         main_index = classF.findMethod("main", "()V");
+    }
+    else{
+        args.push_back(main_str);
     }
     //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
@@ -240,6 +242,7 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
 
     if(!frame.operandStack.empty()){
         lvar = frame.operandStack.back();
+        this->fStack.pop_back();
         //printf("o metodo chamado retornou algo\n");
     }
     else{
@@ -247,6 +250,5 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
         lvar.tag = VOID_T;
         lvar.value.void_v = true;
     }
-    this->fStack.pop_back();
     return lvar;
 }
