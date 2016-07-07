@@ -1269,22 +1269,22 @@ int Interpretador::ladd(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;
+    int64_t lhs, rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) lhs;
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &lhs;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     resultado = lhs + rhs;
@@ -1328,26 +1328,26 @@ int Interpretador::lsub(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;;
+    int64_t lhs, rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) lhs;
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &lhs;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     resultado = lhs - rhs;
-    alocador = (uint32_t*) result;
+    alocador = (uint32_t*) &resultado;
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
@@ -1388,7 +1388,7 @@ int Interpretador::lmul(){
     // value1 - value2        //ordem da opera��o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs , rhs, resultado;;
+    int64_t lhs , rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
@@ -1396,19 +1396,19 @@ int Interpretador::lmul(){
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) lhs;
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &lhs;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     resultado = lhs * rhs;
-    alocador = (uint32_t*) result;
+    alocador = (uint32_t*) &resultado;
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
@@ -1449,32 +1449,33 @@ int Interpretador::ldiv(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;;
+    int64_t lhs, rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
-
+    DEBUG_ONLY(this->frame_corrente->printOperandStack());
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) lhs;
-    *alocador = this->frame_corrente->operandStack.back().value.long_value;
+    alocador = (uint32_t*) &lhs;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
-
+    DEBUG_PRINT("lhs: " << lhs << ", rhs: " << rhs);
     resultado = lhs / rhs;
-    alocador = (uint32_t*) result;
+    alocador = (uint32_t*) &resultado;
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
     this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    DEBUG_ONLY(this->frame_corrente->printOperandStack());
     return 1;
 }
 
@@ -1507,18 +1508,18 @@ int Interpretador::irem(){
 }
 
 int Interpretador::lrem(){
-    uint64_t rhs, lhs, result;
+    int64_t rhs, lhs, result;
     uint32_t *alocador;
     alocador = (uint32_t*) &rhs;
     rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.int_value;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     alocador = (uint32_t*) &lhs;
     lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    *alocador = this->frame_corrente->operandStack.back().value.int_value;
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     result = lhs - (lhs/rhs)*rhs;
@@ -1602,7 +1603,30 @@ int Interpretador::ishl(){
     return 1;
 }
 int Interpretador::lshl(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t lhs, result;
+    int32_t shiftAmount;
+    uint32_t *alocador;
+
+    shiftAmount = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    shiftAmount &= 0x0000003f;
+    result = lhs << shiftAmount;
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 1;
 }
 
@@ -1629,7 +1653,30 @@ int Interpretador::ishr(){
     return 1;
 }
 int Interpretador::lshr(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+      int64_t lhs, result;
+    int32_t shiftAmount;
+    uint32_t *alocador;
+
+    shiftAmount = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    shiftAmount &= 0x0000003f;
+    result = lhs >> shiftAmount;
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 1;
 }
 
@@ -1662,7 +1709,31 @@ int Interpretador::iand(){
     return 1;
 }
 int Interpretador::land(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+   int64_t rhs, lhs, result;
+    uint32_t *alocador;
+    alocador = (uint32_t*) &rhs;
+    rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    result = lhs & rhs;
+    DEBUG_PRINT("result: " << result );
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 1;
 }
 
@@ -2899,10 +2970,20 @@ int Interpretador::invokevirtual(){
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
-        //this->frame_corrente->printOperandStack();
         this->frame_corrente->operandStack.pop_back();
+        if(print_var.tag == LONGO || print_var.tag == DUPLO){
+                Local_var print_var2 = this->frame_corrente->operandStack.back();
+                this->frame_corrente->operandStack.pop_back();
+                int64_t var64bits;
+                uint32_t *alocador = (uint32_t*) &var64bits;
+                alocador[0] = print_var2.value.long_value;
+                alocador[1] = print_var.value.long_value;
+
+                cout << var64bits <<endl;
+        }else{
+                cout << print_var.repr() << endl;
+        }
         this->frame_corrente->operandStack.pop_back();
-        cout << print_var.repr() << endl;
         return 3;
     }
 
