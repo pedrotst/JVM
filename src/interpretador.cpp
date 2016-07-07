@@ -328,12 +328,27 @@ int Interpretador::lconst_1(){
 }
 
 
-int Interpretador::fconst_0(){return 1;}
-int Interpretador::fconst_1(){return 1;}
-int Interpretador::fconst_2(){return 1;}
+int Interpretador::fconst_0(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fconst_1(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fconst_2(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::dconst_0(){return 1;}
-int Interpretador::dconst_1(){return 1;}
+int Interpretador::dconst_0(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dconst_1(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::bipush(){
     //o byte eh convertido para int, com sinal extendido, e colocado na stack
@@ -789,13 +804,34 @@ int Interpretador::iaload(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::laload(){return 1;}
-int Interpretador::faload(){return 1;}
-int Interpretador::daload(){return 1;}
-int Interpretador::aaload(){return 1;}
-int Interpretador::baload(){return 1;}
-int Interpretador::caload(){return 1;}
-int Interpretador::saload(){return 1;}
+int Interpretador::laload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::faload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::daload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::aaload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::baload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::caload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::saload(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::istore(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -818,9 +854,18 @@ int Interpretador::istore(){
     return 2;
 }
 
-int Interpretador::fstore(){return 2;}
-int Interpretador::dstore(){return 2;}
-int Interpretador::astore(){return 2;}
+int Interpretador::fstore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 2;
+}
+int Interpretador::dstore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 2;
+}
+int Interpretador::astore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 2;
+}
 
 int Interpretador::istore_0(){
     DEBUG_ONLY(frame_corrente->printOperandStack());
@@ -1006,15 +1051,39 @@ int Interpretador::lstore_3(){
       return 1;
 }
 
-int Interpretador::fstore_0(){return 1;}
-int Interpretador::fstore_1(){return 1;}
-int Interpretador::fstore_2(){return 1;}
-int Interpretador::fstore_3(){return 1;}
+int Interpretador::fstore_0(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fstore_1(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fstore_2(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fstore_3(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::dstore_0(){return 1;}
-int Interpretador::dstore_1(){return 1;}
-int Interpretador::dstore_2(){return 1;}
-int Interpretador::dstore_3(){return 1;}
+int Interpretador::dstore_0(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dstore_1(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dstore_2(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dstore_3(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::astore_0(){
     Local_var op;
@@ -1095,13 +1164,34 @@ int Interpretador::iastore(){
     this->frame_corrente->operandStack.pop_back();
     return 1;
 }
-int Interpretador::lastore(){return 1;}
-int Interpretador::fastore(){return 1;}
-int Interpretador::dastore(){return 1;}
-int Interpretador::aastore(){return 1;}
-int Interpretador::bastore(){return 1;}
-int Interpretador::castore(){return 1;}
-int Interpretador::sastore(){return 1;}
+int Interpretador::lastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::aastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::bastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::castore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::sastore(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::pop(){
     this->frame_corrente->operandStack.pop_back();
@@ -1207,8 +1297,14 @@ int Interpretador::ladd(){
     return 1;
 }
 
-int Interpretador::fadd(){return 1;}
-int Interpretador::dadd(){return 1;}
+int Interpretador::fadd(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dadd(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::isub(){
     uint32_t lhs, rhs;
@@ -1260,8 +1356,14 @@ int Interpretador::lsub(){
     return 1;
 }
 
-int Interpretador::fsub(){return 1;}
-int Interpretador::dsub(){return 1;}
+int Interpretador::fsub(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dsub(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::imul(){
     uint32_t lhs, rhs;
@@ -1315,8 +1417,14 @@ int Interpretador::lmul(){
     return 1;
 }
 
-int Interpretador::fmul(){return 1;}
-int Interpretador::dmul(){return 1;}
+int Interpretador::fmul(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dmul(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::idiv(){
     uint32_t lhs, rhs;
@@ -1370,8 +1478,14 @@ int Interpretador::ldiv(){
     return 1;
 }
 
-int Interpretador::fdiv(){return 1;}
-int Interpretador::ddiv(){return 1;}
+int Interpretador::fdiv(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::ddiv(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::irem(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1419,8 +1533,14 @@ int Interpretador::lrem(){
     this->frame_corrente->operandStack.push_back(operand[1]);
     return 1;
 }
-int Interpretador::frem(){return 1;}
-int Interpretador::drem(){return 1;}
+int Interpretador::frem(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::drem(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1451,8 +1571,14 @@ int Interpretador::lneg(){
     return 1;
 }
 
-int Interpretador::fneg(){return 1;}
-int Interpretador::dneg(){return 1;}
+int Interpretador::fneg(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dneg(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::ishl(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1502,10 +1628,19 @@ int Interpretador::ishr(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lshr(){return 1;}
+int Interpretador::lshr(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::iushl(){return 1;}
-int Interpretador::lushl(){return 1;}
+int Interpretador::iushl(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::lushl(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::iand(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -2500,17 +2635,25 @@ int Interpretador::anewarray(){
 // Ela pode chamar diversos códigos para tratar erros. Tudo tem que estar implementado
 // para ela funcionar.
 int Interpretador::athrow() {
-      return 1;
+
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+
 }
 
 // Não foi testada
 int Interpretador::monitorenter() {
-      return 1;
+
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+
 }
 
 // Não foi testada
 int Interpretador::monitorexit() {
-      return 1;
+
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
 }
 
 int Interpretador::new_op(){
@@ -2823,24 +2966,75 @@ int Interpretador::ireturn(){
     return 1;
 }
 
-int Interpretador::iushr(){return 1;}
+int Interpretador::iushr(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::lushr(){return 1;}
+int Interpretador::lushr(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::ret(){return 2;}
+int Interpretador::ret(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::lreturn(){return 1;}
+int Interpretador::lreturn(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::freturn(){return 1;}//ni
-int Interpretador::dreturn(){return 1;}//ni
-int Interpretador::areturn(){return 1;}//ni
-int Interpretador::invokeinterface(){return 5;}//ni
-int Interpretador::invokedynamic(){return 5;}//ni
-int Interpretador::arraylength(){return 1;}//ni
-int Interpretador::checkcast(){return 3;}//ni
-int Interpretador::instanceof(){return 3;}//ni
-int Interpretador::wide(){return 4;}//ni
-int Interpretador::multianewarray(){return 4;}//ni
-int Interpretador::breakpoint(){return 1;}//ni
-int Interpretador::impdep1(){return 1;}//ni
-int Interpretador::impdep2(){return 1;}//ni
+int Interpretador::freturn(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::dreturn(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::areturn(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::invokeinterface(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::invokedynamic(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::arraylength(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::checkcast(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::instanceof(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::wide(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::multianewarray(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::breakpoint(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::impdep1(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
+int Interpretador::impdep2(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}//ni
