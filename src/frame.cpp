@@ -53,7 +53,7 @@ Frame::Frame(int method_index, ClassFile *cf){
 }
 void Frame::printOperandStack(){
     printf("OperandStack:\n");
-    for(int i = 0; i < operandStack.size(); i++){
+    for(int i = 0; i < (int)operandStack.size(); i++){
         switch(operandStack[i].tag){
             case BOOL:
                 printf("tag: BOOL | %d //", this->operandStack[i].value.boolean_value);
@@ -89,8 +89,8 @@ void Frame::printOperandStack(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf("tag: ARRAYTYPE[%ld] {", this->operandStack[i].value.arrayref->arr->size());
-                for(int j = 0; j < this->operandStack[i].value.arrayref->arr->size(); j++){
+                printf("tag: ARRAYTYPE[%zu] {", this->operandStack[i].value.arrayref->arr->size());
+                for(int j = 0; j < (int)this->operandStack[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->operandStack[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
                 printf("} //");
@@ -114,7 +114,7 @@ void Frame::printOperandStack(){
 void Frame::printLocalVar(){
     printf("Locar_var:\n");
     if(localVarVector.size() == 0) printf("//vazia//\n");
-    for(int i = 0; i < localVarVector.size(); i++){
+    for(int i = 0; i < (int)localVarVector.size(); i++){
         switch(localVarVector[i].tag){
             case BOOL:
                 printf("tag: BOOL | val: %d //", this->localVarVector[i].value.boolean_value);
@@ -150,8 +150,8 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf("tag: ARRAYTYPE[%ld] {", this->localVarVector[i].value.arrayref->arr->size());
-                for(int j = 0; j < this->localVarVector[i].value.arrayref->arr->size(); j++){
+                printf("tag: ARRAYTYPE[%zu] {", this->localVarVector[i].value.arrayref->arr->size());
+                for(int j = 0; j < (int)this->localVarVector[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->localVarVector[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
                 printf("} //");

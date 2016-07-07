@@ -73,14 +73,13 @@ ClassFile* Jvm::getClassRef(string className) {
 InstanceClass* Jvm::alocarObjetoEstatico(string className){
     ClassFile *classF;
     InstanceClass *inst;
-    int found_obj;
     inst = new InstanceClass();
 
     // Obtém a referência para a classe. A classe é carrega se necessário.
 
-    inst->cf = classF;
 
     classF = getClassRef(className);
+    inst->cf = classF;
     map<string, string> fbinds = classF->getStaticFieldsNamesTypes();
 
     for(auto const &ent : fbinds) {
@@ -98,14 +97,13 @@ InstanceClass* Jvm::alocarObjetoEstatico(string className){
 InstanceClass* Jvm::alocarObjeto(string className){
     ClassFile *classF;
     InstanceClass *inst;
-    int found_obj;
     inst = new InstanceClass();
 
     // Obtém a referência para a classe. A classe é carrega se necessário.
 
-    inst->cf = classF;
 
     classF = getClassRef(className);
+    inst->cf = classF;
     map<string, string> m_buffer = classF->getFieldsNamesTypes();
     map<string, string> fbinds;
     string super_name = classF->getClassName(); // começa loop na classe invocadora
@@ -142,7 +140,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
             break;
         case 'C': //char
             bval.tag = CHAR;
-            bval.val.caractere = 0;
+            bval.val.caractere = '\0';
             fval.tag = BASETYPE;
             fval.val.btype = bval;
             break;
@@ -205,12 +203,10 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
+Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
     //printf("Entrou em execMethod\n");
-    Code_attribute *code_attr_pt = NULL;
-    Frame frame(n, classF);
-    Local_var lvar;
-    Local_var_Type lvarval;
+    Local_var ret_var;
+    Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
     Interpretador interpreter(this);
@@ -241,14 +237,14 @@ Local_var Jvm::execMethod(int n, ClassFile *classF, vector<Local_var> args) {
     // se a pilha estiver vazia consideramos que ela retornou void
 
     if(!frame.operandStack.empty()){
-        lvar = frame.operandStack.back();
+        ret_var = frame.operandStack.back();
         this->fStack.pop_back();
         //printf("o metodo chamado retornou algo\n");
     }
     else{
         //printf("o metodo chamado retornou void\n");
-        lvar.tag = VOID_T;
-        lvar.value.void_v = true;
+        ret_var.tag = VOID_T;
+        ret_var.value.void_v = true;
     }
-    return lvar;
+    return ret_var;
 }

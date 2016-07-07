@@ -109,7 +109,7 @@ void exibeClass(ClassFile classF){
 
 
     cout << endl << "Constant Pool: " << endl;
-    for (j = 0, n = 0; j < classF.constant_pool_count - 1; n++, j++) {
+    for (j = 0, n = 0; j < (int)classF.constant_pool_count - 1; n++, j++) {
         cp_info_u cinfo = classF.constant_pool[n].cp_union;
         tag = classF.constant_pool[n].tag;
         printf("#%d = ",j+1);

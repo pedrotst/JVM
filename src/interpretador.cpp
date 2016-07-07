@@ -810,7 +810,10 @@ int Interpretador::istore(){
     new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->localVarVector.push_back(new_local_var);
 
-    //this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
+    size_t opStackSize = this->frame_corrente->operandStack.size();
+    if(local_var_index > opStackSize)
+        this->frame_corrente->operandStack.resize(local_var_index);
+    this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
     return 2;
 }
@@ -890,7 +893,7 @@ int Interpretador::lstore(){
       }
       local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
-      if (this->frame_corrente->localVarVector.size() < local_var_index+2)
+      if (this->frame_corrente->localVarVector.size() < (size_t)local_var_index+2)
             this->frame_corrente->localVarVector.resize(local_var_index+2);
 
       operand_low.tag = LONGO;
@@ -1181,16 +1184,16 @@ int Interpretador::ladd(){
     result[0].tag = LONGO;
     result[1].tag = LONGO;
     //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) lhs;
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1229,21 +1232,21 @@ int Interpretador::lsub(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;
+    uint64_t lhs, rhs, resultado;;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
     //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) lhs;
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1283,22 +1286,22 @@ int Interpretador::lmul(){
     // value1 - value2        //ordem da opera��o
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;
+    uint64_t lhs , rhs, resultado;;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
 
     //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) lhs;
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1338,22 +1341,22 @@ int Interpretador::ldiv(){
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
     Local_var result[2];
-    uint64_t lhs, rhs, resultado;
+    uint64_t lhs, rhs, resultado;;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
 
     //le value2 == rhs
-    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) rhs;//alocador aponta para os 32 bits mais significativos de rhs
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
     //le value 1 == lhs
-    alocador = (uint32_t*) lhs;
     lhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) lhs;
     *alocador = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1472,7 +1475,10 @@ int Interpretador::ishl(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lshl(){}
+int Interpretador::lshl(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::ishr(){
     this->frame_corrente->printLocalVar();
@@ -1520,7 +1526,10 @@ int Interpretador::iand(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::land(){}
+int Interpretador::land(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::ior(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1541,7 +1550,10 @@ int Interpretador::ior(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lor(){}
+int Interpretador::lor(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::ixor(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1562,7 +1574,10 @@ int Interpretador::ixor(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lxor(){}
+int Interpretador::lxor(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::iinc(){
     uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
@@ -1627,17 +1642,44 @@ int Interpretador::i2d(){
     return 1;
 }
 
-int Interpretador::l2i(){}
-int Interpretador::l2f(){}
-int Interpretador::l2d(){}
+int Interpretador::l2i(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::l2f(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::l2d(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::f2i(){}
-int Interpretador::f2l(){}
-int Interpretador::f2d(){}
+int Interpretador::f2i(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::f2l(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::f2d(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::d2i(){}
-int Interpretador::d2l(){}
-int Interpretador::d2f(){}
+int Interpretador::d2i(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::d2l(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::d2f(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 int Interpretador::i2b(){
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -1688,12 +1730,27 @@ int Interpretador::i2s(){
     return 1;
 }
 
-int Interpretador::lcmp(){}
-int Interpretador::fcmpl(){}
-int Interpretador::fcmpg(){}
+int Interpretador::lcmp(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fcmpl(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::fcmpg(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
-int Interpretador::dcmpl(){}
-int Interpretador::dcmpg(){}
+int Interpretador::dcmpl(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
+int Interpretador::dcmpg(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 
 ////////////////////////// Conditional Branch //////////////////////////
 // Conditional branch: ifeq, ifne, iflt, ifle, ifgt, ifge, ifnull, ifnonnull,
@@ -2171,11 +2228,9 @@ int Interpretador::lookupswitch(){
 }
 
 int Interpretador::putstatic(){
-    uint32_t lhs;
-    Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type;
-    Local_var lvar, ref_var;
+    Local_var lvar;
     FieldValue fvar;
 
     name_index = name_index << 8;
@@ -2249,8 +2304,6 @@ int Interpretador::putstatic(){
 }
 
 int Interpretador::putfield(){
-    uint32_t lhs;
-    Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type;
     Local_var lvar, ref_var;
@@ -2324,11 +2377,9 @@ int Interpretador::putfield(){
 
 
 int Interpretador::getstatic(){
-    uint32_t lhs;
-    Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type, class_name;
-    Local_var lvar, this_var;
+    Local_var lvar;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -2369,12 +2420,10 @@ int Interpretador::getstatic(){
 
 
 int Interpretador::getfield(){
-    uint32_t lhs;
-    Local_var op;
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     //printf("entrou na funcao getfield\n");
     string field_name, field_type;
-    Local_var lvar, this_var;
+    Local_var lvar;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -2383,7 +2432,6 @@ int Interpretador::getfield(){
     //printf("getfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
     if(field_type.compare("I") == 0){
-        Local_var lvar;
         lvar = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop the value
         if(lvar.tag != 9){
@@ -2440,6 +2488,8 @@ int Interpretador::anewarray(){
             for(int i = 0; i < count_operand; i++){
 
             }
+            break;
+        default:
             break;
     }
     this->frame_corrente->operandStack.push_back(operand);
@@ -2584,7 +2634,6 @@ int Interpretador::invokespecial(){
     string invoking_class, method_name, descriptor, argtypes;
     ClassFile* cf;
     vector<Local_var> args;
-    InstanceClass *inst;
     Local_var lvar;
 
     method_index = method_index << 8;
@@ -2595,7 +2644,7 @@ int Interpretador::invokespecial(){
     cf = this->jvm->getClassRef(invoking_class);
 
     // pega os argumentos da pilha
-    for (int i=1; i < descriptor.find(")"); i++){
+    for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
     }
@@ -2626,7 +2675,6 @@ int Interpretador::invokestatic(){
     string invoking_class, method_name, descriptor, argtypes, super_name;
     ClassFile* cf;
     vector<Local_var> args;
-    InstanceClass *inst;
     Local_var lvar;
     int found = -1;
 
@@ -2672,7 +2720,7 @@ int Interpretador::invokestatic(){
     //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
 
     // pega os argumentos da pilha
-    for (int i=1; i < descriptor.find(")"); i++){
+    for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
     }
@@ -2697,7 +2745,6 @@ int Interpretador::invokevirtual(){
     string invoking_class, method_name, descriptor, argtypes, super_name;
     ClassFile* cf;
     vector<Local_var> args;
-    InstanceClass *inst;
     Local_var lvar;
     int found = -1;
 
@@ -2718,15 +2765,15 @@ int Interpretador::invokevirtual(){
 
 
     cf = this->jvm->getClassRef(invoking_class);
-    //precisamos encontrar em qual classF este m�todo foi declarado
-    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    //precisamos encontrar em qual classF este metodo foi declarado
+    super_name = cf->getClassName(); // comeca loop na classe invocadora
     do{
         cf = this->jvm->getClassRef(super_name);
 
         found = cf->findMethod(method_name, descriptor);
         super_name = cf->getSuper();
         //cout << "super name: "<< super_name << endl;
-        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+        if(super_name.empty()){// se nao possuir super, entao o metodo nao existe
             printf("Metodo passado nao existe\n");
             exit(0);
         }
@@ -2736,7 +2783,7 @@ int Interpretador::invokevirtual(){
     //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
 
     // pega os argumentos da pilha
-    for (int i=1; i < descriptor.find(")"); i++){
+    for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
     }
