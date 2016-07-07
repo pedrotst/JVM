@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -69,6 +69,7 @@ uint16_t Interpretador::read_code_word(const char *code, uint64_t pc) {
 Interpretador::Interpretador(Jvm *jvm){
 
     this->jvm = jvm;
+    this->_wide = false;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
     pt[NOP] = &Interpretador::nop;
@@ -263,7 +264,7 @@ Interpretador::Interpretador(Jvm *jvm){
     // implementada. Vai ver só precisa retornar.
     pt[MONITORENTER] = &Interpretador::monitorenter;
     pt[MONITOREXIT] = &Interpretador::monitorexit;
-    pt[WIDE] = &Interpretador::wide;//ni
+    pt[WIDE] = &Interpretador::wide;
     pt[MULTIANEWARRAY] = &Interpretador::multianewarray;//ni
     pt[IFNULL] = &Interpretador::ifnull;
     pt[IFNONNULL] = &Interpretador::ifnonnull;
@@ -408,12 +409,16 @@ int Interpretador::bipush(){
 }
 
 int Interpretador::sipush(){
+    DEBUG_ENTRADA;
     Local_var operand;
     operand.tag = INT;
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    operand.value.int_value = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
     operand.value.int_value <<= 8;
-    operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    operand.value.int_value |= (uint8_t)this->code_corrente->code[this->frame_corrente->pc+2];
+    operand.value.int_value = (int32_t)operand.value.int_value;
+    //cout << operand.repr() << endl;
     this->frame_corrente->operandStack.push_back(operand);
+    DEBUG_SAIDA;
     return 3;
 }
 
@@ -797,12 +802,28 @@ int Interpretador::aload_3(){
 int Interpretador::iload(){
     DEBUG_ENTRADA;
     Local_var operand;
+    uint16_t index;
+
     operand.tag = INT;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index];
-    this->frame_corrente->operandStack.push_back(operand);
-    DEBUG_SAIDA;
-    return 2;
+
+    if(!_wide){
+        index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        DEBUG_SAIDA;
+        return 2;
+    }
+    else{
+        index = (uint16_t)this->code_corrente->code[this->frame_corrente->pc+1];
+
+        DEBUG_PRINT(index);
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        _wide = false;
+        DEBUG_SAIDA;
+        return 3;
+    }
+
 }
 
 int Interpretador::iload_0(){
@@ -909,17 +930,22 @@ int Interpretador::astore(){
 
 int Interpretador::istore(){
     DEBUG_ENTRADA;
-    if(this->frame_corrente->operandStack.back().tag != INT){
+    Local_var lvar;
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+
+    if(lvar.tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado.\n");
     }
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
 
-    size_t opStackSize = this->frame_corrente->operandStack.size();
-    if(local_var_index > opStackSize)
+    size_t opStackSize = this->frame_corrente->localVarVector.size();
+    if(local_var_index + 1 > (int)opStackSize)
         this->frame_corrente->localVarVector.resize(local_var_index + 1);
-    this->frame_corrente->localVarVector[local_var_index] = this->frame_corrente->operandStack.back();
-    this->frame_corrente->operandStack.pop_back();
+
+    lvar.value.int_value = (int32_t)lvar.value.int_value;
+    this->frame_corrente->localVarVector[local_var_index] = lvar;
 
     DEBUG_SAIDA;
     return 2;
@@ -3168,10 +3194,14 @@ int Interpretador::instanceof(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::wide(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    this->_wide = true;
+    DEBUG_PRINT("wide!!!!");
+
     return 1;
-}//ni
+}
+
 int Interpretador::multianewarray(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;

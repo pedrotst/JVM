@@ -35,6 +35,12 @@ class Jvm;
 */
 class Interpretador{
     public:
+        /** \var _wide
+        *   quando a instrucao wide eh chamada seta esta variavel pra true
+        *   a proxima instrucao recebe mais bytes de argumento caso esta variavel esteja true
+        */
+        bool _wide;
+
         /** \fn Interpretador
         *   \param Jvm Recebe a jvm que esta sendo executada como argumento
         *   para poder ter acesso as estruturas de runtime, tais como
