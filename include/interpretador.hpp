@@ -91,13 +91,13 @@ class Interpretador{
          * \brief Lê dois bytes de um code e retorna um uint16_t formado por
          * (indexbyte1 << 8) | indexbyte2.
          *
-         * \param const char *code: code de onde os bytes serão lidos.
+         * \param uint8_t *code: code de onde os bytes serão lidos.
          * \param uint64_t pc: valor do pc que aponta para o primeiro byte a
          * ser lido do code (indexbyte1).
          *
          * \return valor de formado pelos dois bytes lidos.
          */
-        uint16_t read_code_word(const char *code, uint64_t pc);
+        uint16_t read_code_word(uint8_t *code, uint64_t pc);
 
         //uma das fun��es do interpretador
         //

@@ -1,9 +1,9 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
-    #define DEBUG_E_S
+    //#define DEBUG_E_S
 #endif // DEBUG
 
 
@@ -56,12 +56,12 @@ int Interpretador::runCode(Frame *frame_pt) {
     return 0;
 }
 
-uint16_t Interpretador::read_code_word(const char *code, uint64_t pc) {
+uint16_t Interpretador::read_code_word(uint8_t *code, uint64_t pc) {
       uint16_t word = 0;
 
-      word = code[pc];
-      word <<= 8;
-      word |= code[pc+1];
+      word = (uint16_t) code[pc];
+      //word <<= 8;
+      //word |= code[pc+1];
 
       return word;
 }
@@ -412,11 +412,8 @@ int Interpretador::sipush(){
     DEBUG_ENTRADA;
     Local_var operand;
     operand.tag = INT;
-    operand.value.int_value = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
-    operand.value.int_value <<= 8;
-    operand.value.int_value |= (uint8_t)this->code_corrente->code[this->frame_corrente->pc+2];
+    operand.value.int_value = read_code_word(this->code_corrente->code, this->frame_corrente->pc+2);
     operand.value.int_value = (int32_t)operand.value.int_value;
-    //cout << operand.repr() << endl;
     this->frame_corrente->operandStack.push_back(operand);
     DEBUG_SAIDA;
     return 3;
