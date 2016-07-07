@@ -1,5 +1,14 @@
 #define DEBUG
+//Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
+//Assim, o DEBUG ainda funciona de forma independente
+#ifdef DEBUG
+    #define DEBUG_E_S
+#endif // DEBUG
 
+#ifdef DEBUG_E_S
+    #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());}while(0);
+    #define DEBUG_SAIDA do{DEBUG_PRINT(" depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+#endif // DEBUG
 #include "../include/interpretador.hpp"
 
 /**
@@ -13,6 +22,11 @@
 *
 *   Para chamar o print da pilha de operandos utilize o seguinte:
 *   DEBUG_ONLY(frame_corrente->printOperandStack());
+*
+*   Para facilitar investigar como OperandStack e LocalVar estavam
+*   ao entrar na instrução e como ficaram imetiatamente antes da saída,
+*   use DEBUG_ENTRADA e DEBUG_SAIDA imediatamente ao entrar e ao sair da
+*   instrução, respectivamente.
 */
 
 int Interpretador::execute_instruction(int opcode){
@@ -289,10 +303,12 @@ int Interpretador::iconst_1(){
     return 1;
 }
 int Interpretador::iconst_2(){
+    DEBUG_ENTRADA;
     Local_var op;
     op.tag = INT;
     op.value.int_value = 2;
     this->frame_corrente->operandStack.push_back(op);
+    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::iconst_3(){
@@ -364,10 +380,12 @@ int Interpretador::dconst_1(){
 
 int Interpretador::bipush(){
     //o byte eh convertido para int, com sinal extendido, e colocado na stack
+    DEBUG_ENTRADA;
     Local_var operand;
     operand.tag = INT;//questoes conceituais aqui
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     this->frame_corrente->operandStack.push_back(operand);
+    DEBUG_SAIDA;
     return 2;
 }
 
@@ -382,6 +400,7 @@ int Interpretador::sipush(){
 }
 
 int Interpretador::ldc(){
+    DEBUG_ENTRADA;
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
 
     Local_var operand;
@@ -425,6 +444,7 @@ int Interpretador::ldc(){
    }else{
             //exception
     }
+    DEBUG_SAIDA;
     return 2;//opcode e byte seguinde lidos
 }
 
@@ -775,11 +795,13 @@ int Interpretador::iload_0(){
     return 1;
 }
 int Interpretador::iload_1(){
+    DEBUG_ENTRADA;
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::iload_2(){
@@ -880,7 +902,7 @@ int Interpretador::astore(){
 }
 
 int Interpretador::istore_0(){
-    DEBUG_ONLY(frame_corrente->printOperandStack());
+    DEBUG_ENTRADA;
 
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
@@ -888,9 +910,12 @@ int Interpretador::istore_0(){
     }
     this->frame_corrente->localVarVector[0] = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+
+    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::istore_1(){
+    DEBUG_ENTRADA;
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
@@ -902,6 +927,7 @@ int Interpretador::istore_1(){
     //this->frame_corrente->localVarVector[1].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->localVarVector.push_back(new_local_var);
     this->frame_corrente->operandStack.pop_back();
+    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::istore_2(){
@@ -1460,12 +1486,12 @@ int Interpretador::ldiv(){
     //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
+    DEBUG_ENTRADA;
     Local_var result[2];
     int64_t lhs, rhs, resultado;
     uint32_t *alocador;
     result[0].tag = LONGO;
     result[1].tag = LONGO;
-    DEBUG_ONLY(this->frame_corrente->printOperandStack());
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1486,7 +1512,7 @@ int Interpretador::ldiv(){
     result[1].value.long_value = *(alocador+1);//menos significativo
     this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
-    DEBUG_ONLY(this->frame_corrente->printOperandStack());
+    DEBUG_SAIDA;
     return 1;
 }
 
@@ -1642,8 +1668,7 @@ int Interpretador::lshl(){
 }
 
 int Interpretador::ishr(){
-    DEBUG_ONLY(this->frame_corrente->printLocalVar());
-    DEBUG_ONLY(this->frame_corrente->printOperandStack());
+    DEBUG_ENTRADA;
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
@@ -1656,14 +1681,15 @@ int Interpretador::ishr(){
     // está havendo problema na passagem:   lhs <=== negativo; lhs final sai positivo
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    DEBUG_PRINT("int32_t lhs: " << lhs << " int32_t rhs: " << rhs);
+    DEBUG_PRINT(" int32_t lhs: " << lhs << " int32_t rhs: " << rhs);
     DEBUG_ONLY(this->frame_corrente->printOperandStack());
     Local_var operand;
     operand.tag = INT;
     rhs &= 0x0000001f;//shifta usando s� os 5 ultimos bits desse numero
     operand.value.int_value = lhs >> rhs;
-    DEBUG_PRINT("int32_t value: " << operand.value.int_value);
+    DEBUG_PRINT(" int32_t value: " << operand.value.int_value);
     this->frame_corrente->operandStack.push_back(operand);
+    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::lshr(){
@@ -3137,7 +3163,10 @@ int Interpretador::impdep2(){
     return 1;
 }//ni
 
+#ifdef DEBUG_E_S
+    #undef DEBUG_E_S
+#endif // DEBUG_E_S
 
 #ifdef Debug
-#undef Debug
+    #undef Debug
 #endif

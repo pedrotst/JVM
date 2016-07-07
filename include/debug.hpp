@@ -5,8 +5,8 @@
 
 #ifdef DEBUG
 
-#define DEBUG_PRINT(message) do{std::cout << message << std::endl;}while(0)
-#define DEBUG_ONLY(x) do{x;}while(0)
+#define DEBUG_PRINT(message) do{std::cout << message << std::endl;}while(0);
+#define DEBUG_ONLY(x) do{x;}while(0);
 
 #else
 
