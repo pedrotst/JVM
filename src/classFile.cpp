@@ -197,3 +197,8 @@ bool ClassFile::isStaticMethod(int method_index){
     return false;
 
 }
+
+std::string ClassFile::getMethodName(int n){
+    uint16_t cname_index = this->methods[n].name_index;
+    return this->getCpoolUtf8(cname_index);
+}

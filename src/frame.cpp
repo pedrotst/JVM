@@ -37,6 +37,7 @@ string Local_var::repr(){
         case ARRAYTYPE:
             break;
         case VOID_T:
+            return "VOID";
         case RETURN_ADDRESS:
             break;
         case STRINGTYPE:

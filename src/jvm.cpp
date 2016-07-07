@@ -1,3 +1,5 @@
+#define DEBUG
+
 #include <stdio.h>
 #include <map>
 #include "../include/jvm.hpp"
@@ -8,9 +10,11 @@ int Jvm::run(const char* arq_class_name) {
     //printf("Entrou em jvm.run()\n");
     ClassFile classF;
     int main_index;
+
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
     Local_var main_str;
+
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
         printf("Erro em jvm.run: O arquivo .class %s, nao pode ser aberto.\n", arq_class_name);
@@ -18,9 +22,10 @@ int Jvm::run(const char* arq_class_name) {
     }
 
 
-    //printf("Executando leitura do .class\n");
+    this->classpath = getClassPath(arq_class_name); //esta funcao esta no leitor.cpp
+    DEBUG_PRINT(classpath);
     leitorClass_info(&classF, arquivoClass);
-    //printf("Leitura executada\n");
+
     Verificador verificador(classF);
     verificador.verificaClass(classF);
 
@@ -54,9 +59,11 @@ ClassFile* Jvm::getClassRef(string className) {
     // Carrega a nova classe.
 
     if(loadedClasses.count(className) != 1) {
-        if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) {
-            printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
-            exit(0);
+        if(!(arquivoClass = fopen(classpath.append(className).append(".class").c_str(), "rb"))){ // procura no classpath
+            if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) { // se no encontrar procura no diretório do programa
+                printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
+                exit(0);
+            }
         }
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
@@ -204,7 +211,8 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  */
 
 Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
-    //printf("Entrou em execMethod\n");
+    DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
+
     Local_var ret_var;
     Frame frame(method_index, classF);
 
@@ -246,5 +254,7 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
         ret_var.tag = VOID_T;
         ret_var.value.void_v = true;
     }
+
+    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
     return ret_var;
 }

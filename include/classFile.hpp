@@ -38,11 +38,15 @@ public:
 	*/
 	std::string getSource();
 
+	/** \fn getMethodName
+	* \return retorna o nome do método n
+	*/
+	std::string getMethodName(int n);
+
 	/** \fn getClassName
 	* \return retorna o nome desta classe
 	*/
 	std::string getClassName();
-
 	/** \fn getCpoolUtf8
 	* \return retorna o valor da posicao index -1 da constant pool
 	* assume-se que ha um utf8 nesta posicao
