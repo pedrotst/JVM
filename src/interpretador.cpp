@@ -59,9 +59,9 @@ int Interpretador::runCode(Frame *frame_pt) {
 uint16_t Interpretador::read_code_word(uint8_t *code, uint64_t pc) {
       uint16_t word = 0;
 
-      word = (uint16_t) code[pc];
-      //word <<= 8;
-      //word |= code[pc+1];
+      word = code[pc];
+      word <<= 8;
+      word |= code[pc+1];
 
       return word;
 }
@@ -412,7 +412,8 @@ int Interpretador::sipush(){
     DEBUG_ENTRADA;
     Local_var operand;
     operand.tag = INT;
-    operand.value.int_value = read_code_word(this->code_corrente->code, this->frame_corrente->pc+2);
+    operand.value.int_value = (uint16_t) (this->code_corrente->code[this->frame_corrente->pc+2]);
+    DEBUG_PRINT(operand.repr());
     operand.value.int_value = (int32_t)operand.value.int_value;
     this->frame_corrente->operandStack.push_back(operand);
     DEBUG_SAIDA;
