@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <string>
 #include <cstring>
+#include <cstddef>
 
 #include "../include/structs.hpp"
 #include "../include/classFile.hpp"
@@ -18,6 +20,8 @@
 
 FILE* abreArqLinhaComando(int argc, char** argv);
 FILE* abreArquivo(char *arquivoJava);
+
+string getClassPath(const char* arq_name);
 int leitorClass_info(ClassFile *classF, FILE* arquivoJava);
 int leituraHeader(ClassFile* classF, FILE *arquivoJava);
 int leituraConstantPool(ClassFile *classF, FILE *arquivoJava);

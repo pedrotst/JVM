@@ -29,6 +29,13 @@
 
 class Jvm{
 private:
+        /**
+        *   \var O .class principal encontra-se em um classpath,
+        * todos próximos arquivos serão procurados na mesma pasta que o programa
+        * ou dentro deste classpath.
+        *
+        */
+        std::string classpath;
         /** \fn inicializaFval
          *
          * \brief Constroi uma FieldValue com os valores padroes, a maioria zero

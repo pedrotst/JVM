@@ -1,5 +1,7 @@
 #include "../include/leitor.hpp"
 
+using namespace std;
+
 int leitorClass_info(ClassFile *classF, FILE* arquivoJava){
 
     //Leitura 0xCAFEBABE e versão
@@ -68,7 +70,7 @@ int leituraConstantPool(ClassFile *classF, FILE *arquivoJava){
     	//Le o tamanho da constant pool +1
     	classF->constant_pool_count = read_word(arquivoJava);
     	// Leitura da constant poll
-        for (int n = 0; n < classF->constant_pool_count - 1; n++) {
+        for (int n = 0; n < (int)classF->constant_pool_count - 1; n++) {
             fread(&tag, sizeof(uint8_t), 1, arquivoJava);
 
             // Todas as entradas da constant pool são obtidas de forma parecida,
@@ -303,4 +305,15 @@ char* getClassName(ClassFile *classF){
     className = (char*) calloc(sizeof(char), classF->constant_pool[index-1].cp_union.constant_Utf8.length);
     strcpy(className, classF->constant_pool[index-1].cp_union.constant_Utf8.bytes);
     return className;
+}
+
+
+string getClassPath(const char* arq_name){
+    string path(arq_name, strlen(arq_name));
+    size_t slashfinder = path.find_last_of("/");
+
+    path = path.substr(0, slashfinder+1);
+
+    return path;
+
 }

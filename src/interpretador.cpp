@@ -2910,15 +2910,18 @@ int Interpretador::invokestatic(){
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-    //printf("invokestatic #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
+    // se for o println então printamos e esta tudo certo
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back();
         cout << print_var.repr() << endl;
         return 3;
     }
-
+    // se for o registerNatives, ignore
+    if(method_name.compare("registerNatives") == 0){
+        return 3;
+    }
 
     cf = this->jvm->getClassRef(invoking_class);
     Frame *staticFrame;
@@ -3133,3 +3136,8 @@ int Interpretador::impdep2(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
+
+#ifdef Debug
+#undef Debug
+#endif
