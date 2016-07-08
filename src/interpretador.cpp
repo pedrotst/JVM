@@ -1,4 +1,4 @@
-#define DEBUG
+// #define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -1432,9 +1432,21 @@ int Interpretador::ladd(){
 }
 
 int Interpretador::fadd(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 + value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dadd(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1491,9 +1503,21 @@ int Interpretador::lsub(){
 }
 
 int Interpretador::fsub(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 - value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dsub(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1552,9 +1576,21 @@ int Interpretador::lmul(){
 }
 
 int Interpretador::fmul(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 * value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dmul(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1613,9 +1649,21 @@ int Interpretador::ldiv(){
 }
 
 int Interpretador::fdiv(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 / value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::ddiv(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1668,9 +1716,21 @@ int Interpretador::lrem(){
     return 1;
 }
 int Interpretador::frem(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = fmod(value1, value2);
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::drem(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1706,9 +1766,19 @@ int Interpretador::lneg(){
 }
 
 int Interpretador::fneg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value = 0;
+      Local_var result;
+
+      value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = -value;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dneg(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
