@@ -122,25 +122,25 @@ void Frame::printLocalVar(){
                 printf(" [%d] BOOL: %d //", i, this->localVarVector[i].value.boolean_value);
                 break;
             case INT:
-                printf(" [%d] INT : %d //", i, this->localVarVector[i].value.int_value);
+                printf(" [%d] INT: %d //", i, this->localVarVector[i].value.int_value);
                 break;
             case CHAR:
-                printf(" [%d] CHAR : %c //", i, this->localVarVector[i].value.char_value);
+                printf(" [%d] CHAR: %c //", i, this->localVarVector[i].value.char_value);
                 break;
             case BYTE:
-                printf(" [%d] BYTE : %d //", i, this->localVarVector[i].value.byte_value);
+                printf(" [%d] BYTE: %d //", i, this->localVarVector[i].value.byte_value);
                 break;
             case LONGO:
-                printf(" [%d] LONG : %l //", i,  this->localVarVector[i].value.long_value);
+                printf(" [%d] LONG: %l //", i,  this->localVarVector[i].value.long_value);
                 break;
             case PFLUTUANTE:
-                printf(" [%d] FLOAT : %f //",  i, this->localVarVector[i].value.float_value);
+                printf(" [%d] FLOAT: %f //",  i, this->localVarVector[i].value.float_value);
                 break;
             case CURTO:
-                printf(" [%d]  SHORT : %d //",  i, this->localVarVector[i].value.short_value);
+                printf(" [%d] SHORT: %d //",  i, this->localVarVector[i].value.short_value);
                 break;
             case DUPLO:
-                printf(" [%d] DOUBLE : %d //",  i, this->localVarVector[i].value.double_value);
+                printf(" [%d] DOUBLE: %d //",  i, this->localVarVector[i].value.double_value);
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | val: %x //", this->localVarVector[i].value.reference_value);
@@ -159,7 +159,7 @@ void Frame::printLocalVar(){
                 printf("} //");
                 break;
             case VOID_T:
-                printf(" [%d] VOID_T : %d //",  i, this->localVarVector[i].value.void_v);
+                printf(" [%d] VOID_T: %d //",  i, this->localVarVector[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
                 //printf("tag: RETURN_ADDRESS | val: %d //", this->localVarVector[i].value.returnAddress_value);

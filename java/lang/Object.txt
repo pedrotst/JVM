@@ -1,0 +1,292 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 76
+Access Flag: 0x0021[ACC_PUBLIC][ACC_SUPER]
+This Class: 18 	<java/lang/Object>
+Interface count: 0
+Fields count: 0
+Methods count: 14
+Attributes count: 1
+
+Constant Pool: 
+#1 = Class		#47		 // java/lang/StringBuffer
+#2 = Methodref		#1.#48		 // java/lang/StringBuffer.<init>:()V
+#3 = Methodref		#18.#49		 // java/lang/Object.getClass:()Ljava/lang/Class;
+#4 = Methodref		#50.#51		 // java/lang/Class.getName:()Ljava/lang/String;
+#5 = Methodref		#1.#52		 // java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#6 = String		#53		// @
+#7 = Methodref		#18.#54		 // java/lang/Object.hashCode:()I
+#8 = Methodref		#55.#56		 // java/lang/Integer.toHexString:(I)Ljava/lang/String;
+#9 = Methodref		#1.#57		 // java/lang/StringBuffer.toString:()Ljava/lang/String;
+#10 = Class		#58		 // java/lang/IllegalArgumentException
+#11 = String		#59		// timeout value is negative
+#12 = Methodref		#10.#60		 // java/lang/IllegalArgumentException.<init>:(Ljava/lang/String;)V
+#13 = Integer		#999999
+#14 = String		#61		// nanosecond timeout value out of range
+#15 = Integer		#500000
+#16 = Methodref		#18.#62		 // java/lang/Object.wait:(J)V
+#17 = Methodref		#18.#63		 // java/lang/Object.registerNatives:()V
+#18 = Class		#64		 // java/lang/Object
+#19 = Utf8		<init>
+#20 = Utf8		()V
+#21 = Utf8		Code
+#22 = Utf8		LineNumberTable
+#23 = Utf8		registerNatives
+#24 = Utf8		getClass
+#25 = Utf8		()Ljava/lang/Class;
+#26 = Utf8		hashCode
+#27 = Utf8		()I
+#28 = Utf8		equals
+#29 = Utf8		(Ljava/lang/Object;)Z
+#30 = Utf8		clone
+#31 = Utf8		()Ljava/lang/Object;
+#32 = Utf8		Exceptions
+#33 = Class		#65		 // java/lang/CloneNotSupportedException
+#34 = Utf8		toString
+#35 = Utf8		()Ljava/lang/String;
+#36 = Utf8		notify
+#37 = Utf8		notifyAll
+#38 = Utf8		wait
+#39 = Utf8		(J)V
+#40 = Class		#66		 // java/lang/InterruptedException
+#41 = Utf8		(JI)V
+#42 = Utf8		finalize
+#43 = Class		#67		 // java/lang/Throwable
+#44 = Utf8		<clinit>
+#45 = Utf8		SourceFile
+#46 = Utf8		Object.java
+#47 = Utf8		java/lang/StringBuffer
+#48 = NameAndType	#19.#20		<init>:()V
+#49 = NameAndType	#24.#25		getClass:()Ljava/lang/Class;
+#50 = Class		#68		 // java/lang/Class
+#51 = NameAndType	#69.#35		getName:()Ljava/lang/String;
+#52 = NameAndType	#70.#71		append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#53 = Utf8		@
+#54 = NameAndType	#26.#27		hashCode:()I
+#55 = Class		#72		 // java/lang/Integer
+#56 = NameAndType	#73.#74		toHexString:(I)Ljava/lang/String;
+#57 = NameAndType	#34.#35		toString:()Ljava/lang/String;
+#58 = Utf8		java/lang/IllegalArgumentException
+#59 = Utf8		timeout value is negative
+#60 = NameAndType	#19.#75		<init>:(Ljava/lang/String;)V
+#61 = Utf8		nanosecond timeout value out of range
+#62 = NameAndType	#38.#39		wait:(J)V
+#63 = NameAndType	#23.#20		registerNatives:()V
+#64 = Utf8		java/lang/Object
+#65 = Utf8		java/lang/CloneNotSupportedException
+#66 = Utf8		java/lang/InterruptedException
+#67 = Utf8		java/lang/Throwable
+#68 = Utf8		java/lang/Class
+#69 = Utf8		getName
+#70 = Utf8		append
+#71 = Utf8		(Ljava/lang/String;)Ljava/lang/StringBuffer;
+#72 = Utf8		java/lang/Integer
+#73 = Utf8		toHexString
+#74 = Utf8		(I)Ljava/lang/String;
+#75 = Utf8		(Ljava/lang/String;)V
+
+
+Fields: 
+Methods_count: 14
+Methods: 
+Method: 1
+Name: #19<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 25
+	 Max Stack: 0, 	 Max Locals: 1, 	 Code Length: 1
+	0:	RETURN	
+
+Method: 2
+Name: #23<registerNatives>
+Access Flag: 0x010a[ACC_PRIVATE][ACC_STATIC][ACC_NATIVE]
+Descritor: ()V
+Atribute count: 0
+
+Method: 3
+Name: #24<getClass>
+Access Flag: 0x0111[ACC_PUBLIC][ACC_FINAL][ACC_NATIVE]
+Descritor: ()Ljava/lang/Class;
+Atribute count: 0
+
+Method: 4
+Name: #26<hashCode>
+Access Flag: 0x0101[ACC_PUBLIC][ACC_NATIVE]
+Descritor: ()I
+Atribute count: 0
+
+Method: 5
+Name: #28<equals>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (Ljava/lang/Object;)Z
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 35
+	 Max Stack: 2, 	 Max Locals: 2, 	 Code Length: 11
+	0:	ALOAD_0	
+	0x1:	ALOAD_1	
+	0x2:	IF_ACMPNE	 #7 	 //  java/lang/Object.hashCode:()I
+	0x5:	ICONST_1	
+	0x6:	GOTO	 #4 	 //  java/lang/Class.getName:()Ljava/lang/String;
+	0x9:	ICONST_0	
+	0xa:	IRETURN	
+
+Method: 6
+Name: #30<clone>
+Access Flag: 0x0104[ACC_PROTECTED][ACC_NATIVE]
+Descritor: ()Ljava/lang/Object;
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Exceptions
+	 Attribute Length: 4
+
+Method: 7
+Name: #34<toString>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()Ljava/lang/String;
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 60
+	 Max Stack: 2, 	 Max Locals: 1, 	 Code Length: 36
+	0:	NEW	 #1 	 //  java/lang/StringBuffer
+	0x3:	DUP	
+	0x4:	INVOKESPECIAL	 #2 	 //  java/lang/StringBuffer.<init>:()V
+	0x7:	ALOAD_0	
+	0x8:	INVOKEVIRTUAL	 #3 	 //  java/lang/Object.getClass:()Ljava/lang/Class;
+	0xb:	INVOKEVIRTUAL	 #4 	 //  java/lang/Class.getName:()Ljava/lang/String;
+	0xe:	INVOKEVIRTUAL	 #5 	 //  java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+	0x11:	LDC	 #6 	 //  @
+	0x13:	INVOKEVIRTUAL	 #5 	 //  java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+	0x16:	ALOAD_0	
+	0x17:	INVOKEVIRTUAL	 #7 	 //  java/lang/Object.hashCode:()I
+	0x1a:	INVOKESTATIC	 #8 	 //  java/lang/Integer.toHexString:(I)Ljava/lang/String;
+	0x1d:	INVOKEVIRTUAL	 #5 	 //  java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+	0x20:	INVOKEVIRTUAL	 #9 	 //  java/lang/StringBuffer.toString:()Ljava/lang/String;
+	0x23:	ARETURN	
+
+Method: 8
+Name: #36<notify>
+Access Flag: 0x0111[ACC_PUBLIC][ACC_FINAL][ACC_NATIVE]
+Descritor: ()V
+Atribute count: 0
+
+Method: 9
+Name: #37<notifyAll>
+Access Flag: 0x0111[ACC_PUBLIC][ACC_FINAL][ACC_NATIVE]
+Descritor: ()V
+Atribute count: 0
+
+Method: 10
+Name: #38<wait>
+Access Flag: 0x0111[ACC_PUBLIC][ACC_FINAL][ACC_NATIVE]
+Descritor: (J)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Exceptions
+	 Attribute Length: 4
+
+Method: 11
+Name: #38<wait>
+Access Flag: 0x0011[ACC_PUBLIC][ACC_FINAL]
+Descritor: (JI)V
+Atribute count: 2
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 114
+	 Max Stack: 4, 	 Max Locals: 4, 	 Code Length: 62
+	0:	LLOAD_1	
+	0x1:	LCONST_0	
+	0x2:	LCMP	
+	0x3:	IFGE	 #13 	 //  
+	0x6:	NEW	 #10 	 //  java/lang/IllegalArgumentException
+	0x9:	DUP	
+	0xa:	LDC	 #11 	 //  timeout value is negative
+	0xc:	INVOKESPECIAL	 #12 	 //  java/lang/IllegalArgumentException.<init>:(Ljava/lang/String;)V
+	0xf:	ATHROW	
+	0x10:	ILOAD_3	
+	0x11:	IFLT	 #9 	 //  java/lang/StringBuffer.toString:()Ljava/lang/String;
+	0x14:	ILOAD_3	
+	0x15:	LDC	 #13 	 //  
+	0x17:	IF_ICMPLE	 #13 	 //  
+	0x1a:	NEW	 #10 	 //  java/lang/IllegalArgumentException
+	0x1d:	DUP	
+	0x1e:	LDC	 #14 	 //  nanosecond timeout value out of range
+	0x20:	INVOKESPECIAL	 #12 	 //  java/lang/IllegalArgumentException.<init>:(Ljava/lang/String;)V
+	0x23:	ATHROW	
+	0x24:	ILOAD_3	
+	0x25:	LDC	 #15 	 //  
+	0x27:	IF_ICMPGE	 #13 	 //  
+	0x2a:	ILOAD_3	
+	0x2b:	IFEQ	 #13 	 //  
+	0x2e:	LLOAD_1	
+	0x2f:	LCONST_0	
+	0x30:	LCMP	
+	0x31:	IFNE	 #7 	 //  java/lang/Object.hashCode:()I
+	0x34:	LLOAD_1	
+	0x35:	LCONST_1	
+	0x36:	LADD	
+	0x37:	LSTORE_1	
+	0x38:	ALOAD_0	
+	0x39:	LLOAD_1	
+	0x3a:	INVOKEVIRTUAL	 #16 	 //  java/lang/Object.wait:(J)V
+	0x3d:	RETURN	
+	 Attribute number: 2
+	 Attribute Name: Exceptions
+	 Attribute Length: 4
+
+Method: 12
+Name: #38<wait>
+Access Flag: 0x0011[ACC_PUBLIC][ACC_FINAL]
+Descritor: ()V
+Atribute count: 2
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 34
+	 Max Stack: 3, 	 Max Locals: 1, 	 Code Length: 6
+	0:	ALOAD_0	
+	0x1:	LCONST_0	
+	0x2:	INVOKEVIRTUAL	 #16 	 //  java/lang/Object.wait:(J)V
+	0x5:	RETURN	
+	 Attribute number: 2
+	 Attribute Name: Exceptions
+	 Attribute Length: 4
+
+Method: 13
+Name: #42<finalize>
+Access Flag: 0x0004[ACC_PROTECTED]
+Descritor: ()V
+Atribute count: 2
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 25
+	 Max Stack: 0, 	 Max Locals: 1, 	 Code Length: 1
+	0:	RETURN	
+	 Attribute number: 2
+	 Attribute Name: Exceptions
+	 Attribute Length: 4
+
+Method: 14
+Name: #44<<clinit>>
+Access Flag: 0x0008[ACC_STATIC]
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 32
+	 Max Stack: 0, 	 Max Locals: 0, 	 Code Length: 4
+	0:	INVOKESTATIC	 #17 	 //  java/lang/Object.registerNatives:()V
+	0x3:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #45
+attribute_length: 2
+Sourcefile_index: #46		//java/lang/StringBuffer.java

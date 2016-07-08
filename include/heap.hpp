@@ -52,6 +52,7 @@ typedef struct ObjectType_s{
 }ObjectType;
 
 typedef std::vector<struct FieldValue_s> arrayref;
+
 typedef struct ArrayType_s{
      arrayref *arr;
 }ArrayType;

@@ -423,7 +423,6 @@ int Interpretador::bipush(){
     operand.tag = INT;//questoes conceituais aqui
     operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
     this->frame_corrente->operandStack.push_back(operand);
-    ;
     return 2;
 }
 
@@ -986,53 +985,56 @@ int Interpretador::istore_0(){
     return 1;
 }
 int Interpretador::istore_1(){
+    Local_var new_local_var;
 
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    //this->frame_corrente->localVarVector[1].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+    if (this->frame_corrente->localVarVector.size() < 2)
+            this->frame_corrente->localVarVector.resize(2);
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
-    ;
+
+    this->frame_corrente->localVarVector[1] = new_local_var;
+
+
     return 1;
 }
 int Interpretador::istore_2(){
+    Local_var new_local_var;
 
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
-//    if(this->frame_corrente->localVarVector[2].tag != INT){
-//        printf("Erro em istore: Tipo em Local_var diferente do esperado:");
-//        printf("INT != %d\n", this->frame_corrente->localVarVector[2].tag);
-//    }
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    //this->frame_corrente->localVarVector[2].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+
+    if (this->frame_corrente->localVarVector.size() < 3)
+            this->frame_corrente->localVarVector.resize(3);
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
-    ;
+
+    this->frame_corrente->localVarVector[2] = new_local_var;
     return 1;
 }
 int Interpretador::istore_3(){
+    Local_var new_local_var;
 
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+    if (this->frame_corrente->localVarVector.size() < 4)
+            this->frame_corrente->localVarVector.resize(4);
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
-    ;
+
+    this->frame_corrente->localVarVector[3] = new_local_var;
     return 1;
 }
 
@@ -1245,7 +1247,7 @@ int Interpretador::astore_0(){
         printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.pop_back();
+
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[0] = op;
     return 1;
@@ -1552,7 +1554,7 @@ int Interpretador::imul(){
     this->frame_corrente->operandStack.pop_back();
 
     //printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs * rhs;
+    op_v.int_value = (int32_t)(lhs * rhs);
     op.value = op_v;
     op.tag = INT;
     this->frame_corrente->operandStack.push_back(op);
@@ -1865,15 +1867,13 @@ int Interpretador::ishr(){
     // está havendo problema na passagem:   lhs <=== negativo; lhs final sai positivo
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    DEBUG_PRINT(" int32_t lhs: " << lhs << " int32_t rhs: " << rhs);
-    DEBUG_ONLY(this->frame_corrente->printOperandStack());
+
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando s� os 5 ultimos bits desse numero
-    operand.value.int_value = lhs >> rhs;
-    DEBUG_PRINT(" int32_t value: " << operand.value.int_value);
+
+    operand.value.int_value = (int32_t)(lhs / pow(2, rhs));
+
     this->frame_corrente->operandStack.push_back(operand);
-    ;
     return 1;
 }
 int Interpretador::lshr(){
