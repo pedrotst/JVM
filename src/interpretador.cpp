@@ -1147,16 +1147,59 @@ int Interpretador::fstore_0(){
     return 1;
 }
 int Interpretador::fstore_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_1: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 2)
+            this->frame_corrente->localVarVector.resize(2);
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = local_var;
+
+      return 1;
 }
+
 int Interpretador::fstore_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_2: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 3)
+            this->frame_corrente->localVarVector.resize(3);
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = local_var;
+
+      return 1;
 }
 int Interpretador::fstore_3(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_3: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      if (this->frame_corrente->localVarVector.size() < 4)
+            this->frame_corrente->localVarVector.resize(4);
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = local_var;
+
+      return 1;
 }
 
 int Interpretador::dstore_0(){
