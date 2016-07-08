@@ -377,16 +377,33 @@ int Interpretador::lconst_1(){
 
 
 int Interpretador::fconst_0(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 0;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
+
 int Interpretador::fconst_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 1;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
+
 int Interpretador::fconst_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 2;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
 
 int Interpretador::dconst_0(){
@@ -2147,12 +2164,51 @@ int Interpretador::lcmp(){
     return 1;
 }
 int Interpretador::fcmpl(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (value1 > value2)
+            result.value.int_value = 1;
+      else if (value1 == value2)
+            result.value.int_value = 0;
+      else if (value1 < value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = -1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::fcmpg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (value1 > value2)
+            result.value.int_value = 1;
+      else if (value1 == value2)
+            result.value.int_value = 0;
+      else if (value1 < value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = 1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
 
 int Interpretador::dcmpl(){
