@@ -3,7 +3,7 @@
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
-    //#define DEBUG_E_S
+    #define DEBUG_E_S
 #endif // DEBUG
 
 
@@ -13,17 +13,18 @@
 *   PARA UTILIZAR AS FUCOES DE DEBUG:
 *
 *   DEBUG_PRINT("mesagem" << variavel << "mais msgs");
-*   eh compilado para cout << "mensagem" << variavel << "mais msgs"
 *   caso esteja em modo debug
+*   eh compilado para cout << "mensagem" << variavel << "mais msgs" << endl;
 *
-*   DEBUG_ONLY(funcao_qualquer()); eh compilado para funcao_qualquer();
+*   DEBUG_ONLY(funcao_qualquer());
+*   caso esteja em modo debug eh compilado para funcao_qualquer();
 *
 *   Para chamar o print da pilha de operandos utilize o seguinte:
 *   DEBUG_ONLY(frame_corrente->printOperandStack());
 *
 *   Para facilitar investigar como OperandStack e LocalVar estavam
 *   ao entrar na instrução e como ficaram imetiatamente antes da saída,
-*   use DEBUG_ENTRADA e DEBUG_SAIDA imediatamente ao entrar e ao sair da
+*   use DEBUG_ENTRADA e DEBUG_SAIDA imediatamente ao entrar e antes de sair da
 *   instrução, respectivamente.
 */
 
@@ -413,7 +414,6 @@ int Interpretador::sipush(){
     Local_var operand;
     operand.tag = INT;
     operand.value.int_value = (uint16_t) (this->code_corrente->code[this->frame_corrente->pc+2]);
-    DEBUG_PRINT(operand.repr());
     operand.value.int_value = (int32_t)operand.value.int_value;
     this->frame_corrente->operandStack.push_back(operand);
     DEBUG_SAIDA;
@@ -3063,7 +3063,7 @@ int Interpretador::invokevirtual(){
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back();
-        if(print_var.tag == LONGO || print_var.tag == DUPLO){
+        if(print_var.tag == LONGO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
                 int64_t var64bits;
@@ -3071,6 +3071,15 @@ int Interpretador::invokevirtual(){
                 alocador[0] = print_var2.value.long_value;
                 alocador[1] = print_var.value.long_value;
                 cout << var64bits <<endl;
+        if(print_var.tag == DUPLO){
+                Local_var print_var2 = this->frame_corrente->operandStack.back();
+                this->frame_corrente->operandStack.pop_back();
+                int64_t var64bits;
+                uint32_t *alocador = (uint32_t*) &var64bits;
+                alocador[0] = print_var2.value.double_value;
+                alocador[1] = print_var.value.double_value;
+                cout << var64bits <<endl;
+        }
         }else{
 
                 cout << print_var.repr() << endl;
