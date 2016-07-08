@@ -423,6 +423,7 @@ int Interpretador::sipush(){
 int Interpretador::ldc(){
     DEBUG_ENTRADA;
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
+    float * alocador = NULL;
 
     Local_var operand;
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
@@ -433,7 +434,10 @@ int Interpretador::ldc(){
             //colocar o valor na operand stack
             this->frame_corrente->operandStack.push_back(operand);
     }else if(tag == CONSTANT_Float){
-
+          operand.tag = PFLUTUANTE;
+          alocador = (float *)&this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_float.bytes;
+          operand.value.float_value = *alocador;
+          this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
 
             operand.tag = STRINGTYPE;

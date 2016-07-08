@@ -73,7 +73,7 @@ void Frame::printOperandStack(){
                 printf(" tag: LONG | %d //", this->operandStack[i].value.long_value);
                 break;
             case PFLUTUANTE:
-                printf(" tag: PF | %d //", this->operandStack[i].value.float_value);
+                printf(" tag: PF | %f //", this->operandStack[i].value.float_value);
                 break;
             case CURTO:
                 printf(" tag: SHORT | %d //", this->operandStack[i].value.short_value);
@@ -134,7 +134,7 @@ void Frame::printLocalVar(){
                 printf(" tag: LONG | val: %d //", this->localVarVector[i].value.long_value);
                 break;
             case PFLUTUANTE:
-                printf(" tag: PF | val: %d //", this->localVarVector[i].value.float_value);
+                printf(" tag: PF | val: %f //", this->localVarVector[i].value.float_value);
                 break;
             case CURTO:
                 printf(" tag: SHORT | val: %d //", this->localVarVector[i].value.short_value);

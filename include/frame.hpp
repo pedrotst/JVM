@@ -26,7 +26,7 @@ typedef union Local_var_Type_u {
 	std::string *string_value;
 	bool  void_v;
 	uint64_t        returnAddress_value;
-	int32_t float_value;
+	float float_value;
 	int32_t double_value;
 }Local_var_Type;
 
