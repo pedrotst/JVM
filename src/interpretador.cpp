@@ -356,6 +356,7 @@ int Interpretador::iconst_5(){
 }
 
 int Interpretador::lconst_0(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -363,10 +364,12 @@ int Interpretador::lconst_0(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lconst_1(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -374,6 +377,7 @@ int Interpretador::lconst_1(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 1;
 }
 
@@ -592,15 +596,18 @@ int Interpretador::ldc2_w(){
 
 
 int Interpretador::lload(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index-1];
-    operand[1] = this->frame_corrente->localVarVector[index];
+    operand[0] = this->frame_corrente->localVarVector[index];
+    operand[1] = this->frame_corrente->localVarVector[index+1];
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 2;
+    
 }
 
 int Interpretador::fload(){
@@ -635,6 +642,7 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -645,10 +653,13 @@ int Interpretador::lload_0(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    DEBUG_SAIDA
     return 1;
+    
 }
 
 int Interpretador::lload_1(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -659,10 +670,12 @@ int Interpretador::lload_1(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_2(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -673,10 +686,12 @@ int Interpretador::lload_2(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_3(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -689,6 +704,7 @@ int Interpretador::lload_3(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
+    DEBUG_SAIDA
     return 1;
 }
 
@@ -1109,6 +1125,8 @@ int Interpretador::lstore_1(){
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
       this->frame_corrente->operandStack.pop_back();
       this->frame_corrente->localVarVector[2] = operand_low;
+
+
 
       operand_high.tag = LONGO;
       operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;

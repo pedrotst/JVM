@@ -131,7 +131,7 @@ void Frame::printLocalVar(){
                 printf(" [%d] BYTE: %d //", i, this->localVarVector[i].value.byte_value);
                 break;
             case LONGO:
-                printf(" [%d] LONG: %l //", i,  this->localVarVector[i].value.long_value);
+                printf(" [%d] LONG: %d //", i,  this->localVarVector[i].value.long_value);
                 break;
             case PFLUTUANTE:
                 printf(" [%d] FLOAT: %f //",  i, this->localVarVector[i].value.float_value);
