@@ -47,6 +47,7 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     uint8_t opcode;
 
+    this->frame_corrente->localVarVector.resize(this->code_corrente->max_locals);
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
         DEBUG_PRINT("pc->code[" << hex << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
@@ -965,8 +966,6 @@ int Interpretador::istore(){
 
 
     size_t opStackSize = this->frame_corrente->localVarVector.size();
-    if(local_var_index + 1 > (int)opStackSize)
-        this->frame_corrente->localVarVector.resize(local_var_index + 1);
 
     lvar.value.int_value = (int32_t)lvar.value.int_value;
     this->frame_corrente->localVarVector[local_var_index] = lvar;
@@ -997,8 +996,6 @@ int Interpretador::istore_1(){
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    if (this->frame_corrente->localVarVector.size() < 2)
-            this->frame_corrente->localVarVector.resize(2);
 
     new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -1016,8 +1013,6 @@ int Interpretador::istore_2(){
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    if (this->frame_corrente->localVarVector.size() < 3)
-            this->frame_corrente->localVarVector.resize(3);
 
     new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -1033,8 +1028,6 @@ int Interpretador::istore_3(){
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    if (this->frame_corrente->localVarVector.size() < 4)
-            this->frame_corrente->localVarVector.resize(4);
 
     new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -1054,8 +1047,6 @@ int Interpretador::lstore(){
       }
       local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
-      if (this->frame_corrente->localVarVector.size() < (size_t)local_var_index+2)
-            this->frame_corrente->localVarVector.resize(local_var_index+2);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1079,8 +1070,6 @@ int Interpretador::lstore_0(){
           printf("Erro em lstore_0: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 2)
-            this->frame_corrente->localVarVector.resize(2);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1103,8 +1092,7 @@ int Interpretador::lstore_1(){
           printf("Erro em lstore_1: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 3)
-            this->frame_corrente->localVarVector.resize(3);
+
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1127,9 +1115,6 @@ int Interpretador::lstore_2(){
           printf("Erro em lstore_2: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 4)
-            this->frame_corrente->localVarVector.resize(4);
-
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
       this->frame_corrente->operandStack.pop_back();
@@ -1151,8 +1136,6 @@ int Interpretador::lstore_3(){
           printf("Erro em lstore_3: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 5)
-            this->frame_corrente->localVarVector.resize(5);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1169,6 +1152,8 @@ int Interpretador::lstore_3(){
 
 int Interpretador::fstore_0(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+  /*
+*/
     return 1;
 }
 int Interpretador::fstore_1(){
@@ -1179,8 +1164,6 @@ int Interpretador::fstore_1(){
           printf("Erro em fstore_1: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 2)
-            this->frame_corrente->localVarVector.resize(2);
 
       local_var.tag = PFLUTUANTE;
       local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
@@ -1198,9 +1181,6 @@ int Interpretador::fstore_2(){
           printf("Erro em fstore_2: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 3)
-            this->frame_corrente->localVarVector.resize(3);
-
       local_var.tag = PFLUTUANTE;
       local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
       this->frame_corrente->operandStack.pop_back();
@@ -1215,9 +1195,6 @@ int Interpretador::fstore_3(){
       if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
           printf("Erro em fstore_3: Tipo em operandStack diferente do esperado.\n");
       }
-
-      if (this->frame_corrente->localVarVector.size() < 4)
-            this->frame_corrente->localVarVector.resize(4);
 
       local_var.tag = PFLUTUANTE;
       local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
