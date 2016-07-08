@@ -58,54 +58,54 @@ void Frame::printOperandStack(){
     for(int i = 0; i < (int)operandStack.size(); i++){
         switch(operandStack[i].tag){
             case BOOL:
-                printf(" tag: BOOL | %d //", this->operandStack[i].value.boolean_value);
+                printf(" [%d] BOOL: %d //", i, this->operandStack[i].value.boolean_value);
                 break;
             case INT:
-                printf(" tag: INT | %d //", this->operandStack[i].value.int_value);
+                printf(" [%d] INT: %d //", i, this->operandStack[i].value.int_value);
                 break;
             case CHAR:
-                printf(" tag: CHAR | %d //", this->operandStack[i].value.char_value);
+                printf(" [%d] CHAR: %c //", i, this->operandStack[i].value.char_value);
                 break;
             case BYTE:
-                printf(" tag: BYTE | %d //", this->operandStack[i].value.byte_value);
+                printf(" [%d] BYTE: %d //", i, this->operandStack[i].value.byte_value);
                 break;
             case LONGO:
-                printf(" tag: LONG | %d //", this->operandStack[i].value.long_value);
+                printf(" [%d] LONG: %d //", i, this->operandStack[i].value.long_value);
                 break;
             case PFLUTUANTE:
-                printf(" tag: PF | %f //", this->operandStack[i].value.float_value);
+                printf(" [%d] FLOAT: %f //", i, this->operandStack[i].value.float_value);
                 break;
             case CURTO:
-                printf(" tag: SHORT | %d //", this->operandStack[i].value.short_value);
+                printf(" [%d] SHORT: %d //", i, this->operandStack[i].value.short_value);
                 break;
             case DUPLO:
-                printf(" tag: DOUBLE | %d //", this->operandStack[i].value.double_value);
+                printf(" tag: DOUBLE: %d //", i, this->operandStack[i].value.double_value);
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | %x", *(this->operandStack[i].value.reference_value));
-                printf(" tag: BASETYPE //");
+                printf(" [%d] BASETYPE //", i);
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | %x", this->operandStack[i].value.reference_value);
-                printf(" tag: OBJECTTYPE //");
+                printf(" [%d]  OBJECTTYPE //", i);
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf(" tag: ARRAYTYPE[%d] {", this->operandStack[i].value.arrayref->arr->size());
+                printf(" [%d] ARRAYTYPE[%d] {", i, this->operandStack[i].value.arrayref->arr->size());
                 for(int j = 0; j < (int)this->operandStack[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->operandStack[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
                 printf("} //");
                 break;
             case VOID_T:
-                printf(" tag: VOID_T | %d", this->operandStack[i].value.void_v);
+                printf(" [%d] VOID_T: %d", i, this->operandStack[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
                 //printf("tag: RETURN_ADDRESS | %d", this->operandStack[i].value.returnAddress_value);
-                printf(" tag: RETURN ADDRESS //");
+                printf(" [%d] RETURN ADDRESS //", i);
                 break;
             case STRINGTYPE:
-                printf(" tag: STRINGTYPE: {""%s""} //", this->operandStack[i].value.string_value->c_str());
+                printf(" [%d] STRINGTYPE: {""%s""} //", i, this->operandStack[i].value.string_value->c_str());
                 //printf("tag: STRINGTYPE //");
                 break;
         }
@@ -119,55 +119,55 @@ void Frame::printLocalVar(){
     for(int i = 0; i < (int)localVarVector.size(); i++){
         switch(localVarVector[i].tag){
             case BOOL:
-                printf(" tag: BOOL | val: %d //", this->localVarVector[i].value.boolean_value);
+                printf(" [%d] BOOL: %d //", i, this->localVarVector[i].value.boolean_value);
                 break;
             case INT:
-                printf(" tag: INT | val: %d //", this->localVarVector[i].value.int_value);
+                printf(" [%d] INT : %d //", i, this->localVarVector[i].value.int_value);
                 break;
             case CHAR:
-                printf(" tag: CHAR | val: %d //", this->localVarVector[i].value.char_value);
+                printf(" [%d] CHAR : %c //", i, this->localVarVector[i].value.char_value);
                 break;
             case BYTE:
-                printf(" tag: BYTE | val: %d //", this->localVarVector[i].value.byte_value);
+                printf(" [%d] BYTE : %d //", i, this->localVarVector[i].value.byte_value);
                 break;
             case LONGO:
-                printf(" tag: LONG | val: %d //", this->localVarVector[i].value.long_value);
+                printf(" [%d] LONG : %l //", i,  this->localVarVector[i].value.long_value);
                 break;
             case PFLUTUANTE:
-                printf(" tag: PF | val: %f //", this->localVarVector[i].value.float_value);
+                printf(" [%d] FLOAT : %f //",  i, this->localVarVector[i].value.float_value);
                 break;
             case CURTO:
-                printf(" tag: SHORT | val: %d //", this->localVarVector[i].value.short_value);
+                printf(" [%d]  SHORT : %d //",  i, this->localVarVector[i].value.short_value);
                 break;
             case DUPLO:
-                printf(" tag: DOUBLE | val: %d //", this->localVarVector[i].value.double_value);
+                printf(" [%d] DOUBLE : %d //",  i, this->localVarVector[i].value.double_value);
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | val: %x //", this->localVarVector[i].value.reference_value);
-                printf(" tag: BASETYPE");
+                printf(" [%d] BASETYPE");
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | val: %x //", this->localVarVector[i].value.reference_value);
-                printf(" tag: OBJECTTYPE");
+                printf(" [%d] OBJECTTYPE");
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf(" tag: ARRAYTYPE[%d] {", this->localVarVector[i].value.arrayref->arr->size());
+                printf(" [%d] ARRAYTYPE[%d] {",  i, this->localVarVector[i].value.arrayref->arr->size());
                 for(int j = 0; j < (int)this->localVarVector[i].value.arrayref->arr->size(); j++){
                     printf("%d,", this->localVarVector[i].value.arrayref->arr->at(j).val.btype.val.inteiro);
                 }
                 printf("} //");
                 break;
             case VOID_T:
-                printf(" tag: VOID_T | val: %d //", this->localVarVector[i].value.void_v);
+                printf(" [%d] VOID_T : %d //",  i, this->localVarVector[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
                 //printf("tag: RETURN_ADDRESS | val: %d //", this->localVarVector[i].value.returnAddress_value);
-                printf(" tag: RETURN ADDRESS");
+                printf(" [%d] RETURN ADDRESS");
                 break;
             case STRINGTYPE:
                 //printf("tag: STRINGTYPE | val: %x //", this->localVarVector[i].value.string_value);
-                printf(" tag: STRINGTYPE: {""%s""} //", this->localVarVector[i].value.string_value->c_str());
+                printf(" [%d] STRINGTYPE: {""%s""} //",  i, this->localVarVector[i].value.string_value->c_str());
                 break;
         }
     }
