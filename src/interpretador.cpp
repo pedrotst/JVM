@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -6,7 +6,7 @@
     #define DEBUG_E_S
 #endif // DEBUG
 
-
+#include <inttypes.h>
 #include "../include/interpretador.hpp"
 
 /**
@@ -49,7 +49,7 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
+        DEBUG_PRINT("pc->code[" << hex << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
 
         this->frame_corrente->pc += this->execute_instruction(opcode);
         DEBUG_SAIDA;
@@ -417,24 +417,29 @@ int Interpretador::dconst_1(){
 }
 
 int Interpretador::bipush(){
-    //o byte eh convertido para int, com sinal extendido, e colocado na stack
-
     Local_var operand;
-    operand.tag = INT;//questoes conceituais aqui
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if (n & 0x80)
+        n |= 0xFFFFFF00; //sign extend the number
+
+    operand.tag = INT;
+    operand.value.int_value = n;
+
     this->frame_corrente->operandStack.push_back(operand);
     return 2;
 }
 
 int Interpretador::sipush(){
-
     Local_var operand;
+    uint32_t n = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if (n & 0x8000)
+        n |= 0xFFFF0000; //sign extend the number
+
     operand.tag = INT;
-    operand.value.int_value = (uint16_t) (this->code_corrente->code[this->frame_corrente->pc+2]);
-    operand.value.int_value = (int32_t)operand.value.int_value;
+    operand.value.int_value = n;
+
     this->frame_corrente->operandStack.push_back(operand);
-    ;
-    return 3;
+    return 2;
 }
 
 int Interpretador::ldc(){
