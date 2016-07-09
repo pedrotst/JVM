@@ -16,7 +16,6 @@ int Jvm::run(const char* arq_class_name) {
     Local_var main_str;
     main_str.tag = STRINGTYPE;
     main_str.value.string_value = new string("main args");
-    args.push_back(main_str);
 
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
@@ -63,11 +62,12 @@ ClassFile* Jvm::getClassRef(string className) {
 
     if(loadedClasses.count(className) != 1) {
         if(!(arquivoClass = fopen(classpath.append(className).append(".class").c_str(), "rb"))){ // procura no classpath
-            if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) { // se no encontrar procura no diretório do programa
+            if(!(arquivoClass = fopen(className.c_str(), "rb"))) { // se no encontrar procura no diretório do programa
                 printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
                 exit(0);
             }
         }
+        cout << "Abriu arquivo: " << className << endl;
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
     }

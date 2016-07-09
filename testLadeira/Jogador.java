@@ -1,9 +1,4 @@
 /*
- * Aluno: Daniel Saad Nogueira Nunes
- * Matrícula: 06/81792
- * Disciplina: Sistemas De Programação
- * Professor: Tiago Trindade
- * Curso: Ciência da Computação
  */
 
 public class Jogador {
