@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -816,8 +816,8 @@ int Interpretador::dload_3(){
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
     return 1;
 }
 
@@ -1584,8 +1584,37 @@ int Interpretador::fadd(){
 }
 
 int Interpretador::dadd(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 + double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::isub(){
@@ -1655,8 +1684,37 @@ int Interpretador::fsub(){
 }
 
 int Interpretador::dsub(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 - double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::imul(){
@@ -1728,8 +1786,37 @@ int Interpretador::fmul(){
 }
 
 int Interpretador::dmul(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 * double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::idiv(){
@@ -1801,8 +1888,37 @@ int Interpretador::fdiv(){
 }
 
 int Interpretador::ddiv(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 / double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::irem(){
@@ -1868,8 +1984,38 @@ int Interpretador::frem(){
 }
 
 int Interpretador::drem(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 - (double_value1/double_value2)*double_value2;
+      double_result = double_value1 - double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
@@ -1916,8 +2062,30 @@ int Interpretador::fneg(){
 }
 
 int Interpretador::dneg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = - double_value;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::ishl(){
