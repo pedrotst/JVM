@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -60,7 +60,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     this->frame_corrente->localVarVector.resize(this->code_corrente->max_locals);
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        DEBUG_PRINT("pc->code[" << hex << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
+        DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
 
         this->frame_corrente->pc += this->execute_instruction(opcode);
         DEBUG_SAIDA;
@@ -222,6 +222,8 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[L2F] = &Interpretador::l2f;//ni
     pt[L2D] = &Interpretador::l2d;//ni
     pt[F2D] = &Interpretador::f2d;
+    pt[F2I] = &Interpretador::f2i;
+    pt[F2L] = &Interpretador::f2l;
     pt[D2I] = &Interpretador::d2i;//ni
     pt[D2L] = &Interpretador::d2l;//ni
     pt[D2F] = &Interpretador::d2f;//ni
@@ -814,14 +816,14 @@ int Interpretador::dload_3(){
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
     return 1;
 }
 
 int Interpretador::aload_0(){
     Local_var lvar = this->frame_corrente->localVarVector[0];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -829,7 +831,7 @@ int Interpretador::aload_0(){
 }
 int Interpretador::aload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -837,7 +839,7 @@ int Interpretador::aload_1(){
 }
 int Interpretador::aload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -932,7 +934,28 @@ int Interpretador::iaload(){
     return 1;
 }
 int Interpretador::laload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+    Local_var operand[2];
+    uint32_t *alocador;
+
+    alocador = (uint32_t*) &this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.longo;
+    operand[0].tag = LONGO;
+    operand[0].value.long_value = alocador[0];
+    operand[1].tag = LONGO;
+    operand[1].value.long_value = alocador[1];
+
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+
     return 1;
 }
 int Interpretador::faload(){
@@ -1306,7 +1329,7 @@ int Interpretador::astore_0(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
@@ -1321,7 +1344,7 @@ int Interpretador::astore_1(){
     size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
@@ -1336,7 +1359,7 @@ int Interpretador::astore_2(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
@@ -1383,9 +1406,38 @@ int Interpretador::iastore(){
     return 1;
 }
 int Interpretador::lastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+    int32_t val[2];
+    
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+            printf("Erro em lastore: Tipo de value em operandStack diferente do esperado:");
+            printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    val[0] = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+
+    val[1] = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.inteiro = (int64_t) *val;
+    this->frame_corrente->operandStack.pop_back();
+return 1;
 }
+
 int Interpretador::fastore(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1532,8 +1584,37 @@ int Interpretador::fadd(){
 }
 
 int Interpretador::dadd(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 + double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::isub(){
@@ -1603,8 +1684,37 @@ int Interpretador::fsub(){
 }
 
 int Interpretador::dsub(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 - double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::imul(){
@@ -1676,8 +1786,37 @@ int Interpretador::fmul(){
 }
 
 int Interpretador::dmul(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 * double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::idiv(){
@@ -1749,8 +1888,37 @@ int Interpretador::fdiv(){
 }
 
 int Interpretador::ddiv(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 / double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::irem(){
@@ -1816,8 +1984,38 @@ int Interpretador::frem(){
 }
 
 int Interpretador::drem(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value1 = 0, double_value2 = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = double_value1 - (double_value1/double_value2)*double_value2;
+      double_result = double_value1 - double_value2;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::ineg(){//dar pop->push s� pra isso � sacanagem
@@ -1864,8 +2062,30 @@ int Interpretador::fneg(){
 }
 
 int Interpretador::dneg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+      double double_value = 0, double_result = 0;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador já aponta para o resultado. O alocador é um ponteiro de 32 bits
+      double_result = - double_value;
+      alocador = (uint32_t *) &double_result;
+
+      high.tag = DUPLO;
+      low.tag = DUPLO;
+
+      high.value.double_value = *(alocador + 1);
+      low.value.double_value = *alocador;
+
+      this->frame_corrente->operandStack.push_back(high);
+      this->frame_corrente->operandStack.push_back(low);
+      return 1;
 }
 
 int Interpretador::ishl(){
@@ -2208,18 +2428,77 @@ int Interpretador::l2d(){
 }
 
 int Interpretador::f2i(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand;
+      float float_value = 0;
+      int int_value = 0;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para int
+      int_value = (int)float_value;
+
+      // Salva o int no operando e o coloca na opStack
+      operand.tag = INT;
+      operand.value.int_value = int_value;
+      this->frame_corrente->operandStack.push_back(operand);
+
+      return 1;
 }
+
 int Interpretador::f2l(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand_high, operand_low;
+      float float_value = 0;
+      long long_value = 0;
+      uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para long
+      long_value = (long)float_value;
+
+      // Obtém ponteiro de 32 apontando para o high do long
+      pt_32 = (uint32_t *) &long_value;
+
+      // Salva o high do double no operando e coloca o operando na opStack
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = *(pt_32+1);
+      this->frame_corrente->operandStack.push_back(operand_high);
+
+      // Salva o low do double no operando e coloca o operando na opStack
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = *(pt_32);
+      this->frame_corrente->operandStack.push_back(operand_low);
+
+      return 1;
 }
+
 int Interpretador::f2d(){
       Local_var operand_high, operand_low;
       float float_value = 0;
       double double_value = 0;
-      uint32_t high = 0, low = 0, *pt_32 = NULL;
+      uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
 
       // Pega o float do topo da pilha.
       float_value = this->frame_corrente->operandStack.back().value.float_value;
@@ -2233,12 +2512,12 @@ int Interpretador::f2d(){
 
       // Salva o high do double no operando e coloca o operando na opStack
       operand_high.tag = DUPLO;
-      operand_high.value.double_value = *pt_32;
+      operand_high.value.double_value = *(pt_32+1);
       this->frame_corrente->operandStack.push_back(operand_high);
 
       // Salva o low do double no operando e coloca o operando na opStack
       operand_low.tag = DUPLO;
-      operand_low.value.double_value = *(pt_32+1);
+      operand_low.value.double_value = *(pt_32);
       this->frame_corrente->operandStack.push_back(operand_low);
 
       return 1;
