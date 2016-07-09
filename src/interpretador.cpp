@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -10,6 +10,9 @@
 #ifdef DEBUG_E_S
     #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar()); DEBUG_PRINT(" ---")}while(0);
     #define DEBUG_SAIDA do{DEBUG_PRINT("\n depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("---\n");}while(0);
+#else
+    #define DEBUG_ENTRADA
+    #define DEBUG_SAIDA
 #endif // DEBUG
 
 #include <inttypes.h>
@@ -310,7 +313,6 @@ int Interpretador::iconst_0(){
     op.tag = INT;
     op.value.int_value = 0;
     this->frame_corrente->operandStack.push_back(op);
-    ;
     return 1;
 }
 int Interpretador::iconst_1(){
@@ -319,8 +321,6 @@ int Interpretador::iconst_1(){
     op.tag = INT;
     op.value.int_value = 1;
     this->frame_corrente->operandStack.push_back(op);
-    //printf("joguei o 1 no opstack\n");
-    ;
     return 1;
 }
 int Interpretador::iconst_2(){
@@ -329,8 +329,6 @@ int Interpretador::iconst_2(){
     op.tag = INT;
     op.value.int_value = 2;
     this->frame_corrente->operandStack.push_back(op);
-    ;
-    ;
     return 1;
 }
 int Interpretador::iconst_3(){
@@ -339,7 +337,6 @@ int Interpretador::iconst_3(){
     op.tag = INT;
     op.value.int_value = 3;
     this->frame_corrente->operandStack.push_back(op);
-    ;
     return 1;
 }
 int Interpretador::iconst_4(){
@@ -348,7 +345,6 @@ int Interpretador::iconst_4(){
     op.tag = INT;
     op.value.int_value = 4;
     this->frame_corrente->operandStack.push_back(op);
-    ;
     return 1;
 }
 int Interpretador::iconst_5(){
@@ -357,12 +353,10 @@ int Interpretador::iconst_5(){
     op.tag = INT;
     op.value.int_value = 5;
     this->frame_corrente->operandStack.push_back(op);
-    ;
     return 1;
 }
 
 int Interpretador::lconst_0(){
-    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -370,12 +364,10 @@ int Interpretador::lconst_0(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lconst_1(){
-    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -383,7 +375,6 @@ int Interpretador::lconst_1(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-    DEBUG_SAIDA
     return 1;
 }
 
@@ -502,7 +493,6 @@ int Interpretador::ldc(){
    }else{
             //exception
     }
-    ;
     return 2;//opcode e byte seguinde lidos
 }
 
@@ -602,7 +592,6 @@ int Interpretador::ldc2_w(){
 
 
 int Interpretador::lload(){
-    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -611,7 +600,6 @@ int Interpretador::lload(){
     operand[1] = this->frame_corrente->localVarVector[index+1];
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-    DEBUG_SAIDA
     return 2;
 
 }
@@ -648,7 +636,6 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
-    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -659,13 +646,11 @@ int Interpretador::lload_0(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
-    DEBUG_SAIDA
     return 1;
 
 }
 
 int Interpretador::lload_1(){
-    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -676,12 +661,10 @@ int Interpretador::lload_1(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
-    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_2(){
-    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -692,12 +675,10 @@ int Interpretador::lload_2(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
-    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_3(){
-    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -710,7 +691,6 @@ int Interpretador::lload_3(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
-    DEBUG_SAIDA
     return 1;
 }
 
@@ -857,7 +837,6 @@ int Interpretador::iload(){
         index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
         operand = this->frame_corrente->localVarVector[index];
         this->frame_corrente->operandStack.push_back(operand);
-        ;
         return 2;
     }
     else{
@@ -867,7 +846,6 @@ int Interpretador::iload(){
         operand = this->frame_corrente->localVarVector[index];
         this->frame_corrente->operandStack.push_back(operand);
         _wide = false;
-        ;
         return 3;
     }
 
@@ -880,7 +858,6 @@ int Interpretador::iload_0(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-    ;
     return 1;
 }
 int Interpretador::iload_1(){
@@ -890,7 +867,6 @@ int Interpretador::iload_1(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-    ;
     return 1;
 }
 int Interpretador::iload_2(){
@@ -900,7 +876,6 @@ int Interpretador::iload_2(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-    ;
     return 1;
 }
 int Interpretador::iload_3(){
@@ -910,7 +885,6 @@ int Interpretador::iload_3(){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-    ;
     return 1;
 }
 
@@ -926,7 +900,7 @@ int Interpretador::iaload(){
     }
     Local_var operand;
     operand.tag = INT;
-    operand.value.int_value = this->frame_corrente->operandStack.back().value.arrayref->arr->at(index).val.btype.val.inteiro;
+    operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.inteiro;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -974,7 +948,7 @@ int Interpretador::fstore(){
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
     this->frame_corrente->localVarVector[local_var_index]=lvar;
-DEBUG_ONLY(frame_corrente->printOperandStack());
+    DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -997,13 +971,12 @@ int Interpretador::istore(){
     }
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
-
-    size_t opStackSize = this->frame_corrente->localVarVector.size();
+    //removendo warning "unused opStackSize"
+    //size_t opStackSize = this->frame_corrente->localVarVector.size();
 
     lvar.value.int_value = (int32_t)lvar.value.int_value;
     this->frame_corrente->localVarVector[local_var_index] = lvar;
 
-    ;
     return 2;
 }
 
@@ -1018,7 +991,6 @@ int Interpretador::istore_0(){
     this->frame_corrente->localVarVector[0] = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
 
-    ;
     return 1;
 }
 int Interpretador::istore_1(){
@@ -1340,7 +1312,8 @@ int Interpretador::iastore(){
     this->frame_corrente->operandStack.pop_back();
 
     //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
-    arrayref *arr = this->frame_corrente->operandStack.back().value.arrayref->arr;
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
     arr->at(index).val.btype.val.inteiro = val;
     this->frame_corrente->operandStack.pop_back();
     return 1;
@@ -2961,9 +2934,9 @@ int Interpretador::anewarray(){
     operand.tag = ARRAYTYPE;
 
     //operand � de um arrayref
-    ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
-    vetor->arr = new arrayref;
-    operand.value.arrayref = vetor;
+    //ArrayType *vetor = (ArrayType*) malloc(sizeof(ArrayType));
+    //vetor->arr = new arrayref;
+    operand.value.arr = new arrayref;
 
     string className;//recebe o nome da classe
     cp_tag tag = this->frame_corrente->cf->constant_pool[index -1].tag;
@@ -2977,7 +2950,7 @@ int Interpretador::anewarray(){
                     FieldValue field;
                     field.tag = OBJECTTYPE;
                     field.val.objtype.instance = jvm->alocarObjeto(className);
-                    vetor->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case CONSTANT_InterfaceMethodref:
@@ -3056,11 +3029,11 @@ int Interpretador::newarray(){
     int32_t contador = this->frame_corrente->operandStack.back().value.int_value;
     uint8_t atype = this->code_corrente->code[this->frame_corrente->pc+1];
 
-    ArrayType *arrType = (ArrayType*) malloc(sizeof(ArrayType));
-    arrType->arr = new arrayref;
+    //ArrayType *arrType = (ArrayType*) malloc(sizeof(ArrayType));//arraytype carrega só um ponteiro, malloc ok
+    //arrayref *arr = new arrayref;
     Local_var operand;
     operand.tag = ARRAYTYPE;
-    operand.value.arrayref = arrType;
+    operand.value.arr = new arrayref;
     FieldValue field;
     switch(atype){
         case T_BOOLEAN:
@@ -3068,7 +3041,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = BOOL;
                     field.val.btype.val.boleano = false;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_CHAR:
@@ -3076,7 +3049,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = CHAR;
                     field.val.btype.val.caractere = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_FLOAT:
@@ -3084,7 +3057,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = PFLUTUANTE;
                     field.val.btype.val.pFlutuante = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_DOUBLE:
@@ -3092,7 +3065,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = DUPLO;
                     field.val.btype.val.duplo = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_BYTE:
@@ -3100,7 +3073,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = BYTE;
                     field.val.btype.val.byte = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_SHORT:
@@ -3108,7 +3081,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = CURTO;
                     field.val.btype.val.curto = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_INT:
@@ -3116,7 +3089,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = INT;
                     field.val.btype.val.inteiro = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
         case T_LONG:
@@ -3124,7 +3097,7 @@ int Interpretador::newarray(){
                     field.tag = BASETYPE;
                     field.val.btype.tag = LONGO;
                     field.val.btype.val.longo = 0;
-                    operand.value.arrayref->arr->push_back(field);
+                    operand.value.arr->push_back(field);
             }
             break;
     }
