@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -151,6 +151,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LSTORE_1] = &Interpretador::lstore_1;
     pt[LSTORE_2] = &Interpretador::lstore_2;
     pt[LSTORE_3] = &Interpretador::lstore_3;
+    pt[FASTORE] = &Interpretador::fastore;//ni
     pt[FSTORE_0] = &Interpretador::fstore_0;//ni
     pt[FSTORE_1] = &Interpretador::fstore_1;//ni
     pt[FSTORE_2] = &Interpretador::fstore_2;//ni
@@ -958,14 +959,51 @@ int Interpretador::laload(){
 
     return 1;
 }
+
 int Interpretador::faload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+    Local_var operand;
+    operand.tag = PFLUTUANTE;
+    operand.value.float_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.pFlutuante;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
+
 int Interpretador::daload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+    Local_var operand[2];
+    uint32_t *alocador;
+
+    alocador = (uint32_t*) &this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.longo;
+    operand[0].tag = DUPLO;
+    operand[0].value.long_value = alocador[0];
+    operand[1].tag = DUPLO;
+    operand[1].value.long_value = alocador[1];
+
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+
     return 1;
 }
+
 int Interpretador::aaload(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1439,13 +1477,63 @@ return 1;
 }
 
 int Interpretador::fastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+            printf("Erro em fastore: Tipo de value em operandStack diferente do esperado:");
+            printf("FLOAT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.float_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em fastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.pFlutuante = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+
 int Interpretador::dastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    double var64bits;
+    uint32_t *val = (uint32_t*) &var64bits;
+
+
+    if(this->frame_corrente->operandStack.back().tag != DUPLO){
+            printf("Erro em dastore: Tipo de value em operandStack diferente do esperado:");
+            printf("DOUBLE != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    val[0] = this->frame_corrente->operandStack.back().value.double_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != DUPLO){
+            printf("Erro em dastore: Tipo de value em operandStack diferente do esperado:");
+            printf("DOUBLE != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+
+    val[1] = this->frame_corrente->operandStack.back().value.double_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em dastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.duplo = var64bits;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+
 int Interpretador::aastore(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
