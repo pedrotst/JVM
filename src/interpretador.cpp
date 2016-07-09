@@ -2940,6 +2940,7 @@ int Interpretador::putfield(){
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
