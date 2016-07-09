@@ -221,3 +221,13 @@ void Frame::printLocalVar(){
     }
     printf("\n");
 }
+
+void InstanceClass::printInstancia(){
+    cout << "Instancia da Classe " << cf->getClassName() << endl;
+    for(auto const &ent : field_instances) {
+        string fname = ent.first;
+        FieldValue fval = ent.second;
+        cout << " " << fname << "tag_num*" << fval.tag << "*" << ": " << fval.repr() << "// ";
+    }
+    cout << endl;
+}

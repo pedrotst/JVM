@@ -17,7 +17,7 @@ public class long_cast{
 		System.out.println(d);
 		
 		a = -a;
-		b=(double)a;
+		//b=(double)a;
 		/*l2f*/
 		c=(float)a;
 		/*l2i*/

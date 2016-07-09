@@ -32,8 +32,8 @@ typedef enum tag_tipo_e{
 typedef union base_type_s{
     uint8_t         byte;
     char            caractere;
-    uint64_t        duplo;
-    uint32_t        pFlutuante;
+    double        duplo;
+    float        pFlutuante;
     int32_t         inteiro;
     int64_t         longo;
     int16_t         curto;
@@ -89,6 +89,8 @@ public:
      * \brief a instancia basicamente mapeia o nome da field para seu valor
      */
     std::map<std::string, FieldValue>  field_instances;
+
+    void printInstancia();
 };
 
 #endif // HEAP
