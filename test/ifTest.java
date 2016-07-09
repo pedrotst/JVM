@@ -1,9 +1,9 @@
 class ifTest{
-	static boolean a, b;
+	static int a, b;
 	public static void main(String[] args){
-		a = false;
-		b = true;
-		if(a & b){
+		a = 2;
+		b = 4;
+		if(a != b){
 			System.out.println("uhul");
 		}
 	}

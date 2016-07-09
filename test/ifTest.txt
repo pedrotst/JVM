@@ -84,16 +84,20 @@ Descritor: ([Ljava/lang/String;)V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 53
-	 Max Stack: 2, 	 Max Locals: 1, 	 Code Length: 17
+	 Attribute Length: 67
+	 Max Stack: 2, 	 Max Locals: 1, 	 Code Length: 27
 	0:	ICONST_1	
 	0x1:	PUTSTATIC	 #2 	 //  ifTest.a:Z
-	0x4:	ICONST_1	
+	0x4:	ICONST_0	
 	0x5:	PUTSTATIC	 #3 	 //  ifTest.b:Z
-	0x8:	GETSTATIC	 #4 	 //  java/lang/System.out:Ljava/io/PrintStream;
-	0xb:	LDC	 #5 	 //  uhul
-	0xd:	INVOKEVIRTUAL	 #6 	 //  java/io/PrintStream.println:(Ljava/lang/String;)V
-	0x10:	RETURN	
+	0x8:	GETSTATIC	 #2 	 //  ifTest.a:Z
+	0xb:	GETSTATIC	 #3 	 //  ifTest.b:Z
+	0xe:	IAND	
+	0xf:	IFEQ	 #11 	 //  b
+	0x12:	GETSTATIC	 #4 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x15:	LDC	 #5 	 //  uhul
+	0x17:	INVOKEVIRTUAL	 #6 	 //  java/io/PrintStream.println:(Ljava/lang/String;)V
+	0x1a:	RETURN	
 
 Attributes Count: 1
 Attribute Length: 2

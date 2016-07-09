@@ -1979,13 +1979,13 @@ int Interpretador::lushl(){
 
 int Interpretador::iand(){
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.\n");
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.\n");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -2320,7 +2320,6 @@ int Interpretador::dcmpg(){
 /////////// Implementação das if<cond> ///////////
 // Todas elas são iguais. Só muda a comparação.
 
-// Não foi testada
 int Interpretador::ifeq() {
       int32_t value = 0;
       int16_t offset = 0;
@@ -2500,7 +2499,6 @@ int Interpretador::if_icmpeq() {
             return 3;
 }
 
-// Não foi testada
 int Interpretador::if_icmpne() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
@@ -2798,10 +2796,17 @@ int Interpretador::putstatic(){
     name_index |= code_corrente->code[frame_corrente->pc+2];
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    //printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+    DEBUG_ONLY(printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str()));
 
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
+    
+    // garante que o objeto foi criado!
+    string cname = frame_corrente->cf->getClassName();
+    if(jvm->staticHeap.count(cname) != 1){
+        jvm->alocarObjetoEstatico(cname); 
+    }
+
 
     if(field_type.compare("I") == 0){
         //converte local var para fvar
@@ -2815,8 +2820,8 @@ int Interpretador::putstatic(){
     else if(field_type.compare("Z") == 0){
         //converte local var para fvar
         fvar.tag = BASETYPE;
-        fvar.val.btype.tag = BOOL;
-        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+        fvar.val.btype.tag = INT;
+        fvar.val.btype.val.inteiro = lvar.value.int_value;
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
         //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
@@ -2832,7 +2837,6 @@ int Interpretador::putstatic(){
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        //printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) | lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
         Local_var lvar_upper;
@@ -2841,7 +2845,8 @@ int Interpretador::putstatic(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 | lvar.value.long_value;
+        fvar.val.btype.val.duplo = (lvar.value.double_value << 32) | lvar_upper.value.double_value;
+        cout << "variavel sendo colocada no putstatic: " << fvar.repr() << endl;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
@@ -2861,6 +2866,8 @@ int Interpretador::putstatic(){
         //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
 
     }
+    
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
@@ -2958,6 +2965,29 @@ int Interpretador::getstatic(){
         lvar.tag = INT;
         lvar.value.int_value = fvar.val.btype.val.inteiro;
         this->frame_corrente->operandStack.push_back(lvar);
+    }if(field_type.compare("Z") == 0){
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+
+        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
+
+        lvar.tag = INT;
+        lvar.value.int_value = fvar.val.btype.val.inteiro;
+        this->frame_corrente->operandStack.push_back(lvar);
+    }
+    if(field_type.compare("D") == 0){
+        uint32_t *alocador;
+        Local_var lvar1;
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+        alocador = (uint32_t*) &fvar.val.btype.val.duplo;
+
+        lvar.tag = DUPLO;
+        lvar.value.double_value = alocador[0];
+        lvar1.tag = DUPLO;
+        lvar1.value.double_value = alocador[1];
+        this->frame_corrente->operandStack.push_back(lvar);
+        this->frame_corrente->operandStack.push_back(lvar1);
     }
 
     else if(field_type.substr(0, 1).compare("L") == 0){
