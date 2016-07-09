@@ -222,6 +222,8 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[L2F] = &Interpretador::l2f;//ni
     pt[L2D] = &Interpretador::l2d;//ni
     pt[F2D] = &Interpretador::f2d;
+    pt[F2I] = &Interpretador::f2i;
+    pt[F2L] = &Interpretador::f2l;
     pt[D2I] = &Interpretador::d2i;//ni
     pt[D2L] = &Interpretador::d2l;//ni
     pt[D2F] = &Interpretador::d2f;//ni
@@ -2161,8 +2163,10 @@ int Interpretador::f2i(){
       Local_var operand;
       float float_value = 0;
       int int_value = 0;
+      tag_Tipo tag;
 
-      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE) {
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
           printf("Erro em f2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
       }
 
@@ -2175,23 +2179,56 @@ int Interpretador::f2i(){
 
       // Salva o int no operando e o coloca na opStack
       operand.tag = INT;
-      operand_high.value.int_value = int_value;
+      operand.value.int_value = int_value;
       this->frame_corrente->operandStack.push_back(operand);
 
       return 1;
 }
 
 int Interpretador::f2l(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand_high, operand_low;
+      float float_value = 0;
+      long long_value = 0;
+      uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para long
+      long_value = (long)float_value;
+
+      // Obtém ponteiro de 32 apontando para o high do long
+      pt_32 = (uint32_t *) &long_value;
+
+      // Salva o high do double no operando e coloca o operando na opStack
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = *(pt_32+1);
+      this->frame_corrente->operandStack.push_back(operand_high);
+
+      // Salva o low do double no operando e coloca o operando na opStack
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = *(pt_32);
+      this->frame_corrente->operandStack.push_back(operand_low);
+
+      return 1;
 }
+
 int Interpretador::f2d(){
       Local_var operand_high, operand_low;
       float float_value = 0;
       double double_value = 0;
       uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
 
-      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE) {
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
           printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
       }
 
@@ -2207,12 +2244,12 @@ int Interpretador::f2d(){
 
       // Salva o high do double no operando e coloca o operando na opStack
       operand_high.tag = DUPLO;
-      operand_high.value.double_value = *pt_32;
+      operand_high.value.double_value = *(pt_32+1);
       this->frame_corrente->operandStack.push_back(operand_high);
 
       // Salva o low do double no operando e coloca o operando na opStack
       operand_low.tag = DUPLO;
-      operand_low.value.double_value = *(pt_32+1);
+      operand_low.value.double_value = *(pt_32);
       this->frame_corrente->operandStack.push_back(operand_low);
 
       return 1;
@@ -2829,11 +2866,11 @@ int Interpretador::putstatic(){
 
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
-    
+
     // garante que o objeto foi criado!
     string cname = frame_corrente->cf->getClassName();
     if(jvm->staticHeap.count(cname) != 1){
-        jvm->alocarObjetoEstatico(cname); 
+        jvm->alocarObjetoEstatico(cname);
     }
 
 
@@ -2895,7 +2932,7 @@ int Interpretador::putstatic(){
         //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
 
     }
-    
+
     jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
