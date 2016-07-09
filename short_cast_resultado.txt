@@ -1,5 +1,0 @@
-
-============== short_cast.main ==============
-255
-Variavel local carregada nao e um double, abortar
-Variavel local carregada nao e um double, abortar

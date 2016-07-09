@@ -585,7 +585,7 @@ int Interpretador::ldc2_w(){
 
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
     //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
-    if(tag == CONSTANT_Long){
+    if(tag == CONSTANT_Long) {
             operand_high.tag = LONGO;
             operand_low.tag = LONGO;
             operand_high.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.high_bytes;
@@ -594,13 +594,17 @@ int Interpretador::ldc2_w(){
             this->frame_corrente->operandStack.push_back(operand_high);
             this->frame_corrente->operandStack.push_back(operand_low);
 
-    }else if(tag == CONSTANT_Double){
-            //  SEM SUPORTE
-            //operand.tag = PFLUTUANTE;
-            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
-            //colocar o valor na operand stack
-            //this->frame_corrente->operandStack.push_back(operand);
-   }else{
+      }
+      else if(tag == CONSTANT_Double) {
+          operand_high.tag = DUPLO;
+          operand_low.tag = DUPLO;
+          operand_high.value.double_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_double.high_bytes;
+          operand_low.value.double_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_double.low_bytes;
+          //colocar o valor na operand stack
+          this->frame_corrente->operandStack.push_back(operand_high);
+          this->frame_corrente->operandStack.push_back(operand_low);
+   }
+   else {
             //exception
     }
 
@@ -794,8 +798,8 @@ int Interpretador::dload_2(){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     return 1;
 }
 
@@ -1243,26 +1247,58 @@ int Interpretador::fstore_3(){
 }
 
 int Interpretador::dstore_0(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[0] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = high;
+
+      return 1;
 }
 int Interpretador::dstore_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = high;
+
+      return 1;
 }
+
 int Interpretador::dstore_2(){
-    uint32_t low;
-    if(this->frame_corrente->operandStack.back().tag != DUPLO){
-        printf("Erro em dstore_2: Tipo em operandStack diferente do esperado.\n");
-    }
-    low = this->frame_corrente->operandStack.back().value.double_value;
-    //this->frame_corrente->operandStack.pop_back();
-    //DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = high;
+
+      return 1;
 }
+
 int Interpretador::dstore_3(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[4] = high;
+
+      return 1;
 }
 
 int Interpretador::astore_0(){
