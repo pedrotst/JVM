@@ -137,7 +137,7 @@ void Frame::printOperandStack(){
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | %x", this->operandStack[i].value.reference_value);
-                printf(" [%d]  OBJECTTYPE //", i);
+                printf(" [%d]  OBJECTTYPE: %s //", i, this->operandStack[i].value.reference_value->cf->getClassName().c_str());
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
