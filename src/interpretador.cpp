@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -453,16 +453,17 @@ int Interpretador::bipush(){
 }
 
 int Interpretador::sipush(){
-    Local_var operand;
-    uint32_t n = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
-    if (n & 0x8000)
-        n |= 0xFFFF0000; //sign extend the number
+    DEBUG_ENTRADA;
+    Local_var resultado;
 
-    operand.tag = INT;
-    operand.value.int_value = n;
+    uint16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
 
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+    resultado.tag = INT;
+    resultado.value.int_value = (int32_t)var;
+    this->frame_corrente->operandStack.push_back(resultado);
+    DEBUG_PRINT(resultado.value.int_value);
+    DEBUG_SAIDA;
+    return 3;
 }
 
 int Interpretador::ldc(){
@@ -2042,17 +2043,19 @@ int Interpretador::i2l(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2l: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
+    long int long_var = (long int) var;
+    uint32_t *uint_var = (uint32_t*)&long_var;
     Local_var operand1;
     operand1.tag = LONGO;
-    operand1.value.long_value = 0;
+    operand1.value.long_value = *(uint_var);
     this->frame_corrente->operandStack.push_back(operand1);
 
     Local_var operand2;
     operand2.tag = LONGO;
-    operand1.value.long_value = var;
+    operand2.value.long_value = *(uint_var + 1);
     this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
@@ -2060,18 +2063,14 @@ int Interpretador::i2f(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2f: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
+    float var_float = (float)var;
     Local_var operand1;
     operand1.tag = PFLUTUANTE;
-    operand1.value.float_value = 0;
+    operand1.value.float_value = var_float;
     this->frame_corrente->operandStack.push_back(operand1);
-
-    Local_var operand2;
-    operand2.tag = PFLUTUANTE;
-    operand1.value.float_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
 int Interpretador::i2d(){
@@ -2079,17 +2078,22 @@ int Interpretador::i2d(){
     if(tag != INT){
         printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-    Local_var operand1;
-    operand1.tag = DUPLO;
-    operand1.value.double_value = 0;
-    this->frame_corrente->operandStack.push_back(operand1);
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
 
-    Local_var operand2;
-    operand2.tag = DUPLO;
-    operand1.value.double_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
+    this->frame_corrente->operandStack.pop_back();
+
+    double var_double = (double) var;
+    uint32_t *pt_uint32 = (uint32_t*) &var_double;
+
+    Local_var operandHigh;
+    operandHigh.tag = DUPLO;
+    operandHigh.value.double_value = *(pt_uint32);
+    this->frame_corrente->operandStack.push_back(operandHigh);
+
+    Local_var operandLow;
+    operandLow.tag = DUPLO;
+    operandLow.value.double_value = *(pt_uint32 + 1);
+    this->frame_corrente->operandStack.push_back(operandLow);
     return 1;
 }
 
@@ -2136,14 +2140,14 @@ int Interpretador::i2b(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2b: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFF;
+    int8_t int8_var = (int8_t)var;
 
     Local_var operand;
     operand.tag = INT;
-    operand.value.char_value = var;
+    operand.value.int_value = (int32_t)int8_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -2152,14 +2156,14 @@ int Interpretador::i2c(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2c: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFF;
+    char char_var = (char)var;
 
     Local_var operand;
-    operand.tag = INT;
-    operand.value.char_value = var;
+    operand.tag = CHAR;
+    operand.value.char_value = char_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -2168,14 +2172,14 @@ int Interpretador::i2s(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFFFF;
+    int16_t int16_var = (int16_t)var;
 
     Local_var operand;
     operand.tag = INT;
-    operand.value.char_value = var;
+    operand.value.int_value = (int32_t)int16_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -3265,17 +3269,19 @@ int Interpretador::invokevirtual(){
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var2.value.long_value;
                 alocador[1] = print_var.value.long_value;
-                cout << var64bits <<endl;
-        if(print_var.tag == DUPLO){
+                cout << (int64_t)var64bits <<endl;
+
+        }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
-                int64_t var64bits;
+                double var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var2.value.double_value;
                 alocador[1] = print_var.value.double_value;
                 cout << var64bits <<endl;
         }
-        }else{
+
+        else{
 
                 cout << print_var.repr() << endl;
         }

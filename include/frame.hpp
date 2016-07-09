@@ -28,7 +28,7 @@ typedef union Local_var_Type_u {
 	bool  void_v;
 	uint64_t        returnAddress_value;
 	float float_value;
-	int32_t double_value;
+	uint32_t double_value;
 }Local_var_Type;
 
 
