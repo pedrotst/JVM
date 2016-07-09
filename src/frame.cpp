@@ -2,6 +2,56 @@
 
 using namespace std;
 
+string FieldValue::repr(){
+    stringstream converter;
+    switch (this->tag){
+        case BASETYPE:
+            switch (this->val.btype.tag){
+            case BOOL:
+                converter << val.btype.val.boleano;
+                return converter.str();
+            case INT:
+                converter << val.btype.val.inteiro;
+                return converter.str();
+            case CHAR:
+                converter << val.btype.val.caractere;
+                return converter.str();
+            case BYTE:
+                converter << val.btype.val.byte;
+                return converter.str();
+            case LONGO:
+                converter << val.btype.val.longo;
+                return converter.str();
+            case PFLUTUANTE:
+                converter << val.btype.val.pFlutuante;
+                return converter.str();
+            case CURTO:
+                converter << val.btype.val.curto;
+                return converter.str();
+            case DUPLO:
+                converter << val.btype.val.duplo;
+                return converter.str();
+            case STRINGTYPE:
+                return "'" + *val.btype.val.stringue + "'";
+            default:
+                break;
+            }
+        case OBJECTTYPE:{
+            string buff("Referencia para objeto de: ");
+            return buff.append(val.objtype.instance->cf->getClassName());
+        }
+        case ARRAYTYPE:
+            return *new string("Array");
+        case VOID_T:
+            return "VOID";
+        default:
+            break;
+    }
+
+    string buf;
+    return buf;
+}
+
 string Local_var::repr(){
     stringstream converter;
     switch (this->tag){
@@ -87,13 +137,13 @@ void Frame::printOperandStack(){
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | %x", this->operandStack[i].value.reference_value);
-                printf(" [%d]  OBJECTTYPE //", i);
+                printf(" [%d]  OBJECTTYPE: %s //", i, this->operandStack[i].value.reference_value->cf->getClassName().c_str());
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf(" [%d] ARRAYTYPE[%d] {", i, this->operandStack[i].value.arr->size());
+                printf(" [%d] ARRAYTYPE[%zu] {", i, this->operandStack[i].value.arr->size());
                 for(int j = 0; j < (int)this->operandStack[i].value.arr->size(); j++){
-                    printf("%d,", this->operandStack[i].value.arr->at(j).val.btype.val.inteiro);
+                    cout << this->operandStack[i].value.arr->at(j).repr() << ", ";
                 }
                 printf("} //");
                 break;
@@ -152,9 +202,9 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf(" [%d] ARRAYTYPE[%d] {",  i, this->localVarVector[i].value.arr->size());
+                printf(" [%d] ARRAYTYPE[%zu] {",  i, this->localVarVector[i].value.arr->size());
                 for(int j = 0; j < (int)this->localVarVector[i].value.arr->size(); j++){
-                    printf("%d,", this->localVarVector[i].value.arr->at(j).val.btype.val.inteiro);
+                    cout << this->localVarVector[i].value.arr->at(j).repr() << ", ";
                 }
                 printf("} //");
                 break;
@@ -162,14 +212,22 @@ void Frame::printLocalVar(){
                 printf(" [%d] VOID_T: %d //",  i, this->localVarVector[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
-                //printf("tag: RETURN_ADDRESS | val: %d //", this->localVarVector[i].value.returnAddress_value);
-                printf(" [%d] RETURN ADDRESS", i);
+                printf(" [%d] RETURN ADDRESS | val: %d", i, this->localVarVector[i].value.returnAddress_value);
                 break;
             case STRINGTYPE:
-                //printf("tag: STRINGTYPE | val: %x //", this->localVarVector[i].value.string_value);
                 printf(" [%d] STRINGTYPE: {""%s""} //",  i, this->localVarVector[i].value.string_value->c_str());
                 break;
         }
     }
     printf("\n");
+}
+
+void InstanceClass::printInstancia(){
+    cout << " PrintInstancia da classe: " << cf->getClassName() << endl;
+    for(auto const &ent : field_instances) {
+        string fname = ent.first;
+        FieldValue fval = ent.second;
+        cout << " " << fname << "*" << fval.tag << "*" << ": " << fval.repr() << "// ";
+    }
+    cout << endl;
 }

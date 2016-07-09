@@ -13,10 +13,14 @@ int Jvm::run(const char* arq_class_name) {
 
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
-    Local_var main_str;
-    main_str.tag = STRINGTYPE;
-    main_str.value.string_value = new string("main args");
-    args.push_back(main_str);
+    Local_var main_args;
+    FieldValue main_str;
+    main_str.tag = BASETYPE;
+    main_str.val.btype.tag = STRINGTYPE;
+    main_str.val.btype.val.stringue = new string("main args");
+    main_args.tag = ARRAYTYPE;
+    main_args.value.arr = new arrayref();
+    main_args.value.arr->push_back(main_str);
 
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
@@ -39,7 +43,7 @@ int Jvm::run(const char* arq_class_name) {
         main_index = classF.findMethod("main", "()V");
     }
     else{
-        args.push_back(main_str);
+        args.push_back(main_args);
     }
     //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
@@ -60,10 +64,9 @@ ClassFile* Jvm::getClassRef(string className) {
     // Se a classe não for encontrada no map, o find retorna um iterador para end.
     // Ou seja, caso a classe não for encontrada.
     // Carrega a nova classe.
-
     if(loadedClasses.count(className) != 1) {
-        if(!(arquivoClass = fopen(classpath.append(className).append(".class").c_str(), "rb"))){ // procura no classpath
-            if(!(arquivoClass = fopen(className.append(".class").c_str(), "rb"))) { // se no encontrar procura no diretório do programa
+        if(!(arquivoClass = fopen((classpath + className + ".class").c_str(), "rb"))){ // procura no classpath
+            if(!(arquivoClass = fopen((className + ".class").c_str(), "rb"))) { // se no encontrar procura no diretório do programa
                 printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
                 exit(0);
             }
@@ -223,14 +226,17 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     Interpretador interpreter(this);
 
     //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
-    int clinitN = classF->findMethod("<clinit>", "()V");
+    //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
+    if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
+        int clinitN = classF->findMethod("<clinit>", "()V");
 
-    Frame staticFrame(clinitN, classF);
+        Frame staticFrame(clinitN, classF);
 
-    if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-        //cout << "Clinit encontrado em: " << clinitN << endl;
-        this->staticHeap[cname] = alocarObjetoEstatico(cname);
-        interpreter.runCode(&staticFrame);
+        if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
+            //cout << "Clinit encontrado em: " << clinitN << endl;
+            this->staticHeap[cname] = alocarObjetoEstatico(cname);
+            interpreter.runCode(&staticFrame);
+        }
     }
 
 

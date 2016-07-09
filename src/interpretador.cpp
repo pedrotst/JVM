@@ -6,14 +6,15 @@
     #define DEBUG_E_S
 #endif // DEBUG
 
-
 #ifdef DEBUG_E_S
-    #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar()); DEBUG_PRINT(" ---")}while(0);
-    #define DEBUG_SAIDA do{DEBUG_PRINT("\n depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("---\n");}while(0);
+    #define DEBUG_ENTRADA do{DEBUG_PRINT(" ANTES:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_PRINT("");DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+    #define DEBUG_SAIDA do{DEBUG_PRINT(" DEPOIS:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
 #else
     #define DEBUG_ENTRADA
     #define DEBUG_SAIDA
 #endif // DEBUG
+
+
 
 #include <inttypes.h>
 #include "../include/interpretador.hpp"
@@ -220,6 +221,9 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[L2I] = &Interpretador::l2i;//ni
     pt[L2F] = &Interpretador::l2f;//ni
     pt[L2D] = &Interpretador::l2d;//ni
+    pt[F2D] = &Interpretador::f2d;
+    pt[F2I] = &Interpretador::f2i;
+    pt[F2L] = &Interpretador::f2l;
     pt[D2I] = &Interpretador::d2i;//ni
     pt[D2L] = &Interpretador::d2l;//ni
     pt[D2F] = &Interpretador::d2f;//ni
@@ -368,7 +372,6 @@ int Interpretador::lconst_0(){
 }
 
 int Interpretador::lconst_1(){
-
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -411,20 +414,11 @@ int Interpretador::fconst_2(){
 }
 
 int Interpretador::dconst_0(){
-
-
     Local_var zero;
-
-
     zero.tag = DUPLO;
-
-
     zero.value.double_value= 0;
-
     this->frame_corrente->operandStack.push_back(zero);
     this->frame_corrente->operandStack.push_back(zero);
-
-
     return 1;
 }
 int Interpretador::dconst_1(){
@@ -462,16 +456,17 @@ int Interpretador::bipush(){
 }
 
 int Interpretador::sipush(){
-    Local_var operand;
-    uint32_t n = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
-    if (n & 0x8000)
-        n |= 0xFFFF0000; //sign extend the number
+    DEBUG_ENTRADA;
+    Local_var resultado;
 
-    operand.tag = INT;
-    operand.value.int_value = n;
+    uint16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
 
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+    resultado.tag = INT;
+    resultado.value.int_value = (int32_t)var;
+    this->frame_corrente->operandStack.push_back(resultado);
+    DEBUG_PRINT(resultado.value.int_value);
+    DEBUG_SAIDA;
+    return 3;
 }
 
 int Interpretador::ldc(){
@@ -593,7 +588,7 @@ int Interpretador::ldc2_w(){
 
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
     //utilizado formato if()/else if() por alguns casos necessitarem de declarar variaveis
-    if(tag == CONSTANT_Long){
+    if(tag == CONSTANT_Long) {
             operand_high.tag = LONGO;
             operand_low.tag = LONGO;
             operand_high.value.long_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_long.high_bytes;
@@ -602,13 +597,17 @@ int Interpretador::ldc2_w(){
             this->frame_corrente->operandStack.push_back(operand_high);
             this->frame_corrente->operandStack.push_back(operand_low);
 
-    }else if(tag == CONSTANT_Double){
-            //  SEM SUPORTE
-            //operand.tag = PFLUTUANTE;
-            //operand.value.float_value.bytes = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_integer.bytes;
-            //colocar o valor na operand stack
-            //this->frame_corrente->operandStack.push_back(operand);
-   }else{
+      }
+      else if(tag == CONSTANT_Double) {
+          operand_high.tag = DUPLO;
+          operand_low.tag = DUPLO;
+          operand_high.value.double_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_double.high_bytes;
+          operand_low.value.double_value = this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_double.low_bytes;
+          //colocar o valor na operand stack
+          this->frame_corrente->operandStack.push_back(operand_high);
+          this->frame_corrente->operandStack.push_back(operand_low);
+   }
+   else {
             //exception
     }
 
@@ -628,8 +627,8 @@ int Interpretador::lload(){
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand[0] = this->frame_corrente->localVarVector[index];
     operand[1] = this->frame_corrente->localVarVector[index+1];
-    this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 2;
 
 }
@@ -796,7 +795,6 @@ int Interpretador::dload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
-        exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != DUPLO){
@@ -1252,20 +1250,58 @@ int Interpretador::fstore_3(){
 }
 
 int Interpretador::dstore_0(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[0] = high;
+
+      return 1;
 }
 int Interpretador::dstore_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = high;
+
+      return 1;
 }
+
 int Interpretador::dstore_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = high;
+
+      return 1;
 }
+
 int Interpretador::dstore_3(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var high, low;
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[4] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = high;
+
+      return 1;
 }
 
 int Interpretador::astore_0(){
@@ -1459,9 +1495,8 @@ int Interpretador::ladd(){
     result[1].tag = LONGO;
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
-    DEBUG_PRINT("rhs: " << rhs);
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) &rhs;
+    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
     *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1475,10 +1510,10 @@ int Interpretador::ladd(){
     resultado = lhs + rhs;
     alocador = (uint32_t*) &resultado;
 
-    result[0].value.long_value = *alocador;
-    result[1].value.long_value = *(alocador+1);
-    this->frame_corrente->operandStack.push_back(result[0]);
+    result[0].value.long_value = *alocador;//mais significativo
+    result[1].value.long_value = *(alocador+1);//menos significativo
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1548,8 +1583,8 @@ int Interpretador::lsub(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1621,8 +1656,8 @@ int Interpretador::lmul(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1693,8 +1728,8 @@ int Interpretador::ldiv(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     ;
     return 1;
 }
@@ -1804,14 +1839,14 @@ int Interpretador::lneg(){
     alocador[1] = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
-    Local_var operand[2];
-    operand[0].tag = LONGO;
-    operand[1].tag = LONGO;
+    Local_var high, low;
+    low.tag = LONGO;
+    high.tag = LONGO;
     val = -val;
-    operand[0].value.long_value = alocador[0];//bits mais significativos
-    operand[1].value.long_value = alocador[1];//bits menos significativos
-    this->frame_corrente->operandStack.push_back(operand[0]);//mais significativos mais ao fundo
-    this->frame_corrente->operandStack.push_back(operand[1]);//menos significativos no topo
+    low.value.long_value = alocador[0];
+    high.value.long_value = alocador[1];
+    this->frame_corrente->operandStack.push_back(high);
+    this->frame_corrente->operandStack.push_back(low);
 
     return 1;
 }
@@ -1879,8 +1914,8 @@ int Interpretador::lshl(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -1930,8 +1965,8 @@ int Interpretador::lshr(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -1946,13 +1981,13 @@ int Interpretador::lushl(){
 
 int Interpretador::iand(){
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.\n");
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.\n");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -1987,8 +2022,8 @@ int Interpretador::land(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -2052,17 +2087,19 @@ int Interpretador::i2l(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2l: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
+    long int long_var = (long int) var;
+    uint32_t *uint_var = (uint32_t*)&long_var;
     Local_var operand1;
     operand1.tag = LONGO;
-    operand1.value.long_value = 0;
+    operand1.value.long_value = *(uint_var + 1);
     this->frame_corrente->operandStack.push_back(operand1);
 
     Local_var operand2;
     operand2.tag = LONGO;
-    operand1.value.long_value = var;
+    operand2.value.long_value = *(uint_var);
     this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
@@ -2070,18 +2107,14 @@ int Interpretador::i2f(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2f: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
+    float var_float = (float)var;
     Local_var operand1;
     operand1.tag = PFLUTUANTE;
-    operand1.value.float_value = 0;
+    operand1.value.float_value = var_float;
     this->frame_corrente->operandStack.push_back(operand1);
-
-    Local_var operand2;
-    operand2.tag = PFLUTUANTE;
-    operand1.value.float_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
 int Interpretador::i2d(){
@@ -2089,21 +2122,31 @@ int Interpretador::i2d(){
     if(tag != INT){
         printf("Erro em i2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-    Local_var operand1;
-    operand1.tag = DUPLO;
-    operand1.value.double_value = 0;
-    this->frame_corrente->operandStack.push_back(operand1);
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
 
-    Local_var operand2;
-    operand2.tag = DUPLO;
-    operand1.value.double_value = var;
-    this->frame_corrente->operandStack.push_back(operand2);
+    this->frame_corrente->operandStack.pop_back();
+
+    double var_double = (double) var;
+    uint32_t *pt_uint32 = (uint32_t*) &var_double;
+
+    Local_var operandHigh;
+    operandHigh.tag = DUPLO;
+    operandHigh.value.double_value = *(pt_uint32 + 1);
+    this->frame_corrente->operandStack.push_back(operandHigh);
+
+    Local_var operandLow;
+    operandLow.tag = DUPLO;
+    operandLow.value.double_value = *(pt_uint32);
+    this->frame_corrente->operandStack.push_back(operandLow);
     return 1;
 }
 
 int Interpretador::l2i(){
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+
+
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
@@ -2117,16 +2160,99 @@ int Interpretador::l2d(){
 }
 
 int Interpretador::f2i(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand;
+      float float_value = 0;
+      int int_value = 0;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para int
+      int_value = (int)float_value;
+
+      // Salva o int no operando e o coloca na opStack
+      operand.tag = INT;
+      operand.value.int_value = int_value;
+      this->frame_corrente->operandStack.push_back(operand);
+
+      return 1;
 }
+
 int Interpretador::f2l(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand_high, operand_low;
+      float float_value = 0;
+      long long_value = 0;
+      uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para long
+      long_value = (long)float_value;
+
+      // Obtém ponteiro de 32 apontando para o high do long
+      pt_32 = (uint32_t *) &long_value;
+
+      // Salva o high do double no operando e coloca o operando na opStack
+      operand_high.tag = LONGO;
+      operand_high.value.long_value = *(pt_32+1);
+      this->frame_corrente->operandStack.push_back(operand_high);
+
+      // Salva o low do double no operando e coloca o operando na opStack
+      operand_low.tag = LONGO;
+      operand_low.value.long_value = *(pt_32);
+      this->frame_corrente->operandStack.push_back(operand_low);
+
+      return 1;
 }
+
 int Interpretador::f2d(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand_high, operand_low;
+      float float_value = 0;
+      double double_value = 0;
+      uint32_t *pt_32 = NULL;
+      tag_Tipo tag;
+
+      tag = this->frame_corrente->operandStack.back().tag;
+      if(tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para double
+      double_value = (double)float_value;
+
+      // Obtém ponteiro de 32 apontando para o high do double
+      pt_32 = (uint32_t *) &double_value;
+
+      // Salva o high do double no operando e coloca o operando na opStack
+      operand_high.tag = DUPLO;
+      operand_high.value.double_value = *(pt_32+1);
+      this->frame_corrente->operandStack.push_back(operand_high);
+
+      // Salva o low do double no operando e coloca o operando na opStack
+      operand_low.tag = DUPLO;
+      operand_low.value.double_value = *(pt_32);
+      this->frame_corrente->operandStack.push_back(operand_low);
+
+      return 1;
 }
 
 int Interpretador::d2i(){
@@ -2146,14 +2272,14 @@ int Interpretador::i2b(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2b: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFF;
+    int8_t int8_var = (int8_t)var;
 
     Local_var operand;
     operand.tag = INT;
-    operand.value.char_value = var;
+    operand.value.int_value = (int32_t)int8_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -2162,14 +2288,15 @@ int Interpretador::i2c(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2c: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFF;
-
+    char char_var = (char)var;
+    DEBUG_PRINT(var);
+    DEBUG_PRINT((int32_t)char_var);
     Local_var operand;
-    operand.tag = INT;
-    operand.value.char_value = var;
+    operand.tag = CHAR;
+    operand.value.char_value = (uint8_t)char_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -2178,14 +2305,14 @@ int Interpretador::i2s(){
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
-    uint32_t var = this->frame_corrente->operandStack.back().value.int_value;
+    int32_t var = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
-    var &= 0xFFFF;
+    int16_t int16_var = (int16_t)var;
 
     Local_var operand;
     operand.tag = INT;
-    operand.value.char_value = var;
+    operand.value.int_value = (int32_t)int16_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -2259,7 +2386,6 @@ int Interpretador::dcmpg(){
 /////////// Implementação das if<cond> ///////////
 // Todas elas são iguais. Só muda a comparação.
 
-// Não foi testada
 int Interpretador::ifeq() {
       int32_t value = 0;
       int16_t offset = 0;
@@ -2439,7 +2565,6 @@ int Interpretador::if_icmpeq() {
             return 3;
 }
 
-// Não foi testada
 int Interpretador::if_icmpne() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
@@ -2737,10 +2862,17 @@ int Interpretador::putstatic(){
     name_index |= code_corrente->code[frame_corrente->pc+2];
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    //printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+    DEBUG_ONLY(printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str()));
 
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
+
+    // garante que o objeto foi criado!
+    string cname = frame_corrente->cf->getClassName();
+    if(jvm->staticHeap.count(cname) != 1){
+        jvm->alocarObjetoEstatico(cname);
+    }
+
 
     if(field_type.compare("I") == 0){
         //converte local var para fvar
@@ -2754,8 +2886,8 @@ int Interpretador::putstatic(){
     else if(field_type.compare("Z") == 0){
         //converte local var para fvar
         fvar.tag = BASETYPE;
-        fvar.val.btype.tag = BOOL;
-        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+        fvar.val.btype.tag = INT;
+        fvar.val.btype.val.inteiro = lvar.value.int_value;
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
         //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
@@ -2771,7 +2903,6 @@ int Interpretador::putstatic(){
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        //printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) | lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
         Local_var lvar_upper;
@@ -2780,7 +2911,8 @@ int Interpretador::putstatic(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 | lvar.value.long_value;
+        fvar.val.btype.val.duplo = (lvar.value.double_value << 32) | lvar_upper.value.double_value;
+        cout << "variavel sendo colocada no putstatic: " << fvar.repr() << endl;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
@@ -2800,6 +2932,8 @@ int Interpretador::putstatic(){
         //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
 
     }
+
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
@@ -2872,6 +3006,7 @@ int Interpretador::putfield(){
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
@@ -2897,6 +3032,29 @@ int Interpretador::getstatic(){
         lvar.tag = INT;
         lvar.value.int_value = fvar.val.btype.val.inteiro;
         this->frame_corrente->operandStack.push_back(lvar);
+    }if(field_type.compare("Z") == 0){
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+
+        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
+
+        lvar.tag = INT;
+        lvar.value.int_value = fvar.val.btype.val.inteiro;
+        this->frame_corrente->operandStack.push_back(lvar);
+    }
+    if(field_type.compare("D") == 0){
+        uint32_t *alocador;
+        Local_var lvar1;
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+        alocador = (uint32_t*) &fvar.val.btype.val.duplo;
+
+        lvar.tag = DUPLO;
+        lvar.value.double_value = alocador[0];
+        lvar1.tag = DUPLO;
+        lvar1.value.double_value = alocador[1];
+        this->frame_corrente->operandStack.push_back(lvar);
+        this->frame_corrente->operandStack.push_back(lvar1);
     }
 
     else if(field_type.substr(0, 1).compare("L") == 0){
@@ -3199,6 +3357,7 @@ int Interpretador::invokestatic(){
         return 3;
     }
     // se for o registerNatives, ignore
+    cout << method_name << endl;
     if(method_name.compare("registerNatives") == 0){
         return 3;
     }
@@ -3273,24 +3432,30 @@ int Interpretador::invokevirtual(){
                 this->frame_corrente->operandStack.pop_back();
                 int64_t var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.long_value;
-                alocador[1] = print_var.value.long_value;
-                cout << var64bits <<endl;
-        if(print_var.tag == DUPLO){
+                alocador[0] = print_var.value.long_value;
+                alocador[1] = print_var2.value.long_value;
+                cout << (dec) << var64bits <<endl;
+
+        }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
-                int64_t var64bits;
+                double var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.double_value;
-                alocador[1] = print_var.value.double_value;
-                cout << var64bits <<endl;
+                alocador[0] = print_var.value.double_value;
+                alocador[1] = print_var2.value.double_value;
+                cout.precision(16);
+                cout << fixed << var64bits <<endl;
+
+        }else if(print_var.tag == PFLUTUANTE){
+                cout.precision(7);
+                cout << fixed << print_var.value.float_value << endl;
         }
-        }else{
+
+        else{
 
                 cout << print_var.repr() << endl;
         }
         this->frame_corrente->operandStack.pop_back(); // pop printstream ref
-        ;
         return 3;
     }
 

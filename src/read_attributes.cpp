@@ -45,6 +45,7 @@ attribute_info read_attributes(FILE *fp, std::vector<cp_info> constant_pool) {
                   attribute_element.attribute_union.attr_Code.code_length = read_dword(fp);
 
                   attribute_element.attribute_union.attr_Code.code = (uint8_t*)malloc((attribute_element.attribute_union.attr_Code.code_length + 1)*sizeof(uint8_t));
+
                   for (uint32_t n = 0; n < attribute_element.attribute_union.attr_Code.code_length; n++) {
                         attribute_element.attribute_union.attr_Code.code[n] = read_byte(fp);
                   }

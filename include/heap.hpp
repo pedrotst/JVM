@@ -9,7 +9,7 @@
 #include <string>
 #include "../include/classFile.hpp"
 
-struct FieldValue_s;
+class FieldValue;
 class InstanceClass;
 
 typedef enum tag_tipo_e{
@@ -32,8 +32,8 @@ typedef enum tag_tipo_e{
 typedef union base_type_s{
     uint8_t         byte;
     char            caractere;
-    uint64_t        duplo;
-    uint32_t        pFlutuante;
+    double        duplo;
+    float        pFlutuante;
     int32_t         inteiro;
     int64_t         longo;
     int16_t         curto;
@@ -51,7 +51,7 @@ typedef struct ObjectType_s{
     InstanceClass *instance;
 }ObjectType;
 
-typedef std::vector<struct FieldValue_s> arrayref;
+typedef std::vector<FieldValue> arrayref;
 
 typedef struct ArrayType_s{
      arrayref *arr;
@@ -68,10 +68,13 @@ typedef union FieldType_u{
 * ela pode ser dos tipos BaseType, ObjectType e ArrayType
 * para mais informacoes visite https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5
 */
-typedef struct FieldValue_s{
+class FieldValue{
+    public:
     tag_Tipo  tag;
     FieldType val;
-}FieldValue;
+
+    std::string repr();
+};
 
 /** \class InstanceClass
 * \brief Esta classe eh a instancia fisica de um objeto
@@ -86,6 +89,8 @@ public:
      * \brief a instancia basicamente mapeia o nome da field para seu valor
      */
     std::map<std::string, FieldValue>  field_instances;
+
+    void printInstancia();
 };
 
 #endif // HEAP
