@@ -79,7 +79,7 @@ void Frame::printOperandStack(){
                 printf(" [%d] SHORT: %d //", i, this->operandStack[i].value.short_value);
                 break;
             case DUPLO:
-                printf(" [%d] tag: DOUBLE: %d //", i, this->operandStack[i].value.double_value);
+                printf(" [%d] tag: DOUBLE: %X //", i, this->operandStack[i].value.double_value);
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | %x", *(this->operandStack[i].value.reference_value));
