@@ -22,7 +22,8 @@ typedef union Local_var_Type_u {
 	int32_t int_value;
 	int32_t long_value;
 	InstanceClass*   reference_value;
-	ArrayType* 		arrayref;
+	//ArrayType* 		arrayref;
+	arrayref *arr;
 	std::string *string_value;
 	bool  void_v;
 	uint64_t        returnAddress_value;

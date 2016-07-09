@@ -16,14 +16,14 @@
 #include "../include/classFile.hpp"
 #include "../include/operationMap.hpp"
 #include "../include/debug.hpp"
-
-#ifdef DEBUG_E_S
-    #define DEBUG_ENTRADA do{DEBUG_PRINT(" ANTES:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_PRINT("");DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
-    #define DEBUG_SAIDA do{DEBUG_PRINT(" DEPOIS:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
-#else
-    #define DEBUG_ENTRADA
-    #define DEBUG_SAIDA
-#endif // DEBUG
+//
+//#ifdef DEBUG_E_S
+//    #define DEBUG_ENTRADA do{DEBUG_PRINT(" ANTES:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_PRINT("");DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+//    #define DEBUG_SAIDA do{DEBUG_PRINT(" DEPOIS:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+//#else
+//    #define DEBUG_ENTRADA
+//    #define DEBUG_SAIDA
+//#endif // DEBUG
 
 /** \file interpretador.hpp
 *   \brief Estruturas de interpretacao dos opcodes

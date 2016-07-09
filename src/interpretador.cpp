@@ -6,14 +6,15 @@
     #define DEBUG_E_S
 #endif // DEBUG
 
-
 #ifdef DEBUG_E_S
-    #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar()); DEBUG_PRINT(" ---")}while(0);
-    #define DEBUG_SAIDA do{DEBUG_PRINT("\n depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("---\n");}while(0);
+    #define DEBUG_ENTRADA do{DEBUG_PRINT(" ANTES:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_PRINT("");DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+    #define DEBUG_SAIDA do{DEBUG_PRINT(" DEPOIS:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
 #else
     #define DEBUG_ENTRADA
     #define DEBUG_SAIDA
 #endif // DEBUG
+
+
 
 #include <inttypes.h>
 #include "../include/interpretador.hpp"
@@ -410,20 +411,11 @@ int Interpretador::fconst_2(){
 }
 
 int Interpretador::dconst_0(){
-
-
     Local_var zero;
-
-
     zero.tag = DUPLO;
-
-
     zero.value.double_value= 0;
-
     this->frame_corrente->operandStack.push_back(zero);
     this->frame_corrente->operandStack.push_back(zero);
-
-
     return 1;
 }
 int Interpretador::dconst_1(){
