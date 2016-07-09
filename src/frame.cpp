@@ -212,7 +212,7 @@ void Frame::printLocalVar(){
                 printf(" [%d] VOID_T: %d //",  i, this->localVarVector[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
-                printf(" [%d] RETURN ADDRESS", i);
+                printf(" [%d] RETURN ADDRESS | val: %d", i, this->localVarVector[i].value.returnAddress_value);
                 break;
             case STRINGTYPE:
                 printf(" [%d] STRINGTYPE: {""%s""} //",  i, this->localVarVector[i].value.string_value->c_str());
