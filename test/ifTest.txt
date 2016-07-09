@@ -1,0 +1,107 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 36
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 7 	<ifTest>
+Super Class: 8 <java/lang/Object>
+Interface count: 0
+Fields count: 2
+Methods count: 2
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#8.#20		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#7.#21		 // ifTest.a:Z
+#3 = Fieldref		#7.#22		 // ifTest.b:Z
+#4 = Fieldref		#23.#24		 // java/lang/System.out:Ljava/io/PrintStream;
+#5 = String		#25		// uhul
+#6 = Methodref		#26.#27		 // java/io/PrintStream.println:(Ljava/lang/String;)V
+#7 = Class		#28		 // ifTest
+#8 = Class		#29		 // java/lang/Object
+#9 = Utf8		a
+#10 = Utf8		Z
+#11 = Utf8		b
+#12 = Utf8		<init>
+#13 = Utf8		()V
+#14 = Utf8		Code
+#15 = Utf8		LineNumberTable
+#16 = Utf8		main
+#17 = Utf8		([Ljava/lang/String;)V
+#18 = Utf8		SourceFile
+#19 = Utf8		ifTest.java
+#20 = NameAndType	#12.#13		<init>:()V
+#21 = NameAndType	#9.#10		a:Z
+#22 = NameAndType	#11.#10		b:Z
+#23 = Class		#30		 // java/lang/System
+#24 = NameAndType	#31.#32		out:Ljava/io/PrintStream;
+#25 = Utf8		uhul
+#26 = Class		#33		 // java/io/PrintStream
+#27 = NameAndType	#34.#35		println:(Ljava/lang/String;)V
+#28 = Utf8		ifTest
+#29 = Utf8		java/lang/Object
+#30 = Utf8		java/lang/System
+#31 = Utf8		out
+#32 = Utf8		Ljava/io/PrintStream;
+#33 = Utf8		java/io/PrintStream
+#34 = Utf8		println
+#35 = Utf8		(Ljava/lang/String;)V
+
+
+Fields: 
+Field: 1
+Access Flag: 0x0008[ACC_STATIC]
+Name: cp_info#9 <a>
+Descriptor: cp_info#10 <Z>
+Attributes Count: 0
+
+Field: 2
+Access Flag: 0x0008[ACC_STATIC]
+Name: cp_info#11 <b>
+Descriptor: cp_info#10 <Z>
+Attributes Count: 0
+
+Methods_count: 2
+Methods: 
+Method: 1
+Name: #12<<init>>
+Access Flag: 000000
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 2
+Name: #16<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 67
+	 Max Stack: 2, 	 Max Locals: 1, 	 Code Length: 27
+	0:	ICONST_1	
+	0x1:	PUTSTATIC	 #2 	 //  ifTest.a:Z
+	0x4:	ICONST_0	
+	0x5:	PUTSTATIC	 #3 	 //  ifTest.b:Z
+	0x8:	GETSTATIC	 #2 	 //  ifTest.a:Z
+	0xb:	GETSTATIC	 #3 	 //  ifTest.b:Z
+	0xe:	IAND	
+	0xf:	IFEQ	 #11 	 //  b
+	0x12:	GETSTATIC	 #4 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x15:	LDC	 #5 	 //  uhul
+	0x17:	INVOKEVIRTUAL	 #6 	 //  java/io/PrintStream.println:(Ljava/lang/String;)V
+	0x1a:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #18
+attribute_length: 2
+Sourcefile_index: #19		//ifTest.java

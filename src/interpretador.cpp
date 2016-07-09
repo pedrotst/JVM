@@ -625,8 +625,8 @@ int Interpretador::lload(){
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand[0] = this->frame_corrente->localVarVector[index];
     operand[1] = this->frame_corrente->localVarVector[index+1];
-    this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 2;
 
 }
@@ -799,8 +799,8 @@ int Interpretador::dload_2(){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     return 1;
 }
 
@@ -1510,8 +1510,8 @@ int Interpretador::ladd(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1581,8 +1581,8 @@ int Interpretador::lsub(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1654,8 +1654,8 @@ int Interpretador::lmul(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1726,8 +1726,8 @@ int Interpretador::ldiv(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     ;
     return 1;
 }
@@ -1837,14 +1837,14 @@ int Interpretador::lneg(){
     alocador[1] = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
-    Local_var operand[2];
-    operand[0].tag = LONGO;
-    operand[1].tag = LONGO;
+    Local_var high, low;
+    low.tag = LONGO;
+    high.tag = LONGO;
     val = -val;
-    operand[0].value.long_value = alocador[0];//bits mais significativos
-    operand[1].value.long_value = alocador[1];//bits menos significativos
-    this->frame_corrente->operandStack.push_back(operand[0]);//mais significativos mais ao fundo
-    this->frame_corrente->operandStack.push_back(operand[1]);//menos significativos no topo
+    low.value.long_value = alocador[0];
+    high.value.long_value = alocador[1];
+    this->frame_corrente->operandStack.push_back(high);
+    this->frame_corrente->operandStack.push_back(low);
 
     return 1;
 }
@@ -1912,8 +1912,8 @@ int Interpretador::lshl(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -1963,8 +1963,8 @@ int Interpretador::lshr(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -1979,13 +1979,13 @@ int Interpretador::lushl(){
 
 int Interpretador::iand(){
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 1 em operandStack diferente do esperado.\n");
     }
     int32_t rhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.");
+        printf("Erro em iand: Tipo de operando 2 em operandStack diferente do esperado.\n");
     }
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
@@ -2020,8 +2020,8 @@ int Interpretador::land(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -2092,12 +2092,12 @@ int Interpretador::i2l(){
     uint32_t *uint_var = (uint32_t*)&long_var;
     Local_var operand1;
     operand1.tag = LONGO;
-    operand1.value.long_value = *(uint_var);
+    operand1.value.long_value = *(uint_var + 1);
     this->frame_corrente->operandStack.push_back(operand1);
 
     Local_var operand2;
     operand2.tag = LONGO;
-    operand2.value.long_value = *(uint_var + 1);
+    operand2.value.long_value = *(uint_var);
     this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
@@ -2129,17 +2129,22 @@ int Interpretador::i2d(){
 
     Local_var operandHigh;
     operandHigh.tag = DUPLO;
-    operandHigh.value.double_value = *(pt_uint32);
+    operandHigh.value.double_value = *(pt_uint32 + 1);
     this->frame_corrente->operandStack.push_back(operandHigh);
 
     Local_var operandLow;
     operandLow.tag = DUPLO;
-    operandLow.value.double_value = *(pt_uint32 + 1);
+    operandLow.value.double_value = *(pt_uint32);
     this->frame_corrente->operandStack.push_back(operandLow);
     return 1;
 }
 
 int Interpretador::l2i(){
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+
+
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
@@ -2344,7 +2349,6 @@ int Interpretador::dcmpg(){
 /////////// Implementação das if<cond> ///////////
 // Todas elas são iguais. Só muda a comparação.
 
-// Não foi testada
 int Interpretador::ifeq() {
       int32_t value = 0;
       int16_t offset = 0;
@@ -2524,7 +2528,6 @@ int Interpretador::if_icmpeq() {
             return 3;
 }
 
-// Não foi testada
 int Interpretador::if_icmpne() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
@@ -2822,10 +2825,17 @@ int Interpretador::putstatic(){
     name_index |= code_corrente->code[frame_corrente->pc+2];
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    //printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
+    DEBUG_ONLY(printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str()));
 
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
+    
+    // garante que o objeto foi criado!
+    string cname = frame_corrente->cf->getClassName();
+    if(jvm->staticHeap.count(cname) != 1){
+        jvm->alocarObjetoEstatico(cname); 
+    }
+
 
     if(field_type.compare("I") == 0){
         //converte local var para fvar
@@ -2839,8 +2849,8 @@ int Interpretador::putstatic(){
     else if(field_type.compare("Z") == 0){
         //converte local var para fvar
         fvar.tag = BASETYPE;
-        fvar.val.btype.tag = BOOL;
-        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+        fvar.val.btype.tag = INT;
+        fvar.val.btype.val.inteiro = lvar.value.int_value;
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
         //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
@@ -2856,7 +2866,6 @@ int Interpretador::putstatic(){
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        //printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) | lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
         Local_var lvar_upper;
@@ -2865,7 +2874,8 @@ int Interpretador::putstatic(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 | lvar.value.long_value;
+        fvar.val.btype.val.duplo = (lvar.value.double_value << 32) | lvar_upper.value.double_value;
+        cout << "variavel sendo colocada no putstatic: " << fvar.repr() << endl;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
@@ -2885,6 +2895,8 @@ int Interpretador::putstatic(){
         //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
 
     }
+    
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
@@ -2957,6 +2969,7 @@ int Interpretador::putfield(){
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
+    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
 
@@ -2982,6 +2995,29 @@ int Interpretador::getstatic(){
         lvar.tag = INT;
         lvar.value.int_value = fvar.val.btype.val.inteiro;
         this->frame_corrente->operandStack.push_back(lvar);
+    }if(field_type.compare("Z") == 0){
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+
+        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
+
+        lvar.tag = INT;
+        lvar.value.int_value = fvar.val.btype.val.inteiro;
+        this->frame_corrente->operandStack.push_back(lvar);
+    }
+    if(field_type.compare("D") == 0){
+        uint32_t *alocador;
+        Local_var lvar1;
+
+        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+        alocador = (uint32_t*) &fvar.val.btype.val.duplo;
+
+        lvar.tag = DUPLO;
+        lvar.value.double_value = alocador[0];
+        lvar1.tag = DUPLO;
+        lvar1.value.double_value = alocador[1];
+        this->frame_corrente->operandStack.push_back(lvar);
+        this->frame_corrente->operandStack.push_back(lvar1);
     }
 
     else if(field_type.substr(0, 1).compare("L") == 0){
@@ -3359,17 +3395,17 @@ int Interpretador::invokevirtual(){
                 this->frame_corrente->operandStack.pop_back();
                 int64_t var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.long_value;
-                alocador[1] = print_var.value.long_value;
-                cout << var64bits <<endl;
+                alocador[0] = print_var.value.long_value;
+                alocador[1] = print_var2.value.long_value;
+                cout << (dec) << var64bits <<endl;
 
         }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
                 double var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.double_value;
-                alocador[1] = print_var.value.double_value;
+                alocador[0] = print_var.value.double_value;
+                alocador[1] = print_var2.value.double_value;
                 cout.precision(16);
                 cout << fixed << var64bits <<endl;
 
