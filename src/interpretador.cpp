@@ -60,7 +60,7 @@ int Interpretador::runCode(Frame *frame_pt) {
     this->frame_corrente->localVarVector.resize(this->code_corrente->max_locals);
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        DEBUG_PRINT("pc->code[" << hex << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
+        DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
 
         this->frame_corrente->pc += this->execute_instruction(opcode);
         DEBUG_SAIDA;
@@ -823,7 +823,7 @@ int Interpretador::dload_3(){
 
 int Interpretador::aload_0(){
     Local_var lvar = this->frame_corrente->localVarVector[0];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -831,7 +831,7 @@ int Interpretador::aload_0(){
 }
 int Interpretador::aload_1(){
     Local_var lvar = this->frame_corrente->localVarVector[1];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -839,7 +839,7 @@ int Interpretador::aload_1(){
 }
 int Interpretador::aload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
-    if(lvar.tag != OBJECTTYPE){
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia\n");
     }
     this->frame_corrente->operandStack.push_back(lvar);
@@ -934,7 +934,28 @@ int Interpretador::iaload(){
     return 1;
 }
 int Interpretador::laload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+    Local_var operand[2];
+    uint32_t *alocador;
+
+    alocador = (uint32_t*) &this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.longo;
+    operand[0].tag = LONGO;
+    operand[0].value.long_value = alocador[0];
+    operand[1].tag = LONGO;
+    operand[1].value.long_value = alocador[1];
+
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+
     return 1;
 }
 int Interpretador::faload(){
@@ -1308,7 +1329,7 @@ int Interpretador::astore_0(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
@@ -1323,7 +1344,7 @@ int Interpretador::astore_1(){
     size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
@@ -1338,7 +1359,7 @@ int Interpretador::astore_2(){
     Local_var op;
     size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
-    if(op.tag != OBJECTTYPE){
+    if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
@@ -1385,9 +1406,38 @@ int Interpretador::iastore(){
     return 1;
 }
 int Interpretador::lastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+    int32_t val[2];
+    
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+            printf("Erro em lastore: Tipo de value em operandStack diferente do esperado:");
+            printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    val[0] = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+
+    val[1] = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.inteiro = (int64_t) *val;
+    this->frame_corrente->operandStack.pop_back();
+return 1;
 }
+
 int Interpretador::fastore(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
