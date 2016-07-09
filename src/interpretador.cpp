@@ -2153,9 +2153,29 @@ int Interpretador::l2d(){
 }
 
 int Interpretador::f2i(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var operand;
+      float float_value = 0;
+      int int_value = 0;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE) {
+          printf("Erro em f2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
+
+      // Pega o float do topo da pilha.
+      float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Cast do float para int
+      int_value = (int)float_value;
+
+      // Salva o int no operando e o coloca na opStack
+      operand.tag = INT;
+      operand_high.value.int_value = int_value;
+      this->frame_corrente->operandStack.push_back(operand);
+
+      return 1;
 }
+
 int Interpretador::f2l(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -2164,7 +2184,11 @@ int Interpretador::f2d(){
       Local_var operand_high, operand_low;
       float float_value = 0;
       double double_value = 0;
-      uint32_t high = 0, low = 0, *pt_32 = NULL;
+      uint32_t *pt_32 = NULL;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE) {
+          printf("Erro em f2d: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+      }
 
       // Pega o float do topo da pilha.
       float_value = this->frame_corrente->operandStack.back().value.float_value;
