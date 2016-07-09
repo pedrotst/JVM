@@ -32,7 +32,7 @@ string FieldValue::repr(){
                 converter << val.btype.val.duplo;
                 return converter.str();
             case STRINGTYPE:
-                return *val.btype.val.stringue;
+                return "'" + *val.btype.val.stringue + "'";
             default:
                 break;
             }
@@ -143,7 +143,7 @@ void Frame::printOperandStack(){
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
                 printf(" [%d] ARRAYTYPE[%zu] {", i, this->operandStack[i].value.arr->size());
                 for(int j = 0; j < (int)this->operandStack[i].value.arr->size(); j++){
-                    cout << this->operandStack[i].value.arr->at(j).repr();
+                    cout << this->operandStack[i].value.arr->at(j).repr() << ", ";
                 }
                 printf("} //");
                 break;
@@ -204,7 +204,7 @@ void Frame::printLocalVar(){
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
                 printf(" [%d] ARRAYTYPE[%zu] {",  i, this->localVarVector[i].value.arr->size());
                 for(int j = 0; j < (int)this->localVarVector[i].value.arr->size(); j++){
-                    cout << this->localVarVector[i].value.arr->at(j).repr();
+                    cout << this->localVarVector[i].value.arr->at(j).repr() << ", ";
                 }
                 printf("} //");
                 break;
@@ -220,4 +220,14 @@ void Frame::printLocalVar(){
         }
     }
     printf("\n");
+}
+
+void InstanceClass::printInstancia(){
+    cout << " PrintInstancia da classe: " << cf->getClassName() << endl;
+    for(auto const &ent : field_instances) {
+        string fname = ent.first;
+        FieldValue fval = ent.second;
+        cout << " " << fname << "*" << fval.tag << "*" << ": " << fval.repr() << "// ";
+    }
+    cout << endl;
 }
