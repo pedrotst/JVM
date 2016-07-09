@@ -14,6 +14,9 @@ int Jvm::run(const char* arq_class_name) {
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
     Local_var main_str;
+    main_str.tag = STRINGTYPE;
+    main_str.value.string_value = new string("main args");
+    args.push_back(main_str);
 
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {

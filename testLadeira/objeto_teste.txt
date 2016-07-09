@@ -1,0 +1,145 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 55
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 17 	<objeto_teste>
+Super Class: 18 <java/lang/Object>
+Interface count: 0
+Fields count: 0
+Methods count: 2
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#18.#27		 // java/lang/Object.<init>:()V
+#2 = Class		#28		 // objeto
+#3 = Double		#9.54838e-007d
+#4 = continuação numerica
+#5 = Methodref		#2.#29		 // objeto.<init>:(ID)V
+#6 = Double		#2.4306e+266d
+#7 = continuação numerica
+#8 = Fieldref		#30.#31		 // java/lang/System.out:Ljava/io/PrintStream;
+#9 = Methodref		#2.#32		 // objeto.get_a:()I
+#10 = Methodref		#33.#34		 // java/io/PrintStream.println:(I)V
+#11 = Methodref		#2.#35		 // objeto.get_c:()D
+#12 = Methodref		#33.#36		 // java/io/PrintStream.println:(D)V
+#13 = Methodref		#2.#37		 // objeto.set_a:(I)V
+#14 = Double		#7.66153e-006d
+#15 = continuação numerica
+#16 = Methodref		#2.#38		 // objeto.set_c:(D)V
+#17 = Class		#39		 // objeto_teste
+#18 = Class		#40		 // java/lang/Object
+#19 = Utf8		<init>
+#20 = Utf8		()V
+#21 = Utf8		Code
+#22 = Utf8		LineNumberTable
+#23 = Utf8		main
+#24 = Utf8		([Ljava/lang/String;)V
+#25 = Utf8		SourceFile
+#26 = Utf8		objeto_teste.java
+#27 = NameAndType	#19.#20		<init>:()V
+#28 = Utf8		objeto
+#29 = NameAndType	#19.#41		<init>:(ID)V
+#30 = Class		#42		 // java/lang/System
+#31 = NameAndType	#43.#44		out:Ljava/io/PrintStream;
+#32 = NameAndType	#45.#46		get_a:()I
+#33 = Class		#47		 // java/io/PrintStream
+#34 = NameAndType	#48.#49		println:(I)V
+#35 = NameAndType	#50.#51		get_c:()D
+#36 = NameAndType	#48.#52		println:(D)V
+#37 = NameAndType	#53.#49		set_a:(I)V
+#38 = NameAndType	#54.#52		set_c:(D)V
+#39 = Utf8		objeto_teste
+#40 = Utf8		java/lang/Object
+#41 = Utf8		(ID)V
+#42 = Utf8		java/lang/System
+#43 = Utf8		out
+#44 = Utf8		Ljava/io/PrintStream;
+#45 = Utf8		get_a
+#46 = Utf8		()I
+#47 = Utf8		java/io/PrintStream
+#48 = Utf8		println
+#49 = Utf8		(I)V
+#50 = Utf8		get_c
+#51 = Utf8		()D
+#52 = Utf8		(D)V
+#53 = Utf8		set_a
+#54 = Utf8		set_c
+
+
+Fields: 
+Methods_count: 2
+Methods: 
+Method: 1
+Name: #19<<init>>
+Access Flag: 000000
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	RETURN	
+
+Method: 2
+Name: #23<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 164
+	 Max Stack: 5, 	 Max Locals: 3, 	 Code Length: 100
+	0:	NEW	 #2 	 //  objeto
+	0x3:	DUP	
+	0x4:	ICONST_3	
+	0x5:	LDC2_W	 #3 	 //  
+	0x8:	INVOKESPECIAL	 #5 	 //  objeto.<init>:(ID)V
+	0xb:	ASTORE_1	
+	0xc:	NEW	 #2 	 //  objeto
+	0xf:	DUP	
+	0x10:	SIPUSH	 #65488 	 //  
+	0x13:	LDC2_W	 #6 	 //  
+	0x16:	INVOKESPECIAL	 #5 	 //  objeto.<init>:(ID)V
+	0x19:	ASTORE_2	
+	0x1a:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x1d:	ALOAD_1	
+	0x1e:	INVOKEVIRTUAL	 #9 	 //  objeto.get_a:()I
+	0x21:	INVOKEVIRTUAL	 #10 	 //  java/io/PrintStream.println:(I)V
+	0x24:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x27:	ALOAD_1	
+	0x28:	INVOKEVIRTUAL	 #11 	 //  objeto.get_c:()D
+	0x2b:	INVOKEVIRTUAL	 #12 	 //  java/io/PrintStream.println:(D)V
+	0x2e:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x31:	ALOAD_2	
+	0x32:	INVOKEVIRTUAL	 #9 	 //  objeto.get_a:()I
+	0x35:	INVOKEVIRTUAL	 #10 	 //  java/io/PrintStream.println:(I)V
+	0x38:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x3b:	ALOAD_2	
+	0x3c:	INVOKEVIRTUAL	 #11 	 //  objeto.get_c:()D
+	0x3f:	INVOKEVIRTUAL	 #12 	 //  java/io/PrintStream.println:(D)V
+	0x42:	ALOAD_1	
+	0x43:	BIPUSH	 #42 	 //  java/lang/System
+	0x45:	INVOKEVIRTUAL	 #13 	 //  objeto.set_a:(I)V
+	0x48:	ALOAD_1	
+	0x49:	LDC2_W	 #14 	 //  
+	0x4c:	INVOKEVIRTUAL	 #16 	 //  objeto.set_c:(D)V
+	0x4f:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x52:	ALOAD_1	
+	0x53:	INVOKEVIRTUAL	 #9 	 //  objeto.get_a:()I
+	0x56:	INVOKEVIRTUAL	 #10 	 //  java/io/PrintStream.println:(I)V
+	0x59:	GETSTATIC	 #8 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	0x5c:	ALOAD_1	
+	0x5d:	INVOKEVIRTUAL	 #11 	 //  objeto.get_c:()D
+	0x60:	INVOKEVIRTUAL	 #12 	 //  java/io/PrintStream.println:(D)V
+	0x63:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #25
+attribute_length: 2
+Sourcefile_index: #26		//objeto_teste.java

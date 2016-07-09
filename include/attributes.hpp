@@ -92,7 +92,7 @@ typedef struct Code_attribute_s {
        uint16_t max_stack;
        uint16_t max_locals;
        uint32_t code_length;
-       char *code;
+       uint8_t *code;
        uint16_t exception_table_length;
        std::vector<exception_table_info> *exception_table;
        uint16_t attributes_count;

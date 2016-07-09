@@ -1,31 +1,36 @@
-#define DEBUG
+//#define DEBUG
+
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
     #define DEBUG_E_S
 #endif // DEBUG
 
+
 #ifdef DEBUG_E_S
     #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar()); DEBUG_PRINT(" ---")}while(0);
     #define DEBUG_SAIDA do{DEBUG_PRINT("\n depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("---\n");}while(0);
 #endif // DEBUG
+
+#include <inttypes.h>
 #include "../include/interpretador.hpp"
 
 /**
 *   PARA UTILIZAR AS FUCOES DE DEBUG:
 *
 *   DEBUG_PRINT("mesagem" << variavel << "mais msgs");
-*   eh compilado para cout << "mensagem" << variavel << "mais msgs"
 *   caso esteja em modo debug
+*   eh compilado para cout << "mensagem" << variavel << "mais msgs" << endl;
 *
-*   DEBUG_ONLY(funcao_qualquer()); eh compilado para funcao_qualquer();
+*   DEBUG_ONLY(funcao_qualquer());
+*   caso esteja em modo debug eh compilado para funcao_qualquer();
 *
 *   Para chamar o print da pilha de operandos utilize o seguinte:
 *   DEBUG_ONLY(frame_corrente->printOperandStack());
 *
 *   Para facilitar investigar como OperandStack e LocalVar estavam
 *   ao entrar na instrução e como ficaram imetiatamente antes da saída,
-*   use DEBUG_ENTRADA e DEBUG_SAIDA imediatamente ao entrar e ao sair da
+*   use DEBUG_ENTRADA e  imediatamente ao entrar e antes de sair da
 *   instrução, respectivamente.
 */
 
@@ -48,17 +53,19 @@ int Interpretador::runCode(Frame *frame_pt) {
 
     uint8_t opcode;
 
+    this->frame_corrente->localVarVector.resize(this->code_corrente->max_locals);
     for(this->frame_corrente->pc = 0; this->frame_corrente->pc < this->code_corrente->code_length;) {
         opcode = this->code_corrente->code[this->frame_corrente->pc];
-        DEBUG_PRINT("pc->code[" << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
+        DEBUG_PRINT("pc->code[" << hex << this->frame_corrente->pc << "]: " << OperationMap::getOperation((uint8_t)opcode));
 
         this->frame_corrente->pc += this->execute_instruction(opcode);
+        DEBUG_SAIDA;
 
     }
     return 0;
 }
 
-uint16_t Interpretador::read_code_word(const char *code, uint64_t pc) {
+uint16_t Interpretador::read_code_word(uint8_t *code, uint64_t pc) {
       uint16_t word = 0;
 
       word = code[pc];
@@ -71,6 +78,7 @@ uint16_t Interpretador::read_code_word(const char *code, uint64_t pc) {
 Interpretador::Interpretador(Jvm *jvm){
 
     this->jvm = jvm;
+    this->_wide = false;
     std::vector<instructionFunction> pt(numOpcodes);
     pt[IADD] = &Interpretador::iadd;
     pt[NOP] = &Interpretador::nop;
@@ -265,7 +273,7 @@ Interpretador::Interpretador(Jvm *jvm){
     // implementada. Vai ver só precisa retornar.
     pt[MONITORENTER] = &Interpretador::monitorenter;
     pt[MONITOREXIT] = &Interpretador::monitorexit;
-    pt[WIDE] = &Interpretador::wide;//ni
+    pt[WIDE] = &Interpretador::wide;
     pt[MULTIANEWARRAY] = &Interpretador::multianewarray;//ni
     pt[IFNULL] = &Interpretador::ifnull;
     pt[IFNONNULL] = &Interpretador::ifnonnull;
@@ -297,52 +305,64 @@ int Interpretador::iconst_m1(){
     return 1;
 }
 int Interpretador::iconst_0(){
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 0;
     this->frame_corrente->operandStack.push_back(op);
+    ;
     return 1;
 }
 int Interpretador::iconst_1(){
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 1;
     this->frame_corrente->operandStack.push_back(op);
     //printf("joguei o 1 no opstack\n");
+    ;
     return 1;
 }
 int Interpretador::iconst_2(){
-    DEBUG_ENTRADA;
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 2;
     this->frame_corrente->operandStack.push_back(op);
-    DEBUG_SAIDA;
+    ;
+    ;
     return 1;
 }
 int Interpretador::iconst_3(){
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 3;
     this->frame_corrente->operandStack.push_back(op);
+    ;
     return 1;
 }
 int Interpretador::iconst_4(){
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 4;
     this->frame_corrente->operandStack.push_back(op);
+    ;
     return 1;
 }
 int Interpretador::iconst_5(){
+
     Local_var op;
     op.tag = INT;
     op.value.int_value = 5;
     this->frame_corrente->operandStack.push_back(op);
+    ;
     return 1;
 }
 
 int Interpretador::lconst_0(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -350,10 +370,12 @@ int Interpretador::lconst_0(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lconst_1(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -361,21 +383,39 @@ int Interpretador::lconst_1(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 1;
 }
 
 
 int Interpretador::fconst_0(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 0;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
+
 int Interpretador::fconst_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 1;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
+
 int Interpretador::fconst_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var value;
+
+      value.tag = PFLUTUANTE;
+      value.value.float_value = 2;
+      this->frame_corrente->operandStack.push_back(value);
+
+      return 1;
 }
 
 int Interpretador::dconst_0(){
@@ -388,29 +428,35 @@ int Interpretador::dconst_1(){
 }
 
 int Interpretador::bipush(){
-    //o byte eh convertido para int, com sinal extendido, e colocado na stack
-    DEBUG_ENTRADA;
     Local_var operand;
-    operand.tag = INT;//questoes conceituais aqui
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
+    uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if (n & 0x80)
+        n |= 0xFFFFFF00; //sign extend the number
+
+    operand.tag = INT;
+    operand.value.int_value = n;
+
     this->frame_corrente->operandStack.push_back(operand);
-    DEBUG_SAIDA;
     return 2;
 }
 
 int Interpretador::sipush(){
     Local_var operand;
-    operand.tag = CURTO;
-    operand.value.int_value = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand.value.int_value <<= 8;
-    operand.value.int_value |= this->code_corrente->code[this->frame_corrente->pc+2];
+    uint32_t n = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if (n & 0x8000)
+        n |= 0xFFFF0000; //sign extend the number
+
+    operand.tag = INT;
+    operand.value.int_value = n;
+
     this->frame_corrente->operandStack.push_back(operand);
-    return 3;
+    return 2;
 }
 
 int Interpretador::ldc(){
-    DEBUG_ENTRADA;
+
     uint8_t index = code_corrente->code[frame_corrente->pc+1];
+    float * alocador = NULL;
 
     Local_var operand;
     cp_tag tag = this->frame_corrente->cf->constant_pool[index-1].tag;
@@ -421,7 +467,10 @@ int Interpretador::ldc(){
             //colocar o valor na operand stack
             this->frame_corrente->operandStack.push_back(operand);
     }else if(tag == CONSTANT_Float){
-
+          operand.tag = PFLUTUANTE;
+          alocador = (float *)&this->frame_corrente->cf->constant_pool[index-1].cp_union.constant_float.bytes;
+          operand.value.float_value = *alocador;
+          this->frame_corrente->operandStack.push_back(operand);
    }else if(tag == CONSTANT_String){
 
             operand.tag = STRINGTYPE;
@@ -453,7 +502,7 @@ int Interpretador::ldc(){
    }else{
             //exception
     }
-    DEBUG_SAIDA;
+    ;
     return 2;//opcode e byte seguinde lidos
 }
 
@@ -550,32 +599,28 @@ int Interpretador::ldc2_w(){
 //int Interpretador::ldc_w(){}
 //int Interpretador::ldc2_w(){}
 
-int Interpretador::iload(){
-    Local_var operand;
-    operand.tag = INT;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
-}
+
 
 int Interpretador::lload(){
+    DEBUG_ENTRADA
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index-1];
-    operand[1] = this->frame_corrente->localVarVector[index];
+    operand[0] = this->frame_corrente->localVarVector[index];
+    operand[1] = this->frame_corrente->localVarVector[index+1];
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    DEBUG_SAIDA
     return 2;
+
 }
 
 int Interpretador::fload(){
     Local_var operand;
     operand.tag = PFLUTUANTE;
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
+    operand = this->frame_corrente->localVarVector[index];
     this->frame_corrente->operandStack.push_back(operand);
     return 2;
 }
@@ -603,6 +648,7 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -613,10 +659,13 @@ int Interpretador::lload_0(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
+    DEBUG_SAIDA
     return 1;
+
 }
 
 int Interpretador::lload_1(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -627,10 +676,12 @@ int Interpretador::lload_1(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_2(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -641,10 +692,12 @@ int Interpretador::lload_2(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    DEBUG_SAIDA
     return 1;
 }
 
 int Interpretador::lload_3(){
+    DEBUG_ENTRADA
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -657,6 +710,7 @@ int Interpretador::lload_3(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
+    DEBUG_SAIDA
     return 1;
 }
 
@@ -792,39 +846,71 @@ int Interpretador::aload_3(){
     return 1;
 }
 
+int Interpretador::iload(){
+
+    Local_var operand;
+    uint16_t index;
+
+    operand.tag = INT;
+
+    if(!_wide){
+        index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        ;
+        return 2;
+    }
+    else{
+        index = (uint16_t)this->code_corrente->code[this->frame_corrente->pc+1];
+
+        DEBUG_PRINT(index);
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        _wide = false;
+        ;
+        return 3;
+    }
+
+}
 
 int Interpretador::iload_0(){
+
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != INT){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    ;
     return 1;
 }
 int Interpretador::iload_1(){
-    DEBUG_ENTRADA;
+
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != INT){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
-    DEBUG_SAIDA;
+    ;
     return 1;
 }
 int Interpretador::iload_2(){
+
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != INT){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    ;
     return 1;
 }
 int Interpretador::iload_3(){
+
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != INT){
         printf("Variavel local carregada nao eh um inteiro! eh um: %d\n", lvar.tag);
     }
     this->frame_corrente->operandStack.push_back(lvar);
+    ;
     return 1;
 }
 
@@ -874,29 +960,21 @@ int Interpretador::saload(){
     return 1;
 }
 
-int Interpretador::istore(){
-    if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em istore: Tipo em operandStack diferente do esperado.\n");
-    }
-    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
-//    if(this->frame_corrente->localVarVector[local_var_index].tag != INT){
-//        printf("Erro em istore: Tipo em Local_var diferente do esperado.\n");
-//    }
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
 
-    size_t opStackSize = this->frame_corrente->operandStack.size();
-    if(local_var_index > opStackSize)
-        this->frame_corrente->operandStack.resize(local_var_index);
-    this->frame_corrente->localVarVector[local_var_index].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-    return 2;
-}
 
 int Interpretador::fstore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    DEBUG_ONLY(frame_corrente->printOperandStack());
+    Local_var lvar;
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+
+    if(lvar.tag != PFLUTUANTE){
+        printf("Erro em fstore: Tipo em operandStack diferente do esperado\n");
+    }
+    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+
+    this->frame_corrente->localVarVector[local_var_index]=lvar;
+DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -908,8 +986,30 @@ int Interpretador::astore(){
     return 2;
 }
 
+int Interpretador::istore(){
+
+    Local_var lvar;
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+
+    if(lvar.tag != INT){
+        printf("Erro em istore: Tipo em operandStack diferente do esperado.\n");
+    }
+    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+
+
+    size_t opStackSize = this->frame_corrente->localVarVector.size();
+
+    lvar.value.int_value = (int32_t)lvar.value.int_value;
+    this->frame_corrente->localVarVector[local_var_index] = lvar;
+
+    ;
+    return 2;
+}
+
+
 int Interpretador::istore_0(){
-    DEBUG_ENTRADA;
+
 
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
@@ -918,57 +1018,54 @@ int Interpretador::istore_0(){
     this->frame_corrente->localVarVector[0] = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
 
-    DEBUG_SAIDA;
+    ;
     return 1;
 }
 int Interpretador::istore_1(){
-    DEBUG_ENTRADA;
+    Local_var new_local_var;
+
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
 
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    //this->frame_corrente->localVarVector[1].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
-    DEBUG_SAIDA;
+
+    this->frame_corrente->localVarVector[1] = new_local_var;
+
+
     return 1;
 }
 int Interpretador::istore_2(){
+    Local_var new_local_var;
+
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
-//    if(this->frame_corrente->localVarVector[2].tag != INT){
-//        printf("Erro em istore: Tipo em Local_var diferente do esperado:");
-//        printf("INT != %d\n", this->frame_corrente->localVarVector[2].tag);
-//    }
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    //this->frame_corrente->localVarVector[2].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+
+    this->frame_corrente->localVarVector[2] = new_local_var;
     return 1;
 }
 int Interpretador::istore_3(){
+    Local_var new_local_var;
+
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado:");
         printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
     }
-//    if(this->frame_corrente->localVarVector[3].tag != INT){
-//        printf("Erro em istore: Tipo em Local_var diferente do esperado:");
-//        printf("INT != %d\n", this->frame_corrente->localVarVector[3].tag);
-//    }
-    Local_var new_local_var;
-    new_local_var.tag = INT;
-    new_local_var.value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    //this->frame_corrente->localVarVector[3].value.int_value = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->localVarVector.push_back(new_local_var);
+
+
+    new_local_var = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
+
+    this->frame_corrente->localVarVector[3] = new_local_var;
     return 1;
 }
 
@@ -983,8 +1080,6 @@ int Interpretador::lstore(){
       }
       local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
-      if (this->frame_corrente->localVarVector.size() < (size_t)local_var_index+2)
-            this->frame_corrente->localVarVector.resize(local_var_index+2);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1008,8 +1103,6 @@ int Interpretador::lstore_0(){
           printf("Erro em lstore_0: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 2)
-            this->frame_corrente->localVarVector.resize(2);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1032,13 +1125,14 @@ int Interpretador::lstore_1(){
           printf("Erro em lstore_1: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 3)
-            this->frame_corrente->localVarVector.resize(3);
+
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
       this->frame_corrente->operandStack.pop_back();
       this->frame_corrente->localVarVector[2] = operand_low;
+
+
 
       operand_high.tag = LONGO;
       operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1055,9 +1149,6 @@ int Interpretador::lstore_2(){
       if(this->frame_corrente->operandStack.back().tag != LONGO){
           printf("Erro em lstore_2: Tipo em operandStack diferente do esperado.\n");
       }
-
-      if (this->frame_corrente->localVarVector.size() < 4)
-            this->frame_corrente->localVarVector.resize(4);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1080,8 +1171,6 @@ int Interpretador::lstore_3(){
           printf("Erro em lstore_3: Tipo em operandStack diferente do esperado.\n");
       }
 
-      if (this->frame_corrente->localVarVector.size() < 5)
-            this->frame_corrente->localVarVector.resize(5);
 
       operand_low.tag = LONGO;
       operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
@@ -1097,20 +1186,67 @@ int Interpretador::lstore_3(){
 }
 
 int Interpretador::fstore_0(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+        Local_var local_var;
+        vector<Local_var>::iterator it;
+
+        if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+             printf("Erro em fstore_1: Tipo em operandStack diferente do esperado.\n");
+        }
+
+
+        local_var.tag = PFLUTUANTE;
+        local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+        this->frame_corrente->operandStack.pop_back();
+        this->frame_corrente->localVarVector[0] = local_var;
+
     return 1;
 }
 int Interpretador::fstore_1(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_1: Tipo em operandStack diferente do esperado.\n");
+      }
+
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[1] = local_var;
+
+      return 1;
 }
+
 int Interpretador::fstore_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_2: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[2] = local_var;
+
+      return 1;
 }
 int Interpretador::fstore_3(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      Local_var local_var;
+      vector<Local_var>::iterator it;
+
+      if(this->frame_corrente->operandStack.back().tag != PFLUTUANTE){
+          printf("Erro em fstore_3: Tipo em operandStack diferente do esperado.\n");
+      }
+
+      local_var.tag = PFLUTUANTE;
+      local_var.value.float_value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[3] = local_var;
+
+      return 1;
 }
 
 int Interpretador::dstore_0(){
@@ -1138,7 +1274,7 @@ int Interpretador::astore_0(){
         printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.pop_back();
+
     this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[0] = op;
     return 1;
@@ -1343,9 +1479,21 @@ int Interpretador::ladd(){
 }
 
 int Interpretador::fadd(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 + value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dadd(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1402,9 +1550,21 @@ int Interpretador::lsub(){
 }
 
 int Interpretador::fsub(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 - value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dsub(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1421,7 +1581,7 @@ int Interpretador::imul(){
     this->frame_corrente->operandStack.pop_back();
 
     //printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs * rhs;
+    op_v.int_value = (int32_t)(lhs * rhs);
     op.value = op_v;
     op.tag = INT;
     this->frame_corrente->operandStack.push_back(op);
@@ -1463,9 +1623,21 @@ int Interpretador::lmul(){
 }
 
 int Interpretador::fmul(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 * value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dmul(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1493,7 +1665,7 @@ int Interpretador::ldiv(){
     //..., value1, value2 ->  //indica que value2 estao no topo da pilha e logo abaixo value1
     // value1 - value2        //ordem da operacao
     // ..., result            //indica que o resultado vai pro topo da pilha
-    DEBUG_ENTRADA;
+
     Local_var result[2];
     int64_t lhs, rhs, resultado;
     uint32_t *alocador;
@@ -1519,14 +1691,26 @@ int Interpretador::ldiv(){
     result[1].value.long_value = *(alocador+1);//menos significativo
     this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
-    DEBUG_SAIDA;
+    ;
     return 1;
 }
 
 int Interpretador::fdiv(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = value1 / value2;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::ddiv(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1579,9 +1763,21 @@ int Interpretador::lrem(){
     return 1;
 }
 int Interpretador::frem(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = fmod(value1, value2);
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::drem(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1617,9 +1813,19 @@ int Interpretador::lneg(){
 }
 
 int Interpretador::fneg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value = 0;
+      Local_var result;
+
+      value = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = -value;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::dneg(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -1675,7 +1881,7 @@ int Interpretador::lshl(){
 }
 
 int Interpretador::ishr(){
-    DEBUG_ENTRADA;
+
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em ishr: Tipo em operandStack diferente do esperado.");
     }
@@ -1688,15 +1894,13 @@ int Interpretador::ishr(){
     // está havendo problema na passagem:   lhs <=== negativo; lhs final sai positivo
     int32_t lhs = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
-    DEBUG_PRINT(" int32_t lhs: " << lhs << " int32_t rhs: " << rhs);
-    DEBUG_ONLY(this->frame_corrente->printOperandStack());
+
     Local_var operand;
     operand.tag = INT;
-    rhs &= 0x0000001f;//shifta usando s� os 5 ultimos bits desse numero
-    operand.value.int_value = lhs >> rhs;
-    DEBUG_PRINT(" int32_t value: " << operand.value.int_value);
+
+    operand.value.int_value = (int32_t)(lhs / pow(2, rhs));
+
     this->frame_corrente->operandStack.push_back(operand);
-    DEBUG_SAIDA;
     return 1;
 }
 int Interpretador::lshr(){
@@ -1988,12 +2192,51 @@ int Interpretador::lcmp(){
     return 1;
 }
 int Interpretador::fcmpl(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (value1 > value2)
+            result.value.int_value = 1;
+      else if (value1 == value2)
+            result.value.int_value = 0;
+      else if (value1 < value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = -1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::fcmpg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      float value1 = 0, value2 = 0;
+      Local_var result;
+
+      value2 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+      value1 = this->frame_corrente->operandStack.back().value.float_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (value1 > value2)
+            result.value.int_value = 1;
+      else if (value1 == value2)
+            result.value.int_value = 0;
+      else if (value1 < value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = 1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
 
 int Interpretador::dcmpl(){
@@ -2639,7 +2882,7 @@ int Interpretador::getstatic(){
     class_name = frame_corrente->cf->getFieldClassName(name_index);
     field_name = frame_corrente->cf->getFieldName(name_index);
     field_type = frame_corrente->cf->getFieldType(name_index);
-    //printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str());
+    DEBUG_ONLY(printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str()));
 
     if(field_type.compare("I") == 0){
 
@@ -2657,7 +2900,7 @@ int Interpretador::getstatic(){
 
         lvar.tag = STRINGTYPE;
         if(field_type.compare("Ljava/io/PrintStream;") == 0)
-            lvar.value.string_value = new string();//jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
+            lvar.value.string_value = new string("PrintStream");//jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
         else{
             lvar.value.string_value = jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
 
@@ -3004,36 +3247,46 @@ int Interpretador::invokestatic(){
 }
 
 int Interpretador::invokevirtual(){
-    uint8_t operand = code_corrente->code[frame_corrente->pc+1];
-    uint16_t method_index = operand;
+    uint16_t method_index;
     string invoking_class, method_name, descriptor, argtypes, super_name;
     ClassFile* cf;
     vector<Local_var> args;
     Local_var lvar;
     int found = -1;
 
+
+    method_index = code_corrente->code[frame_corrente->pc+1];
     method_index = method_index  << 8;
-    operand = code_corrente->code[frame_corrente->pc+2];
-    method_index = method_index|operand; //este � o indice na constant pool
+    method_index |= code_corrente->code[frame_corrente->pc+2];
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back();
-        if(print_var.tag == LONGO || print_var.tag == DUPLO){
+        if(print_var.tag == LONGO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
                 int64_t var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var2.value.long_value;
                 alocador[1] = print_var.value.long_value;
-
                 cout << var64bits <<endl;
+        if(print_var.tag == DUPLO){
+                Local_var print_var2 = this->frame_corrente->operandStack.back();
+                this->frame_corrente->operandStack.pop_back();
+                int64_t var64bits;
+                uint32_t *alocador = (uint32_t*) &var64bits;
+                alocador[0] = print_var2.value.double_value;
+                alocador[1] = print_var.value.double_value;
+                cout << var64bits <<endl;
+        }
         }else{
+
                 cout << print_var.repr() << endl;
         }
-        this->frame_corrente->operandStack.pop_back();
+        this->frame_corrente->operandStack.pop_back(); // pop printstream ref
+        ;
         return 3;
     }
 
@@ -3149,10 +3402,14 @@ int Interpretador::instanceof(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::wide(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    this->_wide = true;
+    DEBUG_PRINT("wide!!!!");
+
     return 1;
-}//ni
+}
+
 int Interpretador::multianewarray(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;

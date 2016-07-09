@@ -1,0 +1,139 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 30
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 4 	<objeto>
+Super Class: 5 <java/lang/Object>
+Interface count: 0
+Fields count: 2
+Methods count: 5
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#5.#24		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#4.#25		 // objeto.a:I
+#3 = Fieldref		#4.#26		 // objeto.c:D
+#4 = Class		#27		 // objeto
+#5 = Class		#28		 // java/lang/Object
+#6 = Utf8		a
+#7 = Utf8		I
+#8 = Utf8		c
+#9 = Utf8		D
+#10 = Utf8		<init>
+#11 = Utf8		(ID)V
+#12 = Utf8		Code
+#13 = Utf8		LineNumberTable
+#14 = Utf8		set_a
+#15 = Utf8		(I)V
+#16 = Utf8		set_c
+#17 = Utf8		(D)V
+#18 = Utf8		get_a
+#19 = Utf8		()I
+#20 = Utf8		get_c
+#21 = Utf8		()D
+#22 = Utf8		SourceFile
+#23 = Utf8		objeto.java
+#24 = NameAndType	#10.#29		<init>:()V
+#25 = NameAndType	#6.#7		a:I
+#26 = NameAndType	#8.#9		c:D
+#27 = Utf8		objeto
+#28 = Utf8		java/lang/Object
+#29 = Utf8		()V
+
+
+Fields: 
+Field: 1
+Access Flag: 0x0002[ACC_PRIVATE]
+Name: cp_info#6 <a>
+Descriptor: cp_info#7 <I>
+Attributes Count: 0
+
+Field: 2
+Access Flag: 0x0002[ACC_PRIVATE]
+Name: cp_info#8 <c>
+Descriptor: cp_info#9 <D>
+Attributes Count: 0
+
+Methods_count: 5
+Methods: 
+Method: 1
+Name: #10<<init>>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (ID)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 51
+	 Max Stack: 3, 	 Max Locals: 4, 	 Code Length: 15
+	0:	ALOAD_0	
+	0x1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	0x4:	ALOAD_0	
+	0x5:	ILOAD_1	
+	0x6:	PUTFIELD	 #2 	 //  objeto.a:I
+	0x9:	ALOAD_0	
+	0xa:	DLOAD_2	
+	0xb:	PUTFIELD	 #3 	 //  objeto.c:D
+	0xe:	RETURN	
+
+Method: 2
+Name: #14<set_a>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (I)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 34
+	 Max Stack: 2, 	 Max Locals: 2, 	 Code Length: 6
+	0:	ALOAD_0	
+	0x1:	ILOAD_1	
+	0x2:	PUTFIELD	 #2 	 //  objeto.a:I
+	0x5:	RETURN	
+
+Method: 3
+Name: #16<set_c>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: (D)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 34
+	 Max Stack: 3, 	 Max Locals: 3, 	 Code Length: 6
+	0:	ALOAD_0	
+	0x1:	DLOAD_1	
+	0x2:	PUTFIELD	 #3 	 //  objeto.c:D
+	0x5:	RETURN	
+
+Method: 4
+Name: #18<get_a>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()I
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	GETFIELD	 #2 	 //  objeto.a:I
+	0x4:	IRETURN	
+
+Method: 5
+Name: #20<get_c>
+Access Flag: 0x0001[ACC_PUBLIC]
+Descritor: ()D
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 2, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	0x1:	GETFIELD	 #3 	 //  objeto.c:D
+	0x4:	DRETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #22
+attribute_length: 2
+Sourcefile_index: #23		//objeto.java

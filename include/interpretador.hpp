@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm>
+#include <math.h>
 
 #define numOpcodes 250
 #include "../include/frame.hpp"
@@ -15,6 +16,14 @@
 #include "../include/classFile.hpp"
 #include "../include/operationMap.hpp"
 #include "../include/debug.hpp"
+
+#ifdef DEBUG_E_S
+    #define DEBUG_ENTRADA do{DEBUG_PRINT(" ANTES:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_PRINT("");DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+    #define DEBUG_SAIDA do{DEBUG_PRINT(" DEPOIS:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+#else
+    #define DEBUG_ENTRADA
+    #define DEBUG_SAIDA
+#endif // DEBUG
 
 /** \file interpretador.hpp
 *   \brief Estruturas de interpretacao dos opcodes
@@ -27,6 +36,12 @@ class Jvm;
 */
 class Interpretador{
     public:
+        /** \var _wide
+        *   quando a instrucao wide eh chamada seta esta variavel pra true
+        *   a proxima instrucao recebe mais bytes de argumento caso esta variavel esteja true
+        */
+        bool _wide;
+
         /** \fn Interpretador
         *   \param Jvm Recebe a jvm que esta sendo executada como argumento
         *   para poder ter acesso as estruturas de runtime, tais como
@@ -77,13 +92,13 @@ class Interpretador{
          * \brief Lê dois bytes de um code e retorna um uint16_t formado por
          * (indexbyte1 << 8) | indexbyte2.
          *
-         * \param const char *code: code de onde os bytes serão lidos.
+         * \param uint8_t *code: code de onde os bytes serão lidos.
          * \param uint64_t pc: valor do pc que aponta para o primeiro byte a
          * ser lido do code (indexbyte1).
          *
          * \return valor de formado pelos dois bytes lidos.
          */
-        uint16_t read_code_word(const char *code, uint64_t pc);
+        uint16_t read_code_word(uint8_t *code, uint64_t pc);
 
         //uma das fun��es do interpretador
         //

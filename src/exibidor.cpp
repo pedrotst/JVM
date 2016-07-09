@@ -82,7 +82,7 @@ void exibeClass(ClassFile classF){
     uint8_t tag;
     int n, j, e, s, aux;
     int index;
-    long l, m;
+    uint64_t l, m;
     float f;
     double d;
 
@@ -189,7 +189,7 @@ void exibeClass(ClassFile classF){
                 l = cinfo.constant_long.high_bytes;
                 l = l<<32;
                 l = l + cinfo.constant_long.low_bytes;
-                printf("%ldl\n", l);
+                printf("%ldl\n", (long int) l);
                 //j++; //ocupa 2 espaços na constant pool
                 break;
 

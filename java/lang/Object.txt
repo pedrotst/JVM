@@ -289,4 +289,4 @@ Attribute Length: 2
 Attribute: SourceFile
 attribute_name_index: #45
 attribute_length: 2
-Sourcefile_index: #46		//.java
+Sourcefile_index: #46		//java/lang/StringBuffer.java
