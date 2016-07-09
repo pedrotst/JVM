@@ -6,8 +6,8 @@
 #endif // DEBUG
 
 #ifdef DEBUG_E_S
-    #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());}while(0);
-    #define DEBUG_SAIDA do{DEBUG_PRINT(" depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("-\n");}while(0);
+    #define DEBUG_ENTRADA do{DEBUG_PRINT(" antes:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar()); DEBUG_PRINT(" ---")}while(0);
+    #define DEBUG_SAIDA do{DEBUG_PRINT("\n depois:");DEBUG_ONLY(this->frame_corrente->printOperandStack());DEBUG_ONLY(this->frame_corrente->printLocalVar());DEBUG_PRINT("---\n");}while(0);
 #endif // DEBUG
 #include "../include/interpretador.hpp"
 
