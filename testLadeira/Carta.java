@@ -1,10 +1,3 @@
-/*
- * Aluno: Daniel Saad Nogueira Nunes
- * Matrícula: 06/81792
- * Disciplina: Sistemas De Programação
- * Professor: Tiago Trindade
- * Curso: Ciência da Computação
- */
 public class Carta {
 	public int naipe; /*0,1,2,3 respectivamente paus,ouros,espadas,copas*/
 	public String nome;/*Nome da carta*/

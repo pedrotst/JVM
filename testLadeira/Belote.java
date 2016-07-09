@@ -1,9 +1,4 @@
 /*
- * Aluno: Daniel Saad Nogueira Nunes
- * Matrícula: 06/81792
- * Disciplina: Sistemas De Programação
- * Professor: Tiago Trindade
- * Curso: Ciência da Computação
  */
 
 public class Belote {
@@ -117,7 +112,7 @@ public class Belote {
 			
 		}
 		
-		System.out.println("Pontuação dos jogadores.\n");
+		System.out.println("Pontuacao dos jogadores.\n");
 		System.out.println(jogadores[0].nome);
 		System.out.println( " =  ");
 		System.out.println(jogadores[0].pontuacao);
