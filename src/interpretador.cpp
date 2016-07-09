@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -2160,10 +2160,11 @@ int Interpretador::i2c(){
     this->frame_corrente->operandStack.pop_back();
 
     char char_var = (char)var;
-
+    DEBUG_PRINT(var);
+    DEBUG_PRINT((int32_t)char_var);
     Local_var operand;
     operand.tag = CHAR;
-    operand.value.char_value = char_var;
+    operand.value.char_value = (uint8_t)char_var;
     this->frame_corrente->operandStack.push_back(operand);
 
     return 1;
@@ -3269,7 +3270,7 @@ int Interpretador::invokevirtual(){
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var2.value.long_value;
                 alocador[1] = print_var.value.long_value;
-                cout << (int64_t)var64bits <<endl;
+                cout << var64bits <<endl;
 
         }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
@@ -3278,7 +3279,12 @@ int Interpretador::invokevirtual(){
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var2.value.double_value;
                 alocador[1] = print_var.value.double_value;
-                cout << var64bits <<endl;
+                cout.precision(16);
+                cout << fixed << var64bits <<endl;
+
+        }else if(print_var.tag == PFLUTUANTE){
+                cout.precision(7);
+                cout << fixed << print_var.value.float_value << endl;
         }
 
         else{
