@@ -13,9 +13,14 @@ int Jvm::run(const char* arq_class_name) {
 
     FILE *arquivoClass;
     vector<Local_var> args; //coloque a string de argumento aqui
-    Local_var main_str;
-    main_str.tag = STRINGTYPE;
-    main_str.value.string_value = new string("main args");
+    Local_var main_args;
+    FieldValue main_str;
+    main_str.tag = BASETYPE;
+    main_str.val.btype.tag = STRINGTYPE;
+    main_str.val.btype.val.stringue = new string("main args");
+    main_args.tag = ARRAYTYPE;
+    main_args.value.arr = new arrayref();
+    main_args.value.arr->push_back(main_str);
 
 
     if( !(arquivoClass = fopen(arq_class_name, "rb"))) {
@@ -38,7 +43,7 @@ int Jvm::run(const char* arq_class_name) {
         main_index = classF.findMethod("main", "()V");
     }
     else{
-        args.push_back(main_str);
+        args.push_back(main_args);
     }
     //printf("Valor de main_index: %d\n", main_index);
     if(main_index > 0){
