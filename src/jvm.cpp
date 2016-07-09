@@ -59,15 +59,13 @@ ClassFile* Jvm::getClassRef(string className) {
     // Se a classe não for encontrada no map, o find retorna um iterador para end.
     // Ou seja, caso a classe não for encontrada.
     // Carrega a nova classe.
-
     if(loadedClasses.count(className) != 1) {
-        if(!(arquivoClass = fopen(classpath.append(className).append(".class").c_str(), "rb"))){ // procura no classpath
-            if(!(arquivoClass = fopen(className.c_str(), "rb"))) { // se no encontrar procura no diretório do programa
+        if(!(arquivoClass = fopen((classpath + className + ".class").c_str(), "rb"))){ // procura no classpath
+            if(!(arquivoClass = fopen((className + ".class").c_str(), "rb"))) { // se no encontrar procura no diretório do programa
                 printf("Erro em getClassRef: O arquivo %s.class nao pode ser aberto.\n", className.c_str());
                 exit(0);
             }
         }
-        cout << "Abriu arquivo: " << className << endl;
         leitorClass_info(classF, arquivoClass);
         this->loadedClasses.insert(pair<string, ClassFile*>(className, classF));
     }
@@ -223,14 +221,17 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     Interpretador interpreter(this);
 
     //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
-    int clinitN = classF->findMethod("<clinit>", "()V");
+    //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
+    if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
+        int clinitN = classF->findMethod("<clinit>", "()V");
 
-    Frame staticFrame(clinitN, classF);
+        Frame staticFrame(clinitN, classF);
 
-    if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-        //cout << "Clinit encontrado em: " << clinitN << endl;
-        this->staticHeap[cname] = alocarObjetoEstatico(cname);
-        interpreter.runCode(&staticFrame);
+        if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
+            //cout << "Clinit encontrado em: " << clinitN << endl;
+            this->staticHeap[cname] = alocarObjetoEstatico(cname);
+            interpreter.runCode(&staticFrame);
+        }
     }
 
 

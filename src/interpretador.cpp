@@ -3260,6 +3260,7 @@ int Interpretador::invokestatic(){
         return 3;
     }
     // se for o registerNatives, ignore
+    cout << method_name << endl;
     if(method_name.compare("registerNatives") == 0){
         return 3;
     }
@@ -3358,7 +3359,6 @@ int Interpretador::invokevirtual(){
                 cout << print_var.repr() << endl;
         }
         this->frame_corrente->operandStack.pop_back(); // pop printstream ref
-        ;
         return 3;
     }
 
