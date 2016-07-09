@@ -625,8 +625,8 @@ int Interpretador::lload(){
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand[0] = this->frame_corrente->localVarVector[index];
     operand[1] = this->frame_corrente->localVarVector[index+1];
-    this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
+    this->frame_corrente->operandStack.push_back(operand[1]);
     return 2;
 
 }
@@ -799,8 +799,8 @@ int Interpretador::dload_2(){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     return 1;
 }
 
@@ -1510,8 +1510,8 @@ int Interpretador::ladd(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1581,8 +1581,8 @@ int Interpretador::lsub(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1654,8 +1654,8 @@ int Interpretador::lmul(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
 }
 
@@ -1726,8 +1726,8 @@ int Interpretador::ldiv(){
 
     result[0].value.long_value = *alocador;//mais significativo
     result[1].value.long_value = *(alocador+1);//menos significativo
-    this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
     ;
     return 1;
 }
@@ -1837,14 +1837,14 @@ int Interpretador::lneg(){
     alocador[1] = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
-    Local_var operand[2];
-    operand[0].tag = LONGO;
-    operand[1].tag = LONGO;
+    Local_var high, low;
+    low.tag = LONGO;
+    high.tag = LONGO;
     val = -val;
-    operand[0].value.long_value = alocador[0];//bits mais significativos
-    operand[1].value.long_value = alocador[1];//bits menos significativos
-    this->frame_corrente->operandStack.push_back(operand[0]);//mais significativos mais ao fundo
-    this->frame_corrente->operandStack.push_back(operand[1]);//menos significativos no topo
+    low.value.long_value = alocador[0];
+    high.value.long_value = alocador[1];
+    this->frame_corrente->operandStack.push_back(high);
+    this->frame_corrente->operandStack.push_back(low);
 
     return 1;
 }
@@ -1912,8 +1912,8 @@ int Interpretador::lshl(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -1963,8 +1963,8 @@ int Interpretador::lshr(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -2020,8 +2020,8 @@ int Interpretador::land(){
     operand[1].tag = LONGO;
     operand[1].value.int_value = *(alocador+1);
 
-    this->frame_corrente->operandStack.push_back(operand[0]);
     this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -2092,12 +2092,12 @@ int Interpretador::i2l(){
     uint32_t *uint_var = (uint32_t*)&long_var;
     Local_var operand1;
     operand1.tag = LONGO;
-    operand1.value.long_value = *(uint_var);
+    operand1.value.long_value = *(uint_var + 1);
     this->frame_corrente->operandStack.push_back(operand1);
 
     Local_var operand2;
     operand2.tag = LONGO;
-    operand2.value.long_value = *(uint_var + 1);
+    operand2.value.long_value = *(uint_var);
     this->frame_corrente->operandStack.push_back(operand2);
     return 1;
 }
@@ -2129,19 +2129,19 @@ int Interpretador::i2d(){
 
     Local_var operandHigh;
     operandHigh.tag = DUPLO;
-    operandHigh.value.double_value = *(pt_uint32);
+    operandHigh.value.double_value = *(pt_uint32 + 1);
     this->frame_corrente->operandStack.push_back(operandHigh);
 
     Local_var operandLow;
     operandLow.tag = DUPLO;
-    operandLow.value.double_value = *(pt_uint32 + 1);
+    operandLow.value.double_value = *(pt_uint32);
     this->frame_corrente->operandStack.push_back(operandLow);
     return 1;
 }
 
 int Interpretador::l2i(){
     if(this->frame_corrente->operandStack.back().tag != LONGO){
-        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
 
 
@@ -3340,17 +3340,17 @@ int Interpretador::invokevirtual(){
                 this->frame_corrente->operandStack.pop_back();
                 int64_t var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.long_value;
-                alocador[1] = print_var.value.long_value;
-                cout << var64bits <<endl;
+                alocador[0] = print_var.value.long_value;
+                alocador[1] = print_var2.value.long_value;
+                cout << (dec) << var64bits <<endl;
 
         }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
                 this->frame_corrente->operandStack.pop_back();
                 double var64bits;
                 uint32_t *alocador = (uint32_t*) &var64bits;
-                alocador[0] = print_var2.value.double_value;
-                alocador[1] = print_var.value.double_value;
+                alocador[0] = print_var.value.double_value;
+                alocador[1] = print_var2.value.double_value;
                 cout.precision(16);
                 cout << fixed << var64bits <<endl;
 
