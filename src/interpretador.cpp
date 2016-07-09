@@ -788,7 +788,6 @@ int Interpretador::dload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
-        exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != DUPLO){
@@ -1252,7 +1251,13 @@ int Interpretador::dstore_1(){
     return 1;
 }
 int Interpretador::dstore_2(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    uint32_t low;
+    if(this->frame_corrente->operandStack.back().tag != DUPLO){
+        printf("Erro em dstore_2: Tipo em operandStack diferente do esperado.\n");
+    }
+    low = this->frame_corrente->operandStack.back().value.double_value;
+    //this->frame_corrente->operandStack.pop_back();
+    //DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
 int Interpretador::dstore_3(){

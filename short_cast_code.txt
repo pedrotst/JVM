@@ -1,0 +1,118 @@
+Classfile /home/marcelo/Documents/Software_Basico_Ladeira/JVM/short_cast.class
+  Last modified Jul 9, 2016; size 557 bytes
+  MD5 checksum 1b0d37eeb652e367f963205280f1c207
+  Compiled from "short_cast.java"
+public class short_cast
+  SourceFile: "short_cast.java"
+  minor version: 0
+  major version: 46
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #7.#16         //  java/lang/Object."<init>":()V
+   #2 = Fieldref           #17.#18        //  java/lang/System.out:Ljava/io/PrintStream;
+   #3 = Methodref          #19.#20        //  java/io/PrintStream.println:(I)V
+   #4 = Methodref          #19.#21        //  java/io/PrintStream.println:(D)V
+   #5 = Methodref          #19.#22        //  java/io/PrintStream.println:(F)V
+   #6 = Class              #23            //  short_cast
+   #7 = Class              #24            //  java/lang/Object
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               main
+  #13 = Utf8               ([Ljava/lang/String;)V
+  #14 = Utf8               SourceFile
+  #15 = Utf8               short_cast.java
+  #16 = NameAndType        #8:#9          //  "<init>":()V
+  #17 = Class              #25            //  java/lang/System
+  #18 = NameAndType        #26:#27        //  out:Ljava/io/PrintStream;
+  #19 = Class              #28            //  java/io/PrintStream
+  #20 = NameAndType        #29:#30        //  println:(I)V
+  #21 = NameAndType        #29:#31        //  println:(D)V
+  #22 = NameAndType        #29:#32        //  println:(F)V
+  #23 = Utf8               short_cast
+  #24 = Utf8               java/lang/Object
+  #25 = Utf8               java/lang/System
+  #26 = Utf8               out
+  #27 = Utf8               Ljava/io/PrintStream;
+  #28 = Utf8               java/io/PrintStream
+  #29 = Utf8               println
+  #30 = Utf8               (I)V
+  #31 = Utf8               (D)V
+  #32 = Utf8               (F)V
+{
+  public short_cast();
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0       
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return        
+      LineNumberTable:
+        line 4: 0
+
+  public static void main(java.lang.String[]);
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=6, args_size=1
+         0: sipush        255
+         3: istore_1      
+         4: iload_1       
+         5: i2d           
+         6: dstore_2      
+         7: iload_1       
+         8: i2f           
+         9: fstore        4
+        11: iload_1       
+        12: istore        5
+        14: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        17: iload_1       
+        18: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        21: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        24: dload_2       
+        25: invokevirtual #4                  // Method java/io/PrintStream.println:(D)V
+        28: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        31: fload         4
+        33: invokevirtual #5                  // Method java/io/PrintStream.println:(F)V
+        36: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        39: iload         5
+        41: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        44: iload_1       
+        45: i2d           
+        46: dstore_2      
+        47: iload_1       
+        48: i2f           
+        49: fstore        4
+        51: iload_1       
+        52: istore        5
+        54: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        57: iload_1       
+        58: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        61: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        64: dload_2       
+        65: invokevirtual #4                  // Method java/io/PrintStream.println:(D)V
+        68: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        71: fload         4
+        73: invokevirtual #5                  // Method java/io/PrintStream.println:(F)V
+        76: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        79: iload         5
+        81: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        84: return        
+      LineNumberTable:
+        line 6: 0
+        line 8: 4
+        line 10: 7
+        line 12: 11
+        line 14: 14
+        line 15: 21
+        line 16: 28
+        line 17: 36
+        line 19: 44
+        line 21: 47
+        line 23: 51
+        line 25: 54
+        line 26: 61
+        line 27: 68
+        line 28: 76
+        line 29: 84
+}
