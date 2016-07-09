@@ -2045,7 +2045,32 @@ int Interpretador::ior(){
     return 1;
 }
 int Interpretador::lor(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t rhs, lhs, result;
+    uint32_t *alocador;
+    alocador = (uint32_t*) &rhs;
+    rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    result = lhs | rhs;
+    DEBUG_PRINT("result: " << result );
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+
     return 1;
 }
 
@@ -2069,7 +2094,32 @@ int Interpretador::ixor(){
     return 1;
 }
 int Interpretador::lxor(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t rhs, lhs, result;
+    uint32_t *alocador;
+    alocador = (uint32_t*) &rhs;
+    rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    result = lhs ^ rhs;
+    DEBUG_PRINT("result: " << result );
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
+
     return 1;
 }
 
@@ -2258,7 +2308,37 @@ int Interpretador::i2s(){
 }
 
 int Interpretador::lcmp(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t rhs, lhs;
+    uint32_t *alocador;
+    Local_var result;
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &rhs;
+    rhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    result.tag = INT;
+    if(rhs > lhs){
+        result.value.int_value = 1;
+    }
+
+    else if(rhs == lhs){
+        result.value.int_value = 0;
+    }
+
+    else{
+        result.value.int_value = -1;
+    }
+    DEBUG_PRINT("result: " << result.value.int_value);
+
+    this->frame_corrente->operandStack.push_back(result);
+    //DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
 int Interpretador::fcmpl(){
@@ -2805,11 +2885,11 @@ int Interpretador::putstatic(){
 
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
-    
+
     // garante que o objeto foi criado!
     string cname = frame_corrente->cf->getClassName();
     if(jvm->staticHeap.count(cname) != 1){
-        jvm->alocarObjetoEstatico(cname); 
+        jvm->alocarObjetoEstatico(cname);
     }
 
 
@@ -2871,7 +2951,7 @@ int Interpretador::putstatic(){
         //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
 
     }
-    
+
     jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
     return 3;
 }
