@@ -792,15 +792,14 @@ int Interpretador::dload_2(){
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
-        exit(0);
     }
     lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != DUPLO){
         printf("Variavel local carregada nao e um double, abortar\n");
         exit(0);
     }
-    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
+    this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     return 1;
 }
 
