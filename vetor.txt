@@ -1,0 +1,391 @@
+Classfile /home/pedroabreu/gitstuff/JVM/testLadeira/vetor.class
+  Last modified Jul 8, 2016; size 1255 bytes
+  MD5 checksum 6e604079949da594e353af133614624b
+  Compiled from "vetor.java"
+class vetor
+  SourceFile: "vetor.java"
+  minor version: 0
+  major version: 50
+  flags: ACC_SUPER
+Constant pool:
+   #1 = Methodref          #27.#45        //  java/lang/Object."<init>":()V
+   #2 = Double             2.0d
+   #4 = Double             3.0d
+   #6 = Double             -5.0d
+   #8 = Long               -5l
+  #10 = Long               3l
+  #12 = Long               6426246l
+  #14 = Long               -433242l
+  #16 = Float              3.0f
+  #17 = Float              -5.0f
+  #18 = Integer            100000
+  #19 = Fieldref           #46.#47        //  java/lang/System.out:Ljava/io/PrintStream;
+  #20 = Methodref          #48.#49        //  java/io/PrintStream.println:(I)V
+  #21 = Methodref          #48.#50        //  java/io/PrintStream.println:()V
+  #22 = Methodref          #48.#51        //  java/io/PrintStream.println:(D)V
+  #23 = Methodref          #48.#52        //  java/io/PrintStream.println:(J)V
+  #24 = Methodref          #48.#53        //  java/io/PrintStream.println:(F)V
+  #25 = Methodref          #48.#54        //  java/io/PrintStream.println:(C)V
+  #26 = Class              #55            //  vetor
+  #27 = Class              #56            //  java/lang/Object
+  #28 = Utf8               <init>
+  #29 = Utf8               ()V
+  #30 = Utf8               Code
+  #31 = Utf8               LineNumberTable
+  #32 = Utf8               main
+  #33 = Utf8               ([Ljava/lang/String;)V
+  #34 = Utf8               StackMapTable
+  #35 = Class              #57            //  "[Ljava/lang/String;"
+  #36 = Class              #58            //  "[I"
+  #37 = Class              #59            //  "[D"
+  #38 = Class              #60            //  "[J"
+  #39 = Class              #61            //  "[F"
+  #40 = Class              #62            //  "[B"
+  #41 = Class              #63            //  "[C"
+  #42 = Class              #64            //  "[S"
+  #43 = Utf8               SourceFile
+  #44 = Utf8               vetor.java
+  #45 = NameAndType        #28:#29        //  "<init>":()V
+  #46 = Class              #65            //  java/lang/System
+  #47 = NameAndType        #66:#67        //  out:Ljava/io/PrintStream;
+  #48 = Class              #68            //  java/io/PrintStream
+  #49 = NameAndType        #69:#70        //  println:(I)V
+  #50 = NameAndType        #69:#29        //  println:()V
+  #51 = NameAndType        #69:#71        //  println:(D)V
+  #52 = NameAndType        #69:#72        //  println:(J)V
+  #53 = NameAndType        #69:#73        //  println:(F)V
+  #54 = NameAndType        #69:#74        //  println:(C)V
+  #55 = Utf8               vetor
+  #56 = Utf8               java/lang/Object
+  #57 = Utf8               [Ljava/lang/String;
+  #58 = Utf8               [I
+  #59 = Utf8               [D
+  #60 = Utf8               [J
+  #61 = Utf8               [F
+  #62 = Utf8               [B
+  #63 = Utf8               [C
+  #64 = Utf8               [S
+  #65 = Utf8               java/lang/System
+  #66 = Utf8               out
+  #67 = Utf8               Ljava/io/PrintStream;
+  #68 = Utf8               java/io/PrintStream
+  #69 = Utf8               println
+  #70 = Utf8               (I)V
+  #71 = Utf8               (D)V
+  #72 = Utf8               (J)V
+  #73 = Utf8               (F)V
+  #74 = Utf8               (C)V
+{
+  vetor();
+    flags: 
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0       
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return        
+      LineNumberTable:
+        line 26: 0
+
+  public static void main(java.lang.String[]);
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=5, locals=9, args_size=1
+         0: bipush        10
+         2: newarray       int
+         4: astore_1      
+         5: iconst_3      
+         6: newarray       double
+         8: dup           
+         9: iconst_0      
+        10: ldc2_w        #2                  // double 2.0d
+        13: dastore       
+        14: dup           
+        15: iconst_1      
+        16: ldc2_w        #4                  // double 3.0d
+        19: dastore       
+        20: dup           
+        21: iconst_2      
+        22: ldc2_w        #6                  // double -5.0d
+        25: dastore       
+        26: astore_2      
+        27: iconst_4      
+        28: newarray       long
+        30: dup           
+        31: iconst_0      
+        32: ldc2_w        #8                  // long -5l
+        35: lastore       
+        36: dup           
+        37: iconst_1      
+        38: ldc2_w        #10                 // long 3l
+        41: lastore       
+        42: dup           
+        43: iconst_2      
+        44: ldc2_w        #12                 // long 6426246l
+        47: lastore       
+        48: dup           
+        49: iconst_3      
+        50: ldc2_w        #14                 // long -433242l
+        53: lastore       
+        54: astore_3      
+        55: iconst_3      
+        56: newarray       float
+        58: dup           
+        59: iconst_0      
+        60: fconst_2      
+        61: fastore       
+        62: dup           
+        63: iconst_1      
+        64: ldc           #16                 // float 3.0f
+        66: fastore       
+        67: dup           
+        68: iconst_2      
+        69: ldc           #17                 // float -5.0f
+        71: fastore       
+        72: astore        4
+        74: iconst_3      
+        75: newarray       byte
+        77: dup           
+        78: iconst_0      
+        79: bipush        -2
+        81: bastore       
+        82: dup           
+        83: iconst_1      
+        84: iconst_4      
+        85: bastore       
+        86: dup           
+        87: iconst_2      
+        88: iconst_0      
+        89: bastore       
+        90: astore        5
+        92: iconst_3      
+        93: newarray       char
+        95: dup           
+        96: iconst_0      
+        97: bipush        97
+        99: castore       
+       100: dup           
+       101: iconst_1      
+       102: bipush        48
+       104: castore       
+       105: dup           
+       106: iconst_2      
+       107: bipush        41
+       109: castore       
+       110: astore        6
+       112: iconst_3      
+       113: newarray       short
+       115: dup           
+       116: iconst_0      
+       117: bipush        15
+       119: sastore       
+       120: dup           
+       121: iconst_1      
+       122: sipush        1000
+       125: sastore       
+       126: dup           
+       127: iconst_2      
+       128: bipush        -2
+       130: sastore       
+       131: astore        7
+       133: iconst_0      
+       134: istore        8
+       136: iload         8
+       138: bipush        10
+       140: if_icmpge     155
+       143: aload_1       
+       144: iload         8
+       146: iload         8
+       148: iastore       
+       149: iinc          8, 1
+       152: goto          136
+       155: aload_1       
+       156: iconst_0      
+       157: dup2          
+       158: iaload        
+       159: ldc           #18                 // int 100000
+       161: iadd          
+       162: iastore       
+       163: iconst_0      
+       164: istore        8
+       166: iload         8
+       168: bipush        10
+       170: if_icmpge     189
+       173: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       176: aload_1       
+       177: iload         8
+       179: iaload        
+       180: invokevirtual #20                 // Method java/io/PrintStream.println:(I)V
+       183: iinc          8, 1
+       186: goto          166
+       189: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       192: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       195: iconst_0      
+       196: istore        8
+       198: iload         8
+       200: iconst_3      
+       201: if_icmpge     220
+       204: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       207: aload_2       
+       208: iload         8
+       210: daload        
+       211: invokevirtual #22                 // Method java/io/PrintStream.println:(D)V
+       214: iinc          8, 1
+       217: goto          198
+       220: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       223: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       226: iconst_0      
+       227: istore        8
+       229: iload         8
+       231: iconst_4      
+       232: if_icmpge     251
+       235: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       238: aload_3       
+       239: iload         8
+       241: laload        
+       242: invokevirtual #23                 // Method java/io/PrintStream.println:(J)V
+       245: iinc          8, 1
+       248: goto          229
+       251: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       254: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       257: iconst_0      
+       258: istore        8
+       260: iload         8
+       262: iconst_3      
+       263: if_icmpge     283
+       266: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       269: aload         4
+       271: iload         8
+       273: faload        
+       274: invokevirtual #24                 // Method java/io/PrintStream.println:(F)V
+       277: iinc          8, 1
+       280: goto          260
+       283: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       286: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       289: iconst_0      
+       290: istore        8
+       292: iload         8
+       294: iconst_3      
+       295: if_icmpge     315
+       298: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       301: aload         5
+       303: iload         8
+       305: baload        
+       306: invokevirtual #20                 // Method java/io/PrintStream.println:(I)V
+       309: iinc          8, 1
+       312: goto          292
+       315: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       318: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       321: iconst_0      
+       322: istore        8
+       324: iload         8
+       326: iconst_3      
+       327: if_icmpge     347
+       330: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       333: aload         6
+       335: iload         8
+       337: caload        
+       338: invokevirtual #25                 // Method java/io/PrintStream.println:(C)V
+       341: iinc          8, 1
+       344: goto          324
+       347: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       350: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       353: iconst_0      
+       354: istore        8
+       356: iload         8
+       358: iconst_3      
+       359: if_icmpge     379
+       362: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       365: aload         7
+       367: iload         8
+       369: saload        
+       370: invokevirtual #20                 // Method java/io/PrintStream.println:(I)V
+       373: iinc          8, 1
+       376: goto          356
+       379: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       382: invokevirtual #21                 // Method java/io/PrintStream.println:()V
+       385: return        
+      LineNumberTable:
+        line 29: 0
+        line 30: 5
+        line 31: 27
+        line 32: 55
+        line 33: 74
+        line 34: 92
+        line 35: 112
+        line 37: 133
+        line 38: 143
+        line 37: 149
+        line 40: 155
+        line 41: 163
+        line 42: 173
+        line 41: 183
+        line 44: 189
+        line 47: 195
+        line 48: 204
+        line 47: 214
+        line 50: 220
+        line 52: 226
+        line 53: 235
+        line 52: 245
+        line 55: 251
+        line 57: 257
+        line 58: 266
+        line 57: 277
+        line 60: 283
+        line 62: 289
+        line 63: 298
+        line 62: 309
+        line 65: 315
+        line 67: 321
+        line 68: 330
+        line 67: 341
+        line 70: 347
+        line 72: 353
+        line 73: 362
+        line 72: 373
+        line 75: 379
+        line 76: 385
+      StackMapTable: number_of_entries = 16
+           frame_type = 255 /* full_frame */
+          offset_delta = 136
+          locals = [ class "[Ljava/lang/String;", class "[I", class "[D", class "[J", class "[F", class "[B", class "[C", class "[S", int ]
+          stack = []
+           frame_type = 250 /* chop */
+          offset_delta = 18
+           frame_type = 252 /* append */
+             offset_delta = 10
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 22
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 21
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 21
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 22
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 22
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 22
+           frame_type = 252 /* append */
+             offset_delta = 8
+        locals = [ int ]
+           frame_type = 250 /* chop */
+          offset_delta = 22
+
+}
