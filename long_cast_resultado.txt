@@ -1,0 +1,440 @@
+
+============== long_cast.main ==============
+pc->code[0]: LDC2_W
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] BOOL: 0 // [2] BOOL: 0 // [3] BOOL: 0 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[3]: LSTORE_1
+ DEPOIS:
+ OperandStack:
+ //vazia//
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] BOOL: 0 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[4]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] BOOL: 0 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[5]: L2I
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] BOOL: 0 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[6]: I2S
+Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] INT: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] BOOL: 0 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[7]: ISTORE_3
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[8]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[9]: L2F
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] BOOL: 0 // [5] BOOL: 0 //
+-
+
+pc->code[a]: FSTORE
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -268435457 //
+Erro em fstore: Tipo em operandStack diferente do esperado
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 //
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] BOOL: 0 //
+-
+
+pc->code[c]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] BOOL: 0 //
+-
+
+pc->code[d]: L2I
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] BOOL: 0 //
+-
+
+pc->code[e]: ISTORE
+Erro em istore: Tipo em operandStack diferente do esperado.
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[10]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[13]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} // [4] LONG: -1 // [5] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[14]: INVOKEVIRTUAL
+efffffffffffffff
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[17]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[1a]: ILOAD_3
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} // [4] INT: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[1b]: INVOKEVIRTUAL
+-1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[1e]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[21]: FLOAD
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -1 // [3] STRINGTYPE: {PrintStream} // [4] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[23]: INVOKEVIRTUAL
+efffffff011fcb00
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[26]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[29]: ILOAD
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] STRINGTYPE: {PrintStream} // [3] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[2b]: INVOKEVIRTUAL
+efffffff011fcb50
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[2e]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: -1 // [2] LONG: -268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[2f]: LNEG
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: -1 // [2] LONG: -268435457 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[30]: LSTORE_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[31]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[32]: L2I
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[33]: I2S
+Erro em i2s: Tipo de operando no topo do operandStack diferente do esperado.
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] INT: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: -1 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[34]: ISTORE_3
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[35]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[36]: L2F
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: -268435457 // [5] LONG: -268435457 //
+-
+
+pc->code[37]: FSTORE
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 0 //
+Erro em fstore: Tipo em operandStack diferente do esperado
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 //
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: -268435457 //
+-
+
+pc->code[39]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: -268435457 //
+-
+
+pc->code[3a]: L2I
+INSTRUCAO NAO IMPLEMENTADA
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: -268435457 //
+-
+
+pc->code[3b]: ISTORE
+Erro em istore: Tipo em operandStack diferente do esperado.
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[3d]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[40]: LLOAD_1
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} // [5] LONG: 268435457 // [6] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[41]: INVOKEVIRTUAL
+10000001
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[44]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[47]: ILOAD_3
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} // [5] INT: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[48]: INVOKEVIRTUAL
+0
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[4b]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[4e]: FLOAD
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] LONG: 268435457 // [4] STRINGTYPE: {PrintStream} // [5] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[50]: INVOKEVIRTUAL
+11fcc40
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[53]: GETSTATIC
+getstatic: #4	//java/lang/System.out(Ljava/io/PrintStream;)
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] STRINGTYPE: {PrintStream} //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[56]: ILOAD
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 // [2] LONG: 268435457 // [3] STRINGTYPE: {PrintStream} // [4] LONG: 0 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[58]: INVOKEVIRTUAL
+11fcc90
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+pc->code[5b]: RETURN
+ DEPOIS:
+ OperandStack:
+ [0] LONG: -1 // [1] LONG: 268435457 //
+ Locar_var:
+ [0] STRINGTYPE: {main args} // [1] LONG: 268435457 // [2] LONG: 0 // [3] INT: 0 // [4] LONG: 0 // [5] LONG: 0 //
+-
+
+======= long_cast.main Retornou: 268435457 ======== 
+

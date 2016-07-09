@@ -2139,6 +2139,11 @@ int Interpretador::i2d(){
 }
 
 int Interpretador::l2i(){
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado. %d \n", tag);
+    }
+
+
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
