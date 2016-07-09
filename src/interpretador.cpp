@@ -364,18 +364,11 @@ int Interpretador::lconst_0(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 }
 
 int Interpretador::lconst_1(){
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
+
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -383,11 +376,6 @@ int Interpretador::lconst_1(){
     operand[1].value.long_value = 0;
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-<<<<<<< HEAD
-=======
-    
-
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 }
 
@@ -423,19 +411,19 @@ int Interpretador::fconst_2(){
 }
 
 int Interpretador::dconst_0(){
-    
-    
+
+
     Local_var zero;
-    
+
 
     zero.tag = DUPLO;
-    
+
 
     zero.value.double_value= 0;
-    
+
     this->frame_corrente->operandStack.push_back(zero);
     this->frame_corrente->operandStack.push_back(zero);
-    
+
 
     return 1;
 }
@@ -634,10 +622,6 @@ int Interpretador::ldc2_w(){
 
 
 int Interpretador::lload(){
-<<<<<<< HEAD
-=======
-  
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
@@ -646,10 +630,6 @@ int Interpretador::lload(){
     operand[1] = this->frame_corrente->localVarVector[index+1];
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 2;
 
 }
@@ -686,10 +666,6 @@ int Interpretador::aload(){
 
 
 int Interpretador::lload_0(){
-<<<<<<< HEAD
-=======
-  
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     Local_var lvar = this->frame_corrente->localVarVector[0];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -700,19 +676,11 @@ int Interpretador::lload_0(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[0]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 
 }
 
 int Interpretador::lload_1(){
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     Local_var lvar = this->frame_corrente->localVarVector[1];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -723,18 +691,10 @@ int Interpretador::lload_1(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[1]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
-<<<<<<< HEAD
-=======
-  
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 }
 
 int Interpretador::lload_2(){
-<<<<<<< HEAD
-=======
-   
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     Local_var lvar = this->frame_corrente->localVarVector[2];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -745,18 +705,10 @@ int Interpretador::lload_2(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[2]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 }
 
 int Interpretador::lload_3(){
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     Local_var lvar = this->frame_corrente->localVarVector[3];
     if(lvar.tag != LONGO){
         printf("Variavel local carregada nao e um long, abortar\n");
@@ -769,10 +721,6 @@ int Interpretador::lload_3(){
     }
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[3]);
     this->frame_corrente->operandStack.push_back( this->frame_corrente->localVarVector[4]);
-<<<<<<< HEAD
-=======
-    
->>>>>>> 1cb014aedcaceb7dc8c9a22eeed1aa941149e14d
     return 1;
 }
 
@@ -1511,8 +1459,9 @@ int Interpretador::ladd(){
     result[1].tag = LONGO;
     //le value2 == rhs
     rhs = this->frame_corrente->operandStack.back().value.long_value;
+    DEBUG_PRINT("rhs: " << rhs);
     this->frame_corrente->operandStack.pop_back();
-    alocador = (uint32_t*) &rhs;//alocador aponta para os 32 bits mais significativos de rhs
+    alocador = (uint32_t*) &rhs;
     *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
     this->frame_corrente->operandStack.pop_back();
 
@@ -1526,8 +1475,8 @@ int Interpretador::ladd(){
     resultado = lhs + rhs;
     alocador = (uint32_t*) &resultado;
 
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
+    result[0].value.long_value = *alocador;
+    result[1].value.long_value = *(alocador+1);
     this->frame_corrente->operandStack.push_back(result[0]);
     this->frame_corrente->operandStack.push_back(result[1]);
     return 1;

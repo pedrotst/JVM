@@ -144,11 +144,11 @@ void Frame::printLocalVar(){
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | val: %x //", this->localVarVector[i].value.reference_value);
-                printf(" [%d] BASETYPE");
+                printf(" [%d] BASETYPE", i);
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | val: %x //", this->localVarVector[i].value.reference_value);
-                printf(" [%d] OBJECTTYPE");
+                printf(" [%d] OBJECTTYPE", i);
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
@@ -163,7 +163,7 @@ void Frame::printLocalVar(){
                 break;
             case RETURN_ADDRESS:
                 //printf("tag: RETURN_ADDRESS | val: %d //", this->localVarVector[i].value.returnAddress_value);
-                printf(" [%d] RETURN ADDRESS");
+                printf(" [%d] RETURN ADDRESS", i);
                 break;
             case STRINGTYPE:
                 //printf("tag: STRINGTYPE | val: %x //", this->localVarVector[i].value.string_value);
