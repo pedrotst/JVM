@@ -40,6 +40,7 @@ typedef union Local_var_Type_u {
 class Local_var{
 public:
     tag_Tipo tag;
+    tag_Tipo origem;
 	Local_var_Type value;
 	/** \fn repr
 	* \return retorna a representacao de uma local_var em String

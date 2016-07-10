@@ -1,15 +1,12 @@
 class matrix{
-	int a;
-
-	public matrix(int a){
-		this.a = a;
-	}
-
 	public static void main(String[] args){
-		matrix[] m = {new matrix(4), new matrix(2)};
+		char[] m = new char[2];
+		short[] s = {2, 5};
 
-		System.out.println(m[0].a);
-		System.out.println(m[1].a);
+		m[0] = 'a';
+		m[1] = 'a';
+		System.out.println(m[0] + m[1]);
+		//System.out.println(s[1]);
 
 	}
 }

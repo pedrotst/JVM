@@ -861,10 +861,10 @@ int Interpretador::iload(){
     uint16_t index;
 
     operand.tag = INT;
-
     if(!_wide){
         index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
         operand = this->frame_corrente->localVarVector[index];
+
         this->frame_corrente->operandStack.push_back(operand);
         return 2;
     }
@@ -1022,17 +1022,49 @@ int Interpretador::baload(){
 
     Local_var operand;
     operand.tag = INT;
+    operand.origem = BOOL;
     operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.boleano;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
 int Interpretador::caload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.origem = CHAR;
+    operand.value.int_value = (uint32_t) this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.caractere;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
+
 int Interpretador::saload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.origem = CURTO;
+    operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.curto;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
 
@@ -1050,7 +1082,7 @@ int Interpretador::fstore(){
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
     this->frame_corrente->localVarVector[local_var_index]=lvar;
-    DEBUG_ONLY(frame_corrente->printOperandStack());
+    //DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -1567,11 +1599,48 @@ int Interpretador::bastore(){
 }
 
 int Interpretador::castore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.caractere = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+
 int Interpretador::sastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.curto = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
 
@@ -1630,18 +1699,18 @@ int Interpretador::swap_op(){
 }
 
 int Interpretador::iadd(){
-    uint32_t lhs, rhs;
-    Local_var op;
+    Local_var op, lhs, rhs;
     Local_var_Type op_v;
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    rhs = frame_corrente->operandStack.back();//extrai o valor em operand
     this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
+    lhs = frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
 
     //printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs + rhs;
+    op_v.int_value = lhs.value.int_value + rhs.value.int_value;
     op.value = op_v;
     op.tag = INT;
+    op.origem = lhs.origem;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
@@ -2522,16 +2591,41 @@ int Interpretador::i2d(){
 }
 
 int Interpretador::l2i(){
+    int32_t lvar;
+    Local_var result;
+
     if(this->frame_corrente->operandStack.back().tag != LONGO){
-        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado.\n");
+        printf("Erro em l2i: Tipo de operando no operandStack diferente do esperado.\n");
     }
+    lvar = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.pop_back();//Retira o mais significativo
+    DEBUG_PRINT(lvar);
 
+    result.tag = INT;
+    result.value.int_value = lvar;
 
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    this->frame_corrente->operandStack.push_back(result);
+
     return 1;
 }
 int Interpretador::l2f(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t lhs;
+    uint32_t *alocador;
+    float fvar;
+    Local_var result;
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    fvar = (float)lhs;
+
+    result.tag = PFLUTUANTE;
+    result.value.float_value = fvar;
+
+    this->frame_corrente->operandStack.push_back(result);
     return 1;
 }
 int Interpretador::l2d(){
@@ -3953,7 +4047,7 @@ int Interpretador::invokevirtual(){
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
-    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+    if((method_name.compare("println") == 0 || method_name.compare("print") == 0) && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back();
         if(print_var.tag == LONGO){
@@ -3963,7 +4057,7 @@ int Interpretador::invokevirtual(){
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var.value.long_value;
                 alocador[1] = print_var2.value.long_value;
-                cout << (dec) << var64bits <<endl;
+                cout << (dec) << var64bits;
 
         }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
@@ -3973,17 +4067,18 @@ int Interpretador::invokevirtual(){
                 alocador[0] = print_var.value.double_value;
                 alocador[1] = print_var2.value.double_value;
                 cout.precision(16);
-                cout << fixed << var64bits <<endl;
+                cout << fixed << var64bits;
 
         }else if(print_var.tag == PFLUTUANTE){
                 cout.precision(7);
-                cout << fixed << print_var.value.float_value << endl;
+                cout << fixed << print_var.value.float_value;
         }
 
         else{
-
-                cout << print_var.repr() << endl;
+                cout << print_var.repr();
         }
+        if(method_name.compare("println") == 0)
+            cout << endl;
         this->frame_corrente->operandStack.pop_back(); // pop printstream ref
         return 3;
     }
