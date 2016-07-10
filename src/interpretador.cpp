@@ -4041,12 +4041,13 @@ int Interpretador::invokeinterface(){
             this->frame_corrente->operandStack.pop_back();
         }
     }
+    invokingObj = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    args.push_back(invokingObj);
 
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
     reverse(args.begin(), args.end());
 
-    invokingObj = this->frame_corrente->operandStack.back();
-    this->frame_corrente->operandStack.pop_back();
 
     if(invokingObj.tag != OBJECTTYPE)
         printf("Esperado objeto na pilha, mas eh: %d", invokingObj.tag);
