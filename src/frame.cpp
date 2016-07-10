@@ -62,7 +62,12 @@ string Local_var::repr(){
                 converter << "FALSE";
             return converter.str();
         case INT:
-            converter << value.int_value;
+            if(this->origem == VOID_T){
+                converter << value.int_value;
+            }
+            else if(origem == CHAR){
+                converter << (char) value.int_value;
+            }
             return converter.str();
         case CHAR:
             converter << value.char_value;

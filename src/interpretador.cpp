@@ -1698,16 +1698,15 @@ int Interpretador::swap_op(){
 }
 
 int Interpretador::iadd(){
-    uint32_t lhs, rhs;
-    Local_var op;
+    Local_var op, lhs, rhs;
     Local_var_Type op_v;
-    rhs = frame_corrente->operandStack.back().value.int_value;//extrai o valor em operand
+    rhs = frame_corrente->operandStack.back();//extrai o valor em operand
     this->frame_corrente->operandStack.pop_back();
-    lhs = frame_corrente->operandStack.back().value.int_value;
+    lhs = frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
 
     //printf("lhs: %d rhs: %d\n", lhs, rhs);
-    op_v.int_value = lhs + rhs;
+    op_v.int_value = lhs.value.int_value + rhs.value.int_value;
     op.value = op_v;
     op.tag = INT;
     op.origem = lhs.origem;
@@ -4038,7 +4037,7 @@ int Interpretador::invokevirtual(){
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
     //printf("invokevirtual #%d\t//%s.%s:%s\n", method_index, invoking_class.c_str(), method_name.c_str(), descriptor.c_str());
 
-    if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
+    if((method_name.compare("println") == 0 || method_name.compare("print") == 0) && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back();
         if(print_var.tag == LONGO){
@@ -4048,7 +4047,7 @@ int Interpretador::invokevirtual(){
                 uint32_t *alocador = (uint32_t*) &var64bits;
                 alocador[0] = print_var.value.long_value;
                 alocador[1] = print_var2.value.long_value;
-                cout << (dec) << var64bits <<endl;
+                cout << (dec) << var64bits;
 
         }else if(print_var.tag == DUPLO){
                 Local_var print_var2 = this->frame_corrente->operandStack.back();
@@ -4058,16 +4057,18 @@ int Interpretador::invokevirtual(){
                 alocador[0] = print_var.value.double_value;
                 alocador[1] = print_var2.value.double_value;
                 cout.precision(16);
-                cout << fixed << var64bits <<endl;
+                cout << fixed << var64bits;
 
         }else if(print_var.tag == PFLUTUANTE){
                 cout.precision(7);
-                cout << fixed << print_var.value.float_value << endl;
+                cout << fixed << print_var.value.float_value;
         }
 
         else{
-                cout << print_var.repr() << endl;
+                cout << print_var.repr();
         }
+        if(method_name.compare("println") == 0)
+            cout << endl;
         this->frame_corrente->operandStack.pop_back(); // pop printstream ref
         return 3;
     }
