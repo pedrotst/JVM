@@ -49,6 +49,7 @@ int Interpretador::execute_instruction(int opcode){
 }
 
 int Interpretador::runCode(Frame *frame_pt) {
+
     int n = frame_pt->method_index;
 
     this->frame_corrente = frame_pt;
@@ -1747,7 +1748,7 @@ int Interpretador::iadd(){
     op_v.int_value = lhs.value.int_value + rhs.value.int_value;
     op.value = op_v;
     op.tag = INT;
-    op.origem = lhs.origem;
+  //  op.origem = lhs.origem;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
@@ -1848,6 +1849,7 @@ int Interpretador::isub(){
     op_v.int_value = lhs - rhs;
     op.value = op_v;
     op.tag = INT;
+    op.origem = VOID_T;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
@@ -3607,7 +3609,7 @@ int Interpretador::putstatic(){
 
     }
 
-    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
+    DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
     return 3;
 }
 
@@ -4324,7 +4326,6 @@ int Interpretador::instanceof(){/*
 
 */
 
-
     return 3;
 }
 
@@ -4343,6 +4344,7 @@ FieldValue Interpretador::inicializaMultArray(const char* ftype, int n){
     arrayref *arr = new arrayref;
     returnedField.val.arrtype.arr = arr;
     uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+    DEBUG_PRINT("char testado: ftype[" <<  n+1 << "]: " << ftype[n+1]);
     //o switch testa o caractere seguinte ao inicial:
     // exemplo 1: [I
     // ftype[0] = [
@@ -4354,80 +4356,57 @@ FieldValue Interpretador::inicializaMultArray(const char* ftype, int n){
     // ftype[2] = I
     switch(ftype[n+1]){
         case 'Z':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = BOOL;
                     field.val.btype.val.boleano = false;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'C':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = CHAR;
                     field.val.btype.val.caractere = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'F':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = PFLUTUANTE;
                     field.val.btype.val.pFlutuante = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'D':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = DUPLO;
                     field.val.btype.val.duplo = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'B':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = BYTE;
                     field.val.btype.val.byte = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'S':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = CURTO;
                     field.val.btype.val.curto = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'I':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = INT;
                     field.val.btype.val.inteiro = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case 'J':
-            for(uint32_t i = 0; i < contador; i++ ){
                     field.tag = BASETYPE;
                     field.val.btype.tag = LONGO;
                     field.val.btype.val.longo = 0;
-                    arr->push_back(field);
-            }
-            break;
+                    return field;
         case '[': // array
             field.tag = ARRAYTYPE;
             Local_var temp = this->frame_corrente->operandStack.back();
+            contador = this->frame_corrente->operandStack.back().value.int_value;
             this->frame_corrente->operandStack.pop_back();
             for(uint32_t i = 0; i < contador; i++){
+                DEBUG_PRINT(" dimensao" << n+2 << ": pushback[" << i << "]");
                 arr->push_back(this->inicializaMultArray(ftype, n+1));//testa sempre com o caractere seguinte
             }
             this->frame_corrente->operandStack.push_back(temp);//essa linha não é ero, deixe aqui
-            break;
+            return returnedField;
     }
-    return returnedField;
 }
 
 int Interpretador::multianewarray(){
@@ -4441,11 +4420,27 @@ int Interpretador::multianewarray(){
         Local_var operand;
         operand.tag = ARRAYTYPE;
         operand.value.arr = new arrayref;
+        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+        //invertendo a ordem das dimensões
+        //variaveis auxiliares
+        std::vector<Local_var>tempVec;
+        for(int i = 0; i < dimensions; i++){
+            tempVec.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
+        for(int i = 0; i < dimensions; i++){
+            this->frame_corrente->operandStack.push_back(tempVec.front());
+            tempVec.erase(tempVec.begin());
+        }
+        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+
         uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+        this->frame_corrente->operandStack.pop_back();
         for(uint32_t i = 0; i < contador; i++){
+            DEBUG_PRINT(" dimensao1: pushback[" << i << "] ---------");
             operand.value.arr->push_back( inicializaMultArray( className.c_str() ) );
         }
-        for(uint8_t i = 0; i < dimensions; i++){
+        for(uint8_t i = 0; i < dimensions-1; i++){
             this->frame_corrente->operandStack.pop_back();
         }
         this->frame_corrente->operandStack.push_back(operand);
@@ -4466,6 +4461,10 @@ int Interpretador::impdep2(){
     return 1;
 }//ni
 
+int Interpretador::invokeinterface(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 #ifdef DEBUG_E_S
     #undef DEBUG_E_S
 #endif // DEBUG_E_S
