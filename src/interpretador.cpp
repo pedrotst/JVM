@@ -2667,7 +2667,34 @@ int Interpretador::l2f(){
     return 1;
 }
 int Interpretador::l2d(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t lvar;
+    uint32_t *alocador;
+    double dvar;
+    Local_var high, low;
+
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em l2d: Tipo de operando no topo do operandStack diferente do esperado.\n");
+    }
+
+    alocador = (uint32_t*) &lvar;
+    lvar = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    dvar = (double)lvar;
+
+    alocador = (uint32_t*)&dvar;
+
+    high.tag = DUPLO;
+    low.tag = DUPLO;
+
+    high.value.double_value = *(alocador + 1);
+    low.value.double_value = *alocador;
+
+    this->frame_corrente->operandStack.push_back(high);
+    this->frame_corrente->operandStack.push_back(low);
+
     return 1;
 }
 
