@@ -1,0 +1,123 @@
+General Information: 
+Magic: CAFEBABE
+Minor version: 0
+Major version: 46
+Constant Pool Count: 27
+Access Flag: 0x0020[ACC_SUPER]
+This Class: 4 	<matrix>
+Super Class: 5 <java/lang/Object>
+Interface count: 0
+Fields count: 0
+Methods count: 2
+Attributes count: 1
+
+Constant Pool: 
+#1 = Methodref		#5.#14		 // java/lang/Object.<init>:()V
+#2 = Fieldref		#15.#16		 // java/lang/System.out:Ljava/io/PrintStream;
+#3 = Methodref		#17.#18		 // java/io/PrintStream.println:(Z)V
+#4 = Class		#19		 // matrix
+#5 = Class		#20		 // java/lang/Object
+#6 = Utf8		<init>
+#7 = Utf8		()V
+#8 = Utf8		Code
+#9 = Utf8		LineNumberTable
+#10 = Utf8		main
+#11 = Utf8		([Ljava/lang/String;)V
+#12 = Utf8		SourceFile
+#13 = Utf8		matrix.java
+#14 = NameAndType	#6.#7		<init>:()V
+#15 = Class		#21		 // java/lang/System
+#16 = NameAndType	#22.#23		out:Ljava/io/PrintStream;
+#17 = Class		#24		 // java/io/PrintStream
+#18 = NameAndType	#25.#26		println:(Z)V
+#19 = Utf8		matrix
+#20 = Utf8		java/lang/Object
+#21 = Utf8		java/lang/System
+#22 = Utf8		out
+#23 = Utf8		Ljava/io/PrintStream;
+#24 = Utf8		java/io/PrintStream
+#25 = Utf8		println
+#26 = Utf8		(Z)V
+
+
+Fields: 
+Methods_count: 2
+Methods: 
+Method: 1
+Name: #6<<init>>
+Access Flag: 000000
+Descritor: ()V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
+	0:	ALOAD_0	
+	1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
+	4:	RETURN	
+
+Method: 2
+Name: #10<main>
+Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
+Descritor: ([Ljava/lang/String;)V
+Atribute count: 1
+	 Attribute number: 1
+	 Attribute Name: Code
+	 Attribute Length: 90
+	 Max Stack: 4, 	 Max Locals: 2, 	 Code Length: 58
+	0:	BIPUSH	 #9 	 //  LineNumberTable
+	2:	NEWARRAY	 #4 	 //  matrix
+	4:	DUP	
+	5:	ICONST_0	
+	6:	ICONST_1	
+	7:	BASTORE	
+	8:	DUP	
+	9:	ICONST_1	
+	10:	ICONST_1	
+	11:	BASTORE	
+	12:	DUP	
+	13:	ICONST_2	
+	14:	ICONST_1	
+	15:	BASTORE	
+	16:	DUP	
+	17:	ICONST_3	
+	18:	ICONST_1	
+	19:	BASTORE	
+	20:	DUP	
+	21:	ICONST_4	
+	22:	ICONST_0	
+	23:	BASTORE	
+	24:	DUP	
+	25:	ICONST_5	
+	26:	ICONST_0	
+	27:	BASTORE	
+	28:	DUP	
+	29:	BIPUSH	 #6 	 //  <init>
+	31:	ICONST_0	
+	32:	BASTORE	
+	33:	DUP	
+	34:	BIPUSH	 #7 	 //  ()V
+	36:	ICONST_0	
+	37:	BASTORE	
+	38:	DUP	
+	39:	BIPUSH	 #8 	 //  Code
+	41:	ICONST_0	
+	42:	BASTORE	
+	43:	ASTORE_1	
+	44:	GETSTATIC	 #2 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	47:	ALOAD_1	
+	48:	ICONST_0	
+	49:	BALOAD	
+	50:	ALOAD_1	
+	51:	ICONST_4	
+	52:	BALOAD	
+	53:	IAND	
+	54:	INVOKEVIRTUAL	 #3 	 //  java/io/PrintStream.println:(Z)V
+	57:	RETURN	
+
+Attributes Count: 1
+Attribute Length: 2
+Attribute: SourceFile
+attribute_name_index: #12
+attribute_length: 2
+Sourcefile_index: #13		//matrix.java
