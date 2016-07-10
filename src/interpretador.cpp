@@ -51,7 +51,7 @@ int Interpretador::execute_instruction(int opcode){
 int Interpretador::runCode(Frame *frame_pt) {
 
     int n = frame_pt->method_index;
-    
+
     this->frame_corrente = frame_pt;
     this->code_corrente = frame_pt->cf->getCodeAttr(n);
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
@@ -1610,9 +1610,41 @@ int Interpretador::dastore(){
     this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+FieldValue Interpretador::localV2FieldT(Local_var temp){
+    FieldValue field;
+    field.tag = temp.tag;
+    switch( temp.tag ){
+        case OBJECTTYPE:
+            field.val.objtype.instance = temp.value.reference_value;
+            break;
+        case STRINGTYPE:
+            field.val.objtype.stringue = temp.value.string_value;
+            break;
+        case ARRAYTYPE:
+            field.val.arrtype.arr = temp.value.arr;
+            break;
+        default:
+            printf("Chegou algo que nao a referencia\n");
+            break;
+    }
+    return field;
+}
 
 int Interpretador::aastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    FieldValue field;
+    Local_var temp = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    field = localV2FieldT(temp);
+    uint32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    arrayref *aRef = this->frame_corrente->operandStack.back().value.arr;
+//checar se os tipos estão corretos
+//    if(aRef->at(0).value.reference_value. == temp.tag){
+//        printf("Erro em aastore: ")
+//    }
+    aRef->at(index) = field;
+
     return 1;
 }
 int Interpretador::bastore(){
@@ -4297,9 +4329,9 @@ int Interpretador::instanceof(){/*
     Local_var obj = this->frame_corrente->operandStack.back();
     uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
     string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
-    Local_var 
+    Local_var
     this->frame_corrente->operandStack.pop_back();
-    
+
     switch(descriptor[0]){
         case "I":
         break;

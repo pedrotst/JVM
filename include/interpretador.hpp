@@ -211,6 +211,8 @@ class Interpretador{
 		int lastore();
 		int fastore();
 		int dastore();
+
+		FieldValue localV2FieldT(Local_var temp); //função auxiliar de aastore
 		int aastore();
 		int bastore();
 		int castore();
