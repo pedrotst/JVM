@@ -303,7 +303,7 @@ void exibeClass(ClassFile classF){
 
                     //printf("\t Code: %02x\n", opcode);
                     int arg_qnt = print_code(opcode);
-                    cout << "\t"<< k << ":\t"<<  OperationMap::getOperation((uint8_t)opcode) << "\t";
+                    cout << "\t"<< dec << k << ":\t"<<  OperationMap::getOperation((uint8_t)opcode) << "\t";
                     //printf("arg_qnt = %d\n", arg_qnt);
                     for(int u = 0 ; u < arg_qnt; u += (!(arg_qnt%2) + 1)){
                         uint16_t cp_ref;

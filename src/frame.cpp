@@ -29,7 +29,7 @@ string FieldValue::repr(){
                 converter << val.btype.val.curto;
                 return converter.str();
             case DUPLO:
-                converter << val.btype.val.duplo;
+                converter << (double) val.btype.val.duplo;
                 return converter.str();
             case STRINGTYPE:
                 return "'" + *val.btype.val.stringue + "'";
@@ -56,7 +56,10 @@ string Local_var::repr(){
     stringstream converter;
     switch (this->tag){
         case BOOL:
-            converter << value.boolean_value;
+            if(value.boolean_value == 1)
+                converter << "TRUE";
+            else
+                converter << "FALSE";
             return converter.str();
         case INT:
             converter << value.int_value;
