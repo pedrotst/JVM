@@ -2612,16 +2612,69 @@ int Interpretador::f2d(){
 }
 
 int Interpretador::d2i(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      double double_value = 0;
+      uint32_t *alocador = NULL;
+      Local_var result;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      result.value.int_value = (int) double_value;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
+
 int Interpretador::d2l(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      double double_value = 0;
+      long long_result = 0;
+      uint32_t *alocador = NULL;
+      Local_var result_high, result_low;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      long_result = (long) double_value;
+
+      alocador = (uint32_t *) &long_result;
+      result_low.tag = LONGO;
+      result_low.value.long_value = *alocador;
+
+      result_high.tag = LONGO;
+      result_high.value.long_value = *(alocador + 1);
+
+      this->frame_corrente->operandStack.push_back(result_high);
+      this->frame_corrente->operandStack.push_back(result_low);
+
+      return 1;
 }
+
 int Interpretador::d2f(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      double double_value = 0;
+      uint32_t *alocador = NULL;
+      Local_var result;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = PFLUTUANTE;
+      result.value.float_value = (float) double_value;
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
 
 int Interpretador::i2b(){
