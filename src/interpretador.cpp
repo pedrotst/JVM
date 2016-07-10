@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -1085,25 +1085,17 @@ int Interpretador::fstore(){
     return 2;
 }
 int Interpretador::dstore(){
-    Local_var operand_high, operand_low;
-    uint8_t local_var_index = 0;
+     Local_var high, low;
+     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
 
-    if(this->frame_corrente->operandStack.back().tag != DUPLO){
-        printf("Erro em dstore: Tipo em operandStack diferente do esperado.\n");
-    }
-    local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index+1] = low;
 
-
-    operand_low.tag = DUPLO;
-    operand_low.value.double_value = this->frame_corrente->operandStack.back().value.double_value;
-    this->frame_corrente->operandStack.pop_back();
-    this->frame_corrente->localVarVector[local_var_index+1] = operand_low;
-
-    operand_high.tag = DUPLO;
-    operand_high.value.double_value = this->frame_corrente->operandStack.back().value.double_value;
-    this->frame_corrente->operandStack.pop_back();
-    this->frame_corrente->localVarVector[local_var_index] = operand_high;
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index] = high;
 
     return 2;
 }
