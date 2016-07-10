@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 #include <stdio.h>
 #include <map>
@@ -216,28 +216,32 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
+tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
     DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
 
-    Local_var ret_var;
+    Local_var ret_var_h, ret_var_l;
     Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
+    DEBUG_PRINT(endl << cname << endl);
     Interpretador interpreter(this);
-
-    //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
+        //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
 
+        DEBUG_PRINT(endl << clinitN << endl);
+
         Frame staticFrame(clinitN, classF);
 
         if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-            //cout << "Clinit encontrado em: " << clinitN << endl;
+            cout << "Clinit encontrado em: " << clinitN << endl;
             this->staticHeap[cname] = alocarObjetoEstatico(cname);
             interpreter.runCode(&staticFrame);
         }
     }
+
+
 
 
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
@@ -254,18 +258,31 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     // se a pilha estiver vazia consideramos que ela retornou void
 
     if(!frame.operandStack.empty()){
-        ret_var = frame.operandStack.back();
-        this->fStack.pop_back();
+       if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
+            ret_var_l = frame.operandStack.back();
+             this->fStack.pop_back();
+             ret_var_h = frame.operandStack.back();
+             this->fStack.pop_back();
+       }
+       else{
+             ret_var_l = frame.operandStack.back();
+             this->fStack.pop_back();
+             ret_var_h.tag = VOID_T;
+             ret_var_h.value.void_v = true;
+       }
+
         //printf("o metodo chamado retornou algo\n");
     }
     else{
         //printf("o metodo chamado retornou void\n");
-        ret_var.tag = VOID_T;
-        ret_var.value.void_v = true;
+        ret_var_h.tag = VOID_T;
+        ret_var_h.value.void_v = true;
+        ret_var_l.tag = VOID_T;
+        ret_var_l.value.void_v = true;
     }
 
-    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
-    return ret_var;
+    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << "high: " << ret_var_h.repr() << " low: " << ret_var_l.repr() << " ======== " << endl);
+    return make_tuple(ret_var_h, ret_var_l);
 }
 
 #ifdef Debug
