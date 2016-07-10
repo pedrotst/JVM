@@ -861,10 +861,10 @@ int Interpretador::iload(){
     uint16_t index;
 
     operand.tag = INT;
-
     if(!_wide){
         index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
         operand = this->frame_corrente->localVarVector[index];
+
         this->frame_corrente->operandStack.push_back(operand);
         return 2;
     }
@@ -1041,6 +1041,7 @@ int Interpretador::caload(){
 
     Local_var operand;
     operand.tag = INT;
+    operand.origem = CHAR;
     operand.value.int_value = (uint32_t) this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.caractere;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
@@ -1060,6 +1061,7 @@ int Interpretador::saload(){
 
     Local_var operand;
     operand.tag = INT;
+    operand.origem = CURTO;
     operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.curto;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
@@ -1080,7 +1082,7 @@ int Interpretador::fstore(){
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
     this->frame_corrente->localVarVector[local_var_index]=lvar;
-    DEBUG_ONLY(frame_corrente->printOperandStack());
+    //DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -1708,6 +1710,7 @@ int Interpretador::iadd(){
     op_v.int_value = lhs + rhs;
     op.value = op_v;
     op.tag = INT;
+    op.origem = lhs.origem;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
