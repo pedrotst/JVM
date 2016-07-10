@@ -1,4 +1,4 @@
-#define DEBUG
+// #define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -3981,13 +3981,15 @@ int Interpretador::newarray(){
     return 2;
 }
 
+int Interpretador::invokeinterface(){ return 1;}
 int Interpretador::invokespecial(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
     uint16_t method_index = operand;
     string invoking_class, method_name, descriptor, argtypes;
     ClassFile* cf;
     vector<Local_var> args;
-    Local_var lvar;
+    Local_var lvar_l, lvar_h;
+    tuple<Local_var, Local_var> lvar;
 
     method_index = method_index << 8;
     operand = code_corrente->code[frame_corrente->pc+2];
@@ -4015,11 +4017,18 @@ int Interpretador::invokespecial(){
     method_index = cf->findMethod(method_name, descriptor);//este e o indice no vetor de metodos
 
     //executa este m�todo
-    lvar = this->jvm->execMethod(method_index, cf, args);
+            //executa este metodo
+            lvar = this->jvm->execMethod(method_index, cf, args);
+            lvar_h = get<0>(lvar);
+            lvar_l = get<1>(lvar);
+
+            // bota o retorno na operand stack se nao tiver retornado void
+            if(lvar_h.tag != VOID_T)
+                this->frame_corrente->operandStack.push_back(lvar_h);
+            if(lvar_l.tag != VOID_T)
+              this->frame_corrente->operandStack.push_back(lvar_l);
 
     // bota o retorno na operand stack se nao tiver retornado void
-    if(lvar.tag != VOID_T)
-        this->frame_corrente->operandStack.push_back(lvar);
 
     //e fim
     return 3;
@@ -4301,7 +4310,7 @@ int Interpretador::checkcast(){
 }//ni
 
 
-int Interpretador::instanceof(){
+int Interpretador::instanceof(){/*
     Local_var obj = this->frame_corrente->operandStack.back();
     uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
     string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
@@ -4313,7 +4322,7 @@ int Interpretador::instanceof(){
         break;
     }
 
-
+*/
 
 
     return 3;

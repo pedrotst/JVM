@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 #include <stdio.h>
 #include <map>
@@ -255,16 +255,16 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
 
     if(!frame.operandStack.empty()){
        if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
-            ret_var_l = frame.operansStack.back();
+            ret_var_l = frame.operandStack.back();
              this->fStack.pop_back();
              ret_var_h = frame.operandStack.back();
              this->fStack.pop_back();
        }
        else{
-             ret_var_l = frame.operansStack.back();
+             ret_var_l = frame.operandStack.back();
              this->fStack.pop_back();
              ret_var_h.tag = VOID_T;
-             ret_var_h.void_v = true;
+             ret_var_h.value.void_v = true;
        }
 
         //printf("o metodo chamado retornou algo\n");
@@ -277,7 +277,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
         ret_var_l.value.void_v = true;
     }
 
-    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
+    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << "high: " << ret_var_h.repr() << " low: " << ret_var_l.repr() << " ======== " << endl);
     return make_tuple(ret_var_h, ret_var_l);
 }
 
