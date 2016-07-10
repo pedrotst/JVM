@@ -4292,7 +4292,7 @@ int Interpretador::checkcast(){
 }//ni
 
 
-int Interpretador::instanceof(){
+int Interpretador::instanceof(){/*
     Local_var obj = this->frame_corrente->operandStack.back();
     uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
     string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
@@ -4305,7 +4305,7 @@ int Interpretador::instanceof(){
     }
 
 
-    
+    */
 
     return 3;
 }
