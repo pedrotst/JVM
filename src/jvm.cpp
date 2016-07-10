@@ -223,14 +223,11 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
     Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
-    DEBUG_PRINT(endl << cname << endl);
     Interpretador interpreter(this);
         //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
-
-        DEBUG_PRINT(endl << clinitN << endl);
 
         Frame staticFrame(clinitN, classF);
 
@@ -255,15 +252,16 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
     interpreter.runCode(&frame);
 
 
-    // se a pilha estiver vazia consideramos que ela retornou void
-
+    // Caso a pilha não esteja vazia checamos se o retorno é formado por 1 ou 2 Local_var.
+    // Um valor de retorno só é formado por 2 Local_var`s se ele for um LONG ou um DOUBLE.
     if(!frame.operandStack.empty()){
        if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
-            ret_var_l = frame.operandStack.back();
+             ret_var_l = frame.operandStack.back();
              this->fStack.pop_back();
              ret_var_h = frame.operandStack.back();
              this->fStack.pop_back();
        }
+       // Caso o valor retornado for formado somente por 1 Local_var.
        else{
              ret_var_l = frame.operandStack.back();
              this->fStack.pop_back();
@@ -273,7 +271,8 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
 
         //printf("o metodo chamado retornou algo\n");
     }
-    else{
+    // se a pilha estiver vazia consideramos que ela retornou void
+    else {
         //printf("o metodo chamado retornou void\n");
         ret_var_h.tag = VOID_T;
         ret_var_h.value.void_v = true;
