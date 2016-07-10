@@ -216,10 +216,10 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
+tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
     DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
 
-    Local_var ret_var;
+    Local_var ret_var_h, ret_var_l;
     Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
@@ -254,18 +254,31 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     // se a pilha estiver vazia consideramos que ela retornou void
 
     if(!frame.operandStack.empty()){
-        ret_var = frame.operandStack.back();
-        this->fStack.pop_back();
+       if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
+            ret_var_l = frame.operansStack.back();
+             this->fStack.pop_back();
+             ret_var_h = frame.operandStack.back();
+             this->fStack.pop_back();
+       }
+       else{
+             ret_var_l = frame.operansStack.back();
+             this->fStack.pop_back();
+             ret_var_h.tag = VOID_T;
+             ret_var_h.void_v = true;
+       }
+
         //printf("o metodo chamado retornou algo\n");
     }
     else{
         //printf("o metodo chamado retornou void\n");
-        ret_var.tag = VOID_T;
-        ret_var.value.void_v = true;
+        ret_var_h.tag = VOID_T;
+        ret_var_h.value.void_v = true;
+        ret_var_l.tag = VOID_T;
+        ret_var_l.value.void_v = true;
     }
 
     DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
-    return ret_var;
+    return make_tuple(ret_var_h, ret_var_l);
 }
 
 #ifdef Debug

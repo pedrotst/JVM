@@ -4,6 +4,7 @@
 /**  \file  */
 
 #include <iostream>
+#include <tuple>
 #include "../include/leitor.hpp"
 #include "../include/heap.hpp"
 #include "../include/frame.hpp"
