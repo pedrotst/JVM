@@ -1005,7 +1005,21 @@ int Interpretador::daload(){
 }
 
 int Interpretador::aaload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+     if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = ARRAYTYPE;
+    operand.value.arr = this->frame_corrente->operandStack.back().value.arr->at(index).val.arrtype.arr;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
 
@@ -4318,8 +4332,9 @@ int Interpretador::multianewarray(){
         }
         this->frame_corrente->operandStack.push_back(operand);
     }
-    return 1;
+    return 4;
 }//ni
+
 int Interpretador::breakpoint(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
