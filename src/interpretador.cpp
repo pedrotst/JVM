@@ -453,7 +453,6 @@ int Interpretador::bipush(){
 }
 
 int Interpretador::sipush(){
-    DEBUG_ENTRADA;
     Local_var resultado;
 
     uint16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
@@ -462,7 +461,6 @@ int Interpretador::sipush(){
     resultado.value.int_value = (int32_t)var;
     this->frame_corrente->operandStack.push_back(resultado);
    
-    DEBUG_SAIDA;
     return 3;
 }
 
@@ -1079,7 +1077,6 @@ int Interpretador::saload(){
 
 
 int Interpretador::fstore(){
-    DEBUG_ONLY(frame_corrente->printOperandStack());
     Local_var lvar;
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -1090,7 +1087,6 @@ int Interpretador::fstore(){
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
     this->frame_corrente->localVarVector[local_var_index]=lvar;
-    //DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -4263,7 +4259,6 @@ int Interpretador::iushr(){
     }
 
     shift_n = (uint32_t) this->frame_corrente->operandStack.back().value.int_value;
-    DEBUG_PRINT(shift_n);
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -4271,12 +4266,10 @@ int Interpretador::iushr(){
     }
 
     ival = (uint32_t)this->frame_corrente->operandStack.back().value.int_value;
-    DEBUG_PRINT(ival);
     this->frame_corrente->operandStack.pop_back();
 
     result.tag = INT;
     result.value.int_value = ival>>shift_n;
-    DEBUG_PRINT(result.value.int_value);
     this->frame_corrente->operandStack.push_back(result);
 
     return 1;
@@ -4459,7 +4452,7 @@ int Interpretador::multianewarray(){
         Local_var operand;
         operand.tag = ARRAYTYPE;
         operand.value.arr = new arrayref;
-        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+        //DEBUG_ONLY(this->frame_corrente->printOperandStack());
         //invertendo a ordem das dimensões
         //variaveis auxiliares
         std::vector<Local_var>tempVec;
@@ -4471,7 +4464,7 @@ int Interpretador::multianewarray(){
             this->frame_corrente->operandStack.push_back(tempVec.front());
             tempVec.erase(tempVec.begin());
         }
-        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+        //DEBUG_ONLY(this->frame_corrente->printOperandStack());
 
         uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
         this->frame_corrente->operandStack.pop_back();
