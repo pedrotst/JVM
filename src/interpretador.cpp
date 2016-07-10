@@ -1407,7 +1407,7 @@ int Interpretador::iastore(){
 }
 int Interpretador::lastore(){
     int32_t val[2];
-    
+
     if(this->frame_corrente->operandStack.back().tag != LONGO){
             printf("Erro em lastore: Tipo de value em operandStack diferente do esperado:");
             printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
@@ -2669,12 +2669,70 @@ int Interpretador::fcmpg(){
 }
 
 int Interpretador::dcmpl(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      double double_value1 = 0, double_value2 = 0;
+      Local_var result;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (double_value1 > double_value2)
+            result.value.int_value = 1;
+      else if (double_value1 == double_value2)
+            result.value.int_value = 0;
+      else if (double_value1 < double_value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = -1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
 int Interpretador::dcmpg(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
+      double double_value1 = 0, double_value2 = 0;
+      Local_var result;
+      uint32_t *alocador = NULL;
+
+      // Aqui o alocador aponta para o value1. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value2;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      // Aqui o alocador aponta para o value2. O alocador é um ponteiro de 32 bits
+      alocador = (uint32_t *) &double_value1;
+      *alocador = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+      *(alocador + 1) = this->frame_corrente->operandStack.back().value.double_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      result.tag = INT;
+      if (double_value1 > double_value2)
+            result.value.int_value = 1;
+      else if (double_value1 == double_value2)
+            result.value.int_value = 0;
+      else if (double_value1 < double_value2)
+            result.value.int_value = -1;
+      else
+            result.value.int_value = 1;
+
+      this->frame_corrente->operandStack.push_back(result);
+
+      return 1;
 }
 
 ////////////////////////// Conditional Branch //////////////////////////
