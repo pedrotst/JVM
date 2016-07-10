@@ -56,7 +56,10 @@ string Local_var::repr(){
     stringstream converter;
     switch (this->tag){
         case BOOL:
-            converter << value.boolean_value;
+            if(value.boolean_value == 1)
+                converter << "TRUE";
+            else
+                converter << "FALSE";
             return converter.str();
         case INT:
             converter << value.int_value;

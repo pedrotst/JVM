@@ -1008,8 +1008,23 @@ int Interpretador::aaload(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
+
 int Interpretador::baload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.boleano;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
 int Interpretador::caload(){
@@ -1365,58 +1380,49 @@ int Interpretador::dstore_3(){
 
 int Interpretador::astore_0(){
     Local_var op;
-    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao eh uma referencia, abortar\n");
         exit(0);
     }
 
-    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[0] = op;
     return 1;
 }
 
 int Interpretador::astore_1(){
     Local_var op;
-    size_t old_size = this->frame_corrente->localVarVector.size();
 
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
-    cout << "astore_1: " << op.tag << endl;
     this->frame_corrente->operandStack.pop_back();
-    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[1] = op;
     return 1;
 }
 
 int Interpretador::astore_2(){
     Local_var op;
-    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
-    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[2] = op;
     return 1;
 }
 
 int Interpretador::astore_3(){
     Local_var op;
-    size_t old_size = this->frame_corrente->localVarVector.size();
     op = this->frame_corrente->operandStack.back();
     if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
     }
     this->frame_corrente->operandStack.pop_back();
-    this->frame_corrente->localVarVector.resize(old_size+1);
     this->frame_corrente->localVarVector[3] = op;
     return 1;
 }
@@ -1539,9 +1545,26 @@ int Interpretador::aastore(){
     return 1;
 }
 int Interpretador::bastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em bastore: Tipo de value em operandStack diferente do esperado:");
+        printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em bastore: Tipo de index em operandStack diferente do esperado:");
+        printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.boleano = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+
 int Interpretador::castore(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -3355,12 +3378,11 @@ int Interpretador::putstatic(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = (lvar.value.double_value << 32) | lvar_upper.value.double_value;
+        fvar.val.btype.val.duplo = (lvar.value.double_value << 31) | lvar_upper.value.double_value;
         cout << "variavel sendo colocada no putstatic: " << fvar.repr() << endl;
 
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        //printf("the double passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) | (lvar.value.long_value)));
     }
 
     else if(field_type.substr(0, 1).compare("L") == 0){
