@@ -9,12 +9,15 @@ string Frame::arrayDimension(arrayref *aRef){
     stringstream arrDim;
     if(aRef->at(0).tag == ARRAYTYPE ){
         arrDim << "[" << aRef->size() << "]";
-        printf("tag depois de entrar: %d\n", aRef->at(0).tag);
         arrDim << arrayDimension(aRef->at(0).val.arrtype.arr);
         return arrDim.str();
     }else{
         return arrDim.str();
     }
+}
+
+bool Frame::isSimpleArray(arrayref *aRef){
+    return aRef->at(0).tag != ARRAYTYPE;
 }
 
 string FieldValue::repr(){
@@ -52,7 +55,7 @@ string FieldValue::repr(){
                 break;
             }
         case OBJECTTYPE:{
-            string buff("Referencia para objeto de: ");
+            string buff("ObjRef: ");
             return buff.append(val.objtype.instance->cf->getClassName());
         }
         case ARRAYTYPE:
@@ -121,7 +124,7 @@ string Local_var::repr(){
     return buf;
 }
 
-//a idéia é gerar {{valor1, valor2},{valor3,vaor4}}
+//a idéia é gerar {{valor1, valor2},{valor3,valor4}}
 string Frame::arrayContents(arrayref *aRef){
     stringstream arrCon;
     if(aRef->at(0).tag == ARRAYTYPE ){//aRef é um ponteiro para arrayref; aRef->at(indice) é um FieldValue
@@ -137,9 +140,9 @@ string Frame::arrayContents(arrayref *aRef){
         return arrCon.str();
     }else{//aqui imprime {val1, val2l...}
         arrCon << "{";
-        for(uint32_t i = 0; i < aRef->size(); i++){
-             arrCon << aRef->at(i).repr();
-             if(aRef->size()-1 == i){
+        for(uint32_t j = 0; j < aRef->size(); j++){
+             arrCon << aRef->at(j).repr();
+             if(aRef->size()-1 == j){
                     arrCon << "";
              }else{
                     arrCon << ",";
@@ -194,12 +197,16 @@ void Frame::printOperandStack(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                arrDim = arrayDimension(this->operandStack[i].value.arr);
-                arrCon = arrayContents(this->operandStack[i].value.arr);
-                printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
-//                for(int j = 0; j < (int)this->operandStack[i].value.arr->size(); j++){
-//                    cout << this->operandStack[i].value.arr->at(j).repr() << ", ";
-//                }
+                if(isSimpleArray(this->operandStack[i].value.arr)){
+                    arrDim = arrayDimension(this->operandStack[i].value.arr);
+                    arrCon = arrayContents(this->operandStack[i].value.arr);
+                    printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
+                }
+                else{
+                    arrDim = arrayDimension(this->operandStack[i].value.arr);
+                    arrCon = arrayContents(this->operandStack[i].value.arr);
+                    printf(" [%d] ARRAYTYPE %s{%s}", i, arrDim.c_str(), arrCon.c_str());
+                }
                 printf(" //");
                 break;
             case VOID_T:
@@ -258,19 +265,26 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                arrDim = arrayDimension(this->localVarVector[i].value.arr);
-                arrCon = arrayContents(this->localVarVector[i].value.arr);
-                printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
+                if(isSimpleArray(this->localVarVector[i].value.arr)){
+                    arrDim = arrayDimension(this->localVarVector[i].value.arr);
+                    arrCon = arrayContents(this->localVarVector[i].value.arr);
+                    printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
+                }
+                else{
+                    arrDim = arrayDimension(this->localVarVector[i].value.arr->at(0).val.arrtype.arr);
+                    arrCon = arrayContents(this->localVarVector[i].value.arr->at(0).val.arrtype.arr);
+                    printf(" [%d] ARRAYTYPE %s{%s}", i, arrDim.c_str(), arrCon.c_str());
+                }
                 printf(" //");
                 break;
             case VOID_T:
                 printf(" [%d] VOID_T: %d //",  i, this->localVarVector[i].value.void_v);
                 break;
             case RETURN_ADDRESS:
-                printf(" [%d] RETURN ADDRESS | val: %d", i, this->localVarVector[i].value.returnAddress_value);
+                printf(" [%d] RETURN ADDRESS | val: %zu", i, this->localVarVector[i].value.returnAddress_value);
                 break;
             case STRINGTYPE:
-                printf(" [%d] STRINGTYPE: {""%s""} //",  i, this->localVarVector[i].value.string_value->c_str());
+                printf(" [%d] STRINGTYPE: {s} //",  i, this->localVarVector[i].value.string_value->c_str());
                 break;
         }
     }

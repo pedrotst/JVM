@@ -85,6 +85,7 @@ public:
 	  void printLocalVar();
 	  string arrayContents(arrayref*);
 	  string arrayDimension(arrayref*);
+      bool isSimpleArray(arrayref *aRef);
 
 };
 
