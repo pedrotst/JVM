@@ -453,7 +453,6 @@ int Interpretador::bipush(){
 }
 
 int Interpretador::sipush(){
-    DEBUG_ENTRADA;
     Local_var resultado;
 
     uint16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
@@ -462,7 +461,6 @@ int Interpretador::sipush(){
     resultado.value.int_value = (int32_t)var;
     this->frame_corrente->operandStack.push_back(resultado);
 
-    DEBUG_SAIDA;
     return 3;
 }
 
@@ -1079,7 +1077,6 @@ int Interpretador::saload(){
 
 
 int Interpretador::fstore(){
-    DEBUG_ONLY(frame_corrente->printOperandStack());
     Local_var lvar;
     lvar = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -1090,7 +1087,6 @@ int Interpretador::fstore(){
     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
     this->frame_corrente->localVarVector[local_var_index]=lvar;
-    //DEBUG_ONLY(frame_corrente->printOperandStack());
     return 2;
 }
 int Interpretador::dstore(){
@@ -4128,6 +4124,95 @@ int Interpretador::invokespecial(){
     return 3;
 }
 
+int Interpretador::invokeinterface(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1], argc;
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    Local_var lvar_l, lvar_h, invokingObj;
+    tuple<Local_var, Local_var> lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+
+    argc = code_corrente->code[frame_corrente->pc+3];
+
+    // pega os argumentos da pilha
+    for (int i=1; i < argc; i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
+    }
+    invokingObj = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    args.push_back(invokingObj);
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+
+    if(invokingObj.tag != OBJECTTYPE)
+        printf("Esperado objeto na pilha, mas eh: %d", invokingObj.tag);
+
+    this->frame_corrente->cf->getCpoolInterfaceMethod(method_index, invoking_class, method_name, descriptor);
+
+
+    // se for o registerNatives, ignore
+    cout << "invokeinterface: " << invoking_class << "." << method_name << ":" << descriptor << endl;
+
+    if(method_name.compare("registerNatives") == 0){
+        return 5;
+    }
+
+    invoking_class = invokingObj.value.reference_value->cf->getClassName();
+    cf = invokingObj.value.reference_value->cf;
+    //cf = this->jvm->getClassRef(invoking_class);
+    Frame *staticFrame;
+
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
+        staticFrame = new Frame(clinitN, cf);
+        //cout << "Clinit encontrado em: " << clinitN << endl;
+        jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
+        runCode(staticFrame);
+    }
+
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+        //executa este metodo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+    lvar_h = get<0>(lvar);
+    lvar_l = get<1>(lvar);
+
+        // bota o retorno na operand stack se nao tiver retornado void
+        if(lvar_h.tag != VOID_T)
+            this->frame_corrente->operandStack.push_back(lvar_h);
+        if(lvar_l.tag != VOID_T)
+          this->frame_corrente->operandStack.push_back(lvar_l);
+
+    //e fim*/
+    return 5;
+}
+
 
 int Interpretador::invokestatic(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
@@ -4160,8 +4245,8 @@ int Interpretador::invokestatic(){
     cf = this->jvm->getClassRef(invoking_class);
     Frame *staticFrame;
 
-    if((jvm->staticHeap.count(invoking_class) != 1)){
-        int clinitN = cf->findMethod("<clinit>", "()V");
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
         staticFrame = new Frame(clinitN, cf);
         //cout << "Clinit encontrado em: " << clinitN << endl;
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
@@ -4339,7 +4424,6 @@ int Interpretador::iushr(){
     }
 
     shift_n = (uint32_t) this->frame_corrente->operandStack.back().value.int_value;
-    DEBUG_PRINT(shift_n);
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != INT){
@@ -4347,12 +4431,10 @@ int Interpretador::iushr(){
     }
 
     ival = (uint32_t)this->frame_corrente->operandStack.back().value.int_value;
-    DEBUG_PRINT(ival);
     this->frame_corrente->operandStack.pop_back();
 
     result.tag = INT;
     result.value.int_value = ival>>shift_n;
-    DEBUG_PRINT(result.value.int_value);
     this->frame_corrente->operandStack.push_back(result);
 
     return 1;
@@ -4535,7 +4617,7 @@ int Interpretador::multianewarray(){
         Local_var operand;
         operand.tag = ARRAYTYPE;
         operand.value.arr = new arrayref;
-        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+        //DEBUG_ONLY(this->frame_corrente->printOperandStack());
         //invertendo a ordem das dimensões
         //variaveis auxiliares
         std::vector<Local_var>tempVec;
@@ -4547,7 +4629,7 @@ int Interpretador::multianewarray(){
             this->frame_corrente->operandStack.push_back(tempVec.front());
             tempVec.erase(tempVec.begin());
         }
-        DEBUG_ONLY(this->frame_corrente->printOperandStack());
+        //DEBUG_ONLY(this->frame_corrente->printOperandStack());
 
         uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
         this->frame_corrente->operandStack.pop_back();
@@ -4575,10 +4657,6 @@ int Interpretador::impdep2(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
-
-int Interpretador::invokeinterface(){
-    return 1;
-}
 #ifdef DEBUG_E_S
     #undef DEBUG_E_S
 #endif // DEBUG_E_S

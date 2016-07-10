@@ -216,7 +216,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
+tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> &args) {
     DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
 
     Local_var ret_var_h, ret_var_l;
@@ -225,7 +225,6 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
     string cname = classF->getClassName();
     Interpretador interpreter(this);
     //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
-    //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
 
@@ -242,12 +241,10 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
 
 
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
-        //cout << "var type: " << it->tag << endl;
         frame.localVarVector.push_back(*it);
     }
 
     this->fStack.push_back(frame);
-    //printf("Criei um frame\n");
 
     interpreter.runCode(&frame);
 

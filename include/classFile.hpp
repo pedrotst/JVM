@@ -76,7 +76,21 @@ public:
     */
     string getCpoolClass(int index);
 
-    /** \fn getCpoolClass
+    /** \fn getCpoolInterfaceMethod
+    *   \brief Busca na Constant Pool o nome e o tipo do método a partir do index
+    *
+    *   \param index Index utilizado para encontrar o método da interface
+    *   \param invoking_class referencia para string onde será escrito o nome da classe a ser invocada
+    *   \param method_name referencia para string onde será escrito o nome do método
+    *   \param descriptor referencia para string onde será escrito o descritor do método
+    *
+    *   \return Retorna o nome o nome e o tipo de retorno da classe no formato invoking_class.nome:tipo
+    *
+    */
+    string getCpoolInterfaceMethod(int index, string &invoking_class, string &method_name, string &descriptor);
+
+
+    /** \fn getCpoolMethod
     *   \brief Busca na Constant Pool o nome e o tipo do método a partir do index
     *
     *   \param index Index utilizado para encontrar o método
