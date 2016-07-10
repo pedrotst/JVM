@@ -310,7 +310,7 @@ char* getClassName(ClassFile *classF){
 
 string getClassPath(const char* arq_name){
     string path(arq_name, strlen(arq_name));
-    size_t slashfinder = path.find_last_of("/");
+    size_t slashfinder = path.find_last_of("/\\");
 
     path = path.substr(0, slashfinder+1);
 
