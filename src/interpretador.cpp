@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -460,7 +460,7 @@ int Interpretador::sipush(){
     resultado.tag = INT;
     resultado.value.int_value = (int32_t)var;
     this->frame_corrente->operandStack.push_back(resultado);
-   
+
     return 3;
 }
 
@@ -1008,8 +1008,18 @@ int Interpretador::aaload(){
     }
 
     Local_var operand;
-    operand.tag = ARRAYTYPE;
-    operand.value.arr = this->frame_corrente->operandStack.back().value.arr->at(index).val.arrtype.arr;
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == ARRAYTYPE){
+        operand.tag = ARRAYTYPE;
+        operand.value.arr = this->frame_corrente->operandStack.back().value.arr->at(index).val.arrtype.arr;
+    }
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == OBJECTTYPE){
+        operand.tag = OBJECTTYPE;
+        operand.value.reference_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.objtype.instance;
+    }
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == STRINGTYPE){
+        operand.tag = STRINGTYPE;
+        operand.value.string_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.objtype.stringue;
+    }
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
