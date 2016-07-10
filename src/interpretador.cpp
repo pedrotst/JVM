@@ -4136,8 +4136,8 @@ int Interpretador::invokestatic(){
     cf = this->jvm->getClassRef(invoking_class);
     Frame *staticFrame;
 
-    if((jvm->staticHeap.count(invoking_class) != 1)){
-        int clinitN = cf->findMethod("<clinit>", "()V");
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
         staticFrame = new Frame(clinitN, cf);
         //cout << "Clinit encontrado em: " << clinitN << endl;
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
