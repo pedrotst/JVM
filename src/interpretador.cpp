@@ -221,7 +221,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[I2D] = &Interpretador::i2d;
     pt[L2I] = &Interpretador::l2i;
     pt[L2F] = &Interpretador::l2f;
-    pt[L2D] = &Interpretador::l2d;//ni
+    pt[L2D] = &Interpretador::l2d;
     pt[F2D] = &Interpretador::f2d;
     pt[F2I] = &Interpretador::f2i;
     pt[F2L] = &Interpretador::f2l;
@@ -2353,7 +2353,7 @@ int Interpretador::ishr(){
     return 1;
 }
 int Interpretador::lushr(){
-      int64_t lhs, result;
+    int64_t lhs, result;
     int32_t shiftAmount;
     uint32_t *alocador;
 
@@ -3981,6 +3981,8 @@ int Interpretador::newarray(){
     return 2;
 }
 
+int Interpretador::invokeinterface(){return 1;}
+
 int Interpretador::invokespecial(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
     uint16_t method_index = operand;
@@ -4219,7 +4221,29 @@ int Interpretador::ireturn(){
 }
 
 int Interpretador::iushr(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    uint32_t shift_n, ival;
+    Local_var result;
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em iushr: O valor no topo da operandStack nao e um INT.\n");
+    }
+
+    shift_n = (uint32_t) this->frame_corrente->operandStack.back().value.int_value;
+    DEBUG_PRINT(shift_n);
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em iushr: O valor no topo da operandStack nao e um INT.\n");
+    }
+
+    ival = (uint32_t)this->frame_corrente->operandStack.back().value.int_value;
+    DEBUG_PRINT(ival);
+    this->frame_corrente->operandStack.pop_back();
+
+    result.tag = INT;
+    result.value.int_value = ival>>shift_n;
+    DEBUG_PRINT(result.value.int_value);
+    this->frame_corrente->operandStack.push_back(result);
+
     return 1;
 }
 
@@ -4230,14 +4254,14 @@ int Interpretador::lshr(){
     Local_var result[2];
 
     if(this->frame_corrente->operandStack.back().tag != INT){
-        printf("Erro em lshr: O valor no topo da operandStack não é um INT.");
+        printf("Erro em lshr: O valor no topo da operandStack nao e um INT.\n");
     }
 
     shift_n = this->frame_corrente->operandStack.back().value.int_value;
     this->frame_corrente->operandStack.pop_back();
 
     if(this->frame_corrente->operandStack.back().tag != LONGO){
-        printf("Erro em lshr: O segundo valor no topo da operandStack não é um LONG.");
+        printf("Erro em lshr: O segundo valor no topo da operandStack nao e um LONG.");
     }
 
     value = this->frame_corrente->operandStack.back().value.long_value;
@@ -4292,19 +4316,19 @@ int Interpretador::checkcast(){
 
 
 int Interpretador::instanceof(){
-    Local_var obj = this->frame_corrente->operandStack.back();
-    uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
-    string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
-    Local_var 
-    this->frame_corrente->operandStack.pop_back();
-    
-    switch(descriptor[0]){
-        case "I":
-        break;
-    }
+    //Local_var obj = this->frame_corrente->operandStack.back();
+    //uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
+    //string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
+    //Local_var
+    //this->frame_corrente->operandStack.pop_back();
+
+    //switch(descriptor[0]){
+        //case "I":
+        //break;
+    //}
 
 
-    
+
 
     return 3;
 }
