@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -433,7 +433,6 @@ int Interpretador::dconst_1(){
     high.tag=DUPLO;
     i = (int*)p;
     high.value.double_value=*i;
-    printf("TESTE Maroto do Diego %d\n", *i);
     i++;
 
     low.value.double_value=*i;
@@ -1086,7 +1085,19 @@ int Interpretador::fstore(){
     return 2;
 }
 int Interpretador::dstore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    
+     Local_var high, low;
+     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+
+
+      low = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index+1] = low;
+
+      high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      this->frame_corrente->localVarVector[local_var_index] = high;
+
     return 2;
 }
 int Interpretador::astore(){
