@@ -83,6 +83,8 @@ public:
       Frame(int method_index, ClassFile *cf);
       void printOperandStack();
 	  void printLocalVar();
+	  string arrayContents(arrayref*);
+	  string arrayDimension(arrayref*);
 
 };
 

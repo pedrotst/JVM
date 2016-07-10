@@ -2,6 +2,21 @@
 
 using namespace std;
 
+//a idéia é gerar: [size1][size2][size3]...
+//como os tamanhos dentro de cada dimensão são homogêneos,
+//basta olhar sempre a posição 0
+string Frame::arrayDimension(arrayref *aRef){
+    stringstream arrDim;
+    if(aRef->at(0).tag == ARRAYTYPE ){
+        arrDim << "[" << aRef->size() << "]";
+        printf("tag depois de entrar: %d\n", aRef->at(0).tag);
+        arrDim << arrayDimension(aRef->at(0).val.arrtype.arr);
+        return arrDim.str();
+    }else{
+        return arrDim.str();
+    }
+}
+
 string FieldValue::repr(){
     stringstream converter;
     switch (this->tag){
@@ -106,11 +121,41 @@ string Local_var::repr(){
     return buf;
 }
 
+//a idéia é gerar {{valor1, valor2},{valor3,vaor4}}
+string Frame::arrayContents(arrayref *aRef){
+    stringstream arrCon;
+    if(aRef->at(0).tag == ARRAYTYPE ){//aRef é um ponteiro para arrayref; aRef->at(indice) é um FieldValue
+        arrCon << "{";
+        for(uint32_t i = 0; i < aRef->size(); i++){
+            arrCon << arrayContents(aRef->at(i).val.arrtype.arr);
+            if(aRef->size()-1 == i){
+                    arrCon << "}";
+             }else{
+                    arrCon << "},{";
+             }
+        }
+        return arrCon.str();
+    }else{//aqui imprime {val1, val2l...}
+        arrCon << "{";
+        for(uint32_t i = 0; i < aRef->size(); i++){
+             arrCon << aRef->at(i).repr();
+             if(aRef->size()-1 == i){
+                    arrCon << "";
+             }else{
+                    arrCon << ",";
+             }
+        }
+        arrCon << "}";
+        return arrCon.str();
+    }
+}
+
 Frame::Frame(int method_index, ClassFile *cf){
 	this->method_index = method_index;
 	this->cf = cf;
 }
 void Frame::printOperandStack(){
+    string arrDim, arrCon;
     printf(" OperandStack:\n");
     if(operandStack.size() == 0) printf(" //vazia//");
     for(int i = 0; i < (int)operandStack.size(); i++){
@@ -149,11 +194,13 @@ void Frame::printOperandStack(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                printf(" [%d] ARRAYTYPE[%zu] {", i, this->operandStack[i].value.arr->size());
-                for(int j = 0; j < (int)this->operandStack[i].value.arr->size(); j++){
-                    cout << this->operandStack[i].value.arr->at(j).repr() << ", ";
-                }
-                printf("} //");
+                arrDim = arrayDimension(this->operandStack[i].value.arr);
+                arrCon = arrayContents(this->operandStack[i].value.arr);
+                printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
+//                for(int j = 0; j < (int)this->operandStack[i].value.arr->size(); j++){
+//                    cout << this->operandStack[i].value.arr->at(j).repr() << ", ";
+//                }
+                printf(" //");
                 break;
             case VOID_T:
                 printf(" [%d] VOID_T: %d", i, this->operandStack[i].value.void_v);
@@ -172,6 +219,7 @@ void Frame::printOperandStack(){
 }
 
 void Frame::printLocalVar(){
+    string arrDim, arrCon;
     printf(" Locar_var:\n");
     if(localVarVector.size() == 0) printf(" //vazia//");
     for(int i = 0; i < (int)localVarVector.size(); i++){
@@ -210,11 +258,10 @@ void Frame::printLocalVar(){
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                printf(" [%d] ARRAYTYPE[%zu] {",  i, this->localVarVector[i].value.arr->size());
-                for(int j = 0; j < (int)this->localVarVector[i].value.arr->size(); j++){
-                    cout << this->localVarVector[i].value.arr->at(j).repr() << ", ";
-                }
-                printf("} //");
+                arrDim = arrayDimension(this->localVarVector[i].value.arr);
+                arrCon = arrayContents(this->localVarVector[i].value.arr);
+                printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
+                printf(" //");
                 break;
             case VOID_T:
                 printf(" [%d] VOID_T: %d //",  i, this->localVarVector[i].value.void_v);

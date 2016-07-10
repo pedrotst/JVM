@@ -380,6 +380,8 @@ class Interpretador{
       int arraylength();
       int checkcast();
       int wide();
+
+      FieldValue inicializaMultArray(const char* ftype, int n = 0);
       int multianewarray();
       int breakpoint();
       int impdep1();

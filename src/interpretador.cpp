@@ -4205,92 +4205,116 @@ int Interpretador::wide(){
 
 
 FieldValue Interpretador::inicializaMultArray(const char* ftype, int n){
-    FieldValue fval;
-    BaseType bval;
-    ObjectType oval;
-    ArrayType aval;
-    switch(ftype[n]) {
-        case 'B': //byte type
-            bval.tag = BYTE;
-            bval.val.byte = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+    FieldValue returnedField, field;
+    returnedField.tag = ARRAYTYPE;
+
+    arrayref *arr = new arrayref;
+    returnedField.val.arrtype.arr = arr;
+    uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+    //o switch testa o caractere seguinte ao inicial:
+    // exemplo 1: [I
+    // ftype[0] = [
+    // ftype[1] = I
+    // logo, vetor int (cases sem recursão)
+    // exemplo 2: [[I
+    // ftype[0] = [
+    // ftype[1] = [ //vai chamar nova recursão, indo para o exemplo 1
+    // ftype[2] = I
+    switch(ftype[n+1]){
+        case 'Z':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = BOOL;
+                    field.val.btype.val.boleano = false;
+                    arr->push_back(field);
+            }
             break;
-        case 'C': //char
-            bval.tag = CHAR;
-            bval.val.caractere = '\0';
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'C':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = CHAR;
+                    field.val.btype.val.caractere = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'D': // double
-            bval.tag = DUPLO;
-            bval.val.duplo = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'F':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = PFLUTUANTE;
+                    field.val.btype.val.pFlutuante = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'F': // float
-            bval.tag = PFLUTUANTE;
-            bval.val.pFlutuante = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'D':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = DUPLO;
+                    field.val.btype.val.duplo = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'I': // int
-            bval.tag = INT;
-            bval.val.inteiro = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'B':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = BYTE;
+                    field.val.btype.val.byte = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'J': // long
-            bval.tag = LONGO;
-            bval.val.longo = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'S':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = CURTO;
+                    field.val.btype.val.curto = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'S': // short
-            bval.tag = CURTO;
-            bval.val.curto = 0;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
+        case 'I':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = INT;
+                    field.val.btype.val.inteiro = 0;
+                    arr->push_back(field);
+            }
             break;
-        case 'Z': // boolean
-            bval.tag = BOOL;
-            bval.val.boleano = false;
-            fval.tag = BASETYPE;
-            fval.val.btype = bval;
-            break;
-        case 'L': // reference
-            oval.instance = new InstanceClass;
-            fval.tag = OBJECTTYPE;
-            fval.val.objtype = oval;
+        case 'J':
+            for(uint32_t i = 0; i < contador; i++ ){
+                    field.tag = BASETYPE;
+                    field.val.btype.tag = LONGO;
+                    field.val.btype.val.longo = 0;
+                    arr->push_back(field);
+            }
             break;
         case '[': // array
-            fval.tag = ARRAYTYPE;
-            aval.arr = new arrayref;
-            uint32_t dimentionsLength = this->frame_corrente->operandStack.back().value.int_value;
+            field.tag = ARRAYTYPE;
+            Local_var temp = this->frame_corrente->operandStack.back();
             this->frame_corrente->operandStack.pop_back();
-            for(uint32_t i = 0; i < dimentionsLength; i++){
-                aval.arr->push_back(this->inicializaMultArray(ftype, n+1));//testa sempre com o caractere seguinte
+            for(uint32_t i = 0; i < contador; i++){
+                arr->push_back(this->inicializaMultArray(ftype, n+1));//testa sempre com o caractere seguinte
             }
-            fval.val.arrtype = aval;
+            this->frame_corrente->operandStack.push_back(temp);//essa linha não é ero, deixe aqui
             break;
     }
-    return fval;
+    return returnedField;
 }
 
 int Interpretador::multianewarray(){
-    uint16_t cp_index = read_code_word(this->code_corrente->code, this->frame_corrente->pc);
+    uint16_t cp_index = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
     uint8_t dimensions = this->code_corrente->code[this->frame_corrente->pc+3];
-    //para cada dimensão que o array deve ter
-    cp_tag tag = this->frame_corrente->cf->constant_pool[cp_index].tag;
+    cp_tag tag = this->frame_corrente->cf->constant_pool[cp_index -1].tag;
+
     if(tag == CONSTANT_Class ){
         //tenho o nome, logo, tenho o tipo final do multarray
         string className = this->frame_corrente->cf->getCpoolClass(cp_index);
         Local_var operand;
         operand.tag = ARRAYTYPE;
         operand.value.arr = new arrayref;
-        for(uint32_t i = 0; i < dimensions; i++){
-                operand.value.arr->push_back(className.c_str(), 0);
-
+        uint32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+        for(uint32_t i = 0; i < contador; i++){
+            operand.value.arr->push_back( inicializaMultArray( className.c_str() ) );
+        }
+        for(uint8_t i = 0; i < dimensions; i++){
+            this->frame_corrente->operandStack.pop_back();
         }
         this->frame_corrente->operandStack.push_back(operand);
     }
