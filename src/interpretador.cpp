@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -49,8 +49,9 @@ int Interpretador::execute_instruction(int opcode){
 }
 
 int Interpretador::runCode(Frame *frame_pt) {
-    int n = frame_pt->method_index;
 
+    int n = frame_pt->method_index;
+    
     this->frame_corrente = frame_pt;
     this->code_corrente = frame_pt->cf->getCodeAttr(n);
     this->descriptor_index = frame_pt->cf->methods[n].descriptor_index;
@@ -3608,7 +3609,7 @@ int Interpretador::putstatic(){
 
     }
 
-    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
+    DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
     return 3;
 }
 
@@ -4448,6 +4449,10 @@ int Interpretador::impdep2(){
     return 1;
 }//ni
 
+int Interpretador::invokeinterface(){
+    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    return 1;
+}
 #ifdef DEBUG_E_S
     #undef DEBUG_E_S
 #endif // DEBUG_E_S

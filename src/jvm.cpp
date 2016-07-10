@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 #include <stdio.h>
 #include <map>
@@ -223,21 +223,25 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
+    DEBUG_PRINT(endl << cname << endl);
     Interpretador interpreter(this);
-
-    //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
+        //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
 
+        DEBUG_PRINT(endl << clinitN << endl);
+
         Frame staticFrame(clinitN, classF);
 
         if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-            //cout << "Clinit encontrado em: " << clinitN << endl;
+            cout << "Clinit encontrado em: " << clinitN << endl;
             this->staticHeap[cname] = alocarObjetoEstatico(cname);
             interpreter.runCode(&staticFrame);
         }
     }
+
+
 
 
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
