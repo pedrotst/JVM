@@ -261,7 +261,7 @@ void Frame::printLocalVar(){
                 break;
             case OBJECTTYPE:
                 //printf("tag: OBJECTTYPE | val: %x //", this->localVarVector[i].value.reference_value);
-                printf(" [%d] OBJECTTYPE", i);
+                printf(" [%d] OBJECTTYPE: %s", i, this->localVarVector[i].value.reference_value->cf->getClassName().c_str());
                 break;
             case ARRAYTYPE:
                 //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
@@ -284,7 +284,7 @@ void Frame::printLocalVar(){
                 printf(" [%d] RETURN ADDRESS | val: %zu", i, this->localVarVector[i].value.returnAddress_value);
                 break;
             case STRINGTYPE:
-                printf(" [%d] STRINGTYPE: {s} //",  i, this->localVarVector[i].value.string_value->c_str());
+                printf(" [%d] STRINGTYPE: {%s} //",  i, this->localVarVector[i].value.string_value->c_str());
                 break;
         }
     }
