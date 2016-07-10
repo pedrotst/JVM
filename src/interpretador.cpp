@@ -1407,7 +1407,7 @@ int Interpretador::iastore(){
 }
 int Interpretador::lastore(){
     int32_t val[2];
-    
+
     if(this->frame_corrente->operandStack.back().tag != LONGO){
             printf("Erro em lastore: Tipo de value em operandStack diferente do esperado:");
             printf("LONG != %d\n", this->frame_corrente->operandStack.back().tag);
@@ -2410,16 +2410,41 @@ int Interpretador::i2d(){
 }
 
 int Interpretador::l2i(){
+    int32_t lvar;
+    Local_var result;
+
     if(this->frame_corrente->operandStack.back().tag != LONGO){
-        printf("Erro em l2i: Tipo de operando no topo do operandStack diferente do esperado.\n");
+        printf("Erro em l2i: Tipo de operando no operandStack diferente do esperado.\n");
     }
+    lvar = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.pop_back();//Retira o mais significativo
+    DEBUG_PRINT(lvar);
 
+    result.tag = INT;
+    result.value.int_value = lvar;
 
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    this->frame_corrente->operandStack.push_back(result);
+
     return 1;
 }
 int Interpretador::l2f(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    int64_t lhs;
+    uint32_t *alocador;
+    float fvar;
+    Local_var result;
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    fvar = (float)lhs;
+
+    result.tag = PFLUTUANTE;
+    result.value.float_value = fvar;
+
+    this->frame_corrente->operandStack.push_back(result);
     return 1;
 }
 int Interpretador::l2d(){
