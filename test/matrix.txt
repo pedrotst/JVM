@@ -2,118 +2,112 @@ General Information:
 Magic: CAFEBABE
 Minor version: 0
 Major version: 46
-Constant Pool Count: 33
+Constant Pool Count: 32
 Access Flag: 0x0020[ACC_SUPER]
-This Class: 3 	<matrix>
+This Class: 6 	<matrix>
 Super Class: 7 <java/lang/Object>
 Interface count: 0
-Fields count: 1
+Fields count: 0
 Methods count: 2
 Attributes count: 1
 
 Constant Pool: 
-#1 = Methodref		#7.#18		 // java/lang/Object.<init>:()V
-#2 = Fieldref		#3.#19		 // matrix.a:I
-#3 = Class		#20		 // matrix
-#4 = Methodref		#3.#21		 // matrix.<init>:(I)V
-#5 = Fieldref		#22.#23		 // java/lang/System.out:Ljava/io/PrintStream;
-#6 = Methodref		#24.#25		 // java/io/PrintStream.println:(I)V
-#7 = Class		#26		 // java/lang/Object
-#8 = Utf8		a
-#9 = Utf8		I
-#10 = Utf8		<init>
-#11 = Utf8		(I)V
-#12 = Utf8		Code
-#13 = Utf8		LineNumberTable
-#14 = Utf8		main
-#15 = Utf8		([Ljava/lang/String;)V
-#16 = Utf8		SourceFile
-#17 = Utf8		matrix.java
-#18 = NameAndType	#10.#27		<init>:()V
-#19 = NameAndType	#8.#9		a:I
-#20 = Utf8		matrix
-#21 = NameAndType	#10.#11		<init>:(I)V
-#22 = Class		#28		 // java/lang/System
-#23 = NameAndType	#29.#30		out:Ljava/io/PrintStream;
-#24 = Class		#31		 // java/io/PrintStream
-#25 = NameAndType	#32.#11		println:(I)V
-#26 = Utf8		java/lang/Object
-#27 = Utf8		()V
-#28 = Utf8		java/lang/System
-#29 = Utf8		out
-#30 = Utf8		Ljava/io/PrintStream;
-#31 = Utf8		java/io/PrintStream
-#32 = Utf8		println
+#1 = Methodref		#7.#16		 // java/lang/Object.<init>:()V
+#2 = Class		#17		 // [[C
+#3 = Fieldref		#18.#19		 // java/lang/System.out:Ljava/io/PrintStream;
+#4 = Methodref		#20.#21		 // java/io/PrintStream.println:(C)V
+#5 = Methodref		#20.#22		 // java/io/PrintStream.println:(I)V
+#6 = Class		#23		 // matrix
+#7 = Class		#24		 // java/lang/Object
+#8 = Utf8		<init>
+#9 = Utf8		()V
+#10 = Utf8		Code
+#11 = Utf8		LineNumberTable
+#12 = Utf8		main
+#13 = Utf8		([Ljava/lang/String;)V
+#14 = Utf8		SourceFile
+#15 = Utf8		matrix.java
+#16 = NameAndType	#8.#9		<init>:()V
+#17 = Utf8		[[C
+#18 = Class		#25		 // java/lang/System
+#19 = NameAndType	#26.#27		out:Ljava/io/PrintStream;
+#20 = Class		#28		 // java/io/PrintStream
+#21 = NameAndType	#29.#30		println:(C)V
+#22 = NameAndType	#29.#31		println:(I)V
+#23 = Utf8		matrix
+#24 = Utf8		java/lang/Object
+#25 = Utf8		java/lang/System
+#26 = Utf8		out
+#27 = Utf8		Ljava/io/PrintStream;
+#28 = Utf8		java/io/PrintStream
+#29 = Utf8		println
+#30 = Utf8		(C)V
+#31 = Utf8		(I)V
 
 
 Fields: 
-Field: 1
-Access Flag: 000000
-Name: cp_info#8 <a>
-Descriptor: cp_info#9 <I>
-Attributes Count: 0
-
 Methods_count: 2
 Methods: 
 Method: 1
-Name: #10<<init>>
-Access Flag: 0x0001[ACC_PUBLIC]
-Descritor: (I)V
+Name: #8<<init>>
+Access Flag: 000000
+Descritor: ()V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 42
-	 Max Stack: 2, 	 Max Locals: 2, 	 Code Length: 10
+	 Attribute Length: 29
+	 Max Stack: 1, 	 Max Locals: 1, 	 Code Length: 5
 	0:	ALOAD_0	
 	1:	INVOKESPECIAL	 #1 	 //  java/lang/Object.<init>:()V
-	4:	ALOAD_0	
-	5:	ILOAD_1	
-	6:	PUTFIELD	 #2 	 //  matrix.a:I
-	9:	RETURN	
+	4:	RETURN	
 
 Method: 2
-Name: #14<main>
+Name: #12<main>
 Access Flag: 0x0009[ACC_PUBLIC][ACC_STATIC]
 Descritor: ([Ljava/lang/String;)V
 Atribute count: 1
 	 Attribute number: 1
 	 Attribute Name: Code
-	 Attribute Length: 88
-	 Max Stack: 6, 	 Max Locals: 2, 	 Code Length: 52
+	 Attribute Length: 91
+	 Max Stack: 4, 	 Max Locals: 3, 	 Code Length: 47
 	0:	ICONST_2	
-	1:	ANEWARRAY	 #3 	 //  matrix
-	4:	DUP	
-	5:	ICONST_0	
-	6:	NEW	 #3 	 //  matrix
-	9:	DUP	
-	10:	ICONST_4	
-	11:	INVOKESPECIAL	 #4 	 //  matrix.<init>:(I)V
-	14:	AASTORE	
-	15:	DUP	
-	16:	ICONST_1	
-	17:	NEW	 #3 	 //  matrix
-	20:	DUP	
-	21:	ICONST_2	
-	22:	INVOKESPECIAL	 #4 	 //  matrix.<init>:(I)V
-	25:	AASTORE	
-	26:	ASTORE_1	
-	27:	GETSTATIC	 #5 	 //  java/lang/System.out:Ljava/io/PrintStream;
-	30:	ALOAD_1	
-	31:	ICONST_0	
-	32:	AALOAD	
-	33:	GETFIELD	 #2 	 //  matrix.a:I
-	36:	INVOKEVIRTUAL	 #6 	 //  java/io/PrintStream.println:(I)V
-	39:	GETSTATIC	 #5 	 //  java/lang/System.out:Ljava/io/PrintStream;
-	42:	ALOAD_1	
-	43:	ICONST_1	
-	44:	AALOAD	
-	45:	GETFIELD	 #2 	 //  matrix.a:I
-	48:	INVOKEVIRTUAL	 #6 	 //  java/io/PrintStream.println:(I)V
-	51:	RETURN	
+	1:	ICONST_2	
+	2:	MULTIANEWARRAY	 #0  #2  #2 	 //   [[C [[C
+	6:	ASTORE_1	
+	7:	ICONST_2	
+	8:	NEWARRAY	 #9 	 //  ()V
+	10:	DUP	
+	11:	ICONST_0	
+	12:	ICONST_2	
+	13:	SASTORE	
+	14:	DUP	
+	15:	ICONST_1	
+	16:	ICONST_5	
+	17:	SASTORE	
+	18:	ASTORE_2	
+	19:	ALOAD_1	
+	20:	ICONST_0	
+	21:	AALOAD	
+	22:	ICONST_0	
+	23:	BIPUSH	 #97 	 //  
+	25:	CASTORE	
+	26:	GETSTATIC	 #3 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	29:	ALOAD_1	
+	30:	ICONST_0	
+	31:	AALOAD	
+	32:	ICONST_0	
+	33:	CALOAD	
+	34:	INVOKEVIRTUAL	 #4 	 //  java/io/PrintStream.println:(C)V
+	37:	GETSTATIC	 #3 	 //  java/lang/System.out:Ljava/io/PrintStream;
+	40:	ALOAD_2	
+	41:	ICONST_1	
+	42:	SALOAD	
+	43:	INVOKEVIRTUAL	 #5 	 //  java/io/PrintStream.println:(I)V
+	46:	RETURN	
 
 Attributes Count: 1
 Attribute Length: 2
 Attribute: SourceFile
-attribute_name_index: #16
+attribute_name_index: #14
 attribute_length: 2
-Sourcefile_index: #17		//matrix.java
+Sourcefile_index: #15		//matrix.java

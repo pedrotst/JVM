@@ -94,7 +94,7 @@ string Local_var::repr(){
         case RETURN_ADDRESS:
             break;
         case STRINGTYPE:
-            return *value.string_value;
+            return "'" + *value.string_value + "'";
     }
 
     string buf;

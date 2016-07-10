@@ -1028,11 +1028,40 @@ int Interpretador::baload(){
     return 1;
 }
 int Interpretador::caload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = (uint32_t) this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.caractere;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
+
 int Interpretador::saload(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Variavel local carregada nao eh um inteiro!\n");
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != ARRAYTYPE){
+        printf("Variavel local carregada nao eh um arrayref!\n");
+    }
+
+    Local_var operand;
+    operand.tag = INT;
+    operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.curto;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
 
@@ -1566,11 +1595,48 @@ int Interpretador::bastore(){
 }
 
 int Interpretador::castore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.caractere = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+
 int Interpretador::sastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de value em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t val = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+            printf("Erro em iastore: Tipo de index em operandStack diferente do esperado:");
+            printf("INT != %d\n", this->frame_corrente->operandStack.back().tag);
+    }
+    int32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    //epa, problema. Se o elemento levar pop aqui, não tem mais como acessar o vetor. Precisa que tenha esse vetor na heap
+    //Resposta ao problema acima: o compilador é mais esperto, sempre que iastore aparece, foi executado antes um dup
+    arrayref *arr = this->frame_corrente->operandStack.back().value.arr;
+    arr->at(index).val.btype.val.curto = val;
+    this->frame_corrente->operandStack.pop_back();
     return 1;
 }
 
