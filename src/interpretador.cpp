@@ -3983,7 +3983,6 @@ int Interpretador::newarray(){
     return 2;
 }
 
-int Interpretador::invokeinterface(){ return 1;}
 int Interpretador::invokespecial(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
     uint16_t method_index = operand;
