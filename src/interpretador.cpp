@@ -1782,8 +1782,8 @@ int Interpretador::ladd(){
     resultado = lhs + rhs;
     alocador = (uint32_t*) &resultado;
 
-    result[0].value.long_value = *alocador;//mais significativo
-    result[1].value.long_value = *(alocador+1);//menos significativo
+    result[0].value.long_value = *alocador;
+    result[1].value.long_value = *(alocador+1);
     this->frame_corrente->operandStack.push_back(result[1]);
     this->frame_corrente->operandStack.push_back(result[0]);
     return 1;
@@ -2331,33 +2331,7 @@ int Interpretador::ishl(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lshl(){
-    int64_t lhs, result;
-    int32_t shiftAmount;
-    uint32_t *alocador;
 
-    shiftAmount = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    alocador = (uint32_t*) &lhs;
-    lhs = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
-    this->frame_corrente->operandStack.pop_back();
-
-    shiftAmount &= 0x0000003f;
-    result = lhs << shiftAmount;
-    alocador = (uint32_t*) &result;
-    Local_var operand[2];
-    operand[0].tag = LONGO;
-    operand[0].value.int_value = *alocador;
-    operand[1].tag = LONGO;
-    operand[1].value.int_value = *(alocador+1);
-
-    this->frame_corrente->operandStack.push_back(operand[1]);
-    this->frame_corrente->operandStack.push_back(operand[0]);
-    return 1;
-}
 
 int Interpretador::ishr(){
 
@@ -2382,7 +2356,7 @@ int Interpretador::ishr(){
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
 }
-int Interpretador::lshr(){
+int Interpretador::lushr(){
       int64_t lhs, result;
     int32_t shiftAmount;
     uint32_t *alocador;
@@ -2414,8 +2388,31 @@ int Interpretador::iushl(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
-int Interpretador::lushl(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+int Interpretador::lshl(){
+    int64_t lhs, result;
+    int32_t shiftAmount;
+    uint32_t *alocador;
+
+    shiftAmount = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    alocador = (uint32_t*) &lhs;
+    lhs = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    shiftAmount &= 0x0000003f;
+    result = lhs << shiftAmount;
+    alocador = (uint32_t*) &result;
+    Local_var operand[2];
+    operand[0].tag = LONGO;
+    operand[0].value.int_value = *alocador;
+    operand[1].tag = LONGO;
+    operand[1].value.int_value = *(alocador+1);
+
+    this->frame_corrente->operandStack.push_back(operand[1]);
+    this->frame_corrente->operandStack.push_back(operand[0]);
     return 1;
 }
 
@@ -4203,8 +4200,39 @@ int Interpretador::iushr(){
     return 1;
 }
 
-int Interpretador::lushr(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+int Interpretador::lshr(){
+    int64_t value = 0, long_result;
+    int shift_n = 0;
+    uint32_t *alocador;
+    Local_var result[2];
+
+    if(this->frame_corrente->operandStack.back().tag != INT){
+        printf("Erro em lshr: O valor no topo da operandStack não é um INT.");
+    }
+
+    shift_n = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em lshr: O segundo valor no topo da operandStack não é um LONG.");
+    }
+
+    value = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    alocador = (uint32_t*) &value;//alocador aponta para os 32 bits mais significativos de rhs
+    *(alocador+1) = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    long_result = value/pow(2, shift_n);
+    alocador = (uint32_t*) &long_result;
+
+    result[0].tag = LONGO;
+    result[1].tag = LONGO;
+    result[0].value.long_value = *alocador;
+    result[1].value.long_value = *(alocador+1);
+    this->frame_corrente->operandStack.push_back(result[1]);
+    this->frame_corrente->operandStack.push_back(result[0]);
+
     return 1;
 }
 
