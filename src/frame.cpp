@@ -7,8 +7,10 @@ using namespace std;
 //basta olhar sempre a posição 0
 string Frame::arrayDimension(arrayref *aRef){
     stringstream arrDim;
+    arrDim << "[" << aRef->size() << "]";
     if(aRef->at(0).tag == ARRAYTYPE ){
-        arrDim << "[" << aRef->size() << "]";
+        //vetor de fields; se for um array simples, a tag da field (at(0).tag)
+        //será diferente de ARRAYTYPE.
         arrDim << arrayDimension(aRef->at(0).val.arrtype.arr);
         return arrDim.str();
     }else{
@@ -131,24 +133,21 @@ string Frame::arrayContents(arrayref *aRef){
         arrCon << "{";
         for(uint32_t i = 0; i < aRef->size(); i++){
             arrCon << arrayContents(aRef->at(i).val.arrtype.arr);
-            if(aRef->size()-1 == i){
-                    arrCon << "}";
-             }else{
-                    arrCon << "},{";
-             }
-        }
-        return arrCon.str();
-    }else{//aqui imprime {val1, val2l...}
-        arrCon << "{";
-        for(uint32_t j = 0; j < aRef->size(); j++){
-             arrCon << aRef->at(j).repr();
-             if(aRef->size()-1 == j){
-                    arrCon << "";
-             }else{
-                    arrCon << ",";
+            if(aRef->size()-1 != i){
+                arrCon << " , ";
              }
         }
         arrCon << "}";
+        return arrCon.str();
+    }else{//aqui imprime {val1, val2l...}
+        arrCon << "<";
+        for(uint32_t j = 0; j < aRef->size(); j++){
+             arrCon << aRef->at(j).repr();
+             if(aRef->size()-1 != j){
+                    arrCon << ",";
+             }
+        }
+        arrCon << ">";
         return arrCon.str();
     }
 }
@@ -196,17 +195,9 @@ void Frame::printOperandStack(){
                 printf(" [%d]  OBJECTTYPE: %s //", i, this->operandStack[i].value.reference_value->cf->getClassName().c_str());
                 break;
             case ARRAYTYPE:
-                //printf("tag: ARRAYTYPE | %x", this->operandStack[i].value.arrayref);
-                if(isSimpleArray(this->operandStack[i].value.arr)){
-                    arrDim = arrayDimension(this->operandStack[i].value.arr);
-                    arrCon = arrayContents(this->operandStack[i].value.arr);
-                    printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
-                }
-                else{
-                    arrDim = arrayDimension(this->operandStack[i].value.arr);
-                    arrCon = arrayContents(this->operandStack[i].value.arr);
-                    printf(" [%d] ARRAYTYPE %s{%s}", i, arrDim.c_str(), arrCon.c_str());
-                }
+                arrDim = arrayDimension(this->operandStack[i].value.arr);
+                arrCon = arrayContents(this->operandStack[i].value.arr);
+                printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
                 printf(" //");
                 break;
             case VOID_T:
@@ -264,17 +255,9 @@ void Frame::printLocalVar(){
                 printf(" [%d] OBJECTTYPE", i);
                 break;
             case ARRAYTYPE:
-                //printf("tag: ARRAYTYPE | val: %x //", this->localVarVector[i].value.arrayref);
-                if(isSimpleArray(this->localVarVector[i].value.arr)){
                     arrDim = arrayDimension(this->localVarVector[i].value.arr);
                     arrCon = arrayContents(this->localVarVector[i].value.arr);
                     printf(" [%d] ARRAYTYPE %s%s", i, arrDim.c_str(), arrCon.c_str());
-                }
-                else{
-                    arrDim = arrayDimension(this->localVarVector[i].value.arr->at(0).val.arrtype.arr);
-                    arrCon = arrayContents(this->localVarVector[i].value.arr->at(0).val.arrtype.arr);
-                    printf(" [%d] ARRAYTYPE %s{%s}", i, arrDim.c_str(), arrCon.c_str());
-                }
                 printf(" //");
                 break;
             case VOID_T:
