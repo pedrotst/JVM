@@ -3654,12 +3654,22 @@ int Interpretador::anewarray(){
         case CONSTANT_Class:
             name_index = this->frame_corrente->cf->constant_pool[index -1].cp_union.constant_class.name_index;
             className = this->frame_corrente->cf->constant_pool[name_index].cp_union.constant_Utf8.bytes;
-            //cada item no vetor � a inst�ncia de um objeto
-            for(int i = 0; i < count_operand; i++){
-                    FieldValue field;
-                    field.tag = OBJECTTYPE;
-                    field.val.objtype.instance = jvm->alocarObjeto(className);
-                    operand.value.arr->push_back(field);
+            if(!className.compare("String") ){
+                //cada item no vetor � a inst�ncia de um objeto
+                for(int i = 0; i < count_operand; i++){
+                        FieldValue field;
+                        field.tag = STRINGTYPE;
+                        field.val.objtype.instance = jvm->alocarObjeto(className);
+                        operand.value.arr->push_back(field);
+                }
+            }else{
+                //cada item no vetor � a inst�ncia de um objeto
+                for(int i = 0; i < count_operand; i++){
+                        FieldValue field;
+                        field.tag = OBJECTTYPE;
+                        field.val.objtype.instance = jvm->alocarObjeto(className);
+                        operand.value.arr->push_back(field);
+                }
             }
             break;
         case CONSTANT_InterfaceMethodref:
@@ -4098,8 +4108,97 @@ int Interpretador::wide(){
     return 1;
 }
 
+
+FieldValue Interpretador::inicializaMultArray(const char* ftype, int n){
+    FieldValue fval;
+    BaseType bval;
+    ObjectType oval;
+    ArrayType aval;
+    switch(ftype[n]) {
+        case 'B': //byte type
+            bval.tag = BYTE;
+            bval.val.byte = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'C': //char
+            bval.tag = CHAR;
+            bval.val.caractere = '\0';
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'D': // double
+            bval.tag = DUPLO;
+            bval.val.duplo = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'F': // float
+            bval.tag = PFLUTUANTE;
+            bval.val.pFlutuante = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'I': // int
+            bval.tag = INT;
+            bval.val.inteiro = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'J': // long
+            bval.tag = LONGO;
+            bval.val.longo = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'S': // short
+            bval.tag = CURTO;
+            bval.val.curto = 0;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'Z': // boolean
+            bval.tag = BOOL;
+            bval.val.boleano = false;
+            fval.tag = BASETYPE;
+            fval.val.btype = bval;
+            break;
+        case 'L': // reference
+            oval.instance = new InstanceClass;
+            fval.tag = OBJECTTYPE;
+            fval.val.objtype = oval;
+            break;
+        case '[': // array
+            fval.tag = ARRAYTYPE;
+            aval.arr = new arrayref;
+            uint32_t dimentionsLength = this->frame_corrente->operandStack.back().value.int_value;
+            this->frame_corrente->operandStack.pop_back();
+            for(uint32_t i = 0; i < dimentionsLength; i++){
+                aval.arr->push_back(this->inicializaMultArray(ftype, n+1));//testa sempre com o caractere seguinte
+            }
+            fval.val.arrtype = aval;
+            break;
+    }
+    return fval;
+}
+
 int Interpretador::multianewarray(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    uint16_t cp_index = read_code_word(this->code_corrente->code, this->frame_corrente->pc);
+    uint8_t dimensions = this->code_corrente->code[this->frame_corrente->pc+3];
+    //para cada dimensão que o array deve ter
+    cp_tag tag = this->frame_corrente->cf->constant_pool[cp_index].tag;
+    if(tag == CONSTANT_Class ){
+        //tenho o nome, logo, tenho o tipo final do multarray
+        string className = this->frame_corrente->cf->getCpoolClass(cp_index);
+        Local_var operand;
+        operand.tag = ARRAYTYPE;
+        operand.value.arr = new arrayref;
+        for(uint32_t i = 0; i < dimensions; i++){
+                operand.value.arr->push_back(className.c_str(), 0);
+
+        }
+        this->frame_corrente->operandStack.push_back(operand);
+    }
     return 1;
 }//ni
 int Interpretador::breakpoint(){
