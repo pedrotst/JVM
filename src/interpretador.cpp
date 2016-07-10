@@ -4544,27 +4544,30 @@ int Interpretador::arraylength(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::checkcast(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
-
-int Interpretador::instanceof(){/*
-    Local_var obj = this->frame_corrente->operandStack.back();
-    uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
-    string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
-    Local_var
+int Interpretador::instanceof(){
+    Local_var ret_var, obj = this->frame_corrente->operandStack.back();
+    //uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    uint16_t index = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
+    string cname = this->frame_corrente->cf->getCpoolClass(index);
     this->frame_corrente->operandStack.pop_back();
 
-    switch(descriptor[0]){
-        case "I":
-        break;
+    if(obj.tag != OBJECTTYPE){
+        printf("Erro em instanceof: variavel nao eh um objeto\n");
     }
+    DEBUG_PRINT("Descriptor: " << cname);
 
-*/
+    ret_var.tag = INT;
+    ret_var.value.int_value = !cname.compare(obj.value.reference_value->cf->getClassName());
+    this->frame_corrente->operandStack.push_back(ret_var);
 
     return 3;
 }
+
 
 int Interpretador::wide(){
     this->_wide = true;
