@@ -2910,7 +2910,6 @@ int Interpretador::lcmp(){
     DEBUG_PRINT("result: " << result.value.int_value);
 
     this->frame_corrente->operandStack.push_back(result);
-    //DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
 int Interpretador::fcmpl(){
@@ -4234,31 +4233,23 @@ int Interpretador::lshr(){
 }
 
 int Interpretador::ret(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
 
 int Interpretador::lreturn(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }
 
 int Interpretador::freturn(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
-}//ni
+}
 int Interpretador::dreturn(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
-}//ni
+}
 int Interpretador::areturn(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
-}//ni
-int Interpretador::invokeinterface(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
-}//ni
+}
+
 int Interpretador::invokedynamic(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
@@ -4271,10 +4262,25 @@ int Interpretador::checkcast(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
+
 int Interpretador::instanceof(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 1;
-}//ni
+    Local_var obj = this->frame_corrente->operandStack.back();
+    uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
+    string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
+    Local_var 
+    this->frame_corrente->operandStack.pop_back();
+    
+    switch(descriptor[0]){
+        case "I":
+        break;
+    }
+
+
+    
+
+    return 3;
+}
 
 int Interpretador::wide(){
     this->_wide = true;
