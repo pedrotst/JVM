@@ -224,7 +224,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
 
     string cname = classF->getClassName();
     Interpretador interpreter(this);
-        //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
+    //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
