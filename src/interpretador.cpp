@@ -96,7 +96,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[ICONST_5] = &Interpretador::iconst_5;
     pt[LCONST_0] = &Interpretador::lconst_0;
     pt[LCONST_1] = &Interpretador::lconst_1;
-    pt[FCONST_0] = &Interpretador::fconst_0;//ni
+    pt[FCONST_0] = &Interpretador::fconst_0;
     pt[FCONST_1] = &Interpretador::fconst_1;//ni
     pt[FCONST_2] = &Interpretador::fconst_2;//ni
     pt[DCONST_0] = &Interpretador::dconst_0;//ni
@@ -433,7 +433,6 @@ int Interpretador::dconst_1(){
     high.tag=DUPLO;
     i = (int*)p;
     high.value.double_value=*i;
-    printf("TESTE Maroto do Diego %d\n", *i);
     i++;
 
     low.value.double_value=*i;
@@ -648,7 +647,7 @@ int Interpretador::dload(){
     operand[0].tag = DUPLO;
     operand[1].tag = DUPLO;
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index-1];
+    operand[0] = this->frame_corrente->localVarVector[index+1];
     operand[1] = this->frame_corrente->localVarVector[index];
     this->frame_corrente->operandStack.push_back(operand[1]);
     this->frame_corrente->operandStack.push_back(operand[0]);
@@ -1086,7 +1085,26 @@ int Interpretador::fstore(){
     return 2;
 }
 int Interpretador::dstore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    Local_var operand_high, operand_low;
+    uint8_t local_var_index = 0;
+
+
+    if(this->frame_corrente->operandStack.back().tag != DUPLO){
+        printf("Erro em dstore: Tipo em operandStack diferente do esperado.\n");
+    }
+    local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+
+
+    operand_low.tag = DUPLO;
+    operand_low.value.double_value = this->frame_corrente->operandStack.back().value.double_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index+1] = operand_low;
+
+    operand_high.tag = DUPLO;
+    operand_high.value.double_value = this->frame_corrente->operandStack.back().value.double_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index] = operand_high;
+
     return 2;
 }
 int Interpretador::astore(){

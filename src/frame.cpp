@@ -246,7 +246,7 @@ void Frame::printLocalVar(){
                 printf(" [%d] SHORT: %d //",  i, this->localVarVector[i].value.short_value);
                 break;
             case DUPLO:
-                printf(" [%d] DOUBLE: %d //",  i, this->localVarVector[i].value.double_value);
+                printf(" [%d] DOUBLE: %X //",  i, this->localVarVector[i].value.double_value);
                 break;
             case BASETYPE:
                 //printf("tag: BASETYPE | val: %x //", this->localVarVector[i].value.reference_value);
