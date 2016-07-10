@@ -3632,15 +3632,16 @@ int Interpretador::putstatic(){
 
     }
 
-    DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
+ //   DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
     return 3;
 }
 
 int Interpretador::putfield(){
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type;
-    Local_var lvar, ref_var;
+    Local_var lvar_high, lvar_low, ref_var;
     FieldValue fvar;
+    uint32_t *alocador = NULL;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -3648,7 +3649,7 @@ int Interpretador::putfield(){
     field_type = frame_corrente->cf->getFieldType(name_index);
     //printf("putfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
-    lvar = this->frame_corrente->operandStack.back();
+    lvar_low = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
 
     if(field_type.compare("I") == 0){
@@ -3659,7 +3660,7 @@ int Interpretador::putfield(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = INT;
-        fvar.val.btype.val.inteiro = lvar.value.int_value;
+        fvar.val.btype.val.inteiro = lvar_low.value.int_value;
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
     }
@@ -3670,11 +3671,22 @@ int Interpretador::putfield(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = BOOL;
-        fvar.val.btype.val.boleano = lvar.value.boolean_value;
+        fvar.val.btype.val.boleano = lvar_low.value.boolean_value;
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
     }
+    else if(field_type.compare("B") == 0){
+            ref_var = this->frame_corrente->operandStack.back();
+            this->frame_corrente->operandStack.pop_back(); // pop this
+
+            //converte local var para fvar
+            fvar.tag = BASETYPE;
+            fvar.val.btype.tag = BYTE;
+            fvar.val.btype.val.byte = lvar_low.value.byte_value;
+            ref_var.value.reference_value->field_instances[field_name] = fvar;
+            //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+      }
     else if(field_type.compare("C") == 0){
         Local_var lvar_upper;
         lvar_upper = this->frame_corrente->operandStack.back();
@@ -3684,26 +3696,65 @@ int Interpretador::putfield(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar.value.long_value;
+        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar_low.value.long_value;
 
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) & lvar.value.long_value);
     }
     else if(field_type.compare("D") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
+        lvar_high = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // lower
         ref_var = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop this
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = lvar_upper.value.long_value << 16 && lvar.value.long_value;
-
+        alocador = (uint32_t *) &fvar.val.btype.val.duplo;
+        *alocador = lvar_low.value.double_value;
+        *(alocador + 1) = lvar_high.value.double_value;
 
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+    }
+    else if(field_type.compare("J") == 0){
+       lvar_high = this->frame_corrente->operandStack.back();
+       this->frame_corrente->operandStack.pop_back();
+       ref_var = this->frame_corrente->operandStack.back();
+       this->frame_corrente->operandStack.pop_back();
+       //converte local var para fvar
+       fvar.tag = BASETYPE;
+       fvar.val.btype.tag = LONGO;
+       alocador = (uint32_t *) &fvar.val.btype.val.longo;
+       *alocador = lvar_low.value.long_value;
+       *(alocador + 1) = lvar_high.value.long_value;
+
+       ref_var.value.reference_value->field_instances[field_name] = fvar;
+       //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+    }
+    else if(field_type.compare("F") == 0){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = PFLUTUANTE;
+        fvar.val.btype.val.pFlutuante = lvar_low.value.float_value;
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+    }
+    else if(field_type.compare("S") == 0){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = BASETYPE;
+        fvar.val.btype.tag = CURTO;
+        fvar.val.btype.val.curto = lvar_low.value.short_value;
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
     }
     DEBUG_ONLY(
         for(uint32_t i = 0; i<jvm->heap.size(); i++){
@@ -3784,7 +3835,9 @@ int Interpretador::getfield(){
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     //printf("entrou na funcao getfield\n");
     string field_name, field_type;
-    Local_var lvar;
+    Local_var lvar_high, lvar_low, ref_var;
+    FieldValue fvar;
+    uint32_t *alocador = NULL;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -3793,19 +3846,74 @@ int Interpretador::getfield(){
     //printf("getfield #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str());
 
     if(field_type.compare("I") == 0){
-        lvar = this->frame_corrente->operandStack.back();
+        lvar_low = this->frame_corrente->operandStack.back();
         this->frame_corrente->operandStack.pop_back(); // pop the value
-        if(lvar.tag != 9){
+        if(lvar_low.tag != 9){
             //printf("Tentativa de acessar um field de algo q nao eh objeto, abortar!");
             exit(0);
         }
-        FieldValue fvar = lvar.value.reference_value->field_instances[field_name];
-        //printf("O valor da field eh: %d\n", fvar.val.btype.val.inteiro);
+        fvar = lvar_low.value.reference_value->field_instances[field_name];
+        lvar_low.tag = INT;
+        lvar_low.value.int_value = fvar.val.btype.val.inteiro;
+        this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("J") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
 
-        fvar = lvar.value.reference_value->field_instances[field_name];
-        lvar.tag = INT;
-        lvar.value.int_value = fvar.val.btype.val.inteiro;
-        this->frame_corrente->operandStack.push_back(lvar);
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+          alocador = (uint32_t *) &fvar.val.btype.val.longo;
+
+          lvar_low.tag = LONGO;
+          lvar_low.value.long_value = *alocador;
+
+          lvar_high.tag = LONGO;
+          lvar_high.value.long_value = *(alocador + 1);
+
+          this->frame_corrente->operandStack.push_back(lvar_high);
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("D") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+          alocador = (uint32_t *) &fvar.val.btype.val.longo;
+
+          lvar_low.tag = DUPLO;
+          lvar_low.value.double_value = *alocador;
+
+          lvar_high.tag = DUPLO;
+          lvar_high.value.double_value = *(alocador + 1);
+
+          this->frame_corrente->operandStack.push_back(lvar_high);
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("F") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = PFLUTUANTE;
+          lvar_low.value.float_value = fvar.val.btype.val.pFlutuante;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("J") == 0){
+      lvar_high = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      ref_var = this->frame_corrente->operandStack.back();
+      this->frame_corrente->operandStack.pop_back();
+      //converte local var para fvar
+      fvar.tag = BASETYPE;
+      fvar.val.btype.tag = LONGO;
+      alocador = (uint32_t *) &fvar.val.btype.val.longo;
+      *alocador = lvar_low.value.long_value;
+      *(alocador + 1) = lvar_high.value.long_value;
+
+      ref_var.value.reference_value->field_instances[field_name] = fvar;
+      //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
     return 3;
 }
@@ -4058,6 +4166,95 @@ int Interpretador::invokespecial(){
     return 3;
 }
 
+int Interpretador::invokeinterface(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1], argc;
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    Local_var lvar_l, lvar_h, invokingObj;
+    tuple<Local_var, Local_var> lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+
+    argc = code_corrente->code[frame_corrente->pc+3];
+
+    // pega os argumentos da pilha
+    for (int i=1; i < argc; i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
+    }
+    invokingObj = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    args.push_back(invokingObj);
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+
+    if(invokingObj.tag != OBJECTTYPE)
+        printf("Esperado objeto na pilha, mas eh: %d", invokingObj.tag);
+
+    this->frame_corrente->cf->getCpoolInterfaceMethod(method_index, invoking_class, method_name, descriptor);
+
+
+    // se for o registerNatives, ignore
+    cout << "invokeinterface: " << invoking_class << "." << method_name << ":" << descriptor << endl;
+
+    if(method_name.compare("registerNatives") == 0){
+        return 5;
+    }
+
+    invoking_class = invokingObj.value.reference_value->cf->getClassName();
+    cf = invokingObj.value.reference_value->cf;
+    //cf = this->jvm->getClassRef(invoking_class);
+    Frame *staticFrame;
+
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
+        staticFrame = new Frame(clinitN, cf);
+        //cout << "Clinit encontrado em: " << clinitN << endl;
+        jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
+        runCode(staticFrame);
+    }
+
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+        //executa este metodo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+    lvar_h = get<0>(lvar);
+    lvar_l = get<1>(lvar);
+
+        // bota o retorno na operand stack se nao tiver retornado void
+        if(lvar_h.tag != VOID_T)
+            this->frame_corrente->operandStack.push_back(lvar_h);
+        if(lvar_l.tag != VOID_T)
+          this->frame_corrente->operandStack.push_back(lvar_l);
+
+    //e fim*/
+    return 5;
+}
+
 
 int Interpretador::invokestatic(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
@@ -4090,8 +4287,8 @@ int Interpretador::invokestatic(){
     cf = this->jvm->getClassRef(invoking_class);
     Frame *staticFrame;
 
-    if((jvm->staticHeap.count(invoking_class) != 1)){
-        int clinitN = cf->findMethod("<clinit>", "()V");
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
         staticFrame = new Frame(clinitN, cf);
         //cout << "Clinit encontrado em: " << clinitN << endl;
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
@@ -4502,10 +4699,6 @@ int Interpretador::impdep2(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
-
-int Interpretador::invokeinterface(){
-    return 1;
-}
 #ifdef DEBUG_E_S
     #undef DEBUG_E_S
 #endif // DEBUG_E_S
