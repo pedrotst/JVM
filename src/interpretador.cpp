@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -656,7 +656,6 @@ int Interpretador::dload(){
 
 int Interpretador::aload(){
     Local_var operand;
-    operand.tag = OBJECTTYPE;
     uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
     operand = this->frame_corrente->localVarVector[index-1];
     this->frame_corrente->operandStack.push_back(operand);
@@ -1114,8 +1113,26 @@ int Interpretador::dstore(){
     return 2;
 }
 int Interpretador::astore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
-    return 2;
+    uint16_t local_var_index;
+    Local_var lvar;
+    lvar = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+
+    if(lvar.tag != OBJECTTYPE && lvar.tag != ARRAYTYPE && lvar.tag != STRINGTYPE){
+        printf("Erro em astore: Tipo em operandStack diferente do esperado.\n");
+    }
+    if(!_wide){
+        local_var_index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        this->frame_corrente->localVarVector[local_var_index] = lvar;
+        return 2;
+    }
+    else{
+        local_var_index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        this->frame_corrente->localVarVector[local_var_index] = lvar;
+        _wide = false;
+        return 3;
+    }
+
 }
 
 int Interpretador::istore(){
@@ -3644,7 +3661,11 @@ int Interpretador::putfield(){
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
-    jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia();
+    DEBUG_ONLY(
+        for(uint32_t i = 0; i<jvm->heap.size(); i++){
+            jvm->heap[i]->printInstancia();
+        }
+    );
     return 3;
 }
 
@@ -3960,6 +3981,10 @@ int Interpretador::invokespecial(){
     for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
@@ -4019,7 +4044,6 @@ int Interpretador::invokestatic(){
         jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
         runCode(staticFrame);
     }
-    DEBUG_PRINT(("invokestatic: passei daqui\n"));
     //precisamos encontrar em qual classF este m�todo foi declarado
     super_name = cf->getClassName(); // come�a loop na classe invocadora
     do{
@@ -4040,6 +4064,10 @@ int Interpretador::invokestatic(){
     for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
     }
 
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
@@ -4130,6 +4158,10 @@ int Interpretador::invokevirtual(){
     for (int i=1; i < (int)descriptor.find(")"); i++){
         args.push_back(this->frame_corrente->operandStack.back());
         this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
