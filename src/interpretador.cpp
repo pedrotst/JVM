@@ -1022,6 +1022,7 @@ int Interpretador::baload(){
 
     Local_var operand;
     operand.tag = INT;
+    operand.origem = BOOL;
     operand.value.int_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.btype.val.boleano;
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
@@ -3996,7 +3997,6 @@ int Interpretador::invokevirtual(){
         }
 
         else{
-
                 cout << print_var.repr() << endl;
         }
         this->frame_corrente->operandStack.pop_back(); // pop printstream ref

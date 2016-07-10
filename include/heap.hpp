@@ -13,7 +13,7 @@ class FieldValue;
 class InstanceClass;
 
 typedef enum tag_tipo_e{
-    BOOL = 0,
+    BOOL = 11,
     INT = 1,
     CHAR = 2,
     BYTE = 3,
@@ -24,7 +24,7 @@ typedef enum tag_tipo_e{
     BASETYPE = 8,
     OBJECTTYPE = 9,
     ARRAYTYPE = 10,
-    VOID_T = 11,
+    VOID_T = 0,
     RETURN_ADDRESS = 12,
     STRINGTYPE = 13
 }tag_Tipo;
