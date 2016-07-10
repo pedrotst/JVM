@@ -267,7 +267,6 @@ class Interpretador{
         int ishr();
         int lshr();
 
-        int iushl();
         int lushl();
 
         int iand();
