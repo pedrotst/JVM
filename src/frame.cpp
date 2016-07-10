@@ -80,12 +80,19 @@ string Local_var::repr(){
                 converter << "FALSE";
             return converter.str();
         case INT:
-            if(this->origem == VOID_T){
-                converter << value.int_value;
+            if(this->origem == CHAR){
+                converter << (char)value.int_value;
             }
-            else if(origem == CHAR){
-                converter << (char) value.int_value;
+            else if(this->origem ==BOOL){
+                if(value.int_value == 1)
+                    converter << "TRUE";
+                else
+                    converter << "FALSE";
             }
+            else {
+                converter <<  value.int_value;
+            }
+
             return converter.str();
         case CHAR:
             converter << value.char_value;

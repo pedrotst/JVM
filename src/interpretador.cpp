@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -1751,7 +1751,7 @@ int Interpretador::iadd(){
     op_v.int_value = lhs.value.int_value + rhs.value.int_value;
     op.value = op_v;
     op.tag = INT;
-    op.origem = lhs.origem;
+  //  op.origem = lhs.origem;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
@@ -1852,6 +1852,7 @@ int Interpretador::isub(){
     op_v.int_value = lhs - rhs;
     op.value = op_v;
     op.tag = INT;
+    op.origem = VOID_T;
     this->frame_corrente->operandStack.push_back(op);
     return 1;
 }
