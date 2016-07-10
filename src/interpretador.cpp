@@ -1394,6 +1394,7 @@ int Interpretador::astore_1(){
     Local_var op;
 
     op = this->frame_corrente->operandStack.back();
+    DEBUG_PRINT("operandStack.back().tag: " << op.tag);
     if(op.tag != OBJECTTYPE && op.tag != ARRAYTYPE && op.tag != STRINGTYPE){
         printf("Variavel local carregada nao e uma referencia, abortar\n");
         exit(0);
@@ -3735,10 +3736,9 @@ int Interpretador::newarray(){
             printf("Erro em newarray: Tipo de operando no topo do operandStack diferente do esperado.\n");
     }
     int32_t contador = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
     uint8_t atype = this->code_corrente->code[this->frame_corrente->pc+1];
 
-    //ArrayType *arrType = (ArrayType*) malloc(sizeof(ArrayType));//arraytype carrega só um ponteiro, malloc ok
-    //arrayref *arr = new arrayref;
     Local_var operand;
     operand.tag = ARRAYTYPE;
     operand.value.arr = new arrayref;
