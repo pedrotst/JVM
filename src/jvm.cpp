@@ -216,21 +216,18 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
+tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
     DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
 
-    Local_var ret_var;
+    Local_var ret_var_h, ret_var_l;
     Frame frame(method_index, classF);
 
     string cname = classF->getClassName();
-    DEBUG_PRINT(endl << cname << endl);
     Interpretador interpreter(this);
-        //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
+    //checamos se a classe possui variaveis estaticas, mas que ela ainda nao foi inicializada
     //DEBUG_PRINT("Nome do objeto rodando: " << classF->getClassName().compare("Object"));
     if(classF->getClassName().compare("Object") != 0){ // se for o Object, nao rode o clinit, ele tem register methods :(
         int clinitN = classF->findMethod("<clinit>", "()V");
-
-        DEBUG_PRINT(endl << clinitN << endl);
 
         Frame staticFrame(clinitN, classF);
 
@@ -255,21 +252,36 @@ Local_var Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var>
     interpreter.runCode(&frame);
 
 
-    // se a pilha estiver vazia consideramos que ela retornou void
-
+    // Caso a pilha não esteja vazia checamos se o retorno é formado por 1 ou 2 Local_var.
+    // Um valor de retorno só é formado por 2 Local_var`s se ele for um LONG ou um DOUBLE.
     if(!frame.operandStack.empty()){
-        ret_var = frame.operandStack.back();
-        this->fStack.pop_back();
+       if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
+             ret_var_l = frame.operandStack.back();
+             this->fStack.pop_back();
+             ret_var_h = frame.operandStack.back();
+             this->fStack.pop_back();
+       }
+       // Caso o valor retornado for formado somente por 1 Local_var.
+       else{
+             ret_var_l = frame.operandStack.back();
+             this->fStack.pop_back();
+             ret_var_h.tag = VOID_T;
+             ret_var_h.value.void_v = true;
+       }
+
         //printf("o metodo chamado retornou algo\n");
     }
-    else{
+    // se a pilha estiver vazia consideramos que ela retornou void
+    else {
         //printf("o metodo chamado retornou void\n");
-        ret_var.tag = VOID_T;
-        ret_var.value.void_v = true;
+        ret_var_h.tag = VOID_T;
+        ret_var_h.value.void_v = true;
+        ret_var_l.tag = VOID_T;
+        ret_var_l.value.void_v = true;
     }
 
-    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << ret_var.repr() << " ======== " << endl);
-    return ret_var;
+    DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << "high: " << ret_var_h.repr() << " low: " << ret_var_l.repr() << " ======== " << endl);
+    return make_tuple(ret_var_h, ret_var_l);
 }
 
 #ifdef Debug

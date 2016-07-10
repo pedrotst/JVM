@@ -2,6 +2,8 @@
 #define INTERPRETADOR_H
 
 #include <cstdint>
+#include <tuple>
+
 //#include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -267,7 +269,6 @@ class Interpretador{
         int ishr();
         int lshr();
 
-        int iushl();
         int lushl();
 
         int iand();
