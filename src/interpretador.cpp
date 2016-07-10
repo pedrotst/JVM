@@ -460,7 +460,7 @@ int Interpretador::sipush(){
     resultado.tag = INT;
     resultado.value.int_value = (int32_t)var;
     this->frame_corrente->operandStack.push_back(resultado);
-   
+
     return 3;
 }
 
@@ -4016,6 +4016,94 @@ int Interpretador::invokespecial(){
     return 3;
 }
 
+int Interpretador::invokeinterface(){
+    uint8_t operand = code_corrente->code[frame_corrente->pc+1], argc;
+    uint16_t method_index = operand;
+    string invoking_class, method_name, descriptor, argtypes, super_name;
+    ClassFile* cf;
+    vector<Local_var> args;
+    Local_var lvar_l, lvar_h, invokingObj;
+    tuple<Local_var, Local_var> lvar;
+    int found = -1;
+
+    method_index = method_index << 8;
+    operand = code_corrente->code[frame_corrente->pc+2];
+    method_index = method_index|operand; //este � o indice na constant pool
+
+    argc = code_corrente->code[frame_corrente->pc+3];
+
+    // pega os argumentos da pilha
+    for (int i=1; i < argc; i++){
+        args.push_back(this->frame_corrente->operandStack.back());
+        this->frame_corrente->operandStack.pop_back();
+        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+            args.push_back(this->frame_corrente->operandStack.back());
+            this->frame_corrente->operandStack.pop_back();
+        }
+    }
+
+    //o vetor ficou invertido, o this tem que ser o primeiro argumento
+    reverse(args.begin(), args.end());
+
+    invokingObj = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+
+    if(invokingObj.tag != OBJECTTYPE)
+        printf("Esperado objeto na pilha, mas eh: %d", invokingObj.tag);
+
+    this->frame_corrente->cf->getCpoolInterfaceMethod(method_index, invoking_class, method_name, descriptor);
+
+
+    // se for o registerNatives, ignore
+    cout << "invokeinterface: " << invoking_class << "." << method_name << ":" << descriptor << endl;
+
+    if(method_name.compare("registerNatives") == 0){
+        return 5;
+    }
+
+    invoking_class = invokingObj.value.reference_value->cf->getClassName();
+    cf = invokingObj.value.reference_value->cf;
+    //cf = this->jvm->getClassRef(invoking_class);
+    Frame *staticFrame;
+
+    int clinitN = cf->findMethod("<clinit>", "()V");
+    if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
+        staticFrame = new Frame(clinitN, cf);
+        //cout << "Clinit encontrado em: " << clinitN << endl;
+        jvm->staticHeap[invoking_class] = jvm->alocarObjetoEstatico(invoking_class);
+        runCode(staticFrame);
+    }
+
+    //precisamos encontrar em qual classF este m�todo foi declarado
+    super_name = cf->getClassName(); // come�a loop na classe invocadora
+    do{
+        cf = this->jvm->getClassRef(super_name);
+
+        found = cf->findMethod(method_name, descriptor);
+        super_name = cf->getSuper();
+        if(super_name.empty()){// se n�o possuir super, ent�o o m�todo n�o existe
+            printf("Metodo passado nao existe\n");
+            exit(0);
+        }
+    }while(found == -1);
+
+    method_index = found;
+    //printf("encontrei o metodo, esta na classe %s, numero %d\n", cf->getClassName().c_str(), method_index);
+        //executa este metodo
+    lvar = this->jvm->execMethod(method_index, cf, args);
+    lvar_h = get<0>(lvar);
+    lvar_l = get<1>(lvar);
+
+        // bota o retorno na operand stack se nao tiver retornado void
+        if(lvar_h.tag != VOID_T)
+            this->frame_corrente->operandStack.push_back(lvar_h);
+        if(lvar_l.tag != VOID_T)
+          this->frame_corrente->operandStack.push_back(lvar_l);
+
+    //e fim*/
+    return 5;
+}
+
 
 int Interpretador::invokestatic(){
     uint8_t operand = code_corrente->code[frame_corrente->pc+1];
@@ -4460,10 +4548,6 @@ int Interpretador::impdep2(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
-
-int Interpretador::invokeinterface(){
-    return 1;
-}
 #ifdef DEBUG_E_S
     #undef DEBUG_E_S
 #endif // DEBUG_E_S

@@ -216,7 +216,7 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
  *
  */
 
-tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> args) {
+tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF, vector<Local_var> &args) {
     DEBUG_PRINT(endl << "============== " << classF->getClassName() << "." << classF->getMethodName(method_index) << " ==============");
 
     Local_var ret_var_h, ret_var_l;
