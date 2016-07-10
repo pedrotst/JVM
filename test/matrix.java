@@ -1,7 +1,15 @@
 class matrix{
-	public static void main(String[] args){
-		boolean[] m = {true, true, true, true, false, false, false, false, false};
+	int a;
 
-		System.out.println((m[0] & m[4]) == true);
+	public matrix(int a){
+		this.a = a;
+	}
+
+	public static void main(String[] args){
+		matrix[] m = {new matrix(4), new matrix(2)};
+
+		System.out.println(m[0].a);
+		System.out.println(m[1].a);
+
 	}
 }
