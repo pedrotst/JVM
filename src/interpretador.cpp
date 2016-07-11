@@ -3729,7 +3729,13 @@ int Interpretador::putstatic(){
             //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
       }
      else if (field_type[0] == ('L')){
-           if (lvar_low.tag == OBJECTTYPE) {
+           if(field_type.compare("Ljava/io/PrintStream;") != 0) {
+                 //converte local var para fvar
+                 fvar.tag = BASETYPE;
+                 fvar.val.btype.tag = STRINGTYPE;
+                 fvar.val.btype.val.stringue = lvar_low.value.string_value;
+           }
+           else if (lvar_low.tag == OBJECTTYPE) {
                   fvar.tag = OBJECTTYPE;
                   fvar.val.objtype.instance = lvar_low.value.reference_value;
             }
@@ -3990,13 +3996,17 @@ int Interpretador::getstatic(){
         this->frame_corrente->operandStack.push_back(lvar_low);
     }
     else if(field_type[0] == 'L') {
-          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
-
-          if (fvar.tag == OBJECTTYPE) {
+          if(field_type.compare("Ljava/io/PrintStream;") == 0) {
+            lvar_low.tag = STRINGTYPE;
+            lvar_low.value.string_value = new string("PrintStream");
+            }
+          else if (fvar.tag == OBJECTTYPE) {
+                fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
                 lvar_low.tag = OBJECTTYPE;
                 lvar_low.value.reference_value = fvar.val.objtype.instance;
           }
           else if (fvar.tag == STRINGTYPE) {
+                fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
                 lvar_low.tag = STRINGTYPE;
                 lvar_low.value.string_value = fvar.val.objtype.stringue;
           }
