@@ -334,6 +334,7 @@ void exibeClass(ClassFile classF){
                     uint32_t auxiliar = 0;
                     switch(opcode){//Se forem as instruções de immediato, %d não é #cp_index
                             case JSR_W:
+                            case GOTO_W:
                                 //forma 1 de 32
                                 auxiliar = operands[1];
                                 auxiliar <<= 8;
@@ -354,6 +355,7 @@ void exibeClass(ClassFile classF){
                             case IF_ICMPEQ: case IF_ICMPNE:
                             case IF_ICMPLT: case IF_ICMPGE:
                             case IF_ICMPGT: case IF_ICMPLE:
+                            case SIPUSH: case (GOTO):
                                 //forma 1 de 16
                                 //printf("%x, %x ", operands[1], operands[2]);
                                 auxiliar = operands[1];
@@ -378,7 +380,7 @@ void exibeClass(ClassFile classF){
                                 cout << "\t" << dec << auxiliar << " ";
                                 k += 1;
                                 break;
-                            case SIPUSH: case IINC:
+                            case IINC:
                                 //dois bytes
                                 auxiliar = operands[1];
                                 cout << "\t" <<  dec << auxiliar << " ";

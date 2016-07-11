@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 #include <stdio.h>
 #include <map>
@@ -142,7 +142,6 @@ InstanceClass* Jvm::alocarObjeto(string className){
 FieldValue Jvm::inicializaFval(const char* ftype, int n){
     FieldValue fval;
     BaseType bval;
-    ObjectType oval;
     ArrayType aval;
     switch(ftype[n]) {
         case 'B': //byte type

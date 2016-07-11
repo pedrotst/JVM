@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -4449,6 +4449,7 @@ int Interpretador::invokeinterface(){
             args.push_back(this->frame_corrente->operandStack.back());
             this->frame_corrente->operandStack.pop_back();
         }
+        if(descriptor[i] == ('[')) i ++; // se for array, ignore, ele e um objeto so
     }
     invokingObj = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back();
@@ -4579,6 +4580,7 @@ int Interpretador::invokestatic(){
             args.push_back(this->frame_corrente->operandStack.back());
             this->frame_corrente->operandStack.pop_back();
         }
+        if(descriptor[i] == ('[')) i ++; // se for array, ignore, ele e um objeto so
     }
 
     //o vetor ficou invertido, o this tem que ser o primeiro argumento
@@ -4683,6 +4685,7 @@ int Interpretador::invokevirtual(){
             args.push_back(this->frame_corrente->operandStack.back());
             this->frame_corrente->operandStack.pop_back();
         }
+        if(descriptor[i] == ('[')) i ++; // se for array, ignore, ele e um objeto so
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
