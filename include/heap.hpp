@@ -49,6 +49,7 @@ typedef struct BaseType_s{
 
 typedef struct ObjectType_s{
     InstanceClass *instance;
+    std::string *stringue;
 }ObjectType;
 
 typedef std::vector<FieldValue> arrayref;

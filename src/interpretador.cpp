@@ -257,10 +257,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[TABLESWITCH] = &Interpretador::tableswitch;
     pt[LOOKUPSWITCH] = &Interpretador::lookupswitch;
     pt[IRETURN] = &Interpretador::ireturn;
-    pt[LRETURN] = &Interpretador::lreturn;//ni
-    pt[FRETURN] = &Interpretador::freturn;//ni
-    pt[DRETURN] = &Interpretador::dreturn;//ni
-    pt[ARETURN] = &Interpretador::areturn;//ni
+    pt[LRETURN] = &Interpretador::lreturn;
+    pt[FRETURN] = &Interpretador::freturn;
+    pt[DRETURN] = &Interpretador::dreturn;
+    pt[ARETURN] = &Interpretador::areturn;
     pt[RETURN] = &Interpretador::return_op;
     pt[GETSTATIC] = &Interpretador::getstatic;
     pt[PUTSTATIC] = &Interpretador::putstatic;
@@ -269,11 +269,11 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
     pt[INVOKESPECIAL] = &Interpretador::invokespecial;
     pt[INVOKESTATIC] = &Interpretador::invokestatic;
-    pt[INVOKEINTERFACE] = &Interpretador::invokeinterface;//ni
+    pt[INVOKEINTERFACE] = &Interpretador::invokeinterface;
     pt[NEW] = &Interpretador::new_op;
     pt[NEWARRAY] = &Interpretador::newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
-    pt[ARRAYLENGTH] = &Interpretador::arraylength;//ni
+    pt[ARRAYLENGTH] = &Interpretador::arraylength;
     pt[ATHROW] = &Interpretador::athrow;
     pt[CHECKCAST] = &Interpretador::checkcast;//ni
     pt[INSTANCEOF] = &Interpretador::instanceof;//ni
@@ -1008,8 +1008,18 @@ int Interpretador::aaload(){
     }
 
     Local_var operand;
-    operand.tag = ARRAYTYPE;
-    operand.value.arr = this->frame_corrente->operandStack.back().value.arr->at(index).val.arrtype.arr;
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == ARRAYTYPE){
+        operand.tag = ARRAYTYPE;
+        operand.value.arr = this->frame_corrente->operandStack.back().value.arr->at(index).val.arrtype.arr;
+    }
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == OBJECTTYPE){
+        operand.tag = OBJECTTYPE;
+        operand.value.reference_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.objtype.instance;
+    }
+    if(this->frame_corrente->operandStack.back().value.arr->at(index).tag == STRINGTYPE){
+        operand.tag = STRINGTYPE;
+        operand.value.string_value = this->frame_corrente->operandStack.back().value.arr->at(index).val.objtype.stringue;
+    }
     this->frame_corrente->operandStack.pop_back();
     this->frame_corrente->operandStack.push_back(operand);
     return 1;
@@ -1602,9 +1612,41 @@ int Interpretador::dastore(){
     this->frame_corrente->operandStack.pop_back();
     return 1;
 }
+FieldValue Interpretador::localV2FieldT(Local_var temp){
+    FieldValue field;
+    field.tag = temp.tag;
+    switch( temp.tag ){
+        case OBJECTTYPE:
+            field.val.objtype.instance = temp.value.reference_value;
+            break;
+        case STRINGTYPE:
+            field.val.objtype.stringue = temp.value.string_value;
+            break;
+        case ARRAYTYPE:
+            field.val.arrtype.arr = temp.value.arr;
+            break;
+        default:
+            printf("Chegou algo que nao a referencia\n");
+            break;
+    }
+    return field;
+}
 
 int Interpretador::aastore(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    FieldValue field;
+    Local_var temp = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    field = localV2FieldT(temp);
+    uint32_t index = this->frame_corrente->operandStack.back().value.int_value;
+    this->frame_corrente->operandStack.pop_back();
+
+    arrayref *aRef = this->frame_corrente->operandStack.back().value.arr;
+//checar se os tipos estão corretos
+//    if(aRef->at(0).value.reference_value. == temp.tag){
+//        printf("Erro em aastore: ")
+//    }
+    aRef->at(index) = field;
+
     return 1;
 }
 int Interpretador::bastore(){
@@ -4551,31 +4593,45 @@ int Interpretador::invokedynamic(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::arraylength(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    Local_var ret_var, obj = this->frame_corrente->operandStack.back();
+    //uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if(obj.tag != ARRAYTYPE){
+        printf("Erro em instanceof: variavel nao eh um array\n");
+    }
+    this->frame_corrente->operandStack.pop_back();
+    ret_var.tag = INT;
+    ret_var.value.int_value = (int32_t)obj.value.arr->size();
+    this->frame_corrente->operandStack.push_back(ret_var);
+
     return 1;
-}//ni
+}
+
 int Interpretador::checkcast(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
 
-int Interpretador::instanceof(){/*
-    Local_var obj = this->frame_corrente->operandStack.back();
-    uint16_t index = (uint16_t) this->frame_corrente->code[frame_corrente->pc+1];
-    string descriptor = this->frame_corrente->cf->getCpoolUtf8(index);
-    Local_var
+int Interpretador::instanceof(){
+    Local_var ret_var, obj = this->frame_corrente->operandStack.back();
+    //uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    uint16_t index = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
+    string cname = this->frame_corrente->cf->getCpoolClass(index);
     this->frame_corrente->operandStack.pop_back();
 
-    switch(descriptor[0]){
-        case "I":
-        break;
+    if(obj.tag != OBJECTTYPE){
+        printf("Erro em instanceof: variavel nao eh um objeto\n");
     }
+    DEBUG_PRINT("Descriptor: " << cname);
 
-*/
+    ret_var.tag = INT;
+    ret_var.value.int_value = !cname.compare(obj.value.reference_value->cf->getClassName());
+    this->frame_corrente->operandStack.push_back(ret_var);
 
     return 3;
 }
+
 
 int Interpretador::wide(){
     this->_wide = true;

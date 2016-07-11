@@ -137,7 +137,7 @@ public:
          * \return o retorno do metodo empacotado numa Local_var
          *
          */
-        tuple<Local_var, Local_var> execMethod(int method_index, ClassFile *classF, vector<Local_var> &args);
+        tuple<Local_var, Local_var> execMethod(int method_index, ClassFile *classF, vector<Local_var> &jargs);
 
 
 
