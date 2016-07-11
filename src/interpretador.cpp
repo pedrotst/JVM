@@ -3748,6 +3748,16 @@ int Interpretador::putstatic(){
             jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
             //printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
      }
+           else if(field_type[0]=='[') {
+
+           //converte local var para fvar
+            fvar.tag = ARRAYTYPE;
+            fvar.val.arrtype.arr = lvar_low.value.arr;
+            
+
+            jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+            //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+      }
 
  //   DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
     return 3;
@@ -4012,6 +4022,15 @@ int Interpretador::getstatic(){
                 lvar_low.tag = STRINGTYPE;
                 lvar_low.value.string_value = fvar.val.objtype.stringue;
           }
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type[0]=='['){
+          
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = ARRAYTYPE;
+          lvar_low.value.arr = fvar.val.arrtype.arr;
+
           this->frame_corrente->operandStack.push_back(lvar_low);
     }
 
