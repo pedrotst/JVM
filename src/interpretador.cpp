@@ -1,4 +1,4 @@
-//#define DEBUG 
+//#define DEBUG
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
@@ -3636,8 +3636,9 @@ int Interpretador::lookupswitch(){
 int Interpretador::putstatic(){
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type;
-    Local_var lvar;
+    Local_var lvar_high, lvar_low;
     FieldValue fvar;
+    uint32_t *alocador = NULL;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -3645,8 +3646,8 @@ int Interpretador::putstatic(){
     field_type = frame_corrente->cf->getFieldType(name_index);
     DEBUG_ONLY(printf("putstatic #%d\t//%s(%s)\n", name_index, field_name.c_str(), field_type.c_str()));
 
-    lvar = this->frame_corrente->operandStack.back();
-    this->frame_corrente->operandStack.pop_back(); // pop the value
+    lvar_low = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
 
     // garante que o objeto foi criado!
     string cname = frame_corrente->cf->getClassName();
@@ -3659,7 +3660,7 @@ int Interpretador::putstatic(){
         //converte local var para fvar
         fvar.tag = BASETYPE;
         fvar.val.btype.tag = INT;
-        fvar.val.btype.val.inteiro = lvar.value.int_value;
+        fvar.val.btype.val.inteiro = lvar_low.value.int_value;
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
         //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
@@ -3667,51 +3668,78 @@ int Interpretador::putstatic(){
     else if(field_type.compare("Z") == 0){
         //converte local var para fvar
         fvar.tag = BASETYPE;
-        fvar.val.btype.tag = INT;
-        fvar.val.btype.val.inteiro = lvar.value.int_value;
+        fvar.val.btype.tag = BOOL;
+        fvar.val.btype.val.boleano = lvar_low.value.boolean_value;
 
         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
         //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
     }
     else if(field_type.compare("C") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // lower
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) | lvar.value.long_value;
+          //converte local var para fvar
+          fvar.tag = BASETYPE;
+          fvar.val.btype.tag = CHAR;
+          fvar.val.btype.val.caractere = lvar_low.value.char_value;
 
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+          jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+          //printf("o bool passado para o field eh: %d\n", lvar.value.boolean_value);
     }
+    else if(field_type.compare("B") == 0){
+          //converte local var para fvar
+          fvar.tag = BASETYPE;
+          fvar.val.btype.tag = BYTE;
+          fvar.val.btype.val.byte = lvar_low.value.byte_value;
+
+          jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+          //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+      }
     else if(field_type.compare("D") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back();
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = DUPLO;
-        fvar.val.btype.val.duplo = (lvar.value.double_value << 31) | lvar_upper.value.double_value;
-        cout << "variavel sendo colocada no putstatic: " << fvar.repr() << endl;
+         lvar_high = this->frame_corrente->operandStack.back();
+         this->frame_corrente->operandStack.pop_back();
+         //converte local var para fvar
+         fvar.tag = BASETYPE;
+         fvar.val.btype.tag = DUPLO;
+         alocador = (uint32_t *) &fvar.val.btype.val.duplo;
+         *alocador = lvar_low.value.double_value;
+         *(alocador + 1) = lvar_high.value.double_value;
 
-
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+         //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
     }
+    else if(field_type.compare("J") == 0) {
+          lvar_high = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
 
-    else if(field_type.substr(0, 1).compare("L") == 0){
-        if(lvar.tag != STRINGTYPE)
-            cout << "Tentando fazer putstatic de objeto que nao eh string, :(" << lvar.tag << endl;
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = STRINGTYPE;
-        fvar.val.btype.val.stringue = lvar.value.string_value;
+          //converte local var para fvar
+          fvar.tag = BASETYPE;
+          fvar.val.btype.tag = LONGO;
+          alocador = (uint32_t *) &fvar.val.btype.val.longo;
+          *alocador = lvar_low.value.long_value;
+          *(alocador + 1) = lvar_high.value.long_value;
 
+         jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+          //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+      }
+      else if(field_type.compare("F") == 0) {
+            //converte local var para fvar
+            fvar.tag = BASETYPE;
+            fvar.val.btype.tag = PFLUTUANTE;
+            fvar.val.btype.val.pFlutuante = lvar_low.value.float_value;
 
-        jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
-        //printf("a string passada pra field: %s\n", fvar.val.btype.val.stringue->c_str());
-
-    }
+            jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+            //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
+      }
+     else if (field_type[0] == ('L')){
+           if (lvar_low.tag == OBJECTTYPE) {
+                  fvar.tag = OBJECTTYPE;
+                  fvar.val.objtype.instance = lvar_low.value.reference_value;
+            }
+            else if (lvar_low.tag == STRINGTYPE) {
+                  fvar.tag = STRINGTYPE;
+                  fvar.val.objtype.stringue = lvar_low.value.string_value;
+            }
+            jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name] = fvar;
+            //printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
+     }
 
  //   DEBUG_ONLY(jvm->staticHeap[frame_corrente->cf->getClassName()]->printInstancia());
     return 3;
@@ -3868,7 +3896,9 @@ int Interpretador::putfield(){
 int Interpretador::getstatic(){
     uint16_t name_index = code_corrente->code[frame_corrente->pc+1];
     string field_name, field_type, class_name;
-    Local_var lvar;
+    Local_var lvar_low, lvar_high;
+    FieldValue fvar;
+    uint32_t *alocador = NULL;
 
     name_index = name_index << 8;
     name_index |= code_corrente->code[frame_corrente->pc+2];
@@ -3878,52 +3908,99 @@ int Interpretador::getstatic(){
     DEBUG_ONLY(printf("getstatic: #%d\t//%s.%s(%s)\n", name_index, class_name.c_str(), field_name.c_str(), field_type.c_str()));
 
     if(field_type.compare("I") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
 
-        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+          lvar_low.tag = INT;
+          lvar_low.value.int_value = fvar.val.btype.val.inteiro;
 
-        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
-
-        lvar.tag = INT;
-        lvar.value.int_value = fvar.val.btype.val.inteiro;
-        this->frame_corrente->operandStack.push_back(lvar);
-    }if(field_type.compare("Z") == 0){
-
-        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
-
-        //cout << "fvar tag: " << fvar.val.btype.val.inteiro << endl;
-
-        lvar.tag = INT;
-        lvar.value.int_value = fvar.val.btype.val.inteiro;
-        this->frame_corrente->operandStack.push_back(lvar);
+          this->frame_corrente->operandStack.push_back(lvar_low);
     }
-    if(field_type.compare("D") == 0){
-        uint32_t *alocador;
-        Local_var lvar1;
+    else if(field_type.compare("Z") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
 
-        FieldValue fvar = jvm->staticHeap[class_name]->field_instances[field_name];
+          lvar_low.tag = BOOL;
+          lvar_low.value.boolean_value = fvar.val.btype.val.boleano;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("C") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = CHAR;
+          lvar_low.value.char_value = fvar.val.btype.val.caractere;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("F") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = PFLUTUANTE;
+          lvar_low.value.float_value = fvar.val.btype.val.pFlutuante;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("S") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = CURTO;
+          lvar_low.value.short_value = fvar.val.btype.val.curto;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("B") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = BYTE;
+          lvar_low.value.byte_value = fvar.val.btype.val.byte;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("C") == 0){
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
+          lvar_low.tag = CHAR;
+          lvar_low.value.char_value = fvar.val.btype.val.caractere;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("D") == 0){
+        fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
+
         alocador = (uint32_t*) &fvar.val.btype.val.duplo;
 
-        lvar.tag = DUPLO;
-        lvar.value.double_value = alocador[0];
-        lvar1.tag = DUPLO;
-        lvar1.value.double_value = alocador[1];
-        this->frame_corrente->operandStack.push_back(lvar);
-        this->frame_corrente->operandStack.push_back(lvar1);
+        lvar_low.tag = DUPLO;
+        lvar_low.value.double_value = *alocador;
+        lvar_high.tag = DUPLO;
+        lvar_high.value.double_value = *(alocador + 1);
+
+        this->frame_corrente->operandStack.push_back(lvar_high);
+        this->frame_corrente->operandStack.push_back(lvar_low);
     }
+    else if(field_type.compare("J") == 0){
+        fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
 
-    else if(field_type.substr(0, 1).compare("L") == 0){
-        Local_var lvar;
+        alocador = (uint32_t*) &fvar.val.btype.val.longo;
 
-        lvar.tag = STRINGTYPE;
-        if(field_type.compare("Ljava/io/PrintStream;") == 0)
-            lvar.value.string_value = new string("PrintStream");//jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
-        else{
-            lvar.value.string_value = jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue;
+        lvar_low.tag = LONGO;
+        lvar_low.value.long_value = *alocador;
+        lvar_high.tag = LONGO;
+        lvar_high.value.long_value = *(alocador + 1);
 
-            //cout << "Valor do field: " << jvm->staticHeap[class_name]->field_instances[field_name].val.btype.val.stringue << endl;
-        }
-        this->frame_corrente->operandStack.push_back(lvar);
+        this->frame_corrente->operandStack.push_back(lvar_high);
+        this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type[0] == 'L') {
+          fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
 
+          if (fvar.tag == OBJECTTYPE) {
+                lvar_low.tag = OBJECTTYPE;
+                lvar_low.value.reference_value = fvar.val.objtype.instance;
+          }
+          else if (fvar.tag == STRINGTYPE) {
+                lvar_low.tag = STRINGTYPE;
+                lvar_low.value.string_value = fvar.val.objtype.stringue;
+          }
+          this->frame_corrente->operandStack.push_back(lvar_low);
     }
 
     return 3;
@@ -4430,7 +4507,7 @@ int Interpretador::invokestatic(){
         return 3;
     }
     // se for o registerNatives, ignore
-    cout << method_name << endl;
+    //cout << method_name << endl;
     if(method_name.compare("registerNatives") == 0){
         return 3;
     }
@@ -4679,7 +4756,7 @@ int Interpretador::ret(){
 
     if(!_wide){
         index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
-        
+
     }
     else{
         index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
