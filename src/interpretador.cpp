@@ -1,5 +1,4 @@
-//#define DEBUG
-
+//#define DEBUG 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
@@ -168,7 +167,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[IASTORE] = &Interpretador::iastore;
     pt[LASTORE] = &Interpretador::lastore;
     pt[DASTORE] = &Interpretador::dastore;
-    pt[AASTORE] = &Interpretador::aastore;//ni
+    pt[AASTORE] = &Interpretador::aastore;
     pt[BASTORE] = &Interpretador::bastore;
     pt[CASTORE] = &Interpretador::castore;
     pt[SASTORE] = &Interpretador::sastore;
@@ -208,7 +207,7 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[LSHL] = &Interpretador::lshl;
     pt[ISHR] = &Interpretador::ishr;
     pt[LSHR] = &Interpretador::lshr;
-    pt[IUSHR] = &Interpretador::iushr;//ni
+    pt[IUSHR] = &Interpretador::iushr;
     pt[LUSHR] = &Interpretador::lushr;
     pt[IAND] = &Interpretador::iand;
     pt[LAND] = &Interpretador::land;
@@ -619,42 +618,83 @@ int Interpretador::lload(){
     Local_var operand[2];
     operand[0].tag = LONGO;
     operand[1].tag = LONGO;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index];
-    operand[1] = this->frame_corrente->localVarVector[index+1];
-    this->frame_corrente->operandStack.push_back(operand[0]);
-    this->frame_corrente->operandStack.push_back(operand[1]);
-    return 2;
+    if(!_wide){
+        uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+        operand[0] = this->frame_corrente->localVarVector[index];
+        operand[1] = this->frame_corrente->localVarVector[index+1];
+        this->frame_corrente->operandStack.push_back(operand[0]);
+        this->frame_corrente->operandStack.push_back(operand[1]);
+        return 2;
+    }
+    else{
+        uint16_t index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        operand[0] = this->frame_corrente->localVarVector[index];
+        operand[1] = this->frame_corrente->localVarVector[index+1];
+        this->frame_corrente->operandStack.push_back(operand[0]);
+        this->frame_corrente->operandStack.push_back(operand[1]);
+        _wide = false;
+        return 2;
+    }
+
 
 }
 
 int Interpretador::fload(){
     Local_var operand;
     operand.tag = PFLUTUANTE;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+    if(_wide){
+        uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        return 2;
+    }
+    else{
+        uint16_t index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand);
+        _wide = false;
+        return 3;
+    }
 }
 
 int Interpretador::dload(){
     Local_var operand[2];
     operand[0].tag = DUPLO;
     operand[1].tag = DUPLO;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand[0] = this->frame_corrente->localVarVector[index+1];
-    operand[1] = this->frame_corrente->localVarVector[index];
-    this->frame_corrente->operandStack.push_back(operand[1]);
-    this->frame_corrente->operandStack.push_back(operand[0]);
-    return 2;
+    if(_wide){
+        uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+        operand[0] = this->frame_corrente->localVarVector[index+1];
+        operand[1] = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand[1]);
+        this->frame_corrente->operandStack.push_back(operand[0]);
+        return 2;
+    }
+    else{
+        uint16_t index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        operand[0] = this->frame_corrente->localVarVector[index+1];
+        operand[1] = this->frame_corrente->localVarVector[index];
+        this->frame_corrente->operandStack.push_back(operand[1]);
+        this->frame_corrente->operandStack.push_back(operand[0]);
+        _wide = false;
+        return 2;
+    }
 }
 
 int Interpretador::aload(){
     Local_var operand;
-    uint16_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    operand = this->frame_corrente->localVarVector[index-1];
-    this->frame_corrente->operandStack.push_back(operand);
-    return 2;
+    if(!_wide){
+        uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index-1];
+        this->frame_corrente->operandStack.push_back(operand);
+        return 2;
+    }
+    else{
+        uint8_t index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        operand = this->frame_corrente->localVarVector[index-1];
+        this->frame_corrente->operandStack.push_back(operand);
+        _wide = false;
+        return 3;
+    }
 }
 
 
@@ -1094,25 +1134,44 @@ int Interpretador::fstore(){
     if(lvar.tag != PFLUTUANTE){
         printf("Erro em fstore: Tipo em operandStack diferente do esperado\n");
     }
-    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
 
-    this->frame_corrente->localVarVector[local_var_index]=lvar;
-    return 2;
+    if(!_wide){
+        uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+        this->frame_corrente->localVarVector[local_var_index]=lvar;
+        return 2;
+    }
+    else{
+        uint16_t local_var_index = (uint16_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        this->frame_corrente->localVarVector[local_var_index]=lvar;
+        _wide = false;
+        return 3;
+    }
 }
 int Interpretador::dstore(){
-     Local_var high, low;
-     uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+    Local_var high, low;
+    int ret_qnt;
+    uint16_t local_var_index;
+
+    if(!_wide){
+        local_var_index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        ret_qnt = 2;
+    }
+    else{
+        local_var_index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        ret_qnt = 3;
+    }
 
 
-      low = this->frame_corrente->operandStack.back();
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector[local_var_index+1] = low;
+    low = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index+1] = low;
 
-      high = this->frame_corrente->operandStack.back();
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector[local_var_index] = high;
+    high = this->frame_corrente->operandStack.back();
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index] = high;
 
-    return 2;
+
+    return ret_qnt;
 }
 int Interpretador::astore(){
     uint16_t local_var_index;
@@ -1146,15 +1205,19 @@ int Interpretador::istore(){
     if(lvar.tag != INT){
         printf("Erro em istore: Tipo em operandStack diferente do esperado.\n");
     }
-    uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
-
-    //removendo warning "unused opStackSize"
-    //size_t opStackSize = this->frame_corrente->localVarVector.size();
-
-    lvar.value.int_value = (int32_t)lvar.value.int_value;
-    this->frame_corrente->localVarVector[local_var_index] = lvar;
-
-    return 2;
+    if(!_wide){
+        uint8_t local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+        lvar.value.int_value = (int32_t)lvar.value.int_value;
+        this->frame_corrente->localVarVector[local_var_index] = lvar;
+        return 2;
+    }
+    else{
+        uint16_t local_var_index = (int16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        lvar.value.int_value = (int32_t)lvar.value.int_value;
+        this->frame_corrente->localVarVector[local_var_index] = lvar;
+        _wide = false;
+        return 3;
+    }
 }
 
 
@@ -1218,27 +1281,35 @@ int Interpretador::istore_3(){
 
 // Não foi testada
 int Interpretador::lstore(){
-      Local_var operand_high, operand_low;
-      uint8_t local_var_index = 0;
-      vector<Local_var>::iterator it;
+    Local_var operand_high, operand_low;
+    uint16_t local_var_index = 0;
+    vector<Local_var>::iterator it;
+    int ret_qnt;
 
-      if(this->frame_corrente->operandStack.back().tag != LONGO){
-          printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
-      }
-      local_var_index = this->code_corrente->code[this->frame_corrente->pc+1];
+    if(this->frame_corrente->operandStack.back().tag != LONGO){
+        printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
+    }
 
+    if(!_wide){
+        local_var_index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        ret_qnt = 2;
+    }
+    else{
+        local_var_index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        ret_qnt = 3;
+    }
 
-      operand_low.tag = LONGO;
-      operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector[local_var_index+1] = operand_low;
+    operand_low.tag = LONGO;
+    operand_low.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index+1] = operand_low;
 
-      operand_high.tag = LONGO;
-      operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
-      this->frame_corrente->operandStack.pop_back();
-      this->frame_corrente->localVarVector[local_var_index] = operand_high;
+    operand_high.tag = LONGO;
+    operand_high.value.long_value = this->frame_corrente->operandStack.back().value.long_value;
+    this->frame_corrente->operandStack.pop_back();
+    this->frame_corrente->localVarVector[local_var_index] = operand_high;
 
-      return 2;
+    return ret_qnt;
 }
 
 // Não foi testada
@@ -2588,11 +2659,21 @@ int Interpretador::lxor(){
 }
 
 int Interpretador::iinc(){
-    uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-    int32_t constante = this->code_corrente->code[this->frame_corrente->pc+2];
+    uint16_t index;
+    int16_t n;
 
-    this->frame_corrente->localVarVector[index].value.int_value += constante;
-    return 3;
+    if(!_wide){
+        index = (uint8_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        n = (int8_t) this->code_corrente->code[this->frame_corrente->pc+2];
+        this->frame_corrente->localVarVector[index].value.int_value += n;
+        return 3;
+    }
+    else{
+        index = (uint16_t)this->code_corrente->code[this->frame_corrente->pc+1];
+        n = (int16_t) this->code_corrente->code[this->frame_corrente->pc+3];
+        this->frame_corrente->localVarVector[index].value.int_value += n;
+        return 5;
+    }
 }
 
 int Interpretador::i2l(){
@@ -4572,7 +4653,19 @@ int Interpretador::lshr(){
 }
 
 int Interpretador::ret(){
-    return 1;
+    uint16_t index;
+
+    if(!_wide){
+        index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+        
+    }
+    else{
+        index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    }
+
+    this->frame_corrente->pc = this->frame_corrente->localVarVector.at(index).value.returnAddress_value;
+
+    return 0;
 }
 
 int Interpretador::lreturn(){
