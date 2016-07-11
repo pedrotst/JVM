@@ -331,7 +331,8 @@ void exibeClass(ClassFile classF){
                         cout << "\t // ";
                     }*/
                     uint8_t *operands = classF.methods[n].attributes[j].attribute_union.attr_Code.code+k;
-                    uint32_t auxiliar = 0;
+                    int32_t auxiliar = 0, thigh, tlow;
+
                     switch(opcode){//Se forem as instruções de immediato, %d não é #cp_index
                             case JSR_W:
                             case GOTO_W:
@@ -343,7 +344,7 @@ void exibeClass(ClassFile classF){
                                 auxiliar |= operands[3];
                                 auxiliar <<= 8;
                                 auxiliar |= operands[4];
-                                cout << "\t" << auxiliar << " ";
+                                cout << "\t" << (uint32_t)auxiliar << " ";
                                 k += 4;
                                 break;
                             case JSR: case IFNULL:
@@ -355,15 +356,21 @@ void exibeClass(ClassFile classF){
                             case IF_ICMPEQ: case IF_ICMPNE:
                             case IF_ICMPLT: case IF_ICMPGE:
                             case IF_ICMPGT: case IF_ICMPLE:
-                            case SIPUSH: case (GOTO):
+                            case (GOTO):
                                 //forma 1 de 16
                                 //printf("%x, %x ", operands[1], operands[2]);
                                 auxiliar = operands[1];
                                 auxiliar <<= 8;
                                 auxiliar |= operands[2];
-                                cout << "\t" << dec << auxiliar << " ";
+                                cout << "\t" << dec << (uint32_t)auxiliar << " ";
                                 k += 2;
                                 break;
+                            case SIPUSH:
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                cout << "\t" << dec << auxiliar << " ";
+                                k += 2;
                             case ALOAD: case ASTORE:
                             case DLOAD: case DSTORE:
                             case FLOAD: case FSTORE:
@@ -374,6 +381,11 @@ void exibeClass(ClassFile classF){
                             case LSTORE:
                             case NEWARRAY:
                             case RET:
+                                //so um byte
+                                auxiliar = operands[1];
+                                cout << "\t" << dec << (uint32_t)auxiliar << " ";
+                                k += 1;
+                                break;
                             case BIPUSH:
                                 //so um byte
                                 auxiliar = operands[1];
@@ -403,21 +415,26 @@ void exibeClass(ClassFile classF){
                                 auxiliar |= operands[2];
                                 cout << "\t#" << auxiliar << " ";
                                 auxiliar = operands[3];
-                                cout << "\t#" << auxiliar << " 0 ";
-                                k += 3;
+                                cout << "\t#" << auxiliar << " 0 \t//";
+                                print_comment(classF.constant_pool, auxiliar - 1);
+                                k += 4;
                                 break;
                             case LOOKUPSWITCH:
                                 cout << "******************* ";
-                                k+=12;
+                                auxiliar = 4 - (k%4) + k;
+                                k+= auxiliar+ 8 + 8*operands[(uint32_t)auxiliar + 4];
                                 break;
                             case TABLESWITCH:
-                                  cout << "******************* ";
-    //                                auxiliar = (u+k)%4;
-    //                                for(char loops = 0; loops < 4 - auxiliar - 1; loops){
-    //                                }
-    //                                auxiliar = operands[4 - auxiliar - 1];
+                                cout << "******************* ";
+                                auxiliar = 4 - (k%4) -1;//quantidade de bytes de padding
+                                tlow = (operands[auxiliar + k + 4 + 0]) | (operands[auxiliar + k + 4 + 1] << 8) | (operands[auxiliar + k + 4 + 2] << 16) | (operands[auxiliar + k + 4 + 0] << 24);
+                                thigh = (operands[auxiliar + k + 8 + 0]) | (operands[auxiliar + k + 8 + 1] << 8) | (operands[auxiliar + k + 8 + 2] << 16) | (operands[auxiliar + k + 8 + 0] << 24);
+
+                                cout <<  hex << thigh << " " << tlow << " " << k;
+                                k+= auxiliar + 12 + 4*(thigh - tlow + 1);// += compensa k+1
                                 break;
                             case WIDE:
+
                                 cout << OperationMap::getOperation((uint8_t)operands[1]) << " ";
                                 if(opcode == IINC){
                                     auxiliar = operands[2];
