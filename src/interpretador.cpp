@@ -455,7 +455,7 @@ int Interpretador::bipush(){
 int Interpretador::sipush(){
     Local_var resultado;
 
-    uint16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
+    int16_t var = read_code_word(this->code_corrente->code, this->frame_corrente->pc+1);
 
     resultado.tag = INT;
     resultado.value.int_value = (int32_t)var;
