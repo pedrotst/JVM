@@ -8,6 +8,7 @@ class testeObj{
 	short nums = 10;
 	boolean b = true;
 	objeto o;
+	int array_i[] = {1, 2, 3};
 
 	testeObj(){
 		o = new objeto(1, 2);
@@ -29,5 +30,8 @@ class testeObj{
 		System.out.println(b);
 		System.out.println("int dentro do objeto o");
 		System.out.println(o.get_a());
+		System.out.println("Array 1, 2, 3 ?");
+		System.out.println(array_i[1]);
+
 	}
 }

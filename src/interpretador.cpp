@@ -3732,7 +3732,7 @@ int Interpretador::putfield(){
 
     lvar_low = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
-    cout << "field type" << field_type << endl;
+    //cout << "field type" << field_type << endl;
     if(field_type.compare("I") == 0){
 
         ref_var = this->frame_corrente->operandStack.back();
@@ -3842,7 +3842,18 @@ int Interpretador::putfield(){
         fvar.tag = OBJECTTYPE;
         fvar.val.objtype.instance = lvar_low.value.reference_value;
         ref_var.value.reference_value->field_instances[field_name] = fvar;
-        printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
+        //printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
+    }
+    if(field_type[0] == ('[')){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = ARRAYTYPE;
+        fvar.val.arrtype.arr = lvar_low.value.arr;
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        //printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
     }
 
     DEBUG_ONLY(
@@ -4041,6 +4052,17 @@ int Interpretador::getfield(){
 
           lvar_low.tag = OBJECTTYPE;
           lvar_low.value.reference_value = fvar.val.objtype.instance;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type[0] == '[') {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = ARRAYTYPE;
+          lvar_low.value.arr = fvar.val.arrtype.arr;
 
           this->frame_corrente->operandStack.push_back(lvar_low);
     }
