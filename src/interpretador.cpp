@@ -1,4 +1,5 @@
-//#define DEBUG
+#define DEBUG
+
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
 #ifdef DEBUG
@@ -1286,9 +1287,9 @@ int Interpretador::lstore(){
     vector<Local_var>::iterator it;
     int ret_qnt;
 
-    if(this->frame_corrente->operandStack.back().tag != LONGO){
-        printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
-    }
+    // if(this->frame_corrente->operandStack.back().tag != LONGO){
+    //     printf("Erro em lstore: Tipo em operandStack diferente do esperado.\n");
+    // }
 
     if(!_wide){
         local_var_index = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
@@ -3329,10 +3330,10 @@ int Interpretador::if_icmpeq() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
+      value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      value2 = frame_corrente->operandStack.back().value.int_value;
+      value1 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
       if (value1 == value2) {
@@ -3350,10 +3351,10 @@ int Interpretador::if_icmpne() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
+      value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      value2 = frame_corrente->operandStack.back().value.int_value;
+      value1 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
       if (value1 != value2) {
@@ -3372,10 +3373,10 @@ int Interpretador::if_icmplt() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
+      value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      value2 = frame_corrente->operandStack.back().value.int_value;
+      value1 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
       if (value1 < value2) {
@@ -3394,10 +3395,10 @@ int Interpretador::if_icmple() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
+      value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      value2 = frame_corrente->operandStack.back().value.int_value;
+      value1 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
       if (value1 <= value2) {
@@ -3414,10 +3415,10 @@ int Interpretador::if_icmpgt() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
+      value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      value2 = frame_corrente->operandStack.back().value.int_value;
+      value1 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
       if (value1 > value2) {
@@ -3436,13 +3437,13 @@ int Interpretador::if_icmpge() {
       int32_t value1 = 0, value2;
       int16_t offset = 0;
 
-      value1 = frame_corrente->operandStack.back().value.int_value;
-      this->frame_corrente->operandStack.pop_back();
-
       value2 = frame_corrente->operandStack.back().value.int_value;
       this->frame_corrente->operandStack.pop_back();
 
-      if (value1 <= value2) {
+      value1 = frame_corrente->operandStack.back().value.int_value;
+      this->frame_corrente->operandStack.pop_back();
+
+      if (value1 >= value2) {
             offset = this->code_corrente->code[this->frame_corrente->pc+1];
             offset <<= 8;
             offset |= this->code_corrente->code[this->frame_corrente->pc+2];
