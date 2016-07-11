@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -257,10 +257,10 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[TABLESWITCH] = &Interpretador::tableswitch;
     pt[LOOKUPSWITCH] = &Interpretador::lookupswitch;
     pt[IRETURN] = &Interpretador::ireturn;
-    pt[LRETURN] = &Interpretador::lreturn;//ni
-    pt[FRETURN] = &Interpretador::freturn;//ni
-    pt[DRETURN] = &Interpretador::dreturn;//ni
-    pt[ARETURN] = &Interpretador::areturn;//ni
+    pt[LRETURN] = &Interpretador::lreturn;
+    pt[FRETURN] = &Interpretador::freturn;
+    pt[DRETURN] = &Interpretador::dreturn;
+    pt[ARETURN] = &Interpretador::areturn;
     pt[RETURN] = &Interpretador::return_op;
     pt[GETSTATIC] = &Interpretador::getstatic;
     pt[PUTSTATIC] = &Interpretador::putstatic;
@@ -269,11 +269,11 @@ Interpretador::Interpretador(Jvm *jvm){
     pt[INVOKEVIRTUAL] = &Interpretador::invokevirtual;
     pt[INVOKESPECIAL] = &Interpretador::invokespecial;
     pt[INVOKESTATIC] = &Interpretador::invokestatic;
-    pt[INVOKEINTERFACE] = &Interpretador::invokeinterface;//ni
+    pt[INVOKEINTERFACE] = &Interpretador::invokeinterface;
     pt[NEW] = &Interpretador::new_op;
     pt[NEWARRAY] = &Interpretador::newarray;
     pt[ANEWARRAY] = &Interpretador::anewarray;
-    pt[ARRAYLENGTH] = &Interpretador::arraylength;//ni
+    pt[ARRAYLENGTH] = &Interpretador::arraylength;
     pt[ATHROW] = &Interpretador::athrow;
     pt[CHECKCAST] = &Interpretador::checkcast;//ni
     pt[INSTANCEOF] = &Interpretador::instanceof;//ni
@@ -4540,15 +4540,26 @@ int Interpretador::invokedynamic(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::arraylength(){
-    DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
+    Local_var ret_var, obj = this->frame_corrente->operandStack.back();
+    //uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
+    if(obj.tag != ARRAYTYPE){
+        printf("Erro em instanceof: variavel nao eh um array\n");
+    }
+    this->frame_corrente->operandStack.pop_back();
+    ret_var.tag = INT;
+    ret_var.value.int_value = (int32_t)obj.value.arr->size();
+    this->frame_corrente->operandStack.push_back(ret_var);
+
     return 1;
-}//ni
+}
 
 int Interpretador::checkcast(){
     DEBUG_PRINT("INSTRUCAO NAO IMPLEMENTADA");
     return 1;
 }//ni
+
 int Interpretador::instanceof(){
     Local_var ret_var, obj = this->frame_corrente->operandStack.back();
     //uint32_t n = (uint8_t) this->code_corrente->code[this->frame_corrente->pc+1];
