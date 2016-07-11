@@ -194,9 +194,8 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
             fval.val.btype = bval;
             break;
         case 'L': // reference
-            oval.instance = new InstanceClass;
             fval.tag = OBJECTTYPE;
-            fval.val.objtype = oval;
+            fval.val.objtype.instance = NULL;
             break;
         case '[': // array
             fval.tag = ARRAYTYPE;
