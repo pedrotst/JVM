@@ -1,4 +1,4 @@
-//#define DEBUG
+#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -685,13 +685,13 @@ int Interpretador::aload(){
     Local_var operand;
     if(!_wide){
         uint8_t index = this->code_corrente->code[this->frame_corrente->pc+1];
-        operand = this->frame_corrente->localVarVector[index-1];
+        operand = this->frame_corrente->localVarVector[index];
         this->frame_corrente->operandStack.push_back(operand);
         return 2;
     }
     else{
         uint8_t index = (uint16_t) this->code_corrente->code[this->frame_corrente->pc+1];
-        operand = this->frame_corrente->localVarVector[index-1];
+        operand = this->frame_corrente->localVarVector[index];
         this->frame_corrente->operandStack.push_back(operand);
         _wide = false;
         return 3;
@@ -4008,9 +4008,11 @@ int Interpretador::getstatic(){
         this->frame_corrente->operandStack.push_back(lvar_low);
     }
     else if(field_type[0] == 'L') {
+        DEBUG_PRINT(field_type);
           if(field_type.compare("Ljava/io/PrintStream;") == 0) {
             lvar_low.tag = STRINGTYPE;
             lvar_low.value.string_value = new string("PrintStream");
+            DEBUG_PRINT("entrei cuzao");
             }
           else if (fvar.tag == OBJECTTYPE) {
                 fvar = jvm->staticHeap[frame_corrente->cf->getClassName()]->field_instances[field_name];
@@ -4679,13 +4681,14 @@ int Interpretador::invokevirtual(){
 
     // pega os argumentos da pilha
     for (int i=1; i < (int)descriptor.find(")"); i++){
-        args.push_back(this->frame_corrente->operandStack.back());
-        this->frame_corrente->operandStack.pop_back();
-        if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+        if(descriptor[i] != ('[')){ // se for array, ignore, ele e um objeto so
             args.push_back(this->frame_corrente->operandStack.back());
             this->frame_corrente->operandStack.pop_back();
+            if(descriptor[i] == ('D') || descriptor[i] == ('J')){
+                args.push_back(this->frame_corrente->operandStack.back());
+                this->frame_corrente->operandStack.pop_back();
+            }
         }
-        if(descriptor[i] == ('[')) i ++; // se for array, ignore, ele e um objeto so
     }
     // pega a referencia ao objeto da pilha
     args.push_back(this->frame_corrente->operandStack.back());
