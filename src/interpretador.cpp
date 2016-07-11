@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 //Se nao quiser ver entrada e saida de cada instrucao, comenta DEBUG_E_S
 //Assim, o DEBUG ainda funciona de forma independente
@@ -3609,7 +3609,7 @@ int Interpretador::putfield(){
 
     lvar_low = this->frame_corrente->operandStack.back();
     this->frame_corrente->operandStack.pop_back(); // pop the value
-
+    cout << "field type" << field_type << endl;
     if(field_type.compare("I") == 0){
 
         ref_var = this->frame_corrente->operandStack.back();
@@ -3646,19 +3646,15 @@ int Interpretador::putfield(){
             //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
       }
     else if(field_type.compare("C") == 0){
-        Local_var lvar_upper;
-        lvar_upper = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // lower
-        ref_var = this->frame_corrente->operandStack.back();
-        this->frame_corrente->operandStack.pop_back(); // pop this
-        //converte local var para fvar
-        fvar.tag = BASETYPE;
-        fvar.val.btype.tag = LONGO;
-        fvar.val.btype.val.longo = (lvar_upper.value.long_value << 16) & lvar_low.value.long_value;
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back(); // pop this
 
-
-        ref_var.value.reference_value->field_instances[field_name] = fvar;
-        //printf("the int passed to the field is: %d\n", (lvar_upper.value.long_value << 16) & lvar.value.long_value);
+          //converte local var para fvar
+          fvar.tag = BASETYPE;
+          fvar.val.btype.tag = CHAR;
+          fvar.val.btype.val.caractere = lvar_low.value.char_value;
+          ref_var.value.reference_value->field_instances[field_name] = fvar;
+          //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
     }
     else if(field_type.compare("D") == 0){
         lvar_high = this->frame_corrente->operandStack.back();
@@ -3714,6 +3710,18 @@ int Interpretador::putfield(){
         ref_var.value.reference_value->field_instances[field_name] = fvar;
         //printf("o int passado para o field eh: %d\n", lvar.value.int_value);
     }
+    if(field_type[0] == ('L')){
+
+        ref_var = this->frame_corrente->operandStack.back();
+        this->frame_corrente->operandStack.pop_back(); // pop this
+
+        //converte local var para fvar
+        fvar.tag = OBJECTTYPE;
+        fvar.val.objtype.instance = lvar_low.value.reference_value;
+        ref_var.value.reference_value->field_instances[field_name] = fvar;
+        printf("o obj passado para o field eh: %s\n", fvar.val.objtype.instance->cf->getClassName().c_str());
+    }
+
     DEBUG_ONLY(
         for(uint32_t i = 0; i<jvm->heap.size(); i++){
             jvm->heap[i]->printInstancia();
@@ -3815,6 +3823,50 @@ int Interpretador::getfield(){
         lvar_low.value.int_value = fvar.val.btype.val.inteiro;
         this->frame_corrente->operandStack.push_back(lvar_low);
     }
+    else if(field_type.compare("B") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = BYTE;
+          lvar_low.value.byte_value = fvar.val.btype.val.byte;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("C") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = CHAR;
+          lvar_low.value.char_value = fvar.val.btype.val.caractere;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("S") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = CURTO;
+          lvar_low.value.short_value = fvar.val.btype.val.curto;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
+    else if(field_type.compare("Z") == 0) {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
+
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = BOOL;
+          lvar_low.value.boolean_value = fvar.val.btype.val.boleano;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
+    }
     else if(field_type.compare("J") == 0) {
           ref_var = this->frame_corrente->operandStack.back();
           this->frame_corrente->operandStack.pop_back();
@@ -3858,20 +3910,16 @@ int Interpretador::getfield(){
 
           this->frame_corrente->operandStack.push_back(lvar_low);
     }
-    else if(field_type.compare("J") == 0){
-      lvar_high = this->frame_corrente->operandStack.back();
-      this->frame_corrente->operandStack.pop_back();
-      ref_var = this->frame_corrente->operandStack.back();
-      this->frame_corrente->operandStack.pop_back();
-      //converte local var para fvar
-      fvar.tag = BASETYPE;
-      fvar.val.btype.tag = LONGO;
-      alocador = (uint32_t *) &fvar.val.btype.val.longo;
-      *alocador = lvar_low.value.long_value;
-      *(alocador + 1) = lvar_high.value.long_value;
+    else if(field_type[0] == 'L') {
+          ref_var = this->frame_corrente->operandStack.back();
+          this->frame_corrente->operandStack.pop_back();
 
-      ref_var.value.reference_value->field_instances[field_name] = fvar;
-      //printf("the int passed to the field is: %f\n", (double)((lvar_upper.value.long_value << 16) && (lvar.value.long_value)));
+          fvar = ref_var.value.reference_value->field_instances[field_name];
+
+          lvar_low.tag = OBJECTTYPE;
+          lvar_low.value.reference_value = fvar.val.objtype.instance;
+
+          this->frame_corrente->operandStack.push_back(lvar_low);
     }
     return 3;
 }
@@ -4338,7 +4386,12 @@ int Interpretador::invokevirtual(){
                 cout.precision(7);
                 cout << fixed << print_var.value.float_value;
         }
-
+        else if(print_var.tag == BYTE){
+             printf("%d", print_var.value.byte_value);
+       }
+       else if(print_var.tag == CHAR) {
+             printf("%c", print_var.value.char_value);
+       }
         else{
                 cout << print_var.repr();
         }

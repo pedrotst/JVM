@@ -2,15 +2,15 @@
 
 using namespace std;
 
-//a idéia é gerar: [size1][size2][size3]...
-//como os tamanhos dentro de cada dimensão são homogêneos,
-//basta olhar sempre a posição 0
+//a idï¿½ia ï¿½ gerar: [size1][size2][size3]...
+//como os tamanhos dentro de cada dimensï¿½o sï¿½o homogï¿½neos,
+//basta olhar sempre a posiï¿½ï¿½o 0
 string Frame::arrayDimension(arrayref *aRef){
     stringstream arrDim;
     arrDim << "[" << aRef->size() << "]";
     if(aRef->at(0).tag == ARRAYTYPE ){
         //vetor de fields; se for um array simples, a tag da field (at(0).tag)
-        //será diferente de ARRAYTYPE.
+        //serï¿½ diferente de ARRAYTYPE.
         arrDim << arrayDimension(aRef->at(0).val.arrtype.arr);
         return arrDim.str();
     }else{
@@ -85,11 +85,14 @@ string Local_var::repr(){
             if(this->origem == CHAR){
                 converter << (char)value.int_value;
             }
-            else if(this->origem ==BOOL){
+            else if(this->origem == BOOL){
                 if(value.int_value == 1)
                     converter << "TRUE";
                 else
                     converter << "FALSE";
+            }
+            else if(this->origem == BYTE){
+                  converter << value.byte_value;
             }
             else {
                 converter <<  value.int_value;
@@ -133,10 +136,10 @@ string Local_var::repr(){
     return buf;
 }
 
-//a idéia é gerar {{valor1, valor2},{valor3,valor4}}
+//a idï¿½ia ï¿½ gerar {{valor1, valor2},{valor3,valor4}}
 string Frame::arrayContents(arrayref *aRef){
     stringstream arrCon;
-    if(aRef->at(0).tag == ARRAYTYPE ){//aRef é um ponteiro para arrayref; aRef->at(indice) é um FieldValue
+    if(aRef->at(0).tag == ARRAYTYPE ){//aRef ï¿½ um ponteiro para arrayref; aRef->at(indice) ï¿½ um FieldValue
         arrCon << "{";
         for(uint32_t i = 0; i < aRef->size(); i++){
             arrCon << arrayContents(aRef->at(i).val.arrtype.arr);
