@@ -3564,6 +3564,7 @@ int Interpretador::jsr_w() {
 // Compound conditional branch: tableswitch, lookupswitch.
 
 int Interpretador::tableswitch(){
+    DEBUG_PRINT("cheguei aqui, hora de trabalhar!");
     if(this->frame_corrente->operandStack.back().tag != INT){
         printf("Erro em tableswitch: valor na operandStack diferente de INT!\n");
     }
@@ -4509,7 +4510,7 @@ int Interpretador::invokestatic(){
     operand = code_corrente->code[frame_corrente->pc+2];
     method_index = method_index|operand; //este � o indice na constant pool
     this->frame_corrente->cf->getCpoolMethod(method_index, invoking_class, method_name, descriptor);
-
+    DEBUG_PRINT("string compare em seguida");
     // se for o println então printamos e esta tudo certo
     if(!strcmp(method_name.c_str(), "println") && !strcmp(invoking_class.c_str(), "java/io/PrintStream")){
         Local_var print_var = this->frame_corrente->operandStack.back();
@@ -4522,9 +4523,10 @@ int Interpretador::invokestatic(){
     if(method_name.compare("registerNatives") == 0){
         return 3;
     }
-
+    DEBUG_PRINT("antes do cf");
     cf = this->jvm->getClassRef(invoking_class);
     Frame *staticFrame;
+    DEBUG_PRINT("depois do cf");
 
     int clinitN = cf->findMethod("<clinit>", "()V");
     if((jvm->staticHeap.count(invoking_class) != 1) && (clinitN != -1)){
@@ -4535,6 +4537,7 @@ int Interpretador::invokestatic(){
     }
     //precisamos encontrar em qual classF este m�todo foi declarado
     super_name = cf->getClassName(); // come�a loop na classe invocadora
+    DEBUG_PRINT("vai entrar num loop");
     do{
         cf = this->jvm->getClassRef(super_name);
 
