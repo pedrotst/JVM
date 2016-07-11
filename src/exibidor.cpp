@@ -302,31 +302,161 @@ void exibeClass(ClassFile classF){
                     uint8_t opcode = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k];
 
                     //printf("\t Code: %02x\n", opcode);
-                    int arg_qnt = print_code(opcode);
                     cout << "\t"<< dec << k << ":\t"<<  OperationMap::getOperation((uint8_t)opcode) << "\t";
                     //printf("arg_qnt = %d\n", arg_qnt);
-                    for(int u = 0 ; u < arg_qnt; u += (!(arg_qnt%2) + 1)){
-                        uint16_t cp_ref;
+                    /*
+                    for(int u = 0 ; u < arg_qnt; u += 1){
                         if((arg_qnt%2) == 0)
                             cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
                         else
                             cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
-                        printf(" #%d ",cp_ref);
+                        switch(opcode){//Se forem as instruções de immediato, %d não é #cp_index
+                            case JSR_W: case JSR: case IFNULL: case IFNONNULL:
+                            case IFEQ: case IFNE: case IFLT: case IFGE:
+                            case IFGT: case IFLE: case IF_ACMPEQ: case IF_ACMPNE:
+                            case IF_ICMPEQ: case IF_ICMPNE: case IF_ICMPLT: case IF_ICMPGE:
+                            case IF_ICMPGT: case IF_ICMPLE: case ALOAD: case ASTORE:
+                            case DLOAD: case DSTORE: case FLOAD: case FSTORE:
+                            case ILOAD: case ISTORE: case LDC: case LLOAD: case LSTORE:
+                            case NEWARRAY: case RET: case BIPUSH: case SIPUSH: case IINC:
+                            case MULTIANEWARRAY: case INVOKEINTERFACE: case LOOKUPSWITCH:
+                            case TABLESWITCH: case WIDE:
+                                break;
+                            default:
+                                printf(" #%d ",cp_ref);
+                                break;
+                        }
                     }
                     if(arg_qnt > 0){
                         cout << "\t // ";
-                    }
-                    for(int u = 0 ; u < arg_qnt; u+= (!(arg_qnt%2) + 1)){
-                        printf(" ");
-                        uint16_t cp_ref;
-                        if((arg_qnt%2) == 0)
-                            cp_ref = (classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1] << 8) | classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+2];
-                        else
-                            cp_ref = classF.methods[n].attributes[j].attribute_union.attr_Code.code[k+u+1];
-                        print_comment(classF.constant_pool, cp_ref - 1);
+                    }*/
+                    uint8_t *operands = classF.methods[n].attributes[j].attribute_union.attr_Code.code+k;
+                    uint32_t auxiliar = 0;
+                    switch(opcode){//Se forem as instruções de immediato, %d não é #cp_index
+                            case JSR_W:
+                                //forma 1 de 32
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[3];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[4];
+                                cout << "\t" << auxiliar << " ";
+                                k += 4;
+                                break;
+                            case JSR: case IFNULL:
+                            case IFNONNULL:
+                            case IFEQ: case IFNE:
+                            case IFLT: case IFGE:
+                            case IFGT: case IFLE:
+                            case IF_ACMPEQ: case IF_ACMPNE:
+                            case IF_ICMPEQ: case IF_ICMPNE:
+                            case IF_ICMPLT: case IF_ICMPGE:
+                            case IF_ICMPGT: case IF_ICMPLE:
+                                //forma 1 de 16
+                                //printf("%x, %x ", operands[1], operands[2]);
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                cout << "\t" << dec << auxiliar << " ";
+                                k += 2;
+                                break;
+                            case ALOAD: case ASTORE:
+                            case DLOAD: case DSTORE:
+                            case FLOAD: case FSTORE:
+                            case ILOAD:
+                            case ISTORE:
+                            case LDC:
+                            case LLOAD:
+                            case LSTORE:
+                            case NEWARRAY:
+                            case RET:
+                            case BIPUSH:
+                                //so um byte
+                                auxiliar = operands[1];
+                                cout << "\t" << dec << auxiliar << " ";
+                                k += 1;
+                                break;
+                            case SIPUSH: case IINC:
+                                //dois bytes
+                                auxiliar = operands[1];
+                                cout << "\t" <<  dec << auxiliar << " ";
+                                auxiliar = operands[2];
+                                cout << "\t" <<  dec << auxiliar << " ";
+                                k += 2;
+                                break;
+                            case MULTIANEWARRAY:
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                cout << "\t#" << auxiliar << " ";
+                                auxiliar = operands[3];
+                                cout << "\t#" << auxiliar << " ";
+                                k += 3;
+                                break;
+                            case INVOKEINTERFACE:
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                cout << "\t#" << auxiliar << " ";
+                                auxiliar = operands[3];
+                                cout << "\t#" << auxiliar << " 0 ";
+                                k += 3;
+                                break;
+                            case LOOKUPSWITCH:
+                                cout << "******************* ";
+                                k+=12;
+                                break;
+                            case TABLESWITCH:
+                                  cout << "******************* ";
+    //                                auxiliar = (u+k)%4;
+    //                                for(char loops = 0; loops < 4 - auxiliar - 1; loops){
+    //                                }
+    //                                auxiliar = operands[4 - auxiliar - 1];
+                                break;
+                            case WIDE:
+                                cout << OperationMap::getOperation((uint8_t)operands[1]) << " ";
+                                if(opcode == IINC){
+                                    auxiliar = operands[2];
+                                    auxiliar <<= 8;
+                                    auxiliar |= operands[3];
+                                    cout << "\t" << auxiliar << " ";
+                                    auxiliar = operands[4];
+                                    auxiliar <<= 8;
+                                    auxiliar |= operands[5];
+                                    cout <<  auxiliar << " ";
+                                }else{
+                                    auxiliar = operands[2];
+                                    auxiliar <<= 8;
+                                    auxiliar |= operands[3];
+                                    cout << "\t" <<  auxiliar << " ";
+                                }
+                                break;
+                            case (ANEWARRAY):
+                            case (CHECKCAST):
+                            case (GETFIELD):
+                            case (GETSTATIC):
+                            case (INSTANCEOF):
+                            case (INVOKESPECIAL):
+                            case (INVOKESTATIC):
+                            case (INVOKEVIRTUAL):
+                            case (LDC2_W):
+                            case (LDC_W):
+                            case (NEW):
+                            case (PUTFIELD):
+                            case (PUTSTATIC):
+                                auxiliar = operands[1];
+                                auxiliar <<= 8;
+                                auxiliar |= operands[2];
+                                printf(" \t#%d \t//",auxiliar);
+                                print_comment(classF.constant_pool, auxiliar - 1);
+                                k += 2;
+                                break;
+                            default:
+                                break;
                     }
                     cout << endl;
-                    k += arg_qnt;
                 }
 
             }
@@ -392,8 +522,4 @@ void exibeClass(ClassFile classF){
             printf("attribute_length:\n%d\n", attributeElement.attribute_union.attr_Synthetic.attribute_length);
         }
     }
-
-
-
-
 }

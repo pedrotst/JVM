@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 #include <stdio.h>
 #include <map>
@@ -230,7 +230,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
         Frame staticFrame(clinitN, classF);
 
         if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-            cout << "Clinit encontrado em: " << clinitN << endl;
+            //cout << "Clinit encontrado em: " << clinitN << endl;
             this->staticHeap[cname] = alocarObjetoEstatico(cname);
             interpreter.runCode(&staticFrame);
         }
@@ -253,14 +253,14 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
     if(!frame.operandStack.empty()){
        if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
              ret_var_l = frame.operandStack.back();
-             this->fStack.pop_back();
+             frame.operandStack.pop_back();
              ret_var_h = frame.operandStack.back();
-             this->fStack.pop_back();
+             frame.operandStack.pop_back();
        }
        // Caso o valor retornado for formado somente por 1 Local_var.
        else{
              ret_var_l = frame.operandStack.back();
-             this->fStack.pop_back();
+             frame.operandStack.pop_back();
              ret_var_h.tag = VOID_T;
              ret_var_h.value.void_v = true;
        }
@@ -275,6 +275,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
         ret_var_l.tag = VOID_T;
         ret_var_l.value.void_v = true;
     }
+    this->fStack.pop_back();
 
     DEBUG_PRINT("======= " << classF->getClassName() << "." << classF->getMethodName(method_index) << " Retornou: " << "high: " << ret_var_h.repr() << " low: " << ret_var_l.repr() << " ======== " << endl);
     return make_tuple(ret_var_h, ret_var_l);
