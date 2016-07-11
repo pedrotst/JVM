@@ -236,7 +236,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
     }
 
 
-
+    frame.localVarVector.resize(0);
 
     for(vector<Local_var>::iterator it = args.begin(); it != args.end(); ++it){
         frame.localVarVector.push_back(*it);
@@ -246,11 +246,12 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
 
     interpreter.runCode(&frame);
 
-
+    DEBUG_PRINT(" ANTES:");DEBUG_ONLY(frame.printOperandStack());
     // Caso a pilha não esteja vazia checamos se o retorno é formado por 1 ou 2 Local_var.
     // Um valor de retorno só é formado por 2 Local_var`s se ele for um LONG ou um DOUBLE.
     if(!frame.operandStack.empty()){
        if(frame.operandStack.back().tag == LONGO || frame.operandStack.back().tag == DUPLO){
+          
              ret_var_l = frame.operandStack.back();
              frame.operandStack.pop_back();
              ret_var_h = frame.operandStack.back();
