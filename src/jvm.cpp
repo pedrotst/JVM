@@ -194,9 +194,8 @@ FieldValue Jvm::inicializaFval(const char* ftype, int n){
             fval.val.btype = bval;
             break;
         case 'L': // reference
-            oval.instance = new InstanceClass;
             fval.tag = OBJECTTYPE;
-            fval.val.objtype = oval;
+            fval.val.objtype.instance = NULL;
             break;
         case '[': // array
             fval.tag = ARRAYTYPE;
@@ -231,7 +230,7 @@ tuple<Local_var, Local_var> Jvm::execMethod(int method_index, ClassFile *classF,
         Frame staticFrame(clinitN, classF);
 
         if((clinitN != -1) && (this->staticHeap.count(classF->getClassName()) != 1)){
-            cout << "Clinit encontrado em: " << clinitN << endl;
+            //cout << "Clinit encontrado em: " << clinitN << endl;
             this->staticHeap[cname] = alocarObjetoEstatico(cname);
             interpreter.runCode(&staticFrame);
         }
