@@ -87,6 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classJvm-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Jvm Class Reference</div>  </div>
@@ -101,6 +102,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for Jvm:</div>
 <div class="dyncontent">
 <div class="center"><img src="classJvm__coll__graph.png" border="0" usemap="#Jvm_coll__map" alt="Collaboration graph"/></div>
+<map name="Jvm_coll__map" id="Jvm_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -111,6 +114,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a6c159c7b6eed436d26b95e4af9fdca87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtém uma referencia para uma classe carregada. A classe é carregada, caso já não estiver.  <a href="#a6c159c7b6eed436d26b95e4af9fdca87">More...</a><br /></td></tr>
 <tr class="separator:a6c159c7b6eed436d26b95e4af9fdca87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a828e1608fdac86ee26615021e2b63a80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a828e1608fdac86ee26615021e2b63a80">put_field</a> (std::string field_name, <a class="el" href="classLocal__var.html">Local_var</a> lvar)</td></tr>
+<tr class="memdesc:a828e1608fdac86ee26615021e2b63a80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Altera o valor de um dado field.  <a href="#a828e1608fdac86ee26615021e2b63a80">More...</a><br /></td></tr>
 <tr class="separator:a828e1608fdac86ee26615021e2b63a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a854b6ba06d1a9187ec7699861c57e3a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classInstanceClass.html">InstanceClass</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a854b6ba06d1a9187ec7699861c57e3a3">alocarObjeto</a> (std::string className)</td></tr>
 <tr class="memdesc:a854b6ba06d1a9187ec7699861c57e3a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carrega a instancia de uma classe carregada, alocando as fields e instanciando com os valores padrão.  <a href="#a854b6ba06d1a9187ec7699861c57e3a3">More...</a><br /></td></tr>
@@ -118,10 +122,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a03ab322c195c906da1da0455a4ef794f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classInstanceClass.html">InstanceClass</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a03ab322c195c906da1da0455a4ef794f">alocarObjetoEstatico</a> (std::string className)</td></tr>
 <tr class="memdesc:a03ab322c195c906da1da0455a4ef794f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carrega a instância de uma classe carregada, alocando as fields estaticas e instânciando com os valores padrão.  <a href="#a03ab322c195c906da1da0455a4ef794f">More...</a><br /></td></tr>
 <tr class="separator:a03ab322c195c906da1da0455a4ef794f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53fd738b23dd40a98de0a6abec78aa23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classLocal__var.html">Local_var</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a53fd738b23dd40a98de0a6abec78aa23">execMethod</a> (int method_index, <a class="el" href="classClassFile.html">ClassFile</a> *classF, vector&lt; <a class="el" href="classLocal__var.html">Local_var</a> &gt; args)</td></tr>
-<tr class="memdesc:a53fd738b23dd40a98de0a6abec78aa23"><td class="mdescLeft">&#160;</td><td class="mdescRight">executa o enesimo metodo da classF com argumentos args  <a href="#a53fd738b23dd40a98de0a6abec78aa23">More...</a><br /></td></tr>
-<tr class="separator:a53fd738b23dd40a98de0a6abec78aa23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc00dfd960276f1d115debcf8f0a2a9c"><td class="memItemLeft" align="right" valign="top">tuple&lt; <a class="el" href="classLocal__var.html">Local_var</a>, <a class="el" href="classLocal__var.html">Local_var</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#adc00dfd960276f1d115debcf8f0a2a9c">execMethod</a> (int method_index, <a class="el" href="classClassFile.html">ClassFile</a> *classF, vector&lt; <a class="el" href="classLocal__var.html">Local_var</a> &gt; &amp;jargs)</td></tr>
+<tr class="memdesc:adc00dfd960276f1d115debcf8f0a2a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">executa o metodo de indice method_index do vetor de codigo do classF  <a href="#adc00dfd960276f1d115debcf8f0a2a9c">More...</a><br /></td></tr>
+<tr class="separator:adc00dfd960276f1d115debcf8f0a2a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7b36cf9d42be5f4e9fbd1e49f4565d3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#ac7b36cf9d42be5f4e9fbd1e49f4565d3">run</a> (const char *arq_class_name)</td></tr>
+<tr class="memdesc:ac7b36cf9d42be5f4e9fbd1e49f4565d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">carrega o classfile, realiza a verificacao de tipos, verifica se classe carregada possui metodo main caso exista chama o execMethod para executa-lo.  <a href="#ac7b36cf9d42be5f4e9fbd1e49f4565d3">More...</a><br /></td></tr>
 <tr class="separator:ac7b36cf9d42be5f4e9fbd1e49f4565d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -131,11 +136,11 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ab19406aec3e97ade3d4efbd5796c36f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac74fb0e170f232ddc32244a1ce7746b7"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <br class="typebreak" />
 <a class="el" href="classClassFile.html">ClassFile</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#ac74fb0e170f232ddc32244a1ce7746b7">loadedClasses</a></td></tr>
-<tr class="memdesc:ac74fb0e170f232ddc32244a1ce7746b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vetor de classes carregadas.  <a href="#ac74fb0e170f232ddc32244a1ce7746b7">More...</a><br /></td></tr>
+<tr class="memdesc:ac74fb0e170f232ddc32244a1ce7746b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">mapa de classes carregadas.  <a href="#ac74fb0e170f232ddc32244a1ce7746b7">More...</a><br /></td></tr>
 <tr class="separator:ac74fb0e170f232ddc32244a1ce7746b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0054a4d92e17e2a3ad01f9fe32bb096"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classInstanceClass.html">InstanceClass</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#ac0054a4d92e17e2a3ad01f9fe32bb096">heap</a></td></tr>
-<tr class="memdesc:ac0054a4d92e17e2a3ad01f9fe32bb096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapeia classname para instancias.  <a href="#ac0054a4d92e17e2a3ad01f9fe32bb096">More...</a><br /></td></tr>
-<tr class="separator:ac0054a4d92e17e2a3ad01f9fe32bb096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1cdfdf727e1b674a033fbd17337f38"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classInstanceClass.html">InstanceClass</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a8e1cdfdf727e1b674a033fbd17337f38">heap</a></td></tr>
+<tr class="memdesc:a8e1cdfdf727e1b674a033fbd17337f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapeia classname para instancias.  <a href="#a8e1cdfdf727e1b674a033fbd17337f38">More...</a><br /></td></tr>
+<tr class="separator:a8e1cdfdf727e1b674a033fbd17337f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8852d50533c03dabd4320c27e92d4f1b"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <br class="typebreak" />
 <a class="el" href="classInstanceClass.html">InstanceClass</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a8852d50533c03dabd4320c27e92d4f1b">staticHeap</a></td></tr>
 <tr class="separator:a8852d50533c03dabd4320c27e92d4f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +150,11 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a2c1ac5823895df859f9effc95b84d9b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldValue.html">FieldValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#a2c1ac5823895df859f9effc95b84d9b0">inicializaFval</a> (const char *ftype, int n)</td></tr>
 <tr class="memdesc:a2c1ac5823895df859f9effc95b84d9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constroi uma <a class="el" href="classFieldValue.html" title="Valor empacotado da representacao de uma classe ela pode ser dos tipos BaseType, ObjectType e ArrayTy...">FieldValue</a> com os valores padroes, a maioria zero ou false para booleanos, ou array com a dimensao certa mas vazio, ou null.  <a href="#a2c1ac5823895df859f9effc95b84d9b0">More...</a><br /></td></tr>
 <tr class="separator:a2c1ac5823895df859f9effc95b84d9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:acbc46e076119ba010c5434db208b6536"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJvm.html#acbc46e076119ba010c5434db208b6536">classpath</a></td></tr>
+<tr class="separator:acbc46e076119ba010c5434db208b6536"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Esta é a classe mãe da JVM ela Ela quem deve encontrar a main da classe inicial e rodar o loop para rodar os métodos. Ela quem é responsável pela heap, e pela gerencia dos objetos alocados em geral inclusive os classfile! </p>
@@ -223,15 +233,15 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a53fd738b23dd40a98de0a6abec78aa23"></a>
+<a class="anchor" id="adc00dfd960276f1d115debcf8f0a2a9c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classLocal__var.html">Local_var</a> Jvm::execMethod </td>
+          <td class="memname">tuple&lt; <a class="el" href="classLocal__var.html">Local_var</a>, <a class="el" href="classLocal__var.html">Local_var</a> &gt; Jvm::execMethod </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramname"><em>method_index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -242,7 +252,7 @@ Private Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classLocal__var.html">Local_var</a> &gt;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classLocal__var.html">Local_var</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
@@ -253,12 +263,12 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>executa o enesimo metodo da classF com argumentos args </p>
+<p>executa o metodo de indice method_index do vetor de codigo do classF </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">method_index</td><td>o indice do método na classF a ser executado </td></tr>
     <tr><td class="paramname">classF</td><td>é o ponteiro para o <a class="el" href="classClassFile.html" title="ver https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4 ">ClassFile</a> dono do método a ser executado </td></tr>
-    <tr><td class="paramname">args</td><td>são os parametros que serao passado como argumento</td></tr>
+    <tr><td class="paramname">jargs</td><td>são os parametros que serao passado como argumento</td></tr>
   </table>
   </dd>
 </dl>
@@ -282,22 +292,13 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Obtém uma referencia para uma classe carregada. A classe é carregada, caso já não estiver. </p>
-<p>Altera o valor de um dado field.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">className</td><td>nome da classe a ser retornada</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A classfile que de fato representa a estrutura do .class</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field_name</td><td>nome do field a ser alterado </td></tr>
-    <tr><td class="paramname">valor</td><td>para colocar no field</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A classfile que de fato representa a estrutura do .class </dd></dl>
 
 </div>
 </div>
@@ -336,7 +337,6 @@ Private Member Functions</h2></td></tr>
 <p>Constroi uma <a class="el" href="classFieldValue.html" title="Valor empacotado da representacao de uma classe ela pode ser dos tipos BaseType, ObjectType e ArrayTy...">FieldValue</a> com os valores padroes, a maioria zero ou false para booleanos, ou array com a dimensao certa mas vazio, ou null. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ftype</td><td></td></tr>
     <tr><td class="paramname">ftype</td><td>eh o descritor da field </td></tr>
     <tr><td class="paramname">n</td><td>parametro para recursao, chame esta funcao passando como valor inicial sempre zero.</td></tr>
   </table>
@@ -370,6 +370,16 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Altera o valor de um dado field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field_name</td><td>nome do field a ser alterado </td></tr>
+    <tr><td class="paramname">lvar</td><td>valor para colocar no field</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="ac7b36cf9d42be5f4e9fbd1e49f4565d3"></a>
@@ -386,9 +396,39 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>carrega o classfile, realiza a verificacao de tipos, verifica se classe carregada possui metodo main caso exista chama o execMethod para executa-lo. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arq_class_name</td><td>nome do arquivo com o bytecode a ser lido</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>o retorno e sempre 0 </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="acbc46e076119ba010c5434db208b6536"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">O class principal encontra se em um Jvm::classpath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>todos próximos arquivos serão procurados na mesma pasta que o programa ou dentro deste classpath. </p>
+
+</div>
+</div>
 <a class="anchor" id="ab19406aec3e97ade3d4efbd5796c36f3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -403,17 +443,18 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac0054a4d92e17e2a3ad01f9fe32bb096"></a>
+<a class="anchor" id="a8e1cdfdf727e1b674a033fbd17337f38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Jvm::heap</td>
+          <td class="memname">static Jvm::heap</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Mapeia classname para instancias. </p>
+<p>Mapeia classname para os nomes e valores de seus fields estaticos. </p>
 
 </div>
 </div>
@@ -427,7 +468,7 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Vetor de classes carregadas. </p>
+<p>mapa de classes carregadas. </p>
 
 </div>
 </div>
@@ -450,7 +491,7 @@ Private Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 03:54:03 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2016 12:35:02 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

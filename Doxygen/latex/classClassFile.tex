@@ -12,7 +12,8 @@ ver \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.
 
 
 
-Collaboration diagram for Class\+File\+:\nopagebreak
+Collaboration diagram for Class\+File\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -23,6 +24,8 @@ Collaboration diagram for Class\+File\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 std\+::string \hyperlink{classClassFile_a327e97890dd251532d064da9aa61deeb}{get\+Source} ()
+\item 
+std\+::string \hyperlink{classClassFile_a61a0d04342247e9247faf26808b0c300}{get\+Method\+Name} (int n)
 \item 
 std\+::string \hyperlink{classClassFile_a325315e2b9ccf9c10955467aae82b2a1}{get\+Class\+Name} ()
 \item 
@@ -35,9 +38,11 @@ std\+::map$<$ std\+::string, \\*
 std\+::string $>$ \hyperlink{classClassFile_ad63127cb4ef56f97cffc2cb875a1d144}{get\+Static\+Fields\+Names\+Types} ()
 \begin{DoxyCompactList}\small\item\em retorna um bind entre o nome e o tipo de todas fields estaticas da classe \end{DoxyCompactList}\item 
 string \hyperlink{classClassFile_a5fc6d3752ad2616f5e7bcb8402e93c7a}{get\+Cpool\+Class} (int index)
+\item 
+string \hyperlink{classClassFile_a711585f42e46f1e854d696f9189dfa1a}{get\+Cpool\+Interface\+Method} (int index, string \&invoking\+\_\+class, string \&method\+\_\+name, string \&descriptor)
 \begin{DoxyCompactList}\small\item\em Busca na Constant Pool o nome e o tipo do método a partir do index. \end{DoxyCompactList}\item 
 string \hyperlink{classClassFile_ae9258a6814dde7cf8e0be3f3c6533fa1}{get\+Cpool\+Method} (int index, string \&invoking\+\_\+class, string \&method\+\_\+name, string \&descriptor)
-\item 
+\begin{DoxyCompactList}\small\item\em Busca na Constant Pool o nome e o tipo do método a partir do index. \end{DoxyCompactList}\item 
 string \hyperlink{classClassFile_a5d47b42f630f4e1710cdd1155168f598}{get\+Cpool\+Name\+And\+Type} (int index, string \&method\+\_\+name, string \&descriptor)
 \item 
 string \hyperlink{classClassFile_a6088b3d4e2980da3f62d36c647f5867a}{get\+Field\+Class\+Name} (int n)
@@ -150,13 +155,23 @@ Retorna um ponteiro para o atributo Code do método. Se o método não possuir u
 \item[{int}]{index}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_a5fc6d3752ad2616f5e7bcb8402e93c7a}
+\hypertarget{classClassFile_a711585f42e46f1e854d696f9189dfa1a}{\index{Class\+File@{Class\+File}!get\+Cpool\+Interface\+Method@{get\+Cpool\+Interface\+Method}}
+\index{get\+Cpool\+Interface\+Method@{get\+Cpool\+Interface\+Method}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Cpool\+Interface\+Method}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Interface\+Method (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{string \&}]{invoking\+\_\+class, }
+\item[{string \&}]{method\+\_\+name, }
+\item[{string \&}]{descriptor}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a711585f42e46f1e854d696f9189dfa1a}
 
 
 Busca na Constant Pool o nome e o tipo do método a partir do index. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em index} & Index utilizado para encontrar o método \\
+{\em index} & Index utilizado para encontrar o método da interface \\
 \hline
 {\em invoking\+\_\+class} & referencia para string onde será escrito o nome da classe a ser invocada \\
 \hline
@@ -178,6 +193,24 @@ Retorna o nome o nome e o tipo de retorno da classe no formato invoking\+\_\+cla
 \item[{string \&}]{descriptor}
 \end{DoxyParamCaption}
 )}}\label{classClassFile_ae9258a6814dde7cf8e0be3f3c6533fa1}
+
+
+Busca na Constant Pool o nome e o tipo do método a partir do index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Index utilizado para encontrar o método \\
+\hline
+{\em invoking\+\_\+class} & referencia para string onde será escrito o nome da classe a ser invocada \\
+\hline
+{\em method\+\_\+name} & referencia para string onde será escrito o nome do método \\
+\hline
+{\em descriptor} & referencia para string onde será escrito o descritor do método\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retorna o nome o nome e o tipo de retorno da classe no formato invoking\+\_\+class.\+nome\+:tipo 
+\end{DoxyReturn}
 \hypertarget{classClassFile_a5d47b42f630f4e1710cdd1155168f598}{\index{Class\+File@{Class\+File}!get\+Cpool\+Name\+And\+Type@{get\+Cpool\+Name\+And\+Type}}
 \index{get\+Cpool\+Name\+And\+Type@{get\+Cpool\+Name\+And\+Type}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Cpool\+Name\+And\+Type}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Cpool\+Name\+And\+Type (
@@ -252,6 +285,16 @@ Resolve o tipo de uma field n na constant pool.
 
 Resolve o tipo de uma field n na constant pool a partir do nome da field. 
 
+\hypertarget{classClassFile_a61a0d04342247e9247faf26808b0c300}{\index{Class\+File@{Class\+File}!get\+Method\+Name@{get\+Method\+Name}}
+\index{get\+Method\+Name@{get\+Method\+Name}!Class\+File@{Class\+File}}
+\subsubsection[{get\+Method\+Name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Class\+File\+::get\+Method\+Name (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}}\label{classClassFile_a61a0d04342247e9247faf26808b0c300}
+\begin{DoxyReturn}{Returns}
+retorna o nome do método n 
+\end{DoxyReturn}
 \hypertarget{classClassFile_a597f16f2884e82ac447d079c6ae3ce76}{\index{Class\+File@{Class\+File}!get\+Name@{get\+Name}}
 \index{get\+Name@{get\+Name}!Class\+File@{Class\+File}}
 \subsubsection[{get\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string Class\+File\+::get\+Name (

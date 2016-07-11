@@ -15,5 +15,5 @@ var searchData=
   ['minor_5fversion',['minor_version',['../classClassFile.html#a357116b538d1b1ef11073560eba9396d',1,'ClassFile']]],
   ['monitorenter',['monitorenter',['../classInterpretador.html#aab511f1c7db0899ae54ca1e61b1e4d56',1,'Interpretador::monitorenter()'],['../opcode_8hpp.html#a0133c696369247ac29ebd0522b4babc8',1,'MONITORENTER():&#160;opcode.hpp']]],
   ['monitorexit',['monitorexit',['../classInterpretador.html#aefbc157baa70b4f8477b1fda90e6fca5',1,'Interpretador::monitorexit()'],['../opcode_8hpp.html#a658e7f00bdbdc99b16d382de51be4b97',1,'MONITOREXIT():&#160;opcode.hpp']]],
-  ['multianewarray',['MULTIANEWARRAY',['../opcode_8hpp.html#a73be7d7ba3b54dd4f94d4dfffd15ef24',1,'opcode.hpp']]]
+  ['multianewarray',['multianewarray',['../classInterpretador.html#a445404647231755ca07e3d75ecb6c031',1,'Interpretador::multianewarray()'],['../opcode_8hpp.html#a73be7d7ba3b54dd4f94d4dfffd15ef24',1,'MULTIANEWARRAY():&#160;opcode.hpp']]]
 ];

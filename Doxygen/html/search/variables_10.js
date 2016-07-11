@@ -7,6 +7,6 @@ var searchData=
   ['staticheap',['staticHeap',['../classJvm.html#a8852d50533c03dabd4320c27e92d4f1b',1,'Jvm']]],
   ['string_5findex',['string_index',['../structCONSTANT__String__info__s.html#a9fb8030b5c3bbfca53934e67991399cf',1,'CONSTANT_String_info_s']]],
   ['string_5fvalue',['string_value',['../unionLocal__var__Type__u.html#ab9de5f06b94aff07f7e6187620c94935',1,'Local_var_Type_u']]],
-  ['stringue',['stringue',['../unionbase__type__s.html#ab246b2b35057f95ce992e7083086bae5',1,'base_type_s']]],
+  ['stringue',['stringue',['../unionbase__type__s.html#ab246b2b35057f95ce992e7083086bae5',1,'base_type_s::stringue()'],['../structObjectType__s.html#a3ce93c0128356d1776c374e864ec2a13',1,'ObjectType_s::stringue()']]],
   ['super_5fclass',['super_class',['../classClassFile.html#aa48f683b6e5b60021410f88a5e831cbe',1,'ClassFile']]]
 ];

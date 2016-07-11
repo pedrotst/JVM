@@ -100,12 +100,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for ClassFile:</div>
 <div class="dyncontent">
 <div class="center"><img src="classClassFile__coll__graph.png" border="0" usemap="#ClassFile_coll__map" alt="Collaboration graph"/></div>
+<map name="ClassFile_coll__map" id="ClassFile_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a327e97890dd251532d064da9aa61deeb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a327e97890dd251532d064da9aa61deeb">getSource</a> ()</td></tr>
 <tr class="separator:a327e97890dd251532d064da9aa61deeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a0d04342247e9247faf26808b0c300"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a61a0d04342247e9247faf26808b0c300">getMethodName</a> (int n)</td></tr>
+<tr class="separator:a61a0d04342247e9247faf26808b0c300"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a325315e2b9ccf9c10955467aae82b2a1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a325315e2b9ccf9c10955467aae82b2a1">getClassName</a> ()</td></tr>
 <tr class="separator:a325315e2b9ccf9c10955467aae82b2a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a917fdac173079a7eebacb22b728f295d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a917fdac173079a7eebacb22b728f295d">getCpoolUtf8</a> (int index)</td></tr>
@@ -119,9 +123,12 @@ std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <tr class="memdesc:ad63127cb4ef56f97cffc2cb875a1d144"><td class="mdescLeft">&#160;</td><td class="mdescRight">retorna um bind entre o nome e o tipo de todas fields estaticas da classe  <a href="#ad63127cb4ef56f97cffc2cb875a1d144">More...</a><br /></td></tr>
 <tr class="separator:ad63127cb4ef56f97cffc2cb875a1d144"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fc6d3752ad2616f5e7bcb8402e93c7a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a5fc6d3752ad2616f5e7bcb8402e93c7a">getCpoolClass</a> (int index)</td></tr>
-<tr class="memdesc:a5fc6d3752ad2616f5e7bcb8402e93c7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca na Constant Pool o nome e o tipo do método a partir do index.  <a href="#a5fc6d3752ad2616f5e7bcb8402e93c7a">More...</a><br /></td></tr>
 <tr class="separator:a5fc6d3752ad2616f5e7bcb8402e93c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711585f42e46f1e854d696f9189dfa1a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a711585f42e46f1e854d696f9189dfa1a">getCpoolInterfaceMethod</a> (int index, string &amp;invoking_class, string &amp;method_name, string &amp;descriptor)</td></tr>
+<tr class="memdesc:a711585f42e46f1e854d696f9189dfa1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca na Constant Pool o nome e o tipo do método a partir do index.  <a href="#a711585f42e46f1e854d696f9189dfa1a">More...</a><br /></td></tr>
+<tr class="separator:a711585f42e46f1e854d696f9189dfa1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9258a6814dde7cf8e0be3f3c6533fa1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#ae9258a6814dde7cf8e0be3f3c6533fa1">getCpoolMethod</a> (int index, string &amp;invoking_class, string &amp;method_name, string &amp;descriptor)</td></tr>
+<tr class="memdesc:ae9258a6814dde7cf8e0be3f3c6533fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca na Constant Pool o nome e o tipo do método a partir do index.  <a href="#ae9258a6814dde7cf8e0be3f3c6533fa1">More...</a><br /></td></tr>
 <tr class="separator:ae9258a6814dde7cf8e0be3f3c6533fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d47b42f630f4e1710cdd1155168f598"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassFile.html#a5d47b42f630f4e1710cdd1155168f598">getCpoolNameAndType</a> (int index, string &amp;method_name, string &amp;descriptor)</td></tr>
 <tr class="separator:a5d47b42f630f4e1710cdd1155168f598"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,10 +280,48 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+</div>
+</div>
+<a class="anchor" id="a711585f42e46f1e854d696f9189dfa1a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string ClassFile::getCpoolInterfaceMethod </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>invoking_class</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>method_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>descriptor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>Busca na Constant Pool o nome e o tipo do método a partir do index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">index</td><td>Index utilizado para encontrar o método </td></tr>
+    <tr><td class="paramname">index</td><td>Index utilizado para encontrar o método da interface </td></tr>
     <tr><td class="paramname">invoking_class</td><td>referencia para string onde será escrito o nome da classe a ser invocada </td></tr>
     <tr><td class="paramname">method_name</td><td>referencia para string onde será escrito o nome do método </td></tr>
     <tr><td class="paramname">descriptor</td><td>referencia para string onde será escrito o descritor do método</td></tr>
@@ -322,6 +367,18 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Busca na Constant Pool o nome e o tipo do método a partir do index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Index utilizado para encontrar o método </td></tr>
+    <tr><td class="paramname">invoking_class</td><td>referencia para string onde será escrito o nome da classe a ser invocada </td></tr>
+    <tr><td class="paramname">method_name</td><td>referencia para string onde será escrito o nome do método </td></tr>
+    <tr><td class="paramname">descriptor</td><td>referencia para string onde será escrito o descritor do método</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Retorna o nome o nome e o tipo de retorno da classe no formato invoking_class.nome:tipo </dd></dl>
 
 </div>
 </div>
@@ -460,6 +517,23 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Resolve o tipo de uma field n na constant pool a partir do nome da field. </p>
+
+</div>
+</div>
+<a class="anchor" id="a61a0d04342247e9247faf26808b0c300"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ClassFile::getMethodName </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>retorna o nome do método n </dd></dl>
 
 </div>
 </div>
@@ -754,7 +828,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 03:54:03 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2016 12:35:02 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -12,7 +12,8 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 
 
 
-Collaboration diagram for Interpretador\+:\nopagebreak
+Collaboration diagram for Interpretador\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,6 +27,11 @@ Collaboration diagram for Interpretador\+:\nopagebreak
 \item 
 int \hyperlink{classInterpretador_a1bf25d40632df21fe829848201824595}{run\+Code} (\hyperlink{classFrame}{Frame} $\ast$frame\+\_\+pt)
 \end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classInterpretador_acc44aa8b361e93c3ddbeb5a6cf7978df}{\+\_\+wide}
+\end{DoxyCompactItemize}
 \subsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,6 +42,8 @@ typedef int(Interpretador\+::$\ast$ \hyperlink{classInterpretador_a0c7f1073259b2
 \item 
 int \hyperlink{classInterpretador_a2bec82447756b2f6a43e68164ddbdde1}{execute\+\_\+instruction} (int opcode)
 \begin{DoxyCompactList}\small\item\em Executa a instrução de acordo com o opcode de entrada. para encontrar a funcao correta eh montado o vetor ponteiro para funcoes, os quais seguem a ordem dos opcode. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{classInterpretador_a5866535914b8b99ed234cdaaf4955679}{read\+\_\+code\+\_\+word} (uint8\+\_\+t $\ast$code, uint64\+\_\+t pc)
+\begin{DoxyCompactList}\small\item\em Lê dois bytes de um code e retorna um uint16\+\_\+t formado por (indexbyte1 $<$$<$ 8) $\vert$ indexbyte2. \end{DoxyCompactList}\item 
 int \hyperlink{classInterpretador_a745dc9db0dcfa3b29c7e2ffb913334e5}{nop} ()
 \item 
 int \hyperlink{classInterpretador_a267f0b0ee8bb8beb9652625edc59c44c}{aconst\+\_\+null} ()
@@ -55,6 +63,16 @@ int \hyperlink{classInterpretador_a3bacd8de29bb545763401494853710ff}{iconst\+\_\
 int \hyperlink{classInterpretador_a6044c1c66315a0e5a0ad787ea964f455}{lconst\+\_\+0} ()
 \item 
 int \hyperlink{classInterpretador_a58acc549590fb43f3cf8b5e31a3820eb}{lconst\+\_\+1} ()
+\item 
+int \hyperlink{classInterpretador_a25c749622db55ac3b41fb4011ef70ce8}{fconst\+\_\+0} ()
+\item 
+int \hyperlink{classInterpretador_a75a0ef5d26688ea3b6ad20ba412e8425}{fconst\+\_\+1} ()
+\item 
+int \hyperlink{classInterpretador_a507b97334de046948c43506849f5d136}{fconst\+\_\+2} ()
+\item 
+int \hyperlink{classInterpretador_a8f0bb09d311a1d3a16bcd07a4cdd9edd}{dconst\+\_\+0} ()
+\item 
+int \hyperlink{classInterpretador_a38acea0934742eebd8794bb149fdafe4}{dconst\+\_\+1} ()
 \item 
 int \hyperlink{classInterpretador_a94c6a249b4be32b6d0803c4862187089}{bipush} ()
 \item 
@@ -196,6 +214,8 @@ int \hyperlink{classInterpretador_ad6cec328242ed42fe967b7480aad33fe}{fastore} ()
 \item 
 int \hyperlink{classInterpretador_af9c8a69199cf11667302574cadbbb86c}{dastore} ()
 \item 
+\hyperlink{classFieldValue}{Field\+Value} \hyperlink{classInterpretador_a6cb026e710d97b2d2861f0ffe39341ea}{local\+V2\+Field\+T} (\hyperlink{classLocal__var}{Local\+\_\+var} temp)
+\item 
 int \hyperlink{classInterpretador_aa4c16d2455781d9ec884ee23e8e6311c}{aastore} ()
 \item 
 int \hyperlink{classInterpretador_a5b0c614543d662cd81dd754f21ccd3aa}{bastore} ()
@@ -277,8 +297,6 @@ int \hyperlink{classInterpretador_a3537b3d07fe5db9a2914c6e77e29eed8}{lshl} ()
 int \hyperlink{classInterpretador_a17c3a7e0f84af56d1798c44373b52b49}{ishr} ()
 \item 
 int \hyperlink{classInterpretador_a26284506f883683c646adecf7cbf11bf}{lshr} ()
-\item 
-int \hyperlink{classInterpretador_a5bb907d8d5cd93a19884a9dbeede59c0}{iushl} ()
 \item 
 int \hyperlink{classInterpretador_a34a9dc79d5813ccddf38a8c17fdb2abb}{lushl} ()
 \item 
@@ -368,6 +386,10 @@ int \hyperlink{classInterpretador_a8a43d53cd90b847daf628f58c56b0b09}{if\+\_\+acm
 \item 
 int \hyperlink{classInterpretador_aed74f5b17269f66159696a955c271ebc}{if\+\_\+acmpne} ()
 \item 
+int \hyperlink{classInterpretador_aa1b154728e6d0fbc6dde9a6494da02bb}{tableswitch} ()
+\item 
+int \hyperlink{classInterpretador_a5649b782cf4205f4fe7ed806a64c760f}{lookupswitch} ()
+\item 
 int \hyperlink{classInterpretador_aa0161b5eb3e9e02601eb7022312165fc}{goto\+\_\+java} ()
 \item 
 int \hyperlink{classInterpretador_a075d96a650da2b7c3ba68addf3e3d30a}{goto\+\_\+w} ()
@@ -403,6 +425,42 @@ int \hyperlink{classInterpretador_ab7446cc6b524369b63e573b634985c6b}{athrow} ()
 int \hyperlink{classInterpretador_aab511f1c7db0899ae54ca1e61b1e4d56}{monitorenter} ()
 \item 
 int \hyperlink{classInterpretador_aefbc157baa70b4f8477b1fda90e6fca5}{monitorexit} ()
+\item 
+int \hyperlink{classInterpretador_a892de1102ef467a56bd979a9ec574cf2}{iushr} ()
+\item 
+int \hyperlink{classInterpretador_a35a099615e2a33cf16ce8236752259a7}{lushr} ()
+\item 
+int \hyperlink{classInterpretador_a8c2bb180f6a07f53a94fa88c9c3a0bec}{ret} ()
+\item 
+int \hyperlink{classInterpretador_a70f983db5eb1e67d1efcfb8b6c687f2f}{lreturn} ()
+\item 
+int \hyperlink{classInterpretador_af786a4428d01c07e74bfe4d9e0b4f759}{freturn} ()
+\item 
+int \hyperlink{classInterpretador_a250386e8b017352f042efb000966d2da}{dreturn} ()
+\item 
+int \hyperlink{classInterpretador_a9b478f66927891f1fdd43c40ed0ebf29}{areturn} ()
+\item 
+int \hyperlink{classInterpretador_a6d67982fb76ae93b2a45e75c21e2bd48}{invokeinterface} ()
+\item 
+int \hyperlink{classInterpretador_aa38a2df00d49291d498ffce261ad2173}{invokedynamic} ()
+\item 
+int \hyperlink{classInterpretador_a10a6668800bcd17f2891e63ac9375632}{arraylength} ()
+\item 
+int \hyperlink{classInterpretador_ad363da9cb60480ece0ca13f5594ff08e}{checkcast} ()
+\item 
+int \hyperlink{classInterpretador_a4ea842f9ce6c2a4235ad003f5715bef3}{wide} ()
+\item 
+\hyperlink{classFieldValue}{Field\+Value} \hyperlink{classInterpretador_a6a27fb90e5f1dd7a013e31738071d08e}{inicializa\+Mult\+Array} (const char $\ast$ftype, int n=0)
+\item 
+int \hyperlink{classInterpretador_a445404647231755ca07e3d75ecb6c031}{multianewarray} ()
+\item 
+int \hyperlink{classInterpretador_a10cf9ccb141aa5384ee84941f349fb20}{breakpoint} ()
+\item 
+int \hyperlink{classInterpretador_a8a5faaf2ba04843afb1020e0e1ee74ff}{impdep1} ()
+\item 
+int \hyperlink{classInterpretador_a345e1395af380d83cd513b561ba773a2}{impdep2} ()
+\item 
+int \hyperlink{classInterpretador_affe5cbf7a47e9113cb02b58df54f8069}{instanceof} ()
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -507,6 +565,20 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a994eae4c5f405862e83940390594f5d3}
+\hypertarget{classInterpretador_a9b478f66927891f1fdd43c40ed0ebf29}{\index{Interpretador@{Interpretador}!areturn@{areturn}}
+\index{areturn@{areturn}!Interpretador@{Interpretador}}
+\subsubsection[{areturn}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::areturn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a9b478f66927891f1fdd43c40ed0ebf29}
+\hypertarget{classInterpretador_a10a6668800bcd17f2891e63ac9375632}{\index{Interpretador@{Interpretador}!arraylength@{arraylength}}
+\index{arraylength@{arraylength}!Interpretador@{Interpretador}}
+\subsubsection[{arraylength}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::arraylength (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a10a6668800bcd17f2891e63ac9375632}
 \hypertarget{classInterpretador_a253b38ce6efc06bcc24b4bf04e686813}{\index{Interpretador@{Interpretador}!astore@{astore}}
 \index{astore@{astore}!Interpretador@{Interpretador}}
 \subsubsection[{astore}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::astore (
@@ -570,6 +642,13 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a94c6a249b4be32b6d0803c4862187089}
+\hypertarget{classInterpretador_a10cf9ccb141aa5384ee84941f349fb20}{\index{Interpretador@{Interpretador}!breakpoint@{breakpoint}}
+\index{breakpoint@{breakpoint}!Interpretador@{Interpretador}}
+\subsubsection[{breakpoint}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::breakpoint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a10cf9ccb141aa5384ee84941f349fb20}
 \hypertarget{classInterpretador_a87ec73f5fc35016e11b0b58fd9ec6044}{\index{Interpretador@{Interpretador}!caload@{caload}}
 \index{caload@{caload}!Interpretador@{Interpretador}}
 \subsubsection[{caload}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::caload (
@@ -584,6 +663,13 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a2c4715f0705d200e1f5873e0a18bba36}
+\hypertarget{classInterpretador_ad363da9cb60480ece0ca13f5594ff08e}{\index{Interpretador@{Interpretador}!checkcast@{checkcast}}
+\index{checkcast@{checkcast}!Interpretador@{Interpretador}}
+\subsubsection[{checkcast}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::checkcast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_ad363da9cb60480ece0ca13f5594ff08e}
 \hypertarget{classInterpretador_acd88940fab2a1db734e2bbb5d580e858}{\index{Interpretador@{Interpretador}!d2f@{d2f}}
 \index{d2f@{d2f}!Interpretador@{Interpretador}}
 \subsubsection[{d2f}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::d2f (
@@ -640,6 +726,20 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_ae9c2bfffe0dc31a3f9102fa2413f00b1}
+\hypertarget{classInterpretador_a8f0bb09d311a1d3a16bcd07a4cdd9edd}{\index{Interpretador@{Interpretador}!dconst\+\_\+0@{dconst\+\_\+0}}
+\index{dconst\+\_\+0@{dconst\+\_\+0}!Interpretador@{Interpretador}}
+\subsubsection[{dconst\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::dconst\+\_\+0 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a8f0bb09d311a1d3a16bcd07a4cdd9edd}
+\hypertarget{classInterpretador_a38acea0934742eebd8794bb149fdafe4}{\index{Interpretador@{Interpretador}!dconst\+\_\+1@{dconst\+\_\+1}}
+\index{dconst\+\_\+1@{dconst\+\_\+1}!Interpretador@{Interpretador}}
+\subsubsection[{dconst\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::dconst\+\_\+1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a38acea0934742eebd8794bb149fdafe4}
 \hypertarget{classInterpretador_a73c3717dc8c9085bc34b4fdae3341607}{\index{Interpretador@{Interpretador}!ddiv@{ddiv}}
 \index{ddiv@{ddiv}!Interpretador@{Interpretador}}
 \subsubsection[{ddiv}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::ddiv (
@@ -703,6 +803,13 @@ Responsavel por receber um frame e rodar as instrucoes contidas ali.
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a5a98a862668f3cec32e664cd6659c1e5}
+\hypertarget{classInterpretador_a250386e8b017352f042efb000966d2da}{\index{Interpretador@{Interpretador}!dreturn@{dreturn}}
+\index{dreturn@{dreturn}!Interpretador@{Interpretador}}
+\subsubsection[{dreturn}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::dreturn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a250386e8b017352f042efb000966d2da}
 \hypertarget{classInterpretador_aa0c43bf6a905b2e10d3fcfbb5fd330b2}{\index{Interpretador@{Interpretador}!dstore@{dstore}}
 \index{dstore@{dstore}!Interpretador@{Interpretador}}
 \subsubsection[{dstore}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::dstore (
@@ -804,9 +911,17 @@ Executa a instrução de acordo com o opcode de entrada. para encontrar a funcao
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-a quantidade de bytes utilizados pela instrucao executada este numero deve ser utilizado para incremento do pc 
+a quantidade de bytes utilizados pela instrucao executada este numero deve ser utilizado para incremento do pc
 \end{DoxyReturn}
-\hypertarget{classInterpretador_aa57d24caecb7be978a0c555c4e586ffa}{\index{Interpretador@{Interpretador}!f2d@{f2d}}
+P\+A\+R\+A U\+T\+I\+L\+I\+Z\+A\+R A\+S F\+U\+N\+C\+O\+E\+S D\+E D\+E\+B\+U\+G\+:
+
+D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T(\char`\"{}mesagem\char`\"{} $<$$<$ variavel $<$$<$ \char`\"{}mais msgs\char`\"{}); caso esteja em modo debug eh compilado para cout $<$$<$ \char`\"{}mensagem\char`\"{} $<$$<$ variavel $<$$<$ \char`\"{}mais msgs\char`\"{} $<$$<$ endl;
+
+\hyperlink{debug_8hpp_a62befecc75f88dc6f648669c64987d1b}{D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(funcao\+\_\+qualquer())}; caso esteja em modo debug eh compilado para funcao\+\_\+qualquer();
+
+Para chamar o print da pilha de operandos utilize o seguinte\+: D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(frame\+\_\+corrente-\/$>$print\+Operand\+Stack());
+
+Para facilitar investigar como Operand\+Stack e Local\+Var estavam ao entrar na instrução e como ficaram imetiatamente antes da saída, use D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A e imediatamente ao entrar e antes de sair da instrução, respectivamente. \hypertarget{classInterpretador_aa57d24caecb7be978a0c555c4e586ffa}{\index{Interpretador@{Interpretador}!f2d@{f2d}}
 \index{f2d@{f2d}!Interpretador@{Interpretador}}
 \subsubsection[{f2d}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::f2d (
 \begin{DoxyParamCaption}
@@ -862,6 +977,27 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a442431497faf409780b840b5aef001b0}
+\hypertarget{classInterpretador_a25c749622db55ac3b41fb4011ef70ce8}{\index{Interpretador@{Interpretador}!fconst\+\_\+0@{fconst\+\_\+0}}
+\index{fconst\+\_\+0@{fconst\+\_\+0}!Interpretador@{Interpretador}}
+\subsubsection[{fconst\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::fconst\+\_\+0 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a25c749622db55ac3b41fb4011ef70ce8}
+\hypertarget{classInterpretador_a75a0ef5d26688ea3b6ad20ba412e8425}{\index{Interpretador@{Interpretador}!fconst\+\_\+1@{fconst\+\_\+1}}
+\index{fconst\+\_\+1@{fconst\+\_\+1}!Interpretador@{Interpretador}}
+\subsubsection[{fconst\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::fconst\+\_\+1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a75a0ef5d26688ea3b6ad20ba412e8425}
+\hypertarget{classInterpretador_a507b97334de046948c43506849f5d136}{\index{Interpretador@{Interpretador}!fconst\+\_\+2@{fconst\+\_\+2}}
+\index{fconst\+\_\+2@{fconst\+\_\+2}!Interpretador@{Interpretador}}
+\subsubsection[{fconst\+\_\+2}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::fconst\+\_\+2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a507b97334de046948c43506849f5d136}
 \hypertarget{classInterpretador_a0504806287dc47f92fbb5630f2bd7b68}{\index{Interpretador@{Interpretador}!fdiv@{fdiv}}
 \index{fdiv@{fdiv}!Interpretador@{Interpretador}}
 \subsubsection[{fdiv}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::fdiv (
@@ -925,6 +1061,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a741bab057278997b3ec0442371a9d166}
+\hypertarget{classInterpretador_af786a4428d01c07e74bfe4d9e0b4f759}{\index{Interpretador@{Interpretador}!freturn@{freturn}}
+\index{freturn@{freturn}!Interpretador@{Interpretador}}
+\subsubsection[{freturn}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::freturn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_af786a4428d01c07e74bfe4d9e0b4f759}
 \hypertarget{classInterpretador_a35fa20ca60fae28f01185fe91a45c43b}{\index{Interpretador@{Interpretador}!fstore@{fstore}}
 \index{fstore@{fstore}!Interpretador@{Interpretador}}
 \subsubsection[{fstore}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::fstore (
@@ -1275,6 +1418,20 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a22816aaa346dc8feded402cd77dc51a7}
+\hypertarget{classInterpretador_a8a5faaf2ba04843afb1020e0e1ee74ff}{\index{Interpretador@{Interpretador}!impdep1@{impdep1}}
+\index{impdep1@{impdep1}!Interpretador@{Interpretador}}
+\subsubsection[{impdep1}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::impdep1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a8a5faaf2ba04843afb1020e0e1ee74ff}
+\hypertarget{classInterpretador_a345e1395af380d83cd513b561ba773a2}{\index{Interpretador@{Interpretador}!impdep2@{impdep2}}
+\index{impdep2@{impdep2}!Interpretador@{Interpretador}}
+\subsubsection[{impdep2}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::impdep2 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a345e1395af380d83cd513b561ba773a2}
 \hypertarget{classInterpretador_a4bcfb9c13e7a185b522d1ac698bb90fd}{\index{Interpretador@{Interpretador}!imul@{imul}}
 \index{imul@{imul}!Interpretador@{Interpretador}}
 \subsubsection[{imul}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::imul (
@@ -1289,6 +1446,35 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_ab8dc0b183b27014c1d10419f0097b0bd}
+\hypertarget{classInterpretador_a6a27fb90e5f1dd7a013e31738071d08e}{\index{Interpretador@{Interpretador}!inicializa\+Mult\+Array@{inicializa\+Mult\+Array}}
+\index{inicializa\+Mult\+Array@{inicializa\+Mult\+Array}!Interpretador@{Interpretador}}
+\subsubsection[{inicializa\+Mult\+Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Field\+Value} Interpretador\+::inicializa\+Mult\+Array (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{ftype, }
+\item[{int}]{n = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a6a27fb90e5f1dd7a013e31738071d08e}
+\hypertarget{classInterpretador_affe5cbf7a47e9113cb02b58df54f8069}{\index{Interpretador@{Interpretador}!instanceof@{instanceof}}
+\index{instanceof@{instanceof}!Interpretador@{Interpretador}}
+\subsubsection[{instanceof}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::instanceof (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_affe5cbf7a47e9113cb02b58df54f8069}
+\hypertarget{classInterpretador_aa38a2df00d49291d498ffce261ad2173}{\index{Interpretador@{Interpretador}!invokedynamic@{invokedynamic}}
+\index{invokedynamic@{invokedynamic}!Interpretador@{Interpretador}}
+\subsubsection[{invokedynamic}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::invokedynamic (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aa38a2df00d49291d498ffce261ad2173}
+\hypertarget{classInterpretador_a6d67982fb76ae93b2a45e75c21e2bd48}{\index{Interpretador@{Interpretador}!invokeinterface@{invokeinterface}}
+\index{invokeinterface@{invokeinterface}!Interpretador@{Interpretador}}
+\subsubsection[{invokeinterface}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::invokeinterface (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a6d67982fb76ae93b2a45e75c21e2bd48}
 \hypertarget{classInterpretador_af1af18d5c72e72c8ccee52c83d3e4160}{\index{Interpretador@{Interpretador}!invokespecial@{invokespecial}}
 \index{invokespecial@{invokespecial}!Interpretador@{Interpretador}}
 \subsubsection[{invokespecial}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::invokespecial (
@@ -1387,13 +1573,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_ab2b13ad0ad26a1cae4c81efc60694b46}
-\hypertarget{classInterpretador_a5bb907d8d5cd93a19884a9dbeede59c0}{\index{Interpretador@{Interpretador}!iushl@{iushl}}
-\index{iushl@{iushl}!Interpretador@{Interpretador}}
-\subsubsection[{iushl}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::iushl (
+\hypertarget{classInterpretador_a892de1102ef467a56bd979a9ec574cf2}{\index{Interpretador@{Interpretador}!iushr@{iushr}}
+\index{iushr@{iushr}!Interpretador@{Interpretador}}
+\subsubsection[{iushr}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::iushr (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a5bb907d8d5cd93a19884a9dbeede59c0}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a892de1102ef467a56bd979a9ec574cf2}
 \hypertarget{classInterpretador_acef575a408b3d953596350ff0be45095}{\index{Interpretador@{Interpretador}!ixor@{ixor}}
 \index{ixor@{ixor}!Interpretador@{Interpretador}}
 \subsubsection[{ixor}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::ixor (
@@ -1562,6 +1748,20 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a2b1ec9058098a01dea7228e9c8152bd9}
+\hypertarget{classInterpretador_a6cb026e710d97b2d2861f0ffe39341ea}{\index{Interpretador@{Interpretador}!local\+V2\+Field\+T@{local\+V2\+Field\+T}}
+\index{local\+V2\+Field\+T@{local\+V2\+Field\+T}!Interpretador@{Interpretador}}
+\subsubsection[{local\+V2\+Field\+T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Field\+Value} Interpretador\+::local\+V2\+Field\+T (
+\begin{DoxyParamCaption}
+\item[{{\bf Local\+\_\+var}}]{temp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a6cb026e710d97b2d2861f0ffe39341ea}
+\hypertarget{classInterpretador_a5649b782cf4205f4fe7ed806a64c760f}{\index{Interpretador@{Interpretador}!lookupswitch@{lookupswitch}}
+\index{lookupswitch@{lookupswitch}!Interpretador@{Interpretador}}
+\subsubsection[{lookupswitch}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lookupswitch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a5649b782cf4205f4fe7ed806a64c760f}
 \hypertarget{classInterpretador_a169f0d71a799bd226eaf52d182a0a773}{\index{Interpretador@{Interpretador}!lor@{lor}}
 \index{lor@{lor}!Interpretador@{Interpretador}}
 \subsubsection[{lor}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lor (
@@ -1576,6 +1776,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_abfb6b4379f7c6eb9615f3437aaaf4c4a}
+\hypertarget{classInterpretador_a70f983db5eb1e67d1efcfb8b6c687f2f}{\index{Interpretador@{Interpretador}!lreturn@{lreturn}}
+\index{lreturn@{lreturn}!Interpretador@{Interpretador}}
+\subsubsection[{lreturn}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lreturn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a70f983db5eb1e67d1efcfb8b6c687f2f}
 \hypertarget{classInterpretador_a3537b3d07fe5db9a2914c6e77e29eed8}{\index{Interpretador@{Interpretador}!lshl@{lshl}}
 \index{lshl@{lshl}!Interpretador@{Interpretador}}
 \subsubsection[{lshl}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lshl (
@@ -1639,6 +1846,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a34a9dc79d5813ccddf38a8c17fdb2abb}
+\hypertarget{classInterpretador_a35a099615e2a33cf16ce8236752259a7}{\index{Interpretador@{Interpretador}!lushr@{lushr}}
+\index{lushr@{lushr}!Interpretador@{Interpretador}}
+\subsubsection[{lushr}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lushr (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a35a099615e2a33cf16ce8236752259a7}
 \hypertarget{classInterpretador_a44bf17921b6cdd7f0d92a2753eb39580}{\index{Interpretador@{Interpretador}!lxor@{lxor}}
 \index{lxor@{lxor}!Interpretador@{Interpretador}}
 \subsubsection[{lxor}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::lxor (
@@ -1660,6 +1874,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aefbc157baa70b4f8477b1fda90e6fca5}
+\hypertarget{classInterpretador_a445404647231755ca07e3d75ecb6c031}{\index{Interpretador@{Interpretador}!multianewarray@{multianewarray}}
+\index{multianewarray@{multianewarray}!Interpretador@{Interpretador}}
+\subsubsection[{multianewarray}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::multianewarray (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a445404647231755ca07e3d75ecb6c031}
 \hypertarget{classInterpretador_a6b50fd948bdde87c69a9be341e5840f7}{\index{Interpretador@{Interpretador}!new\+\_\+op@{new\+\_\+op}}
 \index{new\+\_\+op@{new\+\_\+op}!Interpretador@{Interpretador}}
 \subsubsection[{new\+\_\+op}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::new\+\_\+op (
@@ -1709,6 +1930,35 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a2414f2d0d7d7bd08dc4054407ba469c5}
+\hypertarget{classInterpretador_a5866535914b8b99ed234cdaaf4955679}{\index{Interpretador@{Interpretador}!read\+\_\+code\+\_\+word@{read\+\_\+code\+\_\+word}}
+\index{read\+\_\+code\+\_\+word@{read\+\_\+code\+\_\+word}!Interpretador@{Interpretador}}
+\subsubsection[{read\+\_\+code\+\_\+word}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Interpretador\+::read\+\_\+code\+\_\+word (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{code, }
+\item[{uint64\+\_\+t}]{pc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a5866535914b8b99ed234cdaaf4955679}
+
+
+Lê dois bytes de um code e retorna um uint16\+\_\+t formado por (indexbyte1 $<$$<$ 8) $\vert$ indexbyte2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint8\+\_\+t} & $\ast$code\+: code de onde os bytes serão lidos. \\
+\hline
+{\em uint64\+\_\+t} & pc\+: valor do pc que aponta para o primeiro byte a ser lido do code (indexbyte1).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+valor de formado pelos dois bytes lidos. 
+\end{DoxyReturn}
+\hypertarget{classInterpretador_a8c2bb180f6a07f53a94fa88c9c3a0bec}{\index{Interpretador@{Interpretador}!ret@{ret}}
+\index{ret@{ret}!Interpretador@{Interpretador}}
+\subsubsection[{ret}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::ret (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a8c2bb180f6a07f53a94fa88c9c3a0bec}
 \hypertarget{classInterpretador_a76da2e131bddc3824c711058918f4785}{\index{Interpretador@{Interpretador}!return\+\_\+op@{return\+\_\+op}}
 \index{return\+\_\+op@{return\+\_\+op}!Interpretador@{Interpretador}}
 \subsubsection[{return\+\_\+op}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::return\+\_\+op (
@@ -1751,6 +2001,13 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_acf650271362390f13092bd75a89f9275}
+\hypertarget{classInterpretador_aa1b154728e6d0fbc6dde9a6494da02bb}{\index{Interpretador@{Interpretador}!tableswitch@{tableswitch}}
+\index{tableswitch@{tableswitch}!Interpretador@{Interpretador}}
+\subsubsection[{tableswitch}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::tableswitch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_aa1b154728e6d0fbc6dde9a6494da02bb}
 \hypertarget{classInterpretador_a84a3dd88cffca0a80bfbafb2453c9866}{\index{Interpretador@{Interpretador}!valida\+\_\+tipos\+\_\+fields@{valida\+\_\+tipos\+\_\+fields}}
 \index{valida\+\_\+tipos\+\_\+fields@{valida\+\_\+tipos\+\_\+fields}!Interpretador@{Interpretador}}
 \subsubsection[{valida\+\_\+tipos\+\_\+fields}]{\setlength{\rightskip}{0pt plus 5cm}void Interpretador\+::valida\+\_\+tipos\+\_\+fields (
@@ -1760,10 +2017,20 @@ a quantidade de bytes utilizados pela instrucao executada este numero deve ser u
 \item[{string}]{field\+\_\+name}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a84a3dd88cffca0a80bfbafb2453c9866}
+\hypertarget{classInterpretador_a4ea842f9ce6c2a4235ad003f5715bef3}{\index{Interpretador@{Interpretador}!wide@{wide}}
+\index{wide@{wide}!Interpretador@{Interpretador}}
+\subsubsection[{wide}]{\setlength{\rightskip}{0pt plus 5cm}int Interpretador\+::wide (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_a4ea842f9ce6c2a4235ad003f5715bef3}
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classInterpretador_adc0e318d8cf9188ef597daeef754c1b9}{\index{Interpretador@{Interpretador}!code\+\_\+corrente@{code\+\_\+corrente}}
+\hypertarget{classInterpretador_acc44aa8b361e93c3ddbeb5a6cf7978df}{\index{Interpretador@{Interpretador}!\+\_\+wide@{\+\_\+wide}}
+\index{\+\_\+wide@{\+\_\+wide}!Interpretador@{Interpretador}}
+\subsubsection[{\+\_\+wide}]{\setlength{\rightskip}{0pt plus 5cm}Interpretador\+::\+\_\+wide}}\label{classInterpretador_acc44aa8b361e93c3ddbeb5a6cf7978df}
+quando a instrucao wide eh chamada seta esta variavel pra true a proxima instrucao recebe mais bytes de argumento caso esta variavel esteja true \hypertarget{classInterpretador_adc0e318d8cf9188ef597daeef754c1b9}{\index{Interpretador@{Interpretador}!code\+\_\+corrente@{code\+\_\+corrente}}
 \index{code\+\_\+corrente@{code\+\_\+corrente}!Interpretador@{Interpretador}}
 \subsubsection[{code\+\_\+corrente}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Code\+\_\+attribute}$\ast$ Interpretador\+::code\+\_\+corrente\hspace{0.3cm}{\ttfamily [private]}}}\label{classInterpretador_adc0e318d8cf9188ef597daeef754c1b9}
 \hypertarget{classInterpretador_a1689e627d6bbc165db98b1c3df67fc60}{\index{Interpretador@{Interpretador}!descriptor\+\_\+index@{descriptor\+\_\+index}}

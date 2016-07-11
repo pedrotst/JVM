@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -103,7 +104,7 @@ Collaboration diagram for Interpretador:</div>
 <div class="dyncontent">
 <div class="center"><img src="classInterpretador__coll__graph.png" border="0" usemap="#Interpretador_coll__map" alt="Collaboration graph"/></div>
 <map name="Interpretador_coll__map" id="Interpretador_coll__map">
-<area shape="rect" id="node2" href="structCode__attribute__s.html" title="{Code_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ max_stack\l+ max_locals\l+ code_length\l+ code\l+ exception_table_length\l+ exception_table\l+ attributes_count\l+ attributes\l|}" alt="" coords="5,447,171,657"/><area shape="rect" id="node3" href="classFrame.html" title="{Frame\n|+ operandStack\l+ localVarVector\l+ pc\l+ method_index\l|+ Frame()\l+ printOperandStack()\l+ printLocalVar()\l}" alt="" coords="195,477,345,627"/><area shape="rect" id="node4" href="classClassFile.html" title="ver https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4 " alt="" coords="167,5,373,376"/><area shape="rect" id="node5" href="classJvm.html" title="Esta é a classe mãe da JVM ela Ela quem deve encontrar a main da classe inicial e rodar o loop para r..." alt="" coords="371,440,533,664"/></map>
+<area shape="rect" id="node2" href="structCode__attribute__s.html" title="{Code_attribute_s\n|+ attribute_name_index\l+ attribute_length\l+ max_stack\l+ max_locals\l+ code_length\l+ code\l+ exception_table_length\l+ exception_table\l+ attributes_count\l+ attributes\l|}" alt="" coords="5,455,171,665"/><area shape="rect" id="node3" href="classFrame.html" title="{Frame\n|+ operandStack\l+ localVarVector\l+ pc\l+ method_index\l|+ Frame()\l+ printOperandStack()\l+ printLocalVar()\l+ arrayContents()\l+ arrayDimension()\l+ isSimpleArray()\l}" alt="" coords="195,463,345,657"/><area shape="rect" id="node4" href="classClassFile.html" title="ver https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4 " alt="" coords="167,5,373,376"/><area shape="rect" id="node5" href="classJvm.html" title="Esta é a classe mãe da JVM ela Ela quem deve encontrar a main da classe inicial e rodar o loop para r..." alt="" coords="371,441,533,679"/></map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -112,6 +113,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a88354439afcfe11ce59c99041b9c4e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bf25d40632df21fe829848201824595"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a1bf25d40632df21fe829848201824595">runCode</a> (<a class="el" href="classFrame.html">Frame</a> *frame_pt)</td></tr>
 <tr class="separator:a1bf25d40632df21fe829848201824595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:acc44aa8b361e93c3ddbeb5a6cf7978df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#acc44aa8b361e93c3ddbeb5a6cf7978df">_wide</a></td></tr>
+<tr class="separator:acc44aa8b361e93c3ddbeb5a6cf7978df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
@@ -123,6 +129,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a2bec82447756b2f6a43e68164ddbdde1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a2bec82447756b2f6a43e68164ddbdde1">execute_instruction</a> (int opcode)</td></tr>
 <tr class="memdesc:a2bec82447756b2f6a43e68164ddbdde1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executa a instrução de acordo com o opcode de entrada. para encontrar a funcao correta eh montado o vetor ponteiro para funcoes, os quais seguem a ordem dos opcode.  <a href="#a2bec82447756b2f6a43e68164ddbdde1">More...</a><br /></td></tr>
 <tr class="separator:a2bec82447756b2f6a43e68164ddbdde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5866535914b8b99ed234cdaaf4955679"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a5866535914b8b99ed234cdaaf4955679">read_code_word</a> (uint8_t *code, uint64_t pc)</td></tr>
+<tr class="memdesc:a5866535914b8b99ed234cdaaf4955679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lê dois bytes de um code e retorna um uint16_t formado por (indexbyte1 &lt;&lt; 8) | indexbyte2.  <a href="#a5866535914b8b99ed234cdaaf4955679">More...</a><br /></td></tr>
+<tr class="separator:a5866535914b8b99ed234cdaaf4955679"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a745dc9db0dcfa3b29c7e2ffb913334e5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a745dc9db0dcfa3b29c7e2ffb913334e5">nop</a> ()</td></tr>
 <tr class="separator:a745dc9db0dcfa3b29c7e2ffb913334e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a267f0b0ee8bb8beb9652625edc59c44c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a267f0b0ee8bb8beb9652625edc59c44c">aconst_null</a> ()</td></tr>
@@ -143,6 +152,16 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a6044c1c66315a0e5a0ad787ea964f455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58acc549590fb43f3cf8b5e31a3820eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a58acc549590fb43f3cf8b5e31a3820eb">lconst_1</a> ()</td></tr>
 <tr class="separator:a58acc549590fb43f3cf8b5e31a3820eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25c749622db55ac3b41fb4011ef70ce8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a25c749622db55ac3b41fb4011ef70ce8">fconst_0</a> ()</td></tr>
+<tr class="separator:a25c749622db55ac3b41fb4011ef70ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75a0ef5d26688ea3b6ad20ba412e8425"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a75a0ef5d26688ea3b6ad20ba412e8425">fconst_1</a> ()</td></tr>
+<tr class="separator:a75a0ef5d26688ea3b6ad20ba412e8425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507b97334de046948c43506849f5d136"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a507b97334de046948c43506849f5d136">fconst_2</a> ()</td></tr>
+<tr class="separator:a507b97334de046948c43506849f5d136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f0bb09d311a1d3a16bcd07a4cdd9edd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a8f0bb09d311a1d3a16bcd07a4cdd9edd">dconst_0</a> ()</td></tr>
+<tr class="separator:a8f0bb09d311a1d3a16bcd07a4cdd9edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38acea0934742eebd8794bb149fdafe4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a38acea0934742eebd8794bb149fdafe4">dconst_1</a> ()</td></tr>
+<tr class="separator:a38acea0934742eebd8794bb149fdafe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94c6a249b4be32b6d0803c4862187089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a94c6a249b4be32b6d0803c4862187089">bipush</a> ()</td></tr>
 <tr class="separator:a94c6a249b4be32b6d0803c4862187089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8539347450d65f7228b87b9c996616a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#ab8539347450d65f7228b87b9c996616a">sipush</a> ()</td></tr>
@@ -283,6 +302,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:ad6cec328242ed42fe967b7480aad33fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9c8a69199cf11667302574cadbbb86c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#af9c8a69199cf11667302574cadbbb86c">dastore</a> ()</td></tr>
 <tr class="separator:af9c8a69199cf11667302574cadbbb86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cb026e710d97b2d2861f0ffe39341ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldValue.html">FieldValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a6cb026e710d97b2d2861f0ffe39341ea">localV2FieldT</a> (<a class="el" href="classLocal__var.html">Local_var</a> temp)</td></tr>
+<tr class="separator:a6cb026e710d97b2d2861f0ffe39341ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c16d2455781d9ec884ee23e8e6311c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aa4c16d2455781d9ec884ee23e8e6311c">aastore</a> ()</td></tr>
 <tr class="separator:aa4c16d2455781d9ec884ee23e8e6311c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b0c614543d662cd81dd754f21ccd3aa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a5b0c614543d662cd81dd754f21ccd3aa">bastore</a> ()</td></tr>
@@ -365,8 +386,6 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a17c3a7e0f84af56d1798c44373b52b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26284506f883683c646adecf7cbf11bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a26284506f883683c646adecf7cbf11bf">lshr</a> ()</td></tr>
 <tr class="separator:a26284506f883683c646adecf7cbf11bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bb907d8d5cd93a19884a9dbeede59c0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a5bb907d8d5cd93a19884a9dbeede59c0">iushl</a> ()</td></tr>
-<tr class="separator:a5bb907d8d5cd93a19884a9dbeede59c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34a9dc79d5813ccddf38a8c17fdb2abb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a34a9dc79d5813ccddf38a8c17fdb2abb">lushl</a> ()</td></tr>
 <tr class="separator:a34a9dc79d5813ccddf38a8c17fdb2abb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bef3a00461cc0e79d95e00165647ec0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a5bef3a00461cc0e79d95e00165647ec0">iand</a> ()</td></tr>
@@ -455,6 +474,10 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a8a43d53cd90b847daf628f58c56b0b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed74f5b17269f66159696a955c271ebc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aed74f5b17269f66159696a955c271ebc">if_acmpne</a> ()</td></tr>
 <tr class="separator:aed74f5b17269f66159696a955c271ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b154728e6d0fbc6dde9a6494da02bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aa1b154728e6d0fbc6dde9a6494da02bb">tableswitch</a> ()</td></tr>
+<tr class="separator:aa1b154728e6d0fbc6dde9a6494da02bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5649b782cf4205f4fe7ed806a64c760f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a5649b782cf4205f4fe7ed806a64c760f">lookupswitch</a> ()</td></tr>
+<tr class="separator:a5649b782cf4205f4fe7ed806a64c760f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0161b5eb3e9e02601eb7022312165fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aa0161b5eb3e9e02601eb7022312165fc">goto_java</a> ()</td></tr>
 <tr class="separator:aa0161b5eb3e9e02601eb7022312165fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a075d96a650da2b7c3ba68addf3e3d30a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a075d96a650da2b7c3ba68addf3e3d30a">goto_w</a> ()</td></tr>
@@ -491,6 +514,42 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:aab511f1c7db0899ae54ca1e61b1e4d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefbc157baa70b4f8477b1fda90e6fca5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aefbc157baa70b4f8477b1fda90e6fca5">monitorexit</a> ()</td></tr>
 <tr class="separator:aefbc157baa70b4f8477b1fda90e6fca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892de1102ef467a56bd979a9ec574cf2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a892de1102ef467a56bd979a9ec574cf2">iushr</a> ()</td></tr>
+<tr class="separator:a892de1102ef467a56bd979a9ec574cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35a099615e2a33cf16ce8236752259a7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a35a099615e2a33cf16ce8236752259a7">lushr</a> ()</td></tr>
+<tr class="separator:a35a099615e2a33cf16ce8236752259a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c2bb180f6a07f53a94fa88c9c3a0bec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a8c2bb180f6a07f53a94fa88c9c3a0bec">ret</a> ()</td></tr>
+<tr class="separator:a8c2bb180f6a07f53a94fa88c9c3a0bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f983db5eb1e67d1efcfb8b6c687f2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a70f983db5eb1e67d1efcfb8b6c687f2f">lreturn</a> ()</td></tr>
+<tr class="separator:a70f983db5eb1e67d1efcfb8b6c687f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af786a4428d01c07e74bfe4d9e0b4f759"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#af786a4428d01c07e74bfe4d9e0b4f759">freturn</a> ()</td></tr>
+<tr class="separator:af786a4428d01c07e74bfe4d9e0b4f759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250386e8b017352f042efb000966d2da"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a250386e8b017352f042efb000966d2da">dreturn</a> ()</td></tr>
+<tr class="separator:a250386e8b017352f042efb000966d2da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b478f66927891f1fdd43c40ed0ebf29"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a9b478f66927891f1fdd43c40ed0ebf29">areturn</a> ()</td></tr>
+<tr class="separator:a9b478f66927891f1fdd43c40ed0ebf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d67982fb76ae93b2a45e75c21e2bd48"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a6d67982fb76ae93b2a45e75c21e2bd48">invokeinterface</a> ()</td></tr>
+<tr class="separator:a6d67982fb76ae93b2a45e75c21e2bd48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa38a2df00d49291d498ffce261ad2173"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#aa38a2df00d49291d498ffce261ad2173">invokedynamic</a> ()</td></tr>
+<tr class="separator:aa38a2df00d49291d498ffce261ad2173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10a6668800bcd17f2891e63ac9375632"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a10a6668800bcd17f2891e63ac9375632">arraylength</a> ()</td></tr>
+<tr class="separator:a10a6668800bcd17f2891e63ac9375632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad363da9cb60480ece0ca13f5594ff08e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#ad363da9cb60480ece0ca13f5594ff08e">checkcast</a> ()</td></tr>
+<tr class="separator:ad363da9cb60480ece0ca13f5594ff08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea842f9ce6c2a4235ad003f5715bef3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a4ea842f9ce6c2a4235ad003f5715bef3">wide</a> ()</td></tr>
+<tr class="separator:a4ea842f9ce6c2a4235ad003f5715bef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a27fb90e5f1dd7a013e31738071d08e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFieldValue.html">FieldValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a6a27fb90e5f1dd7a013e31738071d08e">inicializaMultArray</a> (const char *ftype, int n=0)</td></tr>
+<tr class="separator:a6a27fb90e5f1dd7a013e31738071d08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445404647231755ca07e3d75ecb6c031"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a445404647231755ca07e3d75ecb6c031">multianewarray</a> ()</td></tr>
+<tr class="separator:a445404647231755ca07e3d75ecb6c031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10cf9ccb141aa5384ee84941f349fb20"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a10cf9ccb141aa5384ee84941f349fb20">breakpoint</a> ()</td></tr>
+<tr class="separator:a10cf9ccb141aa5384ee84941f349fb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5faaf2ba04843afb1020e0e1ee74ff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a8a5faaf2ba04843afb1020e0e1ee74ff">impdep1</a> ()</td></tr>
+<tr class="separator:a8a5faaf2ba04843afb1020e0e1ee74ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a345e1395af380d83cd513b561ba773a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#a345e1395af380d83cd513b561ba773a2">impdep2</a> ()</td></tr>
+<tr class="separator:a345e1395af380d83cd513b561ba773a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affe5cbf7a47e9113cb02b58df54f8069"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpretador.html#affe5cbf7a47e9113cb02b58df54f8069">instanceof</a> ()</td></tr>
+<tr class="separator:affe5cbf7a47e9113cb02b58df54f8069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -760,6 +819,52 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a9b478f66927891f1fdd43c40ed0ebf29"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::areturn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a10a6668800bcd17f2891e63ac9375632"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::arraylength </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a253b38ce6efc06bcc24b4bf04e686813"></a>
 <div class="memitem">
 <div class="memproto">
@@ -967,6 +1072,29 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a10cf9ccb141aa5384ee84941f349fb20"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::breakpoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a87ec73f5fc35016e11b0b58fd9ec6044"></a>
 <div class="memitem">
 <div class="memproto">
@@ -999,6 +1127,29 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::castore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad363da9cb60480ece0ca13f5594ff08e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::checkcast </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1183,6 +1334,52 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::dcmpl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8f0bb09d311a1d3a16bcd07a4cdd9edd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::dconst_0 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a38acea0934742eebd8794bb149fdafe4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::dconst_1 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1390,6 +1587,29 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::drem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a250386e8b017352f042efb000966d2da"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::dreturn </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1709,7 +1929,12 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a quantidade de bytes utilizados pela instrucao executada este numero deve ser utilizado para incremento do pc </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a quantidade de bytes utilizados pela instrucao executada este numero deve ser utilizado para incremento do pc</dd></dl>
+<p>PARA UTILIZAR AS FUNCOES DE DEBUG:</p>
+<p>DEBUG_PRINT("mesagem" &lt;&lt; variavel &lt;&lt; "mais msgs"); caso esteja em modo debug eh compilado para cout &lt;&lt; "mensagem" &lt;&lt; variavel &lt;&lt; "mais msgs" &lt;&lt; endl;</p>
+<p><a class="el" href="debug_8hpp.html#a62befecc75f88dc6f648669c64987d1b">DEBUG_ONLY(funcao_qualquer())</a>; caso esteja em modo debug eh compilado para funcao_qualquer();</p>
+<p>Para chamar o print da pilha de operandos utilize o seguinte: DEBUG_ONLY(frame_corrente-&gt;printOperandStack());</p>
+<p>Para facilitar investigar como OperandStack e LocalVar estavam ao entrar na instrução e como ficaram imetiatamente antes da saída, use DEBUG_ENTRADA e imediatamente ao entrar e antes de sair da instrução, respectivamente. </p>
 
 </div>
 </div>
@@ -1883,6 +2108,75 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::fcmpl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a25c749622db55ac3b41fb4011ef70ce8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::fconst_0 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a75a0ef5d26688ea3b6ad20ba412e8425"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::fconst_1 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a507b97334de046948c43506849f5d136"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::fconst_2 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2090,6 +2384,29 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::frem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af786a4428d01c07e74bfe4d9e0b4f759"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::freturn </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -3254,6 +3571,52 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8a5faaf2ba04843afb1020e0e1ee74ff"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::impdep1 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a345e1395af380d83cd513b561ba773a2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::impdep2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a4bcfb9c13e7a185b522d1ac698bb90fd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -3286,6 +3649,109 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::ineg </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6a27fb90e5f1dd7a013e31738071d08e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFieldValue.html">FieldValue</a> Interpretador::inicializaMultArray </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ftype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="affe5cbf7a47e9113cb02b58df54f8069"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::instanceof </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa38a2df00d49291d498ffce261ad2173"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::invokedynamic </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6d67982fb76ae93b2a45e75c21e2bd48"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::invokeinterface </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -3622,7 +4088,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5bb907d8d5cd93a19884a9dbeede59c0"></a>
+<a class="anchor" id="a892de1102ef467a56bd979a9ec574cf2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -3630,7 +4096,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int Interpretador::iushl </td>
+          <td class="memname">int Interpretador::iushr </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -4197,6 +4663,53 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6cb026e710d97b2d2861f0ffe39341ea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFieldValue.html">FieldValue</a> Interpretador::localV2FieldT </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classLocal__var.html">Local_var</a>&#160;</td>
+          <td class="paramname"><em>temp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5649b782cf4205f4fe7ed806a64c760f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::lookupswitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a169f0d71a799bd226eaf52d182a0a773"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4229,6 +4742,29 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::lrem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a70f983db5eb1e67d1efcfb8b6c687f2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::lreturn </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -4450,6 +4986,29 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a35a099615e2a33cf16ce8236752259a7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::lushr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a44bf17921b6cdd7f0d92a2753eb39580"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4505,6 +5064,29 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int Interpretador::monitorexit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a445404647231755ca07e3d75ecb6c031"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::multianewarray </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -4680,6 +5262,73 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a5866535914b8b99ed234cdaaf4955679"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Interpretador::read_code_word </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>code</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>pc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lê dois bytes de um code e retorna um uint16_t formado por (indexbyte1 &lt;&lt; 8) | indexbyte2. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uint8_t</td><td>*code: code de onde os bytes serão lidos. </td></tr>
+    <tr><td class="paramname">uint64_t</td><td>pc: valor do pc que aponta para o primeiro byte a ser lido do code (indexbyte1).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>valor de formado pelos dois bytes lidos. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8c2bb180f6a07f53a94fa88c9c3a0bec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::ret </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a76da2e131bddc3824c711058918f4785"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4811,6 +5460,29 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa1b154728e6d0fbc6dde9a6494da02bb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::tableswitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a84a3dd88cffca0a80bfbafb2453c9866"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4851,7 +5523,43 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a4ea842f9ce6c2a4235ad003f5715bef3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Interpretador::wide </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="acc44aa8b361e93c3ddbeb5a6cf7978df"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Interpretador::_wide</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>quando a instrucao wide eh chamada seta esta variavel pra true a proxima instrucao recebe mais bytes de argumento caso esta variavel esteja true </p>
+
+</div>
+</div>
 <a class="anchor" id="adc0e318d8cf9188ef597daeef754c1b9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4961,7 +5669,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 03:54:03 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2016 12:35:02 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

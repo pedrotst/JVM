@@ -7,22 +7,29 @@
 
 
 
-Collaboration diagram for Frame\+:\nopagebreak
+Collaboration diagram for Frame\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=234pt]{classFrame__coll__graph}
+\includegraphics[height=550pt]{classFrame__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classFrame_a0a710d74c28a542687e64715300cb8fb}{Frame} (int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}, \hyperlink{classClassFile}{Class\+File} $\ast$\hyperlink{classFrame_a1adaa34d477660f1e9d45904576eacf2}{cf})
-\item 
+\begin{DoxyCompactList}\small\item\em construtor \end{DoxyCompactList}\item 
 void \hyperlink{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}{print\+Operand\+Stack} ()
-\item 
+\begin{DoxyCompactList}\small\item\em realiza a impressao da pilha de operandos. Usado para debug \end{DoxyCompactList}\item 
 void \hyperlink{classFrame_ab34a9033d268d94f205721b63101b047}{print\+Local\+Var} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em realiza a impressao do vetor de variaveis locais. Usado para debug \end{DoxyCompactList}\item 
+string \hyperlink{classFrame_a38bb752fbb562c457ae9cdeb1f07a2e0}{array\+Contents} (\hyperlink{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}{arrayref} $\ast$)
+\begin{DoxyCompactList}\small\item\em funcao auxiliar de impressao de vetores. Usado para debug \end{DoxyCompactList}\item 
+string \hyperlink{classFrame_adb2182aa57694757b5269ac54642cb92}{array\+Dimension} (\hyperlink{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}{arrayref} $\ast$)
+\begin{DoxyCompactList}\small\item\em funcao auxiliar de impressao de vetores. Usado para debug \end{DoxyCompactList}\item 
+bool \hyperlink{classFrame_a9201c31d34a0992a30bdda70f8898c1c}{is\+Simple\+Array} (\hyperlink{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}{arrayref} $\ast$a\+Ref)
+\begin{DoxyCompactList}\small\item\em funcao que indica se a dimensao do vetor eh 1 \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,9 +38,9 @@ std\+::vector$<$ \hyperlink{classLocal__var}{Local\+\_\+var} $>$ \hyperlink{clas
 std\+::vector$<$ \hyperlink{classLocal__var}{Local\+\_\+var} $>$ \hyperlink{classFrame_ab3b3b8b51af39a6c4b76bc99bffd8808}{local\+Var\+Vector}
 \begin{DoxyCompactList}\small\item\em Vetor de variáveis locais. \end{DoxyCompactList}\item 
 uint64\+\_\+t \hyperlink{classFrame_a65edf2210e6653b9acbdc58240040104}{pc}
-\begin{DoxyCompactList}\small\item\em Código atual sendo executado. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Indice da instrucao sendo executada em Code. \end{DoxyCompactList}\item 
 \hyperlink{classClassFile}{Class\+File} $\ast$ \hyperlink{classFrame_a1adaa34d477660f1e9d45904576eacf2}{cf}
-\begin{DoxyCompactList}\small\item\em referencia pra constant pool \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em referencia pra classfile carregada \end{DoxyCompactList}\item 
 int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}
 \begin{DoxyCompactList}\small\item\em esta será a variável que identifica qual método da cf estamos rodando \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -49,7 +56,60 @@ int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}
 )}}\label{classFrame_a0a710d74c28a542687e64715300cb8fb}
 
 
+construtor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method\+\_\+index} & o indice do método na class\+F a ser executado \\
+\hline
+{\em class\+F} & é o ponteiro para o \hyperlink{classClassFile}{Class\+File} dono do método a ser executado \\
+\hline
+\end{DoxyParams}
+
+
 \subsection{Member Function Documentation}
+\hypertarget{classFrame_a38bb752fbb562c457ae9cdeb1f07a2e0}{\index{Frame@{Frame}!array\+Contents@{array\+Contents}}
+\index{array\+Contents@{array\+Contents}!Frame@{Frame}}
+\subsubsection[{array\+Contents}]{\setlength{\rightskip}{0pt plus 5cm}string Frame\+::array\+Contents (
+\begin{DoxyParamCaption}
+\item[{{\bf arrayref} $\ast$}]{a\+Ref}
+\end{DoxyParamCaption}
+)}}\label{classFrame_a38bb752fbb562c457ae9cdeb1f07a2e0}
+
+
+funcao auxiliar de impressao de vetores. Usado para debug 
+
+\begin{DoxyReturn}{Returns}
+o retorno eh o conteudo de arrayref em forma de string 
+\end{DoxyReturn}
+\hypertarget{classFrame_adb2182aa57694757b5269ac54642cb92}{\index{Frame@{Frame}!array\+Dimension@{array\+Dimension}}
+\index{array\+Dimension@{array\+Dimension}!Frame@{Frame}}
+\subsubsection[{array\+Dimension}]{\setlength{\rightskip}{0pt plus 5cm}string Frame\+::array\+Dimension (
+\begin{DoxyParamCaption}
+\item[{{\bf arrayref} $\ast$}]{a\+Ref}
+\end{DoxyParamCaption}
+)}}\label{classFrame_adb2182aa57694757b5269ac54642cb92}
+
+
+funcao auxiliar de impressao de vetores. Usado para debug 
+
+\begin{DoxyReturn}{Returns}
+o retorno eh a informacao da dimensao de arrayref 
+\end{DoxyReturn}
+\hypertarget{classFrame_a9201c31d34a0992a30bdda70f8898c1c}{\index{Frame@{Frame}!is\+Simple\+Array@{is\+Simple\+Array}}
+\index{is\+Simple\+Array@{is\+Simple\+Array}!Frame@{Frame}}
+\subsubsection[{is\+Simple\+Array}]{\setlength{\rightskip}{0pt plus 5cm}bool Frame\+::is\+Simple\+Array (
+\begin{DoxyParamCaption}
+\item[{{\bf arrayref} $\ast$}]{a\+Ref}
+\end{DoxyParamCaption}
+)}}\label{classFrame_a9201c31d34a0992a30bdda70f8898c1c}
+
+
+funcao que indica se a dimensao do vetor eh 1 
+
+\begin{DoxyReturn}{Returns}
+o retorno e true se for de uma dimensao e false caso contrario 
+\end{DoxyReturn}
 \hypertarget{classFrame_ab34a9033d268d94f205721b63101b047}{\index{Frame@{Frame}!print\+Local\+Var@{print\+Local\+Var}}
 \index{print\+Local\+Var@{print\+Local\+Var}!Frame@{Frame}}
 \subsubsection[{print\+Local\+Var}]{\setlength{\rightskip}{0pt plus 5cm}void Frame\+::print\+Local\+Var (
@@ -57,6 +117,13 @@ int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}
 {}
 \end{DoxyParamCaption}
 )}}\label{classFrame_ab34a9033d268d94f205721b63101b047}
+
+
+realiza a impressao do vetor de variaveis locais. Usado para debug 
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
 \hypertarget{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}{\index{Frame@{Frame}!print\+Operand\+Stack@{print\+Operand\+Stack}}
 \index{print\+Operand\+Stack@{print\+Operand\+Stack}!Frame@{Frame}}
 \subsubsection[{print\+Operand\+Stack}]{\setlength{\rightskip}{0pt plus 5cm}void Frame\+::print\+Operand\+Stack (
@@ -66,13 +133,20 @@ int \hyperlink{classFrame_a9a7eb96be80ac389517368b48f88e1f5}{method\+\_\+index}
 )}}\label{classFrame_a58199d48ff5d3b2c86aea6f79a8ccf10}
 
 
+realiza a impressao da pilha de operandos. Usado para debug 
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
 \subsection{Member Data Documentation}
 \hypertarget{classFrame_a1adaa34d477660f1e9d45904576eacf2}{\index{Frame@{Frame}!cf@{cf}}
 \index{cf@{cf}!Frame@{Frame}}
 \subsubsection[{cf}]{\setlength{\rightskip}{0pt plus 5cm}$\ast$ Frame\+::cf}}\label{classFrame_a1adaa34d477660f1e9d45904576eacf2}
 
 
-referencia pra constant pool 
+referencia pra classfile carregada 
 
 \hypertarget{classFrame_ab3b3b8b51af39a6c4b76bc99bffd8808}{\index{Frame@{Frame}!local\+Var\+Vector@{local\+Var\+Vector}}
 \index{local\+Var\+Vector@{local\+Var\+Vector}!Frame@{Frame}}
@@ -100,7 +174,7 @@ Pilha de operandos. A pilha de operandos começa vazia. Ela é populada ao longo
 \subsubsection[{pc}]{\setlength{\rightskip}{0pt plus 5cm}Frame\+::pc}}\label{classFrame_a65edf2210e6653b9acbdc58240040104}
 
 
-Código atual sendo executado. 
+Indice da instrucao sendo executada em Code. 
 
 
 

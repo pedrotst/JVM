@@ -1,6 +1,7 @@
 \hypertarget{interpretador_8cpp}{\section{src/interpretador.cpp File Reference}
 \label{interpretador_8cpp}\index{src/interpretador.\+cpp@{src/interpretador.\+cpp}}
 }
+{\ttfamily \#include $<$inttypes.\+h$>$}\\*
 {\ttfamily \#include \char`\"{}../include/interpretador.\+hpp\char`\"{}}\\*
 Include dependency graph for interpretador.\+cpp\+:
 \nopagebreak
@@ -10,6 +11,17 @@ Include dependency graph for interpretador.\+cpp\+:
 \includegraphics[width=350pt]{interpretador_8cpp__incl}
 \end{center}
 \end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{interpretador_8cpp_ad72dbcf6d0153db1b8d8a58001feed83}{D\+E\+B\+U\+G}
+\item 
+\#define \hyperlink{interpretador_8cpp_a955daccf0fe77e156a88b7626e48ea5c}{D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S}
+\item 
+\#define \hyperlink{interpretador_8cpp_a3860568ba8521a4a8ebf3b61df7342ae}{D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A}~do\{\hyperlink{debug_8hpp_a24fac9ff5bcc1384e1f99ec350941c9a}{D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{} A\+N\+T\+E\+S\+:\char`\"{});D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(this-\/$>$frame\+\_\+corrente-\/$>$print\+Operand\+Stack());\hyperlink{debug_8hpp_a24fac9ff5bcc1384e1f99ec350941c9a}{D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}\char`\"{});\hyperlink{debug_8hpp_a62befecc75f88dc6f648669c64987d1b}{D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y}(this-\/$>$frame\+\_\+corrente-\/$>$print\+Local\+Var());\hyperlink{debug_8hpp_a24fac9ff5bcc1384e1f99ec350941c9a}{D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}-\/\textbackslash{}n\char`\"{});\}while(0);
+\item 
+\#define \hyperlink{interpretador_8cpp_a5cf0254891f6a364cda49e7a5f32e655}{D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A}~do\{\hyperlink{debug_8hpp_a24fac9ff5bcc1384e1f99ec350941c9a}{D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{} D\+E\+P\+O\+I\+S\+:\char`\"{});D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(this-\/$>$frame\+\_\+corrente-\/$>$print\+Operand\+Stack());\hyperlink{debug_8hpp_a62befecc75f88dc6f648669c64987d1b}{D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y}(this-\/$>$frame\+\_\+corrente-\/$>$print\+Local\+Var());\hyperlink{debug_8hpp_a24fac9ff5bcc1384e1f99ec350941c9a}{D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}-\/\textbackslash{}n\char`\"{});\}while(0);
+\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,6 +42,21 @@ enum \hyperlink{interpretador_8cpp_a8052a466838f7f4385da85b11475bc51}{atype\+\_\
 \hyperlink{interpretador_8cpp_a8052a466838f7f4385da85b11475bc51a1f8887255ce9ce523e5c497f14d9d842}{T\+\_\+\+L\+O\+N\+G} = 11
  \}
 \end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{interpretador_8cpp_ad72dbcf6d0153db1b8d8a58001feed83}{\index{interpretador.\+cpp@{interpretador.\+cpp}!D\+E\+B\+U\+G@{D\+E\+B\+U\+G}}
+\index{D\+E\+B\+U\+G@{D\+E\+B\+U\+G}!interpretador.\+cpp@{interpretador.\+cpp}}
+\subsubsection[{D\+E\+B\+U\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+B\+U\+G}}\label{interpretador_8cpp_ad72dbcf6d0153db1b8d8a58001feed83}
+\hypertarget{interpretador_8cpp_a955daccf0fe77e156a88b7626e48ea5c}{\index{interpretador.\+cpp@{interpretador.\+cpp}!D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S@{D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S}}
+\index{D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S@{D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S}!interpretador.\+cpp@{interpretador.\+cpp}}
+\subsubsection[{D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+B\+U\+G\+\_\+\+E\+\_\+\+S}}\label{interpretador_8cpp_a955daccf0fe77e156a88b7626e48ea5c}
+\hypertarget{interpretador_8cpp_a3860568ba8521a4a8ebf3b61df7342ae}{\index{interpretador.\+cpp@{interpretador.\+cpp}!D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A@{D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A}}
+\index{D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A@{D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A}!interpretador.\+cpp@{interpretador.\+cpp}}
+\subsubsection[{D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+B\+U\+G\+\_\+\+E\+N\+T\+R\+A\+D\+A~do\{{\bf D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{} A\+N\+T\+E\+S\+:\char`\"{});D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(this-\/$>$frame\+\_\+corrente-\/$>$print\+Operand\+Stack());{\bf D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}\char`\"{});{\bf D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y}(this-\/$>$frame\+\_\+corrente-\/$>$print\+Local\+Var());{\bf D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}-\/\textbackslash{}n\char`\"{});\}while(0);}}\label{interpretador_8cpp_a3860568ba8521a4a8ebf3b61df7342ae}
+\hypertarget{interpretador_8cpp_a5cf0254891f6a364cda49e7a5f32e655}{\index{interpretador.\+cpp@{interpretador.\+cpp}!D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A@{D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A}}
+\index{D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A@{D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A}!interpretador.\+cpp@{interpretador.\+cpp}}
+\subsubsection[{D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+B\+U\+G\+\_\+\+S\+A\+I\+D\+A~do\{{\bf D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{} D\+E\+P\+O\+I\+S\+:\char`\"{});D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y(this-\/$>$frame\+\_\+corrente-\/$>$print\+Operand\+Stack());{\bf D\+E\+B\+U\+G\+\_\+\+O\+N\+L\+Y}(this-\/$>$frame\+\_\+corrente-\/$>$print\+Local\+Var());{\bf D\+E\+B\+U\+G\+\_\+\+P\+R\+I\+N\+T}(\char`\"{}-\/\textbackslash{}n\char`\"{});\}while(0);}}\label{interpretador_8cpp_a5cf0254891f6a364cda49e7a5f32e655}
 
 
 \subsection{Typedef Documentation}

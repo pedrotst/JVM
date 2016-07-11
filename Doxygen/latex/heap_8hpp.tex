@@ -17,8 +17,7 @@ Include dependency graph for heap.\+hpp\+:\nopagebreak
 \includegraphics[width=350pt]{heap_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -38,8 +37,8 @@ struct \hyperlink{structArrayType__s}{Array\+Type\+\_\+s}
 \item 
 union \hyperlink{unionFieldType__u}{Field\+Type\+\_\+u}
 \item 
-struct \hyperlink{structFieldValue__s}{Field\+Value\+\_\+s}
-\item 
+class \hyperlink{classFieldValue}{Field\+Value}
+\begin{DoxyCompactList}\small\item\em Valor empacotado da representacao de uma classe ela pode ser dos tipos Base\+Type, Object\+Type e Array\+Type para mais informacoes visite \href{https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5}{\tt https\+://docs.\+oracle.\+com/javase/specs/jvms/se7/html/jvms-\/4.\+html\#jvms-\/4.\+5}. \end{DoxyCompactList}\item 
 class \hyperlink{classInstanceClass}{Instance\+Class}
 \begin{DoxyCompactList}\small\item\em Esta classe eh a instancia fisica de um objeto para isto ela o valor de todos fields dentro de si e um ponteiro para sua classfile para facilitar a manipualacao das referencias. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Typedefs}
@@ -53,20 +52,17 @@ typedef struct \hyperlink{structBaseType__s}{Base\+Type\+\_\+s} \hyperlink{heap_
 \item 
 typedef struct \hyperlink{structObjectType__s}{Object\+Type\+\_\+s} \hyperlink{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}{Object\+Type}
 \item 
-typedef std\+::vector$<$ struct \\*
-\hyperlink{structFieldValue__s}{Field\+Value\+\_\+s} $>$ \hyperlink{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}{arrayref}
+typedef std\+::vector$<$ \hyperlink{classFieldValue}{Field\+Value} $>$ \hyperlink{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}{arrayref}
 \item 
 typedef struct \hyperlink{structArrayType__s}{Array\+Type\+\_\+s} \hyperlink{heap_8hpp_aa630024ee56aa81525646e18ddf60284}{Array\+Type}
 \item 
 typedef union \hyperlink{unionFieldType__u}{Field\+Type\+\_\+u} \hyperlink{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}{Field\+Type}
-\item 
-typedef struct \hyperlink{structFieldValue__s}{Field\+Value\+\_\+s} \hyperlink{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}{Field\+Value}
 \end{DoxyCompactItemize}
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
 enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+e} \{ \\*
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae663dbb8f8244e122acb5bd6b2c216e1}{B\+O\+O\+L} = 0, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae663dbb8f8244e122acb5bd6b2c216e1}{B\+O\+O\+L} = 11, 
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a}{I\+N\+T} = 1, 
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8}{C\+H\+A\+R} = 2, 
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297}{B\+Y\+T\+E} = 3, 
@@ -79,10 +75,10 @@ enum \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164e}{tag\+\_\+tipo\+\_\+
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eaef271216bfc3a08b536bfc8bcbea92b0}{B\+A\+S\+E\+T\+Y\+P\+E} = 8, 
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea1dc35745049317b1f7d826b4f14449b4}{O\+B\+J\+E\+C\+T\+T\+Y\+P\+E} = 9, 
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96}{A\+R\+R\+A\+Y\+T\+Y\+P\+E} = 10, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee}{V\+O\+I\+D\+\_\+\+T} = 11, 
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee}{V\+O\+I\+D\+\_\+\+T} = 0, 
 \\*
 \hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1399f269e3800c5fd2341a1c0eff978}{R\+E\+T\+U\+R\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S} = 12, 
-\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d}{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E}
+\hyperlink{heap_8hpp_ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d}{S\+T\+R\+I\+N\+G\+T\+Y\+P\+E} = 13
  \}
 \end{DoxyCompactItemize}
 
@@ -93,9 +89,9 @@ Este arquivo trata a documentacaoo 4.\+3.\+2 \href{https://docs.oracle.com/javas
 
 
 \subsection{Typedef Documentation}
-\hypertarget{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}{\index{heap.\+hpp@{heap.\+hpp}!arrayref@{arrayref}}
+\hypertarget{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}{\index{heap.\+hpp@{heap.\+hpp}!arrayref@{arrayref}}
 \index{arrayref@{arrayref}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{arrayref}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::vector$<$struct {\bf Field\+Value\+\_\+s}$>$ {\bf arrayref}}}\label{heap_8hpp_a3992092c8d3a67d7d69023ea968c8bb1}
+\subsubsection[{arrayref}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::vector$<${\bf Field\+Value}$>$ {\bf arrayref}}}\label{heap_8hpp_a02f27b1f1856ad001bcd2be51cef4faf}
 \hypertarget{heap_8hpp_aa630024ee56aa81525646e18ddf60284}{\index{heap.\+hpp@{heap.\+hpp}!Array\+Type@{Array\+Type}}
 \index{Array\+Type@{Array\+Type}!heap.\+hpp@{heap.\+hpp}}
 \subsubsection[{Array\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Array\+Type\+\_\+s} {\bf Array\+Type}}}\label{heap_8hpp_aa630024ee56aa81525646e18ddf60284}
@@ -108,9 +104,6 @@ Este arquivo trata a documentacaoo 4.\+3.\+2 \href{https://docs.oracle.com/javas
 \hypertarget{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}{\index{heap.\+hpp@{heap.\+hpp}!Field\+Type@{Field\+Type}}
 \index{Field\+Type@{Field\+Type}!heap.\+hpp@{heap.\+hpp}}
 \subsubsection[{Field\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef union {\bf Field\+Type\+\_\+u} {\bf Field\+Type}}}\label{heap_8hpp_a64fe1bf0d5bb9b0891062127bc036b49}
-\hypertarget{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}{\index{heap.\+hpp@{heap.\+hpp}!Field\+Value@{Field\+Value}}
-\index{Field\+Value@{Field\+Value}!heap.\+hpp@{heap.\+hpp}}
-\subsubsection[{Field\+Value}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Field\+Value\+\_\+s} {\bf Field\+Value}}}\label{heap_8hpp_a105fd361b0a8ffbb32b1fa494a07fb20}
 \hypertarget{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}{\index{heap.\+hpp@{heap.\+hpp}!Object\+Type@{Object\+Type}}
 \index{Object\+Type@{Object\+Type}!heap.\+hpp@{heap.\+hpp}}
 \subsubsection[{Object\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Object\+Type\+\_\+s} {\bf Object\+Type}}}\label{heap_8hpp_afb90a1260754c6e21d4b6610e1682d51}

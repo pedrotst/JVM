@@ -130,7 +130,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionFieldType__u.html">FieldType_u</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFieldValue__s.html">FieldValue_s</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFieldValue.html">FieldValue</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valor empacotado da representacao de uma classe ela pode ser dos tipos BaseType, ObjectType e ArrayType para mais informacoes visite <a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5">https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.5</a>.  <a href="classFieldValue.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstanceClass.html">InstanceClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esta classe eh a instancia fisica de um objeto para isto ela o valor de todos fields dentro de si e um ponteiro para sua classfile para facilitar a manipualacao das referencias.  <a href="classInstanceClass.html#details">More...</a><br /></td></tr>
@@ -146,20 +147,17 @@ Typedefs</h2></td></tr>
 <tr class="separator:aea58c62b09d898b3bbab32faebe7fbae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb90a1260754c6e21d4b6610e1682d51"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structObjectType__s.html">ObjectType_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#afb90a1260754c6e21d4b6610e1682d51">ObjectType</a></td></tr>
 <tr class="separator:afb90a1260754c6e21d4b6610e1682d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3992092c8d3a67d7d69023ea968c8bb1"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; struct <br class="typebreak" />
-<a class="el" href="structFieldValue__s.html">FieldValue_s</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#a3992092c8d3a67d7d69023ea968c8bb1">arrayref</a></td></tr>
-<tr class="separator:a3992092c8d3a67d7d69023ea968c8bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02f27b1f1856ad001bcd2be51cef4faf"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classFieldValue.html">FieldValue</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#a02f27b1f1856ad001bcd2be51cef4faf">arrayref</a></td></tr>
+<tr class="separator:a02f27b1f1856ad001bcd2be51cef4faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa630024ee56aa81525646e18ddf60284"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structArrayType__s.html">ArrayType_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#aa630024ee56aa81525646e18ddf60284">ArrayType</a></td></tr>
 <tr class="separator:aa630024ee56aa81525646e18ddf60284"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64fe1bf0d5bb9b0891062127bc036b49"><td class="memItemLeft" align="right" valign="top">typedef union <a class="el" href="unionFieldType__u.html">FieldType_u</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#a64fe1bf0d5bb9b0891062127bc036b49">FieldType</a></td></tr>
 <tr class="separator:a64fe1bf0d5bb9b0891062127bc036b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a105fd361b0a8ffbb32b1fa494a07fb20"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structFieldValue__s.html">FieldValue_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#a105fd361b0a8ffbb32b1fa494a07fb20">FieldValue</a></td></tr>
-<tr class="separator:a105fd361b0a8ffbb32b1fa494a07fb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ae83508426e652eaafd6ed60af394164e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164e">tag_tipo_e</a> { <br />
-&#160;&#160;<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae663dbb8f8244e122acb5bd6b2c216e1">BOOL</a> = 0, 
+&#160;&#160;<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae663dbb8f8244e122acb5bd6b2c216e1">BOOL</a> = 11, 
 <a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eafd5a5f51ce25953f3db2c7e93eb7864a">INT</a> = 1, 
 <a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea4618cf21306b3c647741afa7ebefcab8">CHAR</a> = 2, 
 <a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eaa7f492d725033c06576ac4ba21007297">BYTE</a> = 3, 
@@ -172,10 +170,10 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eaef271216bfc3a08b536bfc8bcbea92b0">BASETYPE</a> = 8, 
 <a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea1dc35745049317b1f7d826b4f14449b4">OBJECTTYPE</a> = 9, 
 <a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea3886a5503646ad1e8cb6782c34ec6c96">ARRAYTYPE</a> = 10, 
-<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee">VOID_T</a> = 11, 
+<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164ea4fb643bf7baa548cbe5d8634ac3190ee">VOID_T</a> = 0, 
 <br />
 &#160;&#160;<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae1399f269e3800c5fd2341a1c0eff978">RETURN_ADDRESS</a> = 12, 
-<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d">STRINGTYPE</a>
+<a class="el" href="heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d">STRINGTYPE</a> = 13
 <br />
  }</td></tr>
 <tr class="separator:ae83508426e652eaafd6ed60af394164e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,12 +181,12 @@ Enumerations</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Este arquivo trata a documentacaoo 4.3.2 <a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3">https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3</a>. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="a3992092c8d3a67d7d69023ea968c8bb1"></a>
+<a class="anchor" id="a02f27b1f1856ad001bcd2be51cef4faf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;struct <a class="el" href="structFieldValue__s.html">FieldValue_s</a>&gt; <a class="el" href="heap_8hpp.html#a3992092c8d3a67d7d69023ea968c8bb1">arrayref</a></td>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="classFieldValue.html">FieldValue</a>&gt; <a class="el" href="heap_8hpp.html#a02f27b1f1856ad001bcd2be51cef4faf">arrayref</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -237,18 +235,6 @@ Enumerations</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">typedef union <a class="el" href="unionFieldType__u.html">FieldType_u</a> <a class="el" href="heap_8hpp.html#a64fe1bf0d5bb9b0891062127bc036b49">FieldType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a105fd361b0a8ffbb32b1fa494a07fb20"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct <a class="el" href="structFieldValue__s.html">FieldValue_s</a> <a class="el" href="classFieldValue.html">FieldValue</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -325,7 +311,7 @@ Enumerations</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 6 2016 03:54:03 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2016 12:35:00 for JVM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

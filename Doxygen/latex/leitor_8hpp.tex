@@ -4,8 +4,10 @@
 {\ttfamily \#include $<$stdlib.\+h$>$}\\*
 {\ttfamily \#include $<$stdio.\+h$>$}\\*
 {\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
 {\ttfamily \#include $<$string$>$}\\*
 {\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include $<$cstddef$>$}\\*
 {\ttfamily \#include \char`\"{}../include/structs.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/class\+File.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/attributes.\+hpp\char`\"{}}\\*
@@ -13,15 +15,15 @@
 {\ttfamily \#include \char`\"{}../include/read\+\_\+bytes.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/read\+\_\+attributes.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../include/read\+\_\+methods.\+hpp\char`\"{}}\\*
-Include dependency graph for leitor.\+hpp\+:\nopagebreak
+Include dependency graph for leitor.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{leitor_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -31,8 +33,6 @@ This graph shows which files directly or indirectly include this file\+:
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{leitor_8hpp_a261f9244a94a48446a55251bb8b274e5}{Byte\+Code}~\char`\"{}Puppy.\+class\char`\"{}
-\item 
 \#define \hyperlink{leitor_8hpp_a6fe20e564479ba3ea1501ae417ea7976}{File\+Name\+Len}~30
 \end{DoxyCompactItemize}
 \subsection*{Functions}
@@ -41,6 +41,8 @@ This graph shows which files directly or indirectly include this file\+:
 F\+I\+L\+E $\ast$ \hyperlink{leitor_8hpp_abd065d60349e13ce48be81c0a6bb30cf}{abre\+Arq\+Linha\+Comando} (int argc, char $\ast$$\ast$argv)
 \item 
 F\+I\+L\+E $\ast$ \hyperlink{leitor_8hpp_a3a9cf377fc510333e67bfbd1cef74c16}{abre\+Arquivo} (char $\ast$arquivo\+Java)
+\item 
+string \hyperlink{leitor_8hpp_ae262189c4ddec3dba88b4dadc0d37602}{get\+Class\+Path} (const char $\ast$arq\+\_\+name)
 \item 
 int \hyperlink{leitor_8hpp_a6df828bb880057ae6fb70042873df908}{leitor\+Class\+\_\+info} (\hyperlink{classClassFile}{Class\+File} $\ast$class\+F, F\+I\+L\+E $\ast$arquivo\+Java)
 \item 
@@ -63,9 +65,6 @@ char $\ast$ \hyperlink{leitor_8hpp_a1c0845a2189f3e3ddaf0e33c9a1ded80}{get\+Class
 
 
 \subsection{Macro Definition Documentation}
-\hypertarget{leitor_8hpp_a261f9244a94a48446a55251bb8b274e5}{\index{leitor.\+hpp@{leitor.\+hpp}!Byte\+Code@{Byte\+Code}}
-\index{Byte\+Code@{Byte\+Code}!leitor.\+hpp@{leitor.\+hpp}}
-\subsubsection[{Byte\+Code}]{\setlength{\rightskip}{0pt plus 5cm}\#define Byte\+Code~\char`\"{}Puppy.\+class\char`\"{}}}\label{leitor_8hpp_a261f9244a94a48446a55251bb8b274e5}
 \hypertarget{leitor_8hpp_a6fe20e564479ba3ea1501ae417ea7976}{\index{leitor.\+hpp@{leitor.\+hpp}!File\+Name\+Len@{File\+Name\+Len}}
 \index{File\+Name\+Len@{File\+Name\+Len}!leitor.\+hpp@{leitor.\+hpp}}
 \subsubsection[{File\+Name\+Len}]{\setlength{\rightskip}{0pt plus 5cm}\#define File\+Name\+Len~30}}\label{leitor_8hpp_a6fe20e564479ba3ea1501ae417ea7976}
@@ -94,6 +93,13 @@ char $\ast$ \hyperlink{leitor_8hpp_a1c0845a2189f3e3ddaf0e33c9a1ded80}{get\+Class
 \item[{{\bf Class\+File} $\ast$}]{class\+F}
 \end{DoxyParamCaption}
 )}}\label{leitor_8hpp_a1c0845a2189f3e3ddaf0e33c9a1ded80}
+\hypertarget{leitor_8hpp_ae262189c4ddec3dba88b4dadc0d37602}{\index{leitor.\+hpp@{leitor.\+hpp}!get\+Class\+Path@{get\+Class\+Path}}
+\index{get\+Class\+Path@{get\+Class\+Path}!leitor.\+hpp@{leitor.\+hpp}}
+\subsubsection[{get\+Class\+Path}]{\setlength{\rightskip}{0pt plus 5cm}string get\+Class\+Path (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{arq\+\_\+name}
+\end{DoxyParamCaption}
+)}}\label{leitor_8hpp_ae262189c4ddec3dba88b4dadc0d37602}
 \hypertarget{leitor_8hpp_a6df828bb880057ae6fb70042873df908}{\index{leitor.\+hpp@{leitor.\+hpp}!leitor\+Class\+\_\+info@{leitor\+Class\+\_\+info}}
 \index{leitor\+Class\+\_\+info@{leitor\+Class\+\_\+info}!leitor.\+hpp@{leitor.\+hpp}}
 \subsubsection[{leitor\+Class\+\_\+info}]{\setlength{\rightskip}{0pt plus 5cm}int leitor\+Class\+\_\+info (

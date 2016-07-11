@@ -1,8 +1,7 @@
 var searchData=
 [
   ['access_5fflags',['access_flags',['../classClassFile.html#a2d095ef980330834af44c587ce52590e',1,'ClassFile::access_flags()'],['../structfield__info__s.html#a51cb65a206e19f1ef167f808fd0dd34a',1,'field_info_s::access_flags()'],['../structmethod__info__s.html#a062a031a987939214bf617101bce7435',1,'method_info_s::access_flags()']]],
-  ['arr',['arr',['../structArrayType__s.html#a5d0ddd51febb6c6c8cda5f6d745011f1',1,'ArrayType_s']]],
-  ['arrayref',['arrayref',['../unionLocal__var__Type__u.html#aa8e32f1911fc076a74749f5bcef8c480',1,'Local_var_Type_u']]],
+  ['arr',['arr',['../unionLocal__var__Type__u.html#a0f3d4309138ccd247a28eeaac2ecf3a8',1,'Local_var_Type_u::arr()'],['../structArrayType__s.html#a5d0ddd51febb6c6c8cda5f6d745011f1',1,'ArrayType_s::arr()']]],
   ['arrtype',['arrtype',['../unionFieldType__u.html#a517ae6c030e07183bc7b779ddeedc249',1,'FieldType_u']]],
   ['attr_5fcode',['attr_Code',['../unionattribute__type__u.html#ad81e10d3ce60b779a53e25f9cbaeb550',1,'attribute_type_u']]],
   ['attr_5fconstantvalue',['attr_ConstantValue',['../unionattribute__type__u.html#aaf4ebb5b100f6eab33f2da8a73f7415d',1,'attribute_type_u']]],

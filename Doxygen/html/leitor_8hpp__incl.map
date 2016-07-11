@@ -1,9 +1,9 @@
 <map id="include/leitor.hpp" name="include/leitor.hpp">
-<area shape="rect" id="node7" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="109,229,253,256"/>
-<area shape="rect" id="node9" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="205,312,306,339"/>
-<area shape="rect" id="node10" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="656,155,812,181"/>
-<area shape="rect" id="node14" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="467,305,588,346"/>
-<area shape="rect" id="node15" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="429,229,597,256"/>
-<area shape="rect" id="node16" href="$read__attributes_8hpp.html" title="../include/read_attributes.hpp" alt="" coords="223,155,413,181"/>
-<area shape="rect" id="node17" href="$read__methods_8hpp.html" title="../include/read_methods.hpp" alt="" coords="177,80,364,107"/>
+<area shape="rect" id="node9" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="109,229,253,256"/>
+<area shape="rect" id="node11" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="205,312,307,339"/>
+<area shape="rect" id="node12" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="647,155,803,181"/>
+<area shape="rect" id="node15" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="467,305,588,346"/>
+<area shape="rect" id="node16" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="429,229,597,256"/>
+<area shape="rect" id="node17" href="$read__attributes_8hpp.html" title="../include/read_attributes.hpp" alt="" coords="237,155,427,181"/>
+<area shape="rect" id="node18" href="$read__methods_8hpp.html" title="../include/read_methods.hpp" alt="" coords="191,80,377,107"/>
 </map>

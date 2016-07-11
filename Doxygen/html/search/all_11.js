@@ -15,7 +15,7 @@ var searchData=
   ['string_5findex',['string_index',['../structCONSTANT__String__info__s.html#a9fb8030b5c3bbfca53934e67991399cf',1,'CONSTANT_String_info_s']]],
   ['string_5fvalue',['string_value',['../unionLocal__var__Type__u.html#ab9de5f06b94aff07f7e6187620c94935',1,'Local_var_Type_u']]],
   ['stringtype',['STRINGTYPE',['../heap_8hpp.html#ae83508426e652eaafd6ed60af394164eae1717a5be2df5e14c96d51116b05d16d',1,'heap.hpp']]],
-  ['stringue',['stringue',['../unionbase__type__s.html#ab246b2b35057f95ce992e7083086bae5',1,'base_type_s']]],
+  ['stringue',['stringue',['../unionbase__type__s.html#ab246b2b35057f95ce992e7083086bae5',1,'base_type_s::stringue()'],['../structObjectType__s.html#a3ce93c0128356d1776c374e864ec2a13',1,'ObjectType_s::stringue()']]],
   ['structs_2ehpp',['structs.hpp',['../structs_8hpp.html',1,'']]],
   ['super_5fclass',['super_class',['../classClassFile.html#aa48f683b6e5b60021410f88a5e831cbe',1,'ClassFile']]],
   ['swap',['SWAP',['../opcode_8hpp.html#aac9b57651bcead0a7564efe6460e5310',1,'opcode.hpp']]],

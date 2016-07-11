@@ -1,21 +1,22 @@
 <map id="src/interpretador.cpp" name="src/interpretador.cpp">
-<area shape="rect" id="node2" href="$interpretador_8hpp.html" title="Estruturas de interpretacao dos opcodes. " alt="" coords="1627,80,1803,107"/>
-<area shape="rect" id="node7" href="$frame_8hpp.html" title="Define estruturas relacionados aos frames de execucao. " alt="" coords="99,229,236,256"/>
-<area shape="rect" id="node14" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="1566,387,1721,413"/>
-<area shape="rect" id="node17" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="741,469,885,496"/>
-<area shape="rect" id="node20" href="$opcode_8hpp.html" title="este arquivo define os opcodes como sendo macros, assim podemos referenciar as opcodes de forma mais ..." alt="" coords="2921,469,3068,496"/>
-<area shape="rect" id="node21" href="$jvm_8hpp.html" title="../include/jvm.hpp" alt="" coords="1652,155,1777,181"/>
-<area shape="rect" id="node11" href="$heap_8hpp.html" title="Este arquivo trata a documentacaoo 4.3.2 https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.3. " alt="" coords="1105,304,1236,331"/>
-<area shape="rect" id="node19" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="861,552,963,579"/>
-<area shape="rect" id="node22" href="$leitor_8hpp.html" title="../include/leitor.hpp" alt="" coords="1547,229,1679,256"/>
-<area shape="rect" id="node28" href="$exibidor_8hpp.html" title="responsavel pela exibicao textual do .class " alt="" coords="1975,304,2123,331"/>
-<area shape="rect" id="node32" href="$op__instrucs_8hpp.html" title="../include/op_instrucs.hpp" alt="" coords="2284,387,2455,413"/>
-<area shape="rect" id="node34" href="$interpreter__op__code_8hpp.html" title="../include/interpreter\l_op_code.hpp" alt="" coords="2631,379,2768,421"/>
-<area shape="rect" id="node35" href="$verificador_8hpp.html" title="../include/verificador.hpp" alt="" coords="909,229,1072,256"/>
-<area shape="rect" id="node24" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="1334,545,1455,586"/>
-<area shape="rect" id="node25" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="1211,469,1379,496"/>
-<area shape="rect" id="node26" href="$read__attributes_8hpp.html" title="../include/read_attributes.hpp" alt="" coords="793,387,983,413"/>
-<area shape="rect" id="node27" href="$read__methods_8hpp.html" title="../include/read_methods.hpp" alt="" coords="691,304,877,331"/>
-<area shape="rect" id="node31" href="$print__code_8hpp.html" title="../include/print_code.hpp" alt="" coords="2793,387,2956,413"/>
-<area shape="rect" id="node33" href="$operationMap_8hpp.html" title="../include/operationMap.hpp" alt="" coords="1746,387,1928,413"/>
+<area shape="rect" id="node3" href="$interpretador_8hpp.html" title="Estruturas de interpretacao dos opcodes. " alt="" coords="632,80,808,107"/>
+<area shape="rect" id="node10" href="$frame_8hpp.html" title="Define estruturas relacionados aos frames de execucao. " alt="" coords="269,229,405,256"/>
+<area shape="rect" id="node17" href="$classFile_8hpp.html" title="../include/classFile.hpp" alt="" coords="1495,395,1651,421"/>
+<area shape="rect" id="node20" href="$structs_8hpp.html" title="arquivo com as estruturas chaves da jvm ver Cap 4 da documentacao (https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.4) " alt="" coords="1919,469,2063,496"/>
+<area shape="rect" id="node23" href="$opcode_8hpp.html" title="este arquivo define os opcodes como sendo macros, assim podemos referenciar as opcodes de forma mais ..." alt="" coords="1084,395,1231,421"/>
+<area shape="rect" id="node24" href="$jvm_8hpp.html" title="../include/jvm.hpp" alt="" coords="801,155,927,181"/>
+<area shape="rect" id="node36" href="$operationMap_8hpp.html" title="../include/operationMap.hpp" alt="" coords="775,395,957,421"/>
+<area shape="rect" id="node39" href="$debug_8hpp.html" title="../include/debug.hpp" alt="" coords="607,229,745,256"/>
+<area shape="rect" id="node14" href="$heap_8hpp.html" title="Este arquivo trata a documentacaoo 4.3.2 https://docs.oracle.com/javase/specs/jvms/se7/html/jvms&#45;4.html#jvms&#45;4.3. " alt="" coords="274,312,405,339"/>
+<area shape="rect" id="node22" href="$attributes_8hpp.html" title="attributes.hpp" alt="" coords="1896,552,1997,579"/>
+<area shape="rect" id="node25" href="$leitor_8hpp.html" title="../include/leitor.hpp" alt="" coords="2549,229,2680,256"/>
+<area shape="rect" id="node32" href="$exibidor_8hpp.html" title="responsavel pela exibicao textual do .class " alt="" coords="1016,229,1164,256"/>
+<area shape="rect" id="node35" href="$op__instrucs_8hpp.html" title="../include/op_instrucs.hpp" alt="" coords="665,312,836,339"/>
+<area shape="rect" id="node37" href="$interpreter__op__code_8hpp.html" title="../include/interpreter\l_op_code.hpp" alt="" coords="3149,305,3285,346"/>
+<area shape="rect" id="node38" href="$verificador_8hpp.html" title="../include/verificador.hpp" alt="" coords="1755,229,1919,256"/>
+<area shape="rect" id="node28" href="$little__to__big_8hpp.html" title="../include/little_to\l_big.hpp" alt="" coords="2401,545,2521,586"/>
+<area shape="rect" id="node29" href="$read__bytes_8hpp.html" title="../include/read_bytes.hpp" alt="" coords="2316,469,2484,496"/>
+<area shape="rect" id="node30" href="$read__attributes_8hpp.html" title="../include/read_attributes.hpp" alt="" coords="2133,395,2323,421"/>
+<area shape="rect" id="node31" href="$read__methods_8hpp.html" title="../include/read_methods.hpp" alt="" coords="1951,312,2137,339"/>
+<area shape="rect" id="node34" href="$print__code_8hpp.html" title="../include/print_code.hpp" alt="" coords="1053,312,1216,339"/>
 </map>
